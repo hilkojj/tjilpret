@@ -13,6 +13,7 @@ module.exports = function(e) {
         // todo: prevent injection
         var username = request.body.data.username.trim();
         var password = request.body.data.password;
+        var color = request.body.data.color;
 
         if (username.length < 3) {
 

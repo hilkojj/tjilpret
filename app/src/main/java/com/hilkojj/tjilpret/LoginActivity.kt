@@ -1,7 +1,9 @@
 package com.hilkojj.tjilpret
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,4 +25,10 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+    fun showCreateActivity(view: View) {
+        startActivity(Intent(this, CreateUserActivity::class.java))
+        finish()
+    }
+
 }
