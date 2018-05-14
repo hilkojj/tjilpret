@@ -33,6 +33,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.android.support:design'
 }
 
 
@@ -41,3 +42,4 @@ apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
 }
+apply plugin: 'kotlin-android-extensions'
