@@ -1,8 +1,7 @@
-const functions = require('firebase-functions');
+// list of all files with functions:
+var files = [
+    "users"
+];
 
- // Create and Deploy Your First Cloud Functions
- // https://firebase.google.com/docs/functions/write-firebase-functions
-
- exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
- });
+for (var i in files)
+    require("./" + files[i] + ".js")(module.exports);
