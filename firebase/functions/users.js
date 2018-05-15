@@ -1,19 +1,22 @@
 var functions = require('firebase-functions');
 var admin = require('firebase-admin');
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
+var utils = require('./utils.js')();
 
 admin.initializeApp(functions.config().firebase);
 
-var users = admin.database().ref("users");
+var database = admin.database();
+var users = database.ref("users");
+var tokens = database.ref("tokens");
 
 module.exports = function(e) {
 
     // USER EXISTS
     e.userExists = functions.https.onRequest((request, response) => {
 
-        var data = request.body.data;
-        var username = data.username.trim();
-        getUser(username, user => {
+        var usernameLower = request.body.data.username.trim().toLowerCase();
+        refValue(users.child(usernameLower), user => {
             response.send({data: {exists: user !== null}});
         });
     });
@@ -23,6 +26,7 @@ module.exports = function(e) {
 
         var data = request.body.data;
         var username = data.username.trim();
+        var usernameLower = username.toLowerCase();
         var password = data.password;
 
         if (username.length === 0)
@@ -30,14 +34,19 @@ module.exports = function(e) {
         else if (password.length === 0)
             response.send({data: {error: "geef me je wachtwoord"}})
 
-        else getUser(username, user => {
+        else refValue(users.child(usernameLower), user => {
 
             if (user === null)
                 response.send({data: {error: username + " bestaat niet"}})
-            else if (!bcrypt.compareSync(password, user.password))
-                response.send({data: {error: "wachtword is hartstikke verkird"}})
-            else
-                response.send({data: {success: true, username: username}})
+            else bcrypt.compare(password, user.password, (err, res) => {
+                if (err) {
+                    console.log(err);
+                    response.send({data: {error: "er is iets kapot"}});
+                } else if (res)
+                    sendLoginResponse(response, usernameLower);
+                else
+                    response.send({data: {error: "wachtword is hartstikke verkird"}});
+            });
         });
     });
 
@@ -47,6 +56,7 @@ module.exports = function(e) {
         var data = request.body.data;
         // todo: prevent injection
         var username = data.username.trim();
+        var usernameLower = username.toLowerCase();
         var password = data.password;
         var mail = data.mail;
         var color = data.color;
@@ -57,31 +67,40 @@ module.exports = function(e) {
         } else if (password.length < 3) {
             response.send({data: {error: "Das wel een hele korte wachtword"}})
 
-        } else getUser(username, user => {
+        } else refValue(users.child(usernameLower), user => {
 
             if (user !== null)
-                response.send({data: {error: username + " bestaat al"}})
+                response.send({data: {error: user.username + " bestaat al"}})
             else {
 
-                users.push().set({username: username, password: bcrypt.hashSync(password, 2)});
-                response.send({data: {success: true, username: username}});
+                bcrypt.hash(password, 2, (err, hash) => {
+                    if (err) {
+                        console.log(err);
+                        response.send({data: {error: "er is iets kapot"}});
+                    } else {
+                        users.child(usernameLower).set({username: username, password: hash});
+                        sendLoginResponse(response, usernameLower);
+                    }
+                });
             }
         });
     });
-
 }
 
-function getUser(username, callback) {
-
-    users.once("value", snapshot => {
-        var users = snapshot.val();
-        for (var i in users) {
-            var user = users[i];
-            if (user.username === username) {
-                callback(user);
-                return;
+function sendLoginResponse(response, usernameLower) {
+    refValue(users.child(usernameLower), user => {
+        response.send({data:
+            {
+                success: true,
+                token: createToken(usernameLower),
+                username: user.username
             }
-        }
-        callback(null);
+        });
     });
+}
+
+function createToken(usernameLower) {
+    var token = crypto.randomBytes(10).toString('hex');
+    tokens.child(token).set({usernameLower: usernameLower, created: Date.now()});
+    return token;
 }

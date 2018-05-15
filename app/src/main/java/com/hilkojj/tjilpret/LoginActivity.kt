@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
             val data = task.result.data as HashMap<*, *>
             if (data["success"] == true)
-                Tjilpret.userSession = UserSession(data["username"] as String, passwordString)
+                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
             else
                 Snackbar.make(view, data["error"] as String, 4000).show()
         }

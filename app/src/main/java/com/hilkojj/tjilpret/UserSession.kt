@@ -2,7 +2,7 @@ package com.hilkojj.tjilpret
 
 class UserSession(
         val username: String,
-        val password: String
+        val token: String
 ) {
 
     init {
