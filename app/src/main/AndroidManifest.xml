@@ -24,7 +24,7 @@
             android:name=".LoginActivity"
             android:theme="@style/WelcomeTheme" />
 
-        <activity android:name=".CreateUserActivity" />
+        <activity android:name=".CreateUserActivity" android:label="Voel je welkom" android:theme="@style/WelcomeTheme"/>
     </application>
 
 </manifest>

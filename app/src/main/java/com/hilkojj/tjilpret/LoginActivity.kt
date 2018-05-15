@@ -10,20 +10,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("createUser").call(
-
-                hashMapOf(
-                        "username" to "heenk ",
-                        "password" to "hoi122"
-                )
-
-        ).continueWith { task ->
-
-            System.out.println(task.result.data)
-
-        }
-
     }
 
     fun showCreateActivity(view: View) {

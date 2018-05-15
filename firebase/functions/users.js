@@ -7,33 +7,41 @@ var users = admin.database().ref("users");
 
 module.exports = function(e) {
 
+    // USER EXISTS
+    e.userExists = functions.https.onRequest((request, response) => {
+
+        var data = request.body.data;
+        var username = data.username.trim();
+        getUser(username, user => {
+            response.send({data: {exists: user !== null}});
+        });
+    });
+
     // CREATE USER
     e.createUser = functions.https.onRequest((request, response) => {
 
+        var data = request.body.data;
         // todo: prevent injection
-        var username = request.body.data.username.trim();
-        var password = request.body.data.password;
-        var color = request.body.data.color;
+        var username = data.username.trim();
+        var password = data.password;
+        var mail = data.mail;
+        var color = data.color;
 
         if (username.length < 3) {
-
             response.send({data: {success: false, error: "Gebruiksnam mot langer dan 3 !"}})
 
         } else if (password.length < 3) {
-
             response.send({data: {error: "Das wel een hele korte wachtword"}})
 
-        } getUser(username, user => {
+        } else getUser(username, user => {
 
             if (user !== null)
                 response.send({data: {error: username + " bestaat al"}})
             else {
 
                 users.push().set({username: username, password: password});
-
                 response.send({data: {success: true}});
             }
-
         });
     });
 
