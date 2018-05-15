@@ -17,6 +17,29 @@ module.exports = function(e) {
         });
     });
 
+    // LOGIN
+    e.login = functions.https.onRequest((request, response) => {
+
+        var data = request.body.data;
+        var username = data.username.trim();
+        var password = data.password;
+
+        if (username.length === 0)
+            response.send({data: {error: "geef me je naam"}})
+        else if (password.length === 0)
+            response.send({data: {error: "geef me je wachtwoord"}})
+
+        else getUser(username, user => {
+
+            if (user === null)
+                response.send({data: {error: username + " bestaat niet"}})
+            else if (user.password !== password)
+                response.send({data: {error: "wachtword is hartstikke verkird"}})
+            else
+                response.send({data: {success: true, username: "username"}})
+        });
+    });
+
     // CREATE USER
     e.createUser = functions.https.onRequest((request, response) => {
 
@@ -40,7 +63,7 @@ module.exports = function(e) {
             else {
 
                 users.push().set({username: username, password: password});
-                response.send({data: {success: true}});
+                response.send({data: {success: true, username: username}});
             }
         });
     });

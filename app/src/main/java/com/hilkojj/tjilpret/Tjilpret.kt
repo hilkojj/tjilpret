@@ -9,4 +9,6 @@ object Tjilpret {
 
     val FIREBASE_FUNCS: FirebaseFunctions = FirebaseFunctions.getInstance()
 
+    var userSession: UserSession? = null
+
 }

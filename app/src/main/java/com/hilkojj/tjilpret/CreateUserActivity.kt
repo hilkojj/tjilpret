@@ -56,9 +56,11 @@ class CreateUserActivity : AppCompatActivity() {
 
             val data = task.result.data as HashMap<*, *>
 
-            if (data.containsKey("success") && data["success"] == true) {
+            if (data["success"] == true) {
 
                 System.out.println("aangemaakt")
+
+                Tjilpret.userSession = UserSession(data["username"] as String, password)
 
             } else {
 
