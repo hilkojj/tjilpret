@@ -1,5 +1,6 @@
 var functions = require('firebase-functions');
 var admin = require('firebase-admin');
+var bcrypt = require('bcrypt');
 
 admin.initializeApp(functions.config().firebase);
 
@@ -33,10 +34,10 @@ module.exports = function(e) {
 
             if (user === null)
                 response.send({data: {error: username + " bestaat niet"}})
-            else if (user.password !== password)
+            else if (!bcrypt.compareSync(password, user.password))
                 response.send({data: {error: "wachtword is hartstikke verkird"}})
             else
-                response.send({data: {success: true, username: "username"}})
+                response.send({data: {success: true, username: username}})
         });
     });
 
@@ -62,7 +63,7 @@ module.exports = function(e) {
                 response.send({data: {error: username + " bestaat al"}})
             else {
 
-                users.push().set({username: username, password: password});
+                users.push().set({username: username, password: bcrypt.hashSync(password, 2)});
                 response.send({data: {success: true, username: username}});
             }
         });
