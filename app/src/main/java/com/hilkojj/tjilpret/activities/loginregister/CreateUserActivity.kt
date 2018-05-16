@@ -1,4 +1,4 @@
-package com.hilkojj.tjilpret.activities
+package com.hilkojj.tjilpret.activities.loginregister
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

@@ -7,6 +7,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
+import com.hilkojj.tjilpret.activities.loginregister.LoginActivity
 
 class WelcomeActivity : AppCompatActivity() {
 

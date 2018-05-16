@@ -1,4 +1,4 @@
-package com.hilkojj.tjilpret.activities
+package com.hilkojj.tjilpret.activities.loginregister
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.EditText
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
 import com.hilkojj.tjilpret.UserSession
+import com.hilkojj.tjilpret.activities.BaseSessionActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -40,8 +41,11 @@ class LoginActivity : AppCompatActivity() {
         ).continueWith { task ->
 
             val data = task.result.data as HashMap<*, *>
-            if (data["success"] == true)
+            if (data["success"] == true) {
                 Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
+                startActivity(Intent(this, BaseSessionActivity::class.java))
+                finish()
+            }
             else
                 Snackbar.make(view, data["error"] as String, 4000).show()
         }

@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activities.WelcomeActivity"
             android:theme="@style/WelcomeTheme">
@@ -19,12 +18,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.loginregister.LoginActivity"
             android:theme="@style/WelcomeTheme" />
-
-        <activity android:name=".activities.CreateUserActivity" android:label="Voel je welkom" android:theme="@style/WelcomeTheme"/>
+        <activity
+            android:name=".activities.loginregister.CreateUserActivity"
+            android:label="Voel je welkom"
+            android:theme="@style/WelcomeTheme" />
+        <activity
+            android:name=".activities.BaseSessionActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
