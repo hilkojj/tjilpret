@@ -1,10 +1,13 @@
-package com.hilkojj.tjilpret
+package com.hilkojj.tjilpret.activities
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
+import com.hilkojj.tjilpret.R
+import com.hilkojj.tjilpret.Tjilpret
+import com.hilkojj.tjilpret.UserSession
 
 class CreateUserActivity : AppCompatActivity() {
 
@@ -40,27 +43,31 @@ class CreateUserActivity : AppCompatActivity() {
 
     fun create(view: View) {
 
+        if (Tjilpret.userSession != null) {
+            Snackbar.make(view, "Fout: je bent al ingelogd", 5000).show()
+            finish()
+            return
+        }
+
         val username = usernameInput.text.toString()
         val password = findViewById<EditText>(R.id.createPassword).text.toString()
         val mail = findViewById<EditText>(R.id.createPassword).text.toString()
 
-        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("createUser").call(
-
+        Tjilpret.callHttpsFunction(
+                "createUser",
                 hashMapOf(
                         "username" to username,
                         "password" to password,
                         "mail" to mail
                 )
-
         ).continueWith { task ->
 
             val data = task.result.data as HashMap<*, *>
 
             if (data["success"] == true) {
 
-                System.out.println("aangemaakt")
-
-                Tjilpret.userSession = UserSession(data["username"] as String, password)
+                System.out.println("User successfully created")
+                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
 
             } else {
 

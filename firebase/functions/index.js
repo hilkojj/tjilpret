@@ -1,6 +1,6 @@
 // list of all files with functions:
 var files = [
-    "users"
+    "users_https"
 ];
 
 for (var i in files)

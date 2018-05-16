@@ -1,4 +1,4 @@
-package com.hilkojj.tjilpret
+package com.hilkojj.tjilpret.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.EditText
+import com.hilkojj.tjilpret.R
+import com.hilkojj.tjilpret.Tjilpret
+import com.hilkojj.tjilpret.UserSession
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +24,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun login(view: View) {
+
+        if (Tjilpret.userSession != null) {
+            Snackbar.make(view, "Fout: je bent al ingelogd", 5000).show()
+            return
+        }
 
         val passwordString = password.text.toString()
 
