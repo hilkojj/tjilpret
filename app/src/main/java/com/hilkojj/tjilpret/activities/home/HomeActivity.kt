@@ -3,14 +3,12 @@ package com.hilkojj.tjilpret.activities.home
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.animation.AccelerateInterpolator
 import com.hilkojj.tjilpret.R
+import com.hilkojj.tjilpret.activities.utils.ViewPagerAdapter
 
 
 class HomeActivity : AppCompatActivity() {
@@ -43,28 +41,6 @@ class HomeActivity : AppCompatActivity() {
         viewPager.adapter = adapter
     }
 
-    private inner class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
-        private val fragmentList = ArrayList<Fragment>()
-        private val fragmentTitleList = ArrayList<String>()
-
-        override fun getItem(position: Int): Fragment {
-            return fragmentList[position]
-        }
-
-        override fun getCount(): Int {
-            return fragmentList.size
-        }
-
-        fun addFragment(fragment: Fragment, title: String) {
-            fragmentList.add(fragment)
-            fragmentTitleList.add(title)
-        }
-
-        override fun getPageTitle(position: Int): CharSequence {
-            return fragmentTitleList[position]
-        }
-    }
-
     private val hideThreshold: Int = 200
     private val showThreshold: Int = -50
     private var scrollDistance: Int = 0
@@ -85,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
 
             toolbarHidden = false
             scrollDistance = 0
-            appbar.animate().translationY(0f).interpolator = AccelerateInterpolator(4f)
+            appbar.animate().translationY(0f).interpolator = AccelerateInterpolator(8f)
         }
     }
 

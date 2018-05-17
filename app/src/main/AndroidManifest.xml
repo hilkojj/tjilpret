@@ -19,15 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.loginregister.LoginActivity"
-            android:theme="@style/WelcomeTheme" />
+            android:name=".activities.loginregister.LoginActivity" />
         <activity
             android:name=".activities.loginregister.CreateUserActivity"
-            android:label="Voel je welkom"
-            android:theme="@style/WelcomeTheme" />
+            android:label="Voel je welkom" />
         <activity
-            android:name=".activities.home.HomeActivity"
-            android:theme="@style/AppTheme"/>
+            android:name=".activities.home.HomeActivity" />
+        <activity android:name=".activities.loginregister.LoginRegisterActivity" />
     </application>
 
 </manifest>

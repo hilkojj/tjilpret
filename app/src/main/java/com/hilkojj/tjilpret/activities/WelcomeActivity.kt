@@ -7,7 +7,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
-import com.hilkojj.tjilpret.activities.loginregister.LoginActivity
+import com.hilkojj.tjilpret.activities.loginregister.LoginRegisterActivity
 
 class WelcomeActivity : AppCompatActivity() {
 
@@ -15,17 +15,12 @@ class WelcomeActivity : AppCompatActivity() {
 
         Tjilpret.prefs = getSharedPreferences("tjilpret.prefs", Context.MODE_PRIVATE)
 
-        // todo: remove this
-        Tjilpret.prefs.all.forEach {
-            println("${it.key}: ${it.value}")
-        }
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 
         Handler().postDelayed({
 
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, LoginRegisterActivity::class.java))
             finish()
 
         }, 1000)
