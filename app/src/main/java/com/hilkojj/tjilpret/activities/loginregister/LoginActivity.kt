@@ -9,7 +9,7 @@ import android.widget.EditText
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
 import com.hilkojj.tjilpret.UserSession
-import com.hilkojj.tjilpret.activities.HomeActivity
+import com.hilkojj.tjilpret.activities.home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
 

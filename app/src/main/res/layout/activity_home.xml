@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.HomeActivity">
+    tools:context=".activities.home.HomeActivity">
 
     <!-- Main body -->
     <android.support.constraint.ConstraintLayout
@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/home_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp">

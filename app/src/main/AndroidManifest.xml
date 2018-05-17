@@ -26,7 +26,7 @@
             android:label="Voel je welkom"
             android:theme="@style/WelcomeTheme" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.home.HomeActivity"
             android:theme="@style/AppTheme"/>
     </application>
 
