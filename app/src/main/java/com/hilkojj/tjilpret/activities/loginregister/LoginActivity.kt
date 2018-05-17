@@ -9,7 +9,7 @@ import android.widget.EditText
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
 import com.hilkojj.tjilpret.UserSession
-import com.hilkojj.tjilpret.activities.BaseSessionActivity
+import com.hilkojj.tjilpret.activities.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
             val data = task.result.data as HashMap<*, *>
             if (data["success"] == true) {
                 Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
-                startActivity(Intent(this, BaseSessionActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             }
             else
