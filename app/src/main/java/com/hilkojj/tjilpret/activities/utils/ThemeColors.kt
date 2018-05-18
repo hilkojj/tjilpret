@@ -18,7 +18,9 @@ class ThemeColors(context: Context, red: Int, green: Int, blue: Int) {
 
 //        if ((r + g + b) / 3f > 200)
         context.setTheme(R.style.AppThemeDark)
-        context.setTheme(context.resources.getIdentifier("T_$stringColor", "style", context.packageName))
+//        context.setTheme(R.style.WelcomeTheme)
+//        context.setTheme(context.resources.getIdentifier("T_$stringColor", "style", context.packageName))
+        context.setTheme(R.style.accent)
     }
 
 }

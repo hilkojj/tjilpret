@@ -1,6 +1,7 @@
 package com.hilkojj.tjilpret.activities.loginregister
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.view.ViewPager
@@ -10,9 +11,16 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import com.hilkojj.tjilpret.R
+import com.hilkojj.tjilpret.Tjilpret
+import com.hilkojj.tjilpret.UserSession
+import com.hilkojj.tjilpret.activities.home.HomeActivity
+import com.hilkojj.tjilpret.activities.utils.SnackbarUtils
 import com.hilkojj.tjilpret.activities.utils.ViewPagerAdapter
+
+
 
 
 class LoginRegisterActivity : AppCompatActivity() {
@@ -22,6 +30,9 @@ class LoginRegisterActivity : AppCompatActivity() {
     private lateinit var loginFragment: LoginFragment
     private lateinit var registerFragment: RegisterFragment
     private lateinit var logo: ImageView
+
+    lateinit var username: EditText
+    lateinit var password: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +96,30 @@ class LoginRegisterActivity : AppCompatActivity() {
         anim.duration = 2000
         anim.interpolator = AccelerateInterpolator(.1f)
         logo.startAnimation(anim)
+    }
+
+    fun login(view: View) {
+
+        if (Tjilpret.userSession != null) {
+            SnackbarUtils.errorSnackbar(view, "Je ben al inglogt")
+            return
+        }
+
+        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("login").call(
+                hashMapOf(
+                        "username" to username.text.toString(),
+                        "password" to password.text.toString()
+                )
+        ).continueWith { task ->
+
+            val data = task.result.data as HashMap<*, *>
+            if (data["success"] == true) {
+                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            } else
+                SnackbarUtils.errorSnackbar(view, data["error"] as String)
+        }
     }
 
 }

@@ -24,7 +24,7 @@
             tools:layout_editor_absoluteY="8dp">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/username"
+                android:id="@+id/loginUsernameInputLayout"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -33,39 +33,49 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <android.support.design.widget.TextInputEditText
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_person_outline_white_24dp"
                     android:id="@+id/loginUsername"
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Gebruiksnam" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/textInputLayout"
+                android:id="@+id/loginPasswordInputLayout"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="68dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/username">
+                app:layout_constraintTop_toTopOf="@id/loginUsernameInputLayout">
 
                 <android.support.design.widget.TextInputEditText
+                    android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+                    android:drawablePadding="8dp"
                     android:id="@+id/loginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Wachtwoord"
+                    android:imeOptions="actionDone"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/login"
+                android:onClick="login"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="250dp"
                 android:layout_height="51dp"
                 android:layout_marginTop="12dp"
+                android:drawableLeft="@drawable/ic_arrow_forward_white_24dp"
                 android:text="gaan met die banaan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/loginPasswordInputLayout" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -107,8 +117,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="8dp"
-            android:src="@drawable/ic_account_circle_black_24dp"
-            android:tint="@android:color/white"
+            android:src="@drawable/ic_account_circle_white_24dp"
             app:layout_constraintBottom_toTopOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="@+id/textView7" />
 
