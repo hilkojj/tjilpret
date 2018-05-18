@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ScrollView
 import com.hilkojj.tjilpret.R
 
 class LoginFragment : LoginRegisterFragment(0) {
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -17,13 +17,13 @@ class LoginFragment : LoginRegisterFragment(0) {
     override fun onStart() {
         super.onStart()
 
-        activity.username = activity.findViewById(R.id.loginUsername)
-        activity.password = activity.findViewById(R.id.loginPassword)
+        activity.loginUsername = activity.findViewById(R.id.login_username)
+        activity.loginPassword = activity.findViewById(R.id.login_password)
 
-        activity.password.setOnEditorActionListener { _, actionID, _ ->
+        activity.loginPassword.setOnEditorActionListener { _, actionID, _ ->
             if (actionID == EditorInfo.IME_ACTION_DONE) {
 
-                activity.login(activity.username)
+                activity.login(activity.loginUsername)
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -32,6 +32,10 @@ class LoginFragment : LoginRegisterFragment(0) {
 
     override fun getTab(): ConstraintLayout {
         return view!!.findViewById(R.id.login_tab) as ConstraintLayout
+    }
+
+    override fun getForm(): ScrollView {
+        return view!!.findViewById(R.id.login_form) as ScrollView
     }
 
 }

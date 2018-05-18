@@ -31,8 +31,11 @@ class LoginRegisterActivity : AppCompatActivity() {
     private lateinit var registerFragment: RegisterFragment
     private lateinit var logo: ImageView
 
-    lateinit var username: EditText
-    lateinit var password: EditText
+    lateinit var loginUsername: EditText
+    lateinit var loginPassword: EditText
+    lateinit var registerUsername: EditText
+    lateinit var registerPassword: EditText
+    lateinit var registerMail: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,14 +104,14 @@ class LoginRegisterActivity : AppCompatActivity() {
     fun login(view: View) {
 
         if (Tjilpret.userSession != null) {
-            SnackbarUtils.errorSnackbar(view, "Je ben al inglogt")
+            SnackbarUtils.errorSnackbar(view, "Je ben al inglogt", 5000)
             return
         }
 
         Tjilpret.FIREBASE_FUNCS.getHttpsCallable("login").call(
                 hashMapOf(
-                        "username" to username.text.toString(),
-                        "password" to password.text.toString()
+                        "username" to loginUsername.text.toString(),
+                        "password" to loginPassword.text.toString()
                 )
         ).continueWith { task ->
 
@@ -118,8 +121,34 @@ class LoginRegisterActivity : AppCompatActivity() {
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
             } else
-                SnackbarUtils.errorSnackbar(view, data["error"] as String)
+                SnackbarUtils.errorSnackbar(view, data["error"] as String, 4000)
         }
+    }
+
+    fun register(view: View) {
+
+        if (Tjilpret.userSession != null) {
+            SnackbarUtils.errorSnackbar(view, "Je ben al inglogt huh wtf", 5000)
+            return
+        }
+
+        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("createUser").call(
+                hashMapOf(
+                        "username" to registerUsername.text.toString(),
+                        "password" to registerPassword.text.toString(),
+                        "mail" to registerMail.text.toString()
+                )
+        ).continueWith { task ->
+
+            val data = task.result.data as HashMap<*, *>
+            if (data["success"] == true) {
+                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            } else
+                SnackbarUtils.errorSnackbar(view, data["error"] as String, 4000)
+        }
+
     }
 
 }
