@@ -84,6 +84,9 @@
 
         <Button
             android:id="@+id/button5"
+            android:drawableLeft="@drawable/ic_person_outline_white_24dp"
+            android:drawableTint="?attr/colorAccent"
+            android:textColor="?attr/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="92dp"
