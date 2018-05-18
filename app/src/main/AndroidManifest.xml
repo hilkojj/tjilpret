@@ -8,9 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeLight">
         <activity
             android:name=".activities.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/WelcomeTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,14 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.loginregister.LoginActivity" />
+        <activity android:name=".activities.loginregister.LoginActivity" />
         <activity
             android:name=".activities.loginregister.CreateUserActivity"
             android:label="Voel je welkom" />
+        <activity android:name=".activities.home.HomeActivity" />
         <activity
-            android:name=".activities.home.HomeActivity" />
-        <activity android:name=".activities.loginregister.LoginRegisterActivity" />
+            android:name=".activities.loginregister.LoginRegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/WelcomeTheme" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.hilkojj.tjilpret.activities.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.animation.AccelerateInterpolator
 import com.hilkojj.tjilpret.R
+import com.hilkojj.tjilpret.activities.utils.ThemeColors
 import com.hilkojj.tjilpret.activities.utils.ViewPagerAdapter
 
 
@@ -20,11 +22,14 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ThemeColors(this, 229, 60, 34)
         setContentView(R.layout.activity_home)
 
         appbar = findViewById(R.id.home_appbar)
         toolbar = findViewById(R.id.home_toolbar)
+        toolbar.setTitleTextColor(Color.BLACK)
         tabLayout = findViewById(R.id.home_tabs)
+        tabLayout.setSelectedTabIndicatorColor(Color.BLACK)
         viewPager = findViewById(R.id.home_view_pager)
         setSupportActionBar(toolbar)
         setupTabs()
