@@ -23,4 +23,16 @@ module.exports = function() {
         });
     }
 
+    this.checkToken = function(username, tokenKey, callback) {
+
+        refValue(tokens.child(tokenKey), token => {
+
+            if (token === null) {
+                callback(username, false);
+                return;
+            }
+            callback(username, username.toLowerCase() === token.usernameLower);
+        });
+    }
+
 }
