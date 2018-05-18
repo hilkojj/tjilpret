@@ -61,22 +61,22 @@ module.exports = function(e) {
         var password = data.password;
 
         if (username.length === 0)
-        response.send({data: {error: "geef me je naam"}})
+            response.send({data: {error: "geef me je naam"}})
         else if (password.length === 0)
-        response.send({data: {error: "geef me je wachtwoord"}})
+            response.send({data: {error: "geef me je wachtwoord"}})
 
         else refValue(users.child(usernameLower), user => {
 
             if (user === null)
-            response.send({data: {error: username + " bestaat niet"}})
+                response.send({data: {error: username + " bestaat niet"}})
             else bcrypt.compare(password, user.password, (err, res) => {
                 if (err) {
                     console.log(err);
                     response.send({data: {error: "er is iets kapot"}});
                 } else if (res)
-                sendLoginResponse(response, usernameLower);
+                    sendLoginResponse(response, usernameLower);
                 else
-                response.send({data: {error: "wachtword is hartstikke verkird"}});
+                    response.send({data: {error: "wachtword is hartstikke verkird"}});
             });
         });
     });
@@ -101,7 +101,7 @@ module.exports = function(e) {
         } else refValue(users.child(usernameLower), user => {
 
             if (user !== null)
-            response.send({data: {error: user.username + " bestaat al"}})
+                response.send({data: {error: user.username + " bestaat al"}})
             else {
 
                 bcrypt.hash(password, 2, (err, hash) => {
