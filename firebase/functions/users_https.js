@@ -3,11 +3,14 @@ var crypto = require('crypto');
 
 require('./utils.js')();
 require('./users.js')();
+require('./dollepret.js')();
 
 module.exports = function(e) {
 
     // CHECK TOKENS
     e.checkTokens = functions.https.onRequest((request, response) => {
+
+        test();
 
         var check = request.body.data.checkTokens;
         var results = {};
