@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
+import com.hilkojj.tjilpret.activities.chooseuser.ChooseUserActivity
+import com.hilkojj.tjilpret.activities.home.HomeActivity
 import com.hilkojj.tjilpret.activities.loginregister.LoginRegisterActivity
 
 class WelcomeActivity : AppCompatActivity() {
@@ -26,11 +28,18 @@ class WelcomeActivity : AppCompatActivity() {
 
         Handler().postDelayed({
 
-            startActivity(Intent(this, LoginRegisterActivity::class.java))
+            if (Tjilpret.userSession == null) {
+                val aClass = if (Tjilpret.prefs.getStringSet("stored_users", mutableSetOf()).size == 0)
+                    LoginRegisterActivity::class.java
+                else
+                    ChooseUserActivity::class.java
+                startActivity(Intent(this, aClass))
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            } else
+                startActivity(Intent(this, HomeActivity::class.java))
+
             finish()
-
         }, 1200)
-
     }
 
 }

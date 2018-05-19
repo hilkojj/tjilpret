@@ -115,6 +115,9 @@ class LoginRegisterActivity : AppCompatActivity() {
                 )
         ).continueWith { task ->
 
+            if (Tjilpret.userSession != null)
+                return@continueWith
+
             val data = task.result.data as HashMap<*, *>
             if (data["success"] == true) {
                 Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
@@ -139,6 +142,9 @@ class LoginRegisterActivity : AppCompatActivity() {
                         "mail" to registerMail.text.toString()
                 )
         ).continueWith { task ->
+
+            if (Tjilpret.userSession != null)
+                return@continueWith
 
             val data = task.result.data as HashMap<*, *>
             if (data["success"] == true) {

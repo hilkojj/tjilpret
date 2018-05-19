@@ -7,6 +7,8 @@ class UserSession(
 
     lateinit var userInfo: HashMap<*, *>
 
+    var valid: Boolean = true
+
     init {
 
         val storedUsers = Tjilpret.prefs.getStringSet("stored_users", mutableSetOf())
@@ -36,7 +38,6 @@ class UserSession(
             userInfo = ((task.result.data as HashMap<*, *>)["info"] as HashMap<*, *>)[username] as HashMap<*, *>
             println("UserInfo for $username: ")
             println(userInfo)
-            println("Username: ${userInfo["username"]}")
         }
 
         println("new UserSession created for $username")

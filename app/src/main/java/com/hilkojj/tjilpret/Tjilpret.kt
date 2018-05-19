@@ -24,4 +24,17 @@ object Tjilpret {
         return FIREBASE_FUNCS.getHttpsCallable(name).call(data)
     }
 
+    fun removeStoredUser(username: String) {
+
+        val storedUsers = Tjilpret.prefs.getStringSet("stored_users", mutableSetOf())
+        storedUsers.remove(username)
+
+        with(Tjilpret.prefs.edit()) {
+            putStringSet("stored_users", storedUsers)
+            remove("user_token->$username")
+            apply()
+        }
+        println("removed user $username from prefs")
+    }
+
 }
