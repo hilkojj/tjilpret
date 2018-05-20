@@ -1,12 +1,21 @@
 #!/usr/bin/env nodejs
 
+const fs = require("fs");
 const express = require("express");
 const app = express();
 
-// public access to static content (like stylesheets or logos)
+////////////////////////////////////////////  
+//                                        //
+// Public access to static content        //
+//                                        //
+////////////////////////////////////////////
 app.use("/static_content", express.static(__dirname + "/static_content"));
 
-// API functions
+////////////////////////////////////////////  
+//                                        //
+// API-Functions (eg. /api/login)         //
+//                                        //
+////////////////////////////////////////////
 const api = express.Router();
 app.use("/api", api);
 const apiFiles = [
@@ -15,7 +24,12 @@ const apiFiles = [
 for (var i in apiFiles)
   require("./" + apiFiles[i] + ".js")(api);
 
-// Everything else will serve the webapp
+
+////////////////////////////////////////////  
+//                                        //
+// Every other path will serve the webapp //
+//                                        //
+////////////////////////////////////////////
 app.get("*", (req, res) => {
 
   // serve web-app html
@@ -25,7 +39,22 @@ app.get("*", (req, res) => {
   // <meta property="og:type" content="video.movie" />
   // <meta property="og:url" content="http://www.imdb.com/title/tt0117500/" />
   // <meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
-  res.send(req.url);
+  fs.readFile(__dirname + "/webapp.html", (err, data) => {
+
+    if (err) {
+      console.log("Cannot find webapp.html");
+      console.log(err);
+      res.send("Er is iets mis gegaan. Gebruik dan nog maar ff facebook ofzo");
+      return;
+    }
+    res.writeHead(200, {
+      'Content-Type': 'text/html',
+      'Content-Length': data.length,
+      'Expires': new Date().toUTCString()
+    });
+    res.end(data);
+    console.log(data);
+  });
 
 });
 
