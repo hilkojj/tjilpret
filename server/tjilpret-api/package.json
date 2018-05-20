@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/hilkojj/tjilpret/issues"
   },
-  "homepage": "https://github.com/hilkojj/tjilpret#readme"
+  "homepage": "https://github.com/hilkojj/tjilpret#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
