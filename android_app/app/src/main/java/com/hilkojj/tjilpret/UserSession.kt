@@ -22,24 +22,6 @@ class UserSession(
             apply()
         }
 
-        Tjilpret.callHttpsFunction(
-                "getUserInfo",
-                hashMapOf(
-                        "getInfoFor" to listOf(username)
-                )
-        ).continueWith { task ->
-
-            val data = task.result.data as HashMap<*, *>
-            if (data["success"] != true) {
-                finishSession()
-                return@continueWith
-            }
-
-            userInfo = ((task.result.data as HashMap<*, *>)["info"] as HashMap<*, *>)[username] as HashMap<*, *>
-            println("UserInfo for $username: ")
-            println(userInfo)
-        }
-
         println("new UserSession created for $username")
     }
 

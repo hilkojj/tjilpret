@@ -107,25 +107,6 @@ class LoginRegisterActivity : AppCompatActivity() {
             SnackbarUtils.errorSnackbar(view, "Je ben al inglogt", 5000)
             return
         }
-
-        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("login").call(
-                hashMapOf(
-                        "username" to loginUsername.text.toString(),
-                        "password" to loginPassword.text.toString()
-                )
-        ).continueWith { task ->
-
-            if (Tjilpret.userSession != null)
-                return@continueWith
-
-            val data = task.result.data as HashMap<*, *>
-            if (data["success"] == true) {
-                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
-            } else
-                SnackbarUtils.errorSnackbar(view, data["error"] as String, 4000)
-        }
     }
 
     fun register(view: View) {
@@ -133,26 +114,6 @@ class LoginRegisterActivity : AppCompatActivity() {
         if (Tjilpret.userSession != null) {
             SnackbarUtils.errorSnackbar(view, "Je ben al inglogt huh wtf", 5000)
             return
-        }
-
-        Tjilpret.FIREBASE_FUNCS.getHttpsCallable("createUser").call(
-                hashMapOf(
-                        "username" to registerUsername.text.toString(),
-                        "password" to registerPassword.text.toString(),
-                        "mail" to registerMail.text.toString()
-                )
-        ).continueWith { task ->
-
-            if (Tjilpret.userSession != null)
-                return@continueWith
-
-            val data = task.result.data as HashMap<*, *>
-            if (data["success"] == true) {
-                Tjilpret.userSession = UserSession(data["username"] as String, data["token"] as String)
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
-            } else
-                SnackbarUtils.errorSnackbar(view, data["error"] as String, 4000)
         }
 
     }
