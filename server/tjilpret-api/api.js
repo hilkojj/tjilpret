@@ -1,11 +1,20 @@
 #!/usr/bin/env nodejs
-var http = require('http');
-http.createServer(function (req, res) {
 
+const express = require("express");
+const app = express();
+const api = express.Router();
+app.use("/api", api);
 
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('doet ie het????????????????????????/\n');
+api.get("/", (req, res) => {
 
-  
-}).listen(8080, 'localhost');
-console.log('Server running at http://localhost:8080/');
+  res.send("hoi?");
+
+});
+
+api.get("/doei", (req, res) => {
+
+  res.send("doei!");
+
+});
+
+app.listen(8080, () => console.log("API listening on port 8080"));
