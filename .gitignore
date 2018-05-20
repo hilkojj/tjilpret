@@ -58,3 +58,4 @@ freeline_project_description.json
 app/release/output.json
 .idea/assetWizardSettings.xml
 firebase/functions/dollepretKey.json
+server/web/database_password.txt
