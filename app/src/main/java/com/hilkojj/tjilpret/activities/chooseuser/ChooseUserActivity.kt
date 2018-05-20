@@ -79,28 +79,28 @@ class ChooseUserActivity : AppCompatActivity() {
         for (user in storedUsers)
             tokens[user] = Tjilpret.prefs.getString("user_token->$user", "")
 
-        Tjilpret.callHttpsFunction("checkTokens", hashMapOf(
-                "checkTokens" to tokens
-        )).continueWith { task ->
-
-            findViewById<ProgressBar>(
-                    R.id.choose_user_progress_bar
-            ).animate().alpha(0f).interpolator = AccelerateInterpolator(2f)
-
-            val results = task.result.data as HashMap<*, *>
-            for (user in storedUsers) {
-
-                if (results[user] == true) { // valid token -> add to RecyclerView
-
-                    adapter.usernames.add(user)
-                    println("token for $user is still valid")
-
-                } else // invalid token -> remove from prefs
-                    Tjilpret.removeStoredUser(user)
-            }
-            adapter.notifyDataSetChanged()
-            recyclerView.animate().alpha(1f).setDuration(200).setInterpolator(AccelerateInterpolator(2f))
-        }
+//        Tjilpret.callHttpsFunction("checkTokens", hashMapOf(
+//                "checkTokens" to tokens
+//        )).continueWith { task ->
+//
+//            findViewById<ProgressBar>(
+//                    R.id.choose_user_progress_bar
+//            ).animate().alpha(0f).interpolator = AccelerateInterpolator(2f)
+//
+//            val results = task.result.data as HashMap<*, *>
+//            for (user in storedUsers) {
+//
+//                if (results[user] == true) { // valid token -> add to RecyclerView
+//
+//                    adapter.usernames.add(user)
+//                    println("token for $user is still valid")
+//
+//                } else // invalid token -> remove from prefs
+//                    Tjilpret.removeStoredUser(user)
+//            }
+//            adapter.notifyDataSetChanged()
+//            recyclerView.animate().alpha(1f).setDuration(200).setInterpolator(AccelerateInterpolator(2f))
+//        }
     }
 
     fun addAnother(view: View) {

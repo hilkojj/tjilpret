@@ -41,16 +41,16 @@ class RegisterFragment : LoginRegisterFragment(1) {
             val username = activity.registerUsername.text.toString()
             if (username.isNotEmpty()) {
 
-                Tjilpret.FIREBASE_FUNCS.getHttpsCallable("userExists").call(
-                        hashMapOf("username" to username)
-                ).continueWith { task ->
-
-                    val data = task.result.data as HashMap<*, *>
-                    if (data["exists"] == true)
-                        SnackbarUtils.errorSnackbar(view, "$username bestaat al !!?!", 4000)
-                    else
-                        SnackbarUtils.successSnackbar(view, "$username is beschrikbar", 2000)
-                }
+//                Tjilpret.FIREBASE_FUNCS.getHttpsCallable("userExists").call(
+//                        hashMapOf("username" to username)
+//                ).continueWith { task ->
+//
+//                    val data = task.result.data as HashMap<*, *>
+//                    if (data["exists"] == true)
+//                        SnackbarUtils.errorSnackbar(view, "$username bestaat al !!?!", 4000)
+//                    else
+//                        SnackbarUtils.successSnackbar(view, "$username is beschrikbar", 2000)
+//                }
             }
         })
 
