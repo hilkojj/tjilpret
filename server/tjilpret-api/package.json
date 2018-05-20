@@ -1,0 +1,22 @@
+{
+  "name": "tjilpret-api",
+  "version": "1.0.0",
+  "description": "API for Tjilpret",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hilkojj/tjilpret.git"
+  },
+  "keywords": [
+    "Tjilpret"
+  ],
+  "author": "Hilko Janssen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hilkojj/tjilpret/issues"
+  },
+  "homepage": "https://github.com/hilkojj/tjilpret#readme"
+}
