@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`categories` (
   `header` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`category_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -51,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 143
+AUTO_INCREMENT = 255
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -115,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`posts` (
   `uploaded_on` INT(11) NOT NULL,
   `type` ENUM('img', 'vid', 'gif') NOT NULL,
   `path` VARCHAR(45) NOT NULL,
+  `views` INT(11) NOT NULL DEFAULT '0',
   `duration` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`post_id`, `uploaded_by`, `category_id`),
   INDEX `fk_uploads_users1_idx` (`uploaded_by` ASC),
@@ -332,30 +334,6 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`tokens` (
   PRIMARY KEY (`token`, `user_id`),
   INDEX `fk_tokens_users_idx` (`user_id` ASC),
   CONSTRAINT `fk_tokens_users`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `tjillepret`.`views`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`views` (
-  `user_id` INT(11) NOT NULL,
-  `post_id` INT(11) NOT NULL,
-  `first_viewed_on` INT(11) NOT NULL,
-  `times_viewed` INT(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`user_id`, `post_id`),
-  INDEX `fk_views_uploads1_idx` (`post_id` ASC),
-  CONSTRAINT `fk_views_uploads1`
-    FOREIGN KEY (`post_id`)
-    REFERENCES `tjillepret`.`posts` (`post_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_views_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `tjillepret`.`users` (`user_id`)
     ON DELETE NO ACTION
