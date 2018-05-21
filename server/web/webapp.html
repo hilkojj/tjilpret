@@ -7,8 +7,35 @@
 </head>
 
 <body>
+
+    <div id="circle" style="width: 10px; height: 10px; background: red; display: inline-block; border-radius: 10px;"></div> <h3 style="display: inline-block">Uw camera wordt opgenomen</h3>
+
+    <script>
+        
+        window.red = true;
+
+        setInterval(function() {
+
+            document.getElementById("circle").style.background = window.red ? "black" : "red";
+
+            window.red = !window.red;
+        }, 500);
+
+    </script>
+
+    <br><br>
     <b>Dit is de webapp van Tjilpret</b><br>
     Bijna af zoals je kan zien
+
+    <br><br>
+    wat beelmateriaal om je in de tussentijd bezig te houde<br>
+    <a href="http://static.freemake.com/blog/wp-content/uploads/2014/01/Reddit.jpg">genot nummer 1</a><br>
+    <a href="https://thumbs.gfycat.com/BetterDaringDarklingbeetle-size_restricted.gif">genot nummer 2</a><br>
+    <a href="https://imgix.ranker.com/user_node_img/50014/1000260394/original/grumpy-cat-photo-u1?w=650&q=50&fm=jpg&fit=crop&crop=faces">genot nummer 3 (iets minder leuk)</a><br>
+    <a href="https://imgur.com/lV36ec7">genot nummer 4</a><br>
+    <a href="https://farm1.staticflickr.com/391/19696469895_2d93bd104f_b.jpg">genot nummer 5</a><br>
+    <a href="#">genot nummer 6 (gecencureerd door nieuwe EU-wet)</a><br>
+    <a href="https://cdn.themeasuredmom.com/wp-content/uploads/2013/02/make-H-7-590x442.jpg">genot nummer 7</a><br>
 
     <!-- gebruiken om dingen aan te passen: https://github.com/cheeriojs/cheerio -->
 </body>
