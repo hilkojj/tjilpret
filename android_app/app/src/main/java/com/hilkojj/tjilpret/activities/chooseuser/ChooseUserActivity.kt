@@ -115,8 +115,8 @@ class ChooseUserActivity : AppCompatActivity() {
         if (chosen)
             return
         chosen = true
-        Tjilpret.userSession = UserSession(username, Tjilpret.prefs.getString("user_token->$username", ""))
-        startActivity(Intent(this, HomeActivity::class.java))
+//        Tjilpret.userSession = UserSession(username, Tjilpret.prefs.getString("user_token->$username", ""))
+//        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 

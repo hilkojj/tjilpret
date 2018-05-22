@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const app = express();
 
 app.use(bodyParser());
+app.use(bodyParser.json());
 
 ////////////////////////////////////////////  
 //                                        //

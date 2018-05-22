@@ -7,17 +7,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
+import com.android.volley.toolbox.Volley
+import com.hilkojj.tjilpret.API
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
 import com.hilkojj.tjilpret.activities.chooseuser.ChooseUserActivity
 import com.hilkojj.tjilpret.activities.home.HomeActivity
 import com.hilkojj.tjilpret.activities.loginregister.LoginRegisterActivity
+import org.json.JSONObject
 
 class WelcomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Tjilpret.prefs = getSharedPreferences("tjilpret.prefs", Context.MODE_PRIVATE)
+        Tjilpret.resources = resources
+        API.requestQueue = Volley.newRequestQueue(applicationContext)
+
+        API.post("login", hashMapOf("username" to "kaasflip", "password" to "*wachtwoord*"), { jsonObject ->
+            println("wow")
+            println(jsonObject.getInt("token"))
+        }, {
+            println("erririririririrorrororororo")
+        })
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
