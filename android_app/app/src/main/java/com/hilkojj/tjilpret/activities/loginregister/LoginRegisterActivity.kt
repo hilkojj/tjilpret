@@ -13,14 +13,10 @@ import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import com.hilkojj.tjilpret.R
-import com.hilkojj.tjilpret.Tjilpret
-import com.hilkojj.tjilpret.UserSession
+import com.hilkojj.tjilpret.*
 import com.hilkojj.tjilpret.activities.home.HomeActivity
 import com.hilkojj.tjilpret.activities.utils.SnackbarUtils
 import com.hilkojj.tjilpret.activities.utils.ViewPagerAdapter
-
-
 
 
 class LoginRegisterActivity : AppCompatActivity() {
@@ -107,6 +103,28 @@ class LoginRegisterActivity : AppCompatActivity() {
             SnackbarUtils.errorSnackbar(view, "Je ben al inglogt", 5000)
             return
         }
+        API.post(
+                "login",
+                hashMapOf(
+                        "username" to loginUsername.text.toString(),
+                        "password" to loginPassword.text.toString()
+                ),
+                { response ->
+                    if (response.has("success") && response.getBoolean("success")) {
+                        val userInfo = response.getJSONObject("userInfo")
+                        val userSession = UserSession(User(userInfo), response.getInt("token"))
+                        if (Tjilpret.userSession != null)
+                            return@post
+
+                        Tjilpret.userSession = userSession
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
+
+                    } else if (response.has("error"))
+                        SnackbarUtils.errorSnackbar(view, response.getString("error"), 5000)
+                },
+                null
+        )
     }
 
     fun register(view: View) {

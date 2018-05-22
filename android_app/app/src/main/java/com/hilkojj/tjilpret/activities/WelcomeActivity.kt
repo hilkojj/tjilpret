@@ -24,13 +24,6 @@ class WelcomeActivity : AppCompatActivity() {
         Tjilpret.resources = resources
         API.requestQueue = Volley.newRequestQueue(applicationContext)
 
-        API.post("login", hashMapOf("username" to "kaasflip", "password" to "*wachtwoord*"), { jsonObject ->
-            println("wow")
-            println(jsonObject.getInt("token"))
-        }, {
-            println("erririririririrorrororororo")
-        })
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
 

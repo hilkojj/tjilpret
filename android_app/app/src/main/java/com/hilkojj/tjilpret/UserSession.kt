@@ -1,8 +1,8 @@
 package com.hilkojj.tjilpret
 
 class UserSession(
-        user: User,
-        token: String
+        val user: User,
+        val token: Int
 ) {
 
     init {
@@ -14,7 +14,7 @@ class UserSession(
 
         with(Tjilpret.prefs.edit()) {
             putStringSet("stored_users", storedUsers)
-            putString("user_token->${user.username}", token)
+            putString("user_token->${user.username}", token.toString())
             apply()
         }
 

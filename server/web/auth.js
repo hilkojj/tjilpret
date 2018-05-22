@@ -49,7 +49,7 @@ module.exports = function(api) {
                         res.send({
                             success: true,
                             token: token,
-                            username: user.username
+                            userInfo: utils.userInfo(user)
                         });
                     });
                 }
