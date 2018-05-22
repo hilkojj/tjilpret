@@ -133,6 +133,29 @@ class LoginRegisterActivity : AppCompatActivity() {
             SnackbarUtils.errorSnackbar(view, "Je ben al inglogt huh wtf", 5000)
             return
         }
+        API.post(
+                "register",
+                hashMapOf(
+                        "username" to registerUsername.text.toString(),
+                        "password" to registerPassword.text.toString(),
+                        "email" to registerMail.text.toString()
+                ),
+                { response ->
+                    if (response.has("success") && response.getBoolean("success")) {
+                        val userInfo = response.getJSONObject("userInfo")
+                        val userSession = UserSession(User(userInfo), response.getInt("token"))
+                        if (Tjilpret.userSession != null)
+                            return@post
+
+                        Tjilpret.userSession = userSession
+                        startActivity(Intent(this, HomeActivity::class.java))
+                        finish()
+
+                    } else if (response.has("error"))
+                        SnackbarUtils.errorSnackbar(view, response.getString("error"), 5000)
+                },
+                null
+        )
 
     }
 

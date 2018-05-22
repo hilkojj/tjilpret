@@ -1,4 +1,5 @@
 
+const db = require("./database.js");
 
 module.exports = {
 
@@ -33,6 +34,20 @@ module.exports = {
             profilePic: row.profile_pic,
             header: row.header
         }
-    }
+    },
+
+    validateEmail: function(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    },
+
+    usernameExists: function(username, callback) {
+        db.connection.query("SELECT COUNT(*) > 0 AS existss FROM users WHERE username = ?", [username], (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                return callback(false);
+            } else return callback(rows[0].existss);
+        });
+    },
 
 }
