@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ScrollView
+import com.hilkojj.tjilpret.API
 import com.hilkojj.tjilpret.R
 import com.hilkojj.tjilpret.Tjilpret
 import com.hilkojj.tjilpret.activities.utils.SnackbarUtils
@@ -41,16 +42,16 @@ class RegisterFragment : LoginRegisterFragment(1) {
             val username = activity.registerUsername.text.toString()
             if (username.isNotEmpty()) {
 
-//                Tjilpret.FIREBASE_FUNCS.getHttpsCallable("userExists").call(
-//                        hashMapOf("username" to username)
-//                ).continueWith { task ->
-//
-//                    val data = task.result.data as HashMap<*, *>
-//                    if (data["exists"] == true)
-//                        SnackbarUtils.errorSnackbar(view, "$username bestaat al !!?!", 4000)
-//                    else
-//                        SnackbarUtils.successSnackbar(view, "$username is beschrikbar", 2000)
-//                }
+                API.post("userNameExists", hashMapOf("username" to username), { response ->
+
+                    if (response.has("exists")) {
+                        if (response.getBoolean("exists"))
+                            SnackbarUtils.errorSnackbar(view, "$username bestaat al !!?!", 4000)
+                        else
+                            SnackbarUtils.successSnackbar(view, "$username is beschrikbar", 2000)
+                    }
+
+                }, null)
             }
         })
 

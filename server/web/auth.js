@@ -16,7 +16,7 @@ var createSession = function (user, res) {
             utils.sendError(res, "Inlogsessie aanmaken mislukt........ neeee");
             return;
         }
-        console.log(user.username + " logged in!!! weeeeeeeeeeeeeeeeeeeeeeeeeee");
+        console.log(user.username + " is ingelogd");
         res.send({
             success: true,
             token: token,
@@ -68,8 +68,14 @@ module.exports = function (api) {
 
         if (username.length < 3) {
             utils.sendError(res, "Gebriukesnaam moet minimal 3 tekens lang");
+        } else if (username.length >= 45) {
+            utils.sendError(res, "Gebriukesnaam mag maximaal 45 tekens lang");
         } else if (password.length < 4) {
             utils.sendError(res, "Das wel een heel kort wachtwoord");
+        } else if (password.length >= 250) {
+            utils.sendError(res, "Das echt een fkng lang wachtwoord");
+        } else if (email.length >= 250) {
+            utils.sendError(res, "je email adres is vilste lang");
         } else if (!utils.validateEmail(email)) {
             utils.sendError(res, "Ik denk dat dat een neppe email is >:( rotzak!");
         } else utils.usernameExists(username, (exists) => {
@@ -87,6 +93,7 @@ module.exports = function (api) {
                     g: utils.randomInt(0, 230),
                     b: utils.randomInt(0, 230)
                 }, (err, results, fields) => {
+                    console.log(username + " heeft de verstandige keuze gemaakt om lid te worden van tjilpret");
                     if (err) {
                         console.log(err);
                         return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
@@ -101,6 +108,12 @@ module.exports = function (api) {
                     });
                 });
             });
+        });
+    });
+
+    api.post("/userNameExists", (req, res) => {
+        utils.usernameExists(req.body.username, (exists) => {
+            res.send({exists: exists == 1});
         });
     });
 
