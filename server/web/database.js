@@ -2,22 +2,21 @@
 const fs = require("fs");
 const password = fs.readFileSync(__dirname + "/database_password.txt").toString();
 const mysql = require("mysql");
-const database = mysql.createConnection({
+const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: password
+    password: password,
+    database: "tjillepret"
 });
 
-database.connect((err) => {
+connection.connect((err) => {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
-    console.log('connected as id ' + database.threadId);
+    console.log('connected as id ' + connection.threadId);
 });
 
-module.exports = function () {
-
-    this.database = database;
-
+module.exports = {
+    connection: connection
 }
