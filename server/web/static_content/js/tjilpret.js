@@ -1,3 +1,5 @@
+var mobile = /Mobi/.test(navigator.userAgent);
+
 $(document).ready(function () {
 
     if (navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv 11/))) {
@@ -5,8 +7,31 @@ $(document).ready(function () {
         return;
     }
 
-    console.log("voel je welkom");
+    $.loadScripts = function (arr, path) {
+        var _arr = $.map(arr, function (scr) {
+            return $.getScript((path || "") + scr);
+        });
 
-    
+        _arr.push($.Deferred(function (deferred) {
+            $(deferred.resolve);
+        }));
 
+        return $.when.apply($, _arr);
+    }
+
+    $.loadScripts([ // no caching
+        "style.js",
+        "layout.js"
+    ], "/static_content/js/").done(function () {
+        initStyle(function () {
+
+            $("#preapp-loader-container").fadeOut(200, function () {
+                $("#preapp-loader-container").remove()
+
+                startActivity("login", function() {
+                    
+                });
+            });
+        });
+    });
 });

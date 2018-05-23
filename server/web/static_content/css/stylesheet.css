@@ -1,10 +1,35 @@
 body {
 
-    background: black;
-    color: white;
+    background: rgb?;
+    transition: ease-in-out .3s;
 
 }
 
-a {
-    color: yellow;
+.animatedGradient{
+    position:relative;
+}
+  
+.animatedGradient:after, .animatedGradient:before{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    z-index: -1;
+}
+  
+.animatedGradient:after{
+    background: radial-gradient(circle, rgbSec?, transparent);
+    background-size: 400%;
+    animation: colorSpin 30s ease-in-out infinite;
+}
+  
+.animatedGradient:before{
+    background-color: rgb?;
+}
+  
+@keyframes colorSpin{
+    25%{background-position: 10% 30%}
+    75%{background-position: -50% 110%}
 }
