@@ -48,6 +48,6 @@ module.exports = {
                 return callback(false);
             } else return callback(rows[0].existss);
         });
-    },
+    }
 
 }

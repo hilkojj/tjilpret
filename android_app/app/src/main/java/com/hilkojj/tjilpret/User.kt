@@ -11,7 +11,7 @@ class User(
         var online: Boolean,
         var appleUser: Boolean,
         var r: Int, var g: Int, var b: Int,
-        var profilePic: String, var header: String) {
+        var profilePic: String, var header: String) : Model() {
 
     constructor(u: JSONObject) : this(
             u.getInt("id"),

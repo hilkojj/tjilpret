@@ -1,8 +1,10 @@
 package com.hilkojj.tjilpret.activities.chooseuser
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
@@ -13,26 +15,24 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.hilkojj.tjilpret.R
-import com.hilkojj.tjilpret.Tjilpret
-import com.hilkojj.tjilpret.UserSession
+import com.hilkojj.tjilpret.*
 import com.hilkojj.tjilpret.activities.home.HomeActivity
 import com.hilkojj.tjilpret.activities.loginregister.LoginRegisterActivity
+import org.json.JSONObject
 
 class ChooseUserActivity : AppCompatActivity() {
 
     inner class ChooseUserAdapter : RecyclerView.Adapter<ChooseUserAdapter.ViewHolder>() {
 
-        val usernames: ArrayList<String> = ArrayList()
+        val pairs = ArrayList<Pair<User, Int>>()
+        val viewsPairs = HashMap<ViewHolder, Pair<User, Int>>()
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             var usernameView: TextView = itemView.findViewById(R.id.choose_user_row_username)
 
             init {
-                itemView.setOnClickListener {
-                    choose(usernameView.text.toString())
-                }
+                itemView.setOnClickListener { choose(viewsPairs[this]!!) }
             }
 
         }
@@ -44,12 +44,14 @@ class ChooseUserActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return usernames.size
+            return pairs.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            println(position)
-            holder.usernameView.text = usernames[position]
+            viewsPairs[holder] = pairs[position]
+            val user = pairs[position].first
+            holder.usernameView.text = user.username
+            holder.usernameView.setTextColor(Color.rgb(user.r, user.g, user.b))
         }
 
     }
@@ -73,34 +75,38 @@ class ChooseUserActivity : AppCompatActivity() {
         adapter = ChooseUserAdapter()
         recyclerView.adapter = adapter
 
-        val tokens = HashMap<String, String>()
+        val tokens = HashMap<String, Int>()
         val storedUsers = Tjilpret.prefs.getStringSet("stored_users", setOf())
 
-        for (user in storedUsers)
-            tokens[user] = Tjilpret.prefs.getString("user_token->$user", "")
+        for (userID in storedUsers) try {
+            tokens[userID] = Tjilpret.prefs.getInt("user_token->$userID", 0)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
-//        Tjilpret.callHttpsFunction("checkTokens", hashMapOf(
-//                "checkTokens" to tokens
-//        )).continueWith { task ->
-//
-//            findViewById<ProgressBar>(
-//                    R.id.choose_user_progress_bar
-//            ).animate().alpha(0f).interpolator = AccelerateInterpolator(2f)
-//
-//            val results = task.result.data as HashMap<*, *>
-//            for (user in storedUsers) {
-//
-//                if (results[user] == true) { // valid token -> add to RecyclerView
-//
-//                    adapter.usernames.add(user)
-//                    println("token for $user is still valid")
-//
-//                } else // invalid token -> remove from prefs
-//                    Tjilpret.removeStoredUser(user)
-//            }
-//            adapter.notifyDataSetChanged()
-//            recyclerView.animate().alpha(1f).setDuration(200).setInterpolator(AccelerateInterpolator(2f))
-//        }
+        API.post("validateTokens", hashMapOf("tokens" to JSONObject(tokens)), { response ->
+
+            findViewById<ProgressBar>(
+                    R.id.choose_user_progress_bar
+            ).animate().setDuration(200).alpha(0f)
+
+            val remove = ArrayList<String>()
+
+            for (userID in storedUsers) if (response.has(userID)) {
+
+                adapter.pairs.add(Pair(User(response.getJSONObject(userID)), tokens[userID]!!))
+
+            } else remove.add(userID)
+
+            storedUsers.removeAll(remove)
+            with(Tjilpret.prefs.edit()) {
+                putStringSet("stored_users", storedUsers)
+                apply()
+            }
+            adapter.notifyDataSetChanged()
+            recyclerView.animate().alpha(1f).setDuration(200).interpolator = AccelerateInterpolator(2f)
+
+        }, null)
     }
 
     fun addAnother(view: View) {
@@ -111,12 +117,12 @@ class ChooseUserActivity : AppCompatActivity() {
         finish()
     }
 
-    fun choose(username: String) {
+    fun choose(pair: Pair<User, Int>) {
         if (chosen)
             return
         chosen = true
-//        Tjilpret.session = UserSession(username, Tjilpret.prefs.getString("user_token->$username", ""))
-//        startActivity(Intent(this, HomeActivity::class.java))
+        Tjilpret.userSession = UserSession(pair.first, pair.second)
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 

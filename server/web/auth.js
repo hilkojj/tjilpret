@@ -117,4 +117,32 @@ module.exports = function (api) {
         });
     });
 
+    api.post("/validateTokens", (req, res) => {
+
+        const tokens = req.body.tokens;
+        var query = "SELECT users.* FROM tokens JOIN users ON (tokens.user_id = users.user_id) WHERE "
+        var i = 0;
+        for (var userID in tokens) {
+            if (++i == 40) break;
+            
+            var token = parseInt(tokens[userID]);
+            var userID = parseInt(userID);
+            query += (i != 1 ? " OR " : "") + "(tokens.user_id = " + userID + " AND tokens.token = " + token + ")"
+        }
+        if (i == 0) return res.send({});
+    
+        db.connection.query(query, (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                return res.send({});
+            }
+            const valid = {};
+            for (var j in rows) {
+                const user = rows[j];
+                valid[user.user_id] = utils.userInfo(user);
+            }
+            res.send(valid);
+        });
+    });
+
 }

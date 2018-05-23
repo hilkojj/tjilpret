@@ -44,7 +44,7 @@ class WelcomeActivity : AppCompatActivity() {
                 startActivity(Intent(this, HomeActivity::class.java))
 
             finish()
-        }, 1200)
+        }, 1000)
     }
 
 }
