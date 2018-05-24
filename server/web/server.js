@@ -61,12 +61,12 @@ app.get("*", (req, res) => {
           console.log(err);
           return res.send("Er is iets mis gegaan. Gebruik dan nog maar ff facebook ofzo");
         }
+        html += data.toString();
         res.writeHead(200, {
           'Content-Type': 'text/html',
           'Content-Length': html.length,
           'Expires': new Date().toUTCString()
         });
-        html += data.toString();
         res.end(html);
       });
     });

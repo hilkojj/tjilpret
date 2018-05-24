@@ -8,7 +8,7 @@ function initStyle(callback) {
             originalCss = css;
             $("head").append("<style id='dynamic-css'></style>");
             applyThemeColor(94, 94, 255, 55, 255, 135);
-            setTimeout(callback, 1000);
+            setTimeout(callback, 500);
         }
     });
 }

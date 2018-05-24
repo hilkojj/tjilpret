@@ -1,3 +1,4 @@
+/* BACKGROUND */
 body {
 
     background: rgb?;
@@ -33,3 +34,32 @@ body {
     25%{background-position: 10% 30%}
     75%{background-position: -50% 110%}
 }
+/* END BACKGROUND */
+
+/* NAVBAR */
+.navbar-fixed {
+    margin-bottom: 64px;
+}
+
+nav {
+    background: rgb?;
+}
+
+nav .tabs {
+    text-align: center;
+    overflow-x: hidden;
+}
+
+nav .tabs li {
+    float: none;
+}
+
+nav .tabs li i {
+    display: inline;
+    vertical-align: middle;
+}
+
+.transparent {
+    background: transparent !important;
+}
+/* END NAVBAR */

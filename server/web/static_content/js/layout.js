@@ -1,8 +1,10 @@
 
 var htmlFiles = {};
 
-function addFragment(parent, name, callback) {
-
+function getFragment(name, callback) {
+    getHtmlFile("/static_content/html/fragments/" + name + ".html", function (html) {
+        callback($(html));
+    });
 }
 
 var switchingActivity = false;
@@ -16,6 +18,7 @@ function startActivity(name, callback) {
         switchingActivity = true;
         const ac = $("#activity");
         ac.fadeOut(200, function() {
+            switchingActivity = false;
             ac.html(html);
             ac.fadeIn(200);
             callback();
