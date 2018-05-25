@@ -30,12 +30,18 @@ for (var i in apiFiles)
 
 ////////////////////////////////////////////  
 //                                        //
+// 404 error for static content           //
+//                                        //
+////////////////////////////////////////////
+app.get("/static_content/*", (req, res) => {
+  res.status(404).send("Je zit hier helemaal verkeerd<br><br>Ga naar de <a href=\"https://tjilpret.tk\">hoompagina</a>");
+});
+
+////////////////////////////////////////////  
+//                                        //
 // Every other path will serve the webapp //
 //                                        //
 ////////////////////////////////////////////
-const htmlFiles = [
-  "login_register"
-]
 app.get("*", (req, res) => {
 
   fs.readFile(__dirname + "/html/webapp_head.html", (err, data) => {

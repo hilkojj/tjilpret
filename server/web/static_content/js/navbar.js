@@ -1,6 +1,8 @@
 
+window.navbar = null;
+
 function showNavbar(callback) {
-    if (typeof window.navbar !== "undefined" && window.navbar != null) {
+    if (window.navbar != null) {
         if (typeof callback !== "undefined")
             callback(nb);
         return;
@@ -22,7 +24,7 @@ function showNavbar(callback) {
 }
 
 function removeNavbar() {
-    if (typeof window.navbar === "undefined" || window.navbar == null)
+    if (window.navbar == null)
         return;
     window.navbar.remove();
     window.navbar = null;
@@ -30,7 +32,7 @@ function removeNavbar() {
 
 $(window).scroll(function () {
 
-    if (typeof window.navbar === "undefined" || window.navbar == null)
+    if (window.navbar == null)
         return;
     var scrollTop = $(window).scrollTop();
     var nav = window.navbar.find("nav");
