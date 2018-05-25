@@ -141,3 +141,31 @@ a {
 .collection a.collection-item i {
     vertical-align: bottom;
 }
+
+/* ACTIVITY-ANIMATION */
+body.switching-activity {
+    overflow: hidden;
+}
+
+#activity {
+    will-change: transform, opacity;
+}
+
+#activity.in {
+    transition: ease-out .15s;
+    transform: scale(1);
+    opacity: 1;
+}
+
+#activity.mid {
+    transition: 0s !important;
+    opacity: 0;
+    transform: scale(1.05);
+}
+
+#activity.out {
+    transition: ease-in .15s;
+    transform: scale(.97);
+    opacity: 0;
+}
+/* END ACTIVITY-ANIMATION */

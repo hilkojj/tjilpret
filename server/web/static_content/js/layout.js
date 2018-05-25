@@ -17,15 +17,24 @@ function startActivity(name, doShowNavbar, callback) {
 
         switchingActivity = true;
         const ac = $("#activity");
-        ac.fadeOut(100, function() {
+        ac.addClass("out");
+        $("body").addClass("switching-activity");
+        setTimeout(function() {
             if (doShowNavbar)
                 showNavbar();
             else removeNavbar();
             switchingActivity = false;
             ac.html(html);
-            ac.fadeIn(100);
+            ac.addClass("mid").removeClass("out");
             callback();
-        });
+            setTimeout(function() {
+                ac.addClass("in").removeClass("mid");
+                setTimeout(function() {
+                    ac.removeClass("in");
+                    $("body").removeClass("switching-activity");
+                }, 200);
+            }, 20);
+        }, 150);
     });
 }
 
