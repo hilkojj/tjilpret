@@ -9,7 +9,7 @@ function getFragment(name, callback) {
 
 var switchingActivity = false;
 
-function startActivity(name, callback) {
+function startActivity(name, doShowNavbar, callback) {
     getHtmlFile("/static_content/html/activities/" + name + ".html", function (html) {
 
         if (switchingActivity)
@@ -17,10 +17,13 @@ function startActivity(name, callback) {
 
         switchingActivity = true;
         const ac = $("#activity");
-        ac.fadeOut(200, function() {
+        ac.fadeOut(100, function() {
+            if (doShowNavbar)
+                showNavbar();
+            else removeNavbar();
             switchingActivity = false;
             ac.html(html);
-            ac.fadeIn(200);
+            ac.fadeIn(100);
             callback();
         });
     });

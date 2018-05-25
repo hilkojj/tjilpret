@@ -1,9 +1,33 @@
+.btn {
+    background-color: ?rgb? !important;
+}
+
+.btn-flat {
+    background-color: transparent !important;
+    color: ?rgb? !important;
+}
+
+.btn-flat:hover {
+    background-color: rgba(?r?, ?g?, ?b?, .2) !important;
+}
+
+.input-field .prefix.active {
+    color: ?rgb? !important;
+}
+
+input:focus {
+    border-bottom: 1px solid ?rgb? !important;
+    box-shadow: 0 1px 0 0 ?rgb? !important;
+}
+
+.input-field label.active {
+    color: ?rgb? !important;
+}
+
 /* BACKGROUND */
 body {
-
-    background: rgb?;
+    background: ?rgb?;
     transition: ease-in-out .3s;
-
 }
 
 .animatedGradient{
@@ -21,13 +45,13 @@ body {
 }
   
 .animatedGradient:after{
-    background: radial-gradient(circle, rgbSec?, transparent);
+    background: radial-gradient(circle, ?rgbSec?, transparent);
     background-size: 400%;
     animation: colorSpin 30s ease-in-out infinite;
 }
   
 .animatedGradient:before{
-    background-color: rgb?;
+    background-color: ?rgb?;
 }
   
 @keyframes colorSpin{
@@ -41,8 +65,21 @@ body {
     margin-bottom: 64px;
 }
 
+nav.hidden {
+    transform: translateY(-64px);
+}
+
 nav {
-    background: rgb?;
+    background: ?rgb? !important;
+    transition: ease-in-out .5s;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+nav .brand-logo img {
+    height: 40px;
+    vertical-align: middle;
 }
 
 nav .tabs {
@@ -59,7 +96,21 @@ nav .tabs li i {
     vertical-align: middle;
 }
 
-.transparent {
-    background: transparent !important;
+.navbar-profile-pic {
+    display: inline;
+    margin-left: -10px;
+    border: solid 4px ?rgb?;
+    width: 44px;
+    height: 44px;
+    background-color: white;
+    vertical-align: middle;
+    border-radius: 100px;
 }
 /* END NAVBAR */
+
+.logo-shadow {
+    width: 160px;
+    margin: 30px;
+    -webkit-filter: drop-shadow( 1px 2px 0px #00000057 );
+    filter: drop-shadow( 1px 2px 0px #00000057 );
+}

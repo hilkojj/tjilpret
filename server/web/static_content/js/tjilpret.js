@@ -25,16 +25,15 @@ $(document).ready(function () {
     $.loadScripts([ // no caching
         "style.js",
         "layout.js",
-        "navbar.js"
+        "navbar.js",
+        "session.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {
-
             $("#preapp-loader-container").fadeOut(200, function () {
                 $("#preapp-loader-container").remove()
-                showNavbar();
 
-                startActivity("login", function () {
+                startActivity("login", false, function () {
 
                 });
             });

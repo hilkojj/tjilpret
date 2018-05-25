@@ -18,13 +18,14 @@ function applyThemeColor(r, g, b) {}
 function applyThemeColor(r, g, b, r1, g1, b1) {
 
     const values = {
+        r: r, g: g, b: b,
         rgb: "rgb(" + r + "," + g + "," + b +")",
         rgbSec: "rgb(" + r1 + "," + g1 + "," + b1 +")"
     }
     var newCss = originalCss;
 
     for (var key in values) 
-        newCss = newCss.split(key + "?").join(values[key]);
+        newCss = newCss.split("?" + key + "?").join(values[key]);
 
     $("#dynamic-css").html(newCss);
     if (!mobile) $("body").addClass("animatedGradient");
