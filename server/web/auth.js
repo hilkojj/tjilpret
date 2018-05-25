@@ -16,7 +16,7 @@ var createSession = function (user, res) {
             utils.sendError(res, "Inlogsessie aanmaken mislukt........ neeee");
             return;
         }
-        console.log(user.username + " is ingelogd");
+        console.log(user.username + " is ingelogd " + Date());
         res.send({
             success: true,
             token: token,
@@ -119,6 +119,8 @@ module.exports = function (api) {
 
     api.post("/validateTokens", (req, res) => {
 
+        console.log(req.body.tokens);
+
         const tokens = req.body.tokens;
         var query = "SELECT users.* FROM tokens JOIN users ON (tokens.user_id = users.user_id) WHERE "
         var i = 0;
@@ -127,6 +129,7 @@ module.exports = function (api) {
             
             var token = parseInt(tokens[userID]);
             var userID = parseInt(userID);
+            console.log("checking token " + token + " for user " + userID);
             query += (i != 1 ? " OR " : "") + "(tokens.user_id = " + userID + " AND tokens.token = " + token + ")"
         }
         if (i == 0) return res.send({});

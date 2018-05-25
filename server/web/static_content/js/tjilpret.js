@@ -14,10 +14,7 @@ function navigate(pathname) {
 }
 
 function onPathChanged() {
-    if (window.userSession == null) {
-        if (!mobile) $("body").addClass("animatedGradient");
-        return startActivity("login", false, function() {});
-    }
+    if (window.userSession == null) return needForSession();
 
     var pathname = window.location.pathname;
     for (var path in paths) {
@@ -69,10 +66,13 @@ $(document).ready(function () {
 
         initStyle(function () {
             onPathChanged();
-            $("#preapp-loader-container").fadeOut(200, function () {
-                $("#preapp-loader-container").remove();               
-            });
         });
 
     });
 });
+
+function hidePreLoader() {
+    $("#preapp-loader-container").fadeOut(200, function () {
+        $("#preapp-loader-container").remove();               
+    });
+}

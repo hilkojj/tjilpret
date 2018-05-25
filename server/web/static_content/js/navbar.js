@@ -14,6 +14,7 @@ function showNavbar(callback) {
         window.navbarShadow = true;
 
         $("header").prepend(nb);
+        nb.find("#username").html(window.userSession.user.username);
         setTimeout(function () {
             M.Tabs.init($('#nav-tabs')[0]);
             $('.sidenav').sidenav();

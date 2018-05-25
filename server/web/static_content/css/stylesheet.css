@@ -128,3 +128,16 @@ nav a.sidenav-trigger {
 a {
     cursor: pointer;
 }
+
+.collection a.collection-item {
+    color: ?rgb? !important;
+}
+
+.collection a.collection-item.active {
+    color: white !important;
+    background-color: ?rgb? !important;
+}
+
+.collection a.collection-item i {
+    vertical-align: bottom;
+}
