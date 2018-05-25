@@ -57,6 +57,7 @@ $(document).ready(function () {
     }
 
     $.loadScripts([ // no caching
+        "utils.js",
         "style.js",
         "layout.js",
         "navbar.js",

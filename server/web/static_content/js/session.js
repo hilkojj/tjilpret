@@ -78,6 +78,7 @@ function choose(userID) {
     var user = window.chooseUsersInfo[userID];
     window.chooseUsersInfo = null;
     startUserSession(user, token);
+    $("body").removeClass("animatedGradient");
     onPathChanged();
 }
 
@@ -90,20 +91,75 @@ function login() {
             username: username,
             password: $("#login-password").val()
         },
-        success: function (res) {
-            if ("error" in res) {
-                M.toast({ html: "<i class=\"material-icons red-text\" style=\"margin-right: 10px\">error</i>" + res.error, displayLength: 5000 })
-            } else if (res.success == true) {
-                console.log("login sucessful");
-                $("body").removeClass("animatedGradient");
-                startUserSession(res.userInfo, res.token);
-                onPathChanged();
+        success: authCallback
+    });
+}
 
-                var tokens = Cookies.getJSON("tokens");
-                if (typeof tokens != "object") tokens = {};
-                tokens[res.userInfo.id] = res.token;
-                Cookies.set("tokens", tokens, { expires: 1000, secure: true });
-            }
+function register() {
+    var username = $("#register-username").val();
+    $.ajax({
+        url: "/api/register",
+        method: "post",
+        data: username == "" ? {} : {
+            username: username,
+            password: $("#register-password").val(),
+            email: $("#register-mail").val()
+        },
+        success: authCallback
+    });
+}
+
+function authCallback(res) {
+    if ("error" in res) {
+        showError(res.error);
+    } else if (res.success == true) {
+        console.log("login sucessful");
+        $("body").removeClass("animatedGradient");
+        startUserSession(res.userInfo, res.token);
+        onPathChanged();
+
+        var tokens = Cookies.getJSON("tokens");
+        if (typeof tokens != "object") tokens = {};
+        tokens[res.userInfo.id] = res.token;
+        Cookies.set("tokens", tokens, { expires: 1000, secure: true });
+    }
+}
+
+window.registerButtonTimer = 0;
+window.registerButtonInterval = null;
+function registerButtonHover() {
+    if (mobile || window.registerButtonInterval != null) return;
+    window.registerButtonInterval = setInterval(function() {
+
+        var btn = $("#register-button");
+        if (!btn.is(":hover")) {
+            clearInterval(window.registerButtonInterval);
+            window.registerButtonInterval = null;
+        }
+
+        window.registerButtonTimer += .1;
+        var n = 8 + Math.sin(window.registerButtonTimer) * 5;
+        var s = "g";
+        for (var i = 0; i <= n; i++) s += "o";
+        btn.html(s + "<i class=\"material-icons left\">done</i>");
+
+    }, 10);
+}
+
+function checkRegisterUsername() {
+    var u = $("#register-username").val();
+    if (u == "") return;
+    $.ajax({
+        url: "/api/userNameExists",
+        method: "post",
+        data: {
+            username: u
+        },
+        success: function (res) {
+            if (res.exists)
+                showError("'" + u + "' bestaat al!!!!!!!");
+            else
+                showSuccess("'" + u + "' is besgikbaar");
         }
     });
 }
