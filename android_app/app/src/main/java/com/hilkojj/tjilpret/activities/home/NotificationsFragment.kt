@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
+import com.bumptech.glide.Glide
 import com.hilkojj.tjilpret.R
 
 class NotificationsFragment: HomeFragment() {
@@ -16,6 +17,9 @@ class NotificationsFragment: HomeFragment() {
     override fun onStart() {
 
         scrollView = view as ScrollView
+
+        Glide.with(this).load("https://i.giphy.com/media/8rE46GISKreDDKUbMF/giphy-downsized.gif")
+                .into(view!!.findViewById(R.id.glide_test))
 
         super.onStart()
     }

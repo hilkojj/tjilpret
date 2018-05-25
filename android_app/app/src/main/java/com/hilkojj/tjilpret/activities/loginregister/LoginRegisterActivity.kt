@@ -61,7 +61,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         val layoutParams = logo.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.horizontalBias = viewPager.adapter.getPageWidth(0) / 2
+        layoutParams.horizontalBias = (viewPager.adapter as ViewPagerAdapter).getPageWidth(0) / 2
         logo.layoutParams = layoutParams
     }
 
@@ -81,7 +81,7 @@ class LoginRegisterActivity : AppCompatActivity() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
 
                 val layoutParams = logo.layoutParams as ConstraintLayout.LayoutParams
-                var newBias = viewPager.adapter.getPageWidth(0) / 2
+                var newBias = viewPager.adapter!!.getPageWidth(0) / 2
                 if (index == 1)
                     newBias = 1 - newBias
 
