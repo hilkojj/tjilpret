@@ -106,6 +106,16 @@ nav .tabs li i {
     vertical-align: middle;
     border-radius: 100px;
 }
+
+nav a.sidenav-trigger {
+    display: block !important;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: transparent !important;
+}
 /* END NAVBAR */
 
 .logo-shadow {
@@ -113,4 +123,8 @@ nav .tabs li i {
     margin: 30px;
     -webkit-filter: drop-shadow( 1px 2px 0px #00000057 );
     filter: drop-shadow( 1px 2px 0px #00000057 );
+}
+
+a {
+    cursor: pointer;
 }

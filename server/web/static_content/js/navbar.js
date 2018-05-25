@@ -16,15 +16,28 @@ function showNavbar(callback) {
         $("header").prepend(nb);
         setTimeout(function () {
             M.Tabs.init($('#nav-tabs')[0]);
+            $('.sidenav').sidenav();
             window.navbar.fadeIn(300);
             correctTabs();
+            $(".drag-target").remove();
         }, 200);
         if (typeof callback !== "undefined")
             callback(nb);
     });
 }
 
+window.clickedTab = false;
+
+function tab(path) {
+    window.clickedTab = true;
+    return navigate(path);
+}
+
 function correctTabs() {
+    if (window.clickedTab) {
+        window.clickedTab = false;
+        return;
+    }
     $('#nav-tabs').find("a").each(function () {
         var t = $(this);
         if (t.attr("href") == window.currentPath)
@@ -37,7 +50,8 @@ function correctTabs() {
 function removeNavbar() {
     if (window.navbar == null)
         return;
-    window.navbar.remove();
+    window.navbar.parent().remove();
+    $(".sidenav-overlay").remove();
     window.navbar = null;
 }
 

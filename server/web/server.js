@@ -59,6 +59,7 @@ app.get("*", (req, res) => {
       html += "<script type=\"text/javascript\" src=\"/static_content/js/tjilpret.js" + "?version=" + mTime + "\"></script>"
       html += ' <meta name="og:description" content="Kom tjetten en tjillen! Deel je lieflingskleur en maak nieuwe vrienden!!!!!?!?"/>\
                 <meta name="og:url" content="https://tjilpret.tk"/>\
+                <meta name="og:image" content="https://tjilpret.tk/static_content/img/login_logo.png"/>\
                 <meta name="og:title" content="Tjilpret"/>';
 
       html += "<title>Tjilpret web</title> </head>";
