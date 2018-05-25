@@ -10,7 +10,9 @@ function startUserSession(user, token) {
 }
 
 function needForSession() {
+    var lastUser = parseInt(Cookies.get("last_user"));
     var tokens = Cookies.getJSON("tokens");
+
     if (typeof tokens == "object") {
         $.ajax({
             url: "/api/validateTokens",
@@ -23,7 +25,15 @@ function needForSession() {
             success: function (res) {
                 console.log(res);
                 var i = 0;
-                for (var userID in res) i++;
+                for (var userID in res) {
+                    i++;
+                    if (userID == lastUser) {
+                        startUserSession(res[userID], tokens[userID]);
+                        onPathChanged();
+                        setTimeout(hidePreLoader, 200);
+                        return;
+                    }
+                }
                 if (i == 0) showLogin();
                 else showChooseUser(res);
             }
@@ -80,6 +90,7 @@ function choose(userID) {
     startUserSession(user, token);
     $("body").removeClass("animatedGradient");
     onPathChanged();
+    Cookies.set("last_user", userID);
 }
 
 function login() {
@@ -122,6 +133,7 @@ function authCallback(res) {
         if (typeof tokens != "object") tokens = {};
         tokens[res.userInfo.id] = res.token;
         Cookies.set("tokens", tokens, { expires: 1000, secure: true });
+        Cookies.set("last_user", userInfo.id);
     }
 }
 
