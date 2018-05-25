@@ -20,7 +20,7 @@ function login() {
         },
         success: function (res) {
             if ("error" in res) {
-                Materialize.toast("<i class=\"material-icons red-text\" style=\"margin-right: 10px\">error</i>" + res.error, 5000);
+                M.toast("<i class=\"material-icons red-text\" style=\"margin-right: 10px\">error</i>" + res.error, 5000);
             } else if (res.success == true) {
                 console.log("login sucessful");
                 $("body").removeClass("animatedGradient");

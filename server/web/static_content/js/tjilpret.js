@@ -5,6 +5,8 @@ window.paths = {"/hoom": function() {
     applyThemeColor(window.userSession.user.r, window.userSession.user.g, window.userSession.user.b);
 }};
 
+window.currentPath = "";
+
 function navigate(pathname) {
     history.pushState(null, null, pathname);
     onPathChanged();
@@ -20,12 +22,17 @@ function onPathChanged() {
     var pathname = window.location.pathname;
     for (var path in paths) {
         var pathSlash = path + "/";
-        if (path == pathname || pathSlash == pathname || pathname.startsWith(pathSlash))
+        if (path == pathname || pathSlash == pathname || pathname.startsWith(pathSlash)) {
+            window.currentPath = path;
+            correctTabs();
             return paths[path]();
+        }
     }
     console.log("path not found -> home");
     history.replaceState(null, null, "/hoom");
+    window.currentPath = "/hoom";
     window.paths["/hoom"]();
+    correctTabs();
 }
 
 window.onpopstate = onPathChanged;

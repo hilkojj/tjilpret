@@ -15,12 +15,23 @@ function showNavbar(callback) {
 
         $("header").prepend(nb);
         setTimeout(function () {
-            window.tabs = $('#nav-tabs').tabs();
+            M.Tabs.init($('#nav-tabs')[0]);
             window.navbar.fadeIn(300);
+            correctTabs();
         }, 200);
         if (typeof callback !== "undefined")
             callback(nb);
     });
+}
+
+function correctTabs() {
+    $('#nav-tabs').find("a").each(function () {
+        var t = $(this);
+        if (t.attr("href") == window.currentPath)
+            t.addClass("active");
+        else t.removeClass("active");
+    });
+    M.Tabs.init($('#nav-tabs')[0]);
 }
 
 function removeNavbar() {
