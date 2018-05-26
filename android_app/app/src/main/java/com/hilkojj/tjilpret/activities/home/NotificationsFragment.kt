@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.hilkojj.tjilpret.R
 
 class NotificationsFragment: HomeFragment() {
@@ -19,6 +20,7 @@ class NotificationsFragment: HomeFragment() {
         scrollView = view as ScrollView
 
         Glide.with(this).load("https://i.giphy.com/media/8rE46GISKreDDKUbMF/giphy-downsized.gif")
+                .apply(RequestOptions.circleCropTransform())
                 .into(view!!.findViewById(R.id.glide_test))
 
         super.onStart()
