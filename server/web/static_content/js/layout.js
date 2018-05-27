@@ -18,7 +18,6 @@ function startActivity(name, doShowNavbar, callback) {
         switchingActivity = true;
         const ac = $("#activity");
         ac.addClass("out");
-        $("body").addClass("switching-activity");
         setTimeout(function() {
             if (doShowNavbar)
                 showNavbar();
@@ -31,7 +30,6 @@ function startActivity(name, doShowNavbar, callback) {
                 ac.addClass("in").removeClass("mid");
                 setTimeout(function() {
                     ac.removeClass("in");
-                    $("body").removeClass("switching-activity");
                 }, 200);
             }, 20);
         }, 150);

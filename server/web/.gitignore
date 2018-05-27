@@ -1,2 +1,6 @@
 node_modules
 database_password.txt
+static_content/profile_pics/*
+static_content/group_pics/*
+static_content/headers/*
+private_content/chat_wallpapers/*
