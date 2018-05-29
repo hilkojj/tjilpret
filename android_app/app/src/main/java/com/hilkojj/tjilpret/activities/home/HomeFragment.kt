@@ -7,7 +7,6 @@ abstract class HomeFragment(var backgroundIsPrimaryColor: Boolean) : Fragment() 
 
     var homeActivity: HomeActivity? = null
     var scrollView: ScrollView? = null
-    var prevY: Int = 0
 
     override fun onStart() {
 
@@ -16,11 +15,7 @@ abstract class HomeFragment(var backgroundIsPrimaryColor: Boolean) : Fragment() 
         if (homeActivity != null && scrollView != null) {
 
             scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-
-                val newY = scrollView?.scrollY ?: 0
-                val delta = newY - prevY
-                homeActivity?.onScroll(delta, scrollView?.scrollY ?: 0, backgroundIsPrimaryColor)
-                prevY = newY
+                homeActivity!!.onScroll(this, backgroundIsPrimaryColor)
             }
         }
     }

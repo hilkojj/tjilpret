@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-open class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
-    private val fragmentList = ArrayList<Fragment>()
-    private val fragmentTitleList = ArrayList<String>()
+open class ViewPagerAdapter<T : Fragment>(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+    val fragmentList = ArrayList<T>()
+    val fragmentTitleList = ArrayList<String>()
 
     override fun getItem(position: Int): Fragment {
         return fragmentList[position]
@@ -16,7 +16,7 @@ open class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(man
         return fragmentList.size
     }
 
-    open fun addFragment(fragment: Fragment, title: String) {
+    open fun addFragment(fragment: T, title: String) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
     }

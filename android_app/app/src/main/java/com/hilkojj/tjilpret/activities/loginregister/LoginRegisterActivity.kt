@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -40,7 +41,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         logo = findViewById(R.id.login_register_logo)
         viewPager = findViewById(R.id.login_register_viewpager)
 
-        val adapter = object : ViewPagerAdapter(supportFragmentManager) {
+        val adapter = object : ViewPagerAdapter<Fragment>(supportFragmentManager) {
 
             override fun getPageWidth(position: Int): Float {
                 val displayMetrics = viewPager.resources.displayMetrics
@@ -61,7 +62,7 @@ class LoginRegisterActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         val layoutParams = logo.layoutParams as ConstraintLayout.LayoutParams
-        layoutParams.horizontalBias = (viewPager.adapter as ViewPagerAdapter).getPageWidth(0) / 2
+        layoutParams.horizontalBias = (viewPager.adapter as ViewPagerAdapter<*>).getPageWidth(0) / 2
         logo.layoutParams = layoutParams
     }
 

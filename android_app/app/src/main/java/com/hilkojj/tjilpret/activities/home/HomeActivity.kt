@@ -27,6 +27,7 @@ class HomeActivity : UserSessionActivity() {
     lateinit var toolbar: Toolbar
     lateinit var tabLayout: TabLayout
     lateinit var viewPager: ViewPager
+    lateinit var adapter: ViewPagerAdapter<HomeFragment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +47,7 @@ class HomeActivity : UserSessionActivity() {
 
     private fun setupTabs() {
         tabLayout.setupWithViewPager(viewPager)
-        val adapter = ViewPagerAdapter(supportFragmentManager)
+        adapter = ViewPagerAdapter(supportFragmentManager)
 
         var notificationsFragment = NotificationsFragment()
         notificationsFragment.homeActivity = this
@@ -84,6 +85,32 @@ class HomeActivity : UserSessionActivity() {
             view.findViewById<TextView>(R.id.notifications_tab_n).alpha = 0f
             view.findViewById<ImageView>(R.id.notifications_tab_circle).alpha = 0f
         }
+
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                updateTabIconAlpha()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                val i = tabLayout.selectedTabPosition
+                adapter.fragmentList[i].scrollView!!.smoothScrollTo(0, 0)
+            }
+
+        })
+        updateTabIconAlpha()
+    }
+
+    fun updateTabIconAlpha() {
+        for (i in 0 until tabLayout.tabCount) {
+            tabLayout.getTabAt(i)!!.customView!!.findViewById<ImageView>(
+                    R.id.tab_icon
+            ).animate().alpha(
+                    if (i == tabLayout.selectedTabPosition) 1f else .7f
+            ).setDuration(300).start()
+        }
     }
 
     fun setNotificationBadge(tabIndex: Int, n: Int) {
@@ -97,12 +124,20 @@ class HomeActivity : UserSessionActivity() {
         circle.animate().alpha(if (n == 0) 0f else 1f).setDuration(100).start()
     }
 
-    private val hideThreshold: Int = 200
-    private val showThreshold: Int = -50
-    private var scrollDistance: Int = 0
-    private var toolbarHidden: Boolean = false
+    private val hideThreshold = 200
+    private val showThreshold = -50
+    private var scrollDistance = 0
+    private var prevY = 0
+    private var toolbarHidden = false
 
-    fun onScroll(delta: Int, scrollTop: Int, backgroundIsPrimaryColor: Boolean) {
+    fun onScroll(homeFragment: HomeFragment, backgroundIsPrimaryColor: Boolean) {
+
+        if (adapter.fragmentList.indexOf(homeFragment) != tabLayout.selectedTabPosition)
+            return
+
+        val y = homeFragment.scrollView!!.scrollY
+        val delta = y - prevY
+        prevY = y
 
         if ((delta < 0 && toolbarHidden) || (delta > 0 && !toolbarHidden))
             scrollDistance += delta
@@ -123,7 +158,9 @@ class HomeActivity : UserSessionActivity() {
             appbar.animate().translationY(0f).interpolator = AccelerateInterpolator(4f)
         }
 
-        appbar.elevation = if (scrollTop < 10 && backgroundIsPrimaryColor) 1f else 10.5f
+        if (backgroundIsPrimaryColor)
+            appbar.elevation = Math.max(Math.min(y, 40) / 40f * 10.5f, 1f)
+        else appbar.elevation = 10.5f
     }
 
     fun showNavView(view: View) {
