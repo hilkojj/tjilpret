@@ -13,8 +13,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.hilkojj.tjilpret.*
 import com.hilkojj.tjilpret.activities.home.HomeActivity
 import com.hilkojj.tjilpret.activities.loginregister.LoginRegisterActivity
@@ -30,6 +33,7 @@ class ChooseUserActivity : AppCompatActivity() {
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             var usernameView: TextView = itemView.findViewById(R.id.choose_user_row_username)
+            var profilePicView: ImageView = itemView.findViewById(R.id.choose_user_row_profile_pic)
 
             init {
                 itemView.setOnClickListener { choose(viewsPairs[this]!!) }
@@ -52,6 +56,10 @@ class ChooseUserActivity : AppCompatActivity() {
             val user = pairs[position].first
             holder.usernameView.text = user.username
             holder.usernameView.setTextColor(Color.rgb(user.r, user.g, user.b))
+            println(user.profilePicPath(User.ProfilePicSize.SMALL))
+            Glide.with(holder.itemView).load(user.profilePicPath(User.ProfilePicSize.SMALL))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.profilePicView)
         }
 
     }

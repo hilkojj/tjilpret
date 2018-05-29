@@ -8,6 +8,8 @@ import android.content.res.Resources
  */
 object Tjilpret {
 
+    const val URL = "https://tjilpret.tk/"
+
     lateinit var resources: Resources
     lateinit var prefs: SharedPreferences
 

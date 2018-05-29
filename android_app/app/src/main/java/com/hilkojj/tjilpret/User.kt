@@ -25,4 +25,19 @@ class User(
             u.getString("profilePic"), u.getString("header")
     )
 
+    enum class ProfilePicSize(val path: String) {
+
+        SMALL("small/"),
+        MEDIUM("med/"),
+        LARGE("large/"),
+        ORIGINAL("")
+
+    }
+
+    fun profilePicPath(size: ProfilePicSize): String {
+        return Tjilpret.URL + "static_content/profile_pics/" + (
+                if (profilePic == "null") "default.jpg" else size.path + profilePic
+        )
+    }
+
 }
