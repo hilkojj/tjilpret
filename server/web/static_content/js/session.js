@@ -74,7 +74,7 @@ function showChooseUser(users) {
                 "<a class=\"collection-item\" style=\"color: rgb(" + user.r + ", " + user.g + ", " + user.b
                 + ") !important\" onclick=\"choose("
                 + userID +
-                ")\">"
+                ")\"><img src=\"" + pPicPath(user.profilePic, "small") + "\" class=\"profile-pic\">"
                 + user.username + "</a>");
             collection.prepend(a);
         }
@@ -172,6 +172,24 @@ function checkRegisterUsername() {
                 showError("'" + u + "' bestaat al!!!!!!!");
             else
                 showSuccess("'" + u + "' is besgikbaar");
+        }
+    });
+}
+
+function showLoginProfilePic() {
+    var u = $("#login-username").val();
+    if (u == "") return;
+    $.ajax({
+        url: "/api/userInfo",
+        method: "post",
+        data: {
+            username: u
+        },
+        success: function (res) {
+            if (res.found)
+                $("#login-pic").css("background-image", "url('" + pPicPath(res.userInfo.profilePic, "med") + "')").css("opacity", 1);
+            else
+                $("#login-pic").css("opacity", 0);
         }
     });
 }

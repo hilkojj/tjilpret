@@ -148,6 +148,21 @@ a {
     vertical-align: bottom;
 }
 
+.collection .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: -10px;
+    transition: transform .2s ease-in-out;
+    transform: rotate(0deg);
+}
+
+.collection a:hover .profile-pic {
+    transform: rotate(-10deg);
+}
+
 /* ACTIVITY-ANIMATION */
 body.switching-activity {
     overflow: hidden;

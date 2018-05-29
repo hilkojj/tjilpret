@@ -15,6 +15,7 @@ function showNavbar(callback) {
 
         $("header").prepend(nb);
         nb.find("#username").html(window.userSession.user.username);
+        nb.find(".navbar-profile-pic").attr("src", pPicPath(window.userSession.user.profilePic, "small"));
         setTimeout(function () {
             M.Tabs.init($('#nav-tabs')[0]);
             $('.sidenav').sidenav();

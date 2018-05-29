@@ -22,9 +22,9 @@ app.use("/static_content", express.static(__dirname + "/static_content"));
 const api = express.Router();
 app.use("/api", api);
 const apiFiles = [
-  "auth"
-  ,
-  "images"
+  "auth",
+  "images",
+  "users"
 ];
 for (var i in apiFiles)
   require("./" + apiFiles[i] + ".js")(api);

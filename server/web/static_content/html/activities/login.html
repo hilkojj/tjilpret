@@ -10,14 +10,14 @@
                 <br>
                 <center>
                     <div id="ppic-parent" style="width: 10rem; height: 10rem; background-image: url('/static_content/img/login_logo.png'); background-size: contain; border-radius: 100%;">
-                        <img id="ppic" class="circle" style="width: 10rem; height: 10rem; opacity: 0;">
+                        <div id="login-pic" class="circle" style="width: 10rem; height: 10rem; opacity: 0; transition: opacity 300ms ease-in-out; background-color: white; background-size: cover;"></div>
                     </div>
                 </center>
                 <br>
                 <form>
                     <div class="input-field">
                         <i class="material-icons prefix">account_circle</i>
-                        <input value="" id="login-username" type="text">
+                        <input value="" id="login-username" type="text" onfocusout="showLoginProfilePic()">
                         <label for="login-username" class="active">Gebruiksnam</label>
                     </div>
                     <div class="input-field">
