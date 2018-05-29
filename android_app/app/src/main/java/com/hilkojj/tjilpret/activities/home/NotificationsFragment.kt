@@ -19,7 +19,7 @@ class NotificationsFragment: HomeFragment() {
 
         scrollView = view as ScrollView
 
-        Glide.with(this).load("https://i.giphy.com/media/8rE46GISKreDDKUbMF/giphy-downsized.gif")
+        Glide.with(this).load("https://tjilpret.tk/static_content/profile_pics/small/8949.gif?v=2")
                 .apply(RequestOptions.circleCropTransform())
                 .into(view!!.findViewById(R.id.glide_test))
 

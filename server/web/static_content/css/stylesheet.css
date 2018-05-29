@@ -76,7 +76,7 @@ nav.hidden {
 
 nav {
     background: ?rgb? !important;
-    transition: ease-in-out .5s;
+    transition: transform ease-in-out .5s;
     will-change: transform, opacity;
     backface-visibility: hidden;
     perspective: 1000;
