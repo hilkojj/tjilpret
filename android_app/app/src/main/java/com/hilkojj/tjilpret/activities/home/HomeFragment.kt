@@ -3,7 +3,7 @@ package com.hilkojj.tjilpret.activities.home
 import android.support.v4.app.Fragment
 import android.widget.ScrollView
 
-abstract class HomeFragment : Fragment() {
+abstract class HomeFragment(var backgroundIsPrimaryColor: Boolean) : Fragment() {
 
     var homeActivity: HomeActivity? = null
     var scrollView: ScrollView? = null
@@ -19,7 +19,7 @@ abstract class HomeFragment : Fragment() {
 
                 val newY = scrollView?.scrollY ?: 0
                 val delta = newY - prevY
-                homeActivity?.onScroll(delta)
+                homeActivity?.onScroll(delta, scrollView?.scrollY ?: 0, backgroundIsPrimaryColor)
                 prevY = newY
             }
         }

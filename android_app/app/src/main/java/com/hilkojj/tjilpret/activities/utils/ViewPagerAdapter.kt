@@ -16,7 +16,7 @@ open class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(man
         return fragmentList.size
     }
 
-    fun addFragment(fragment: Fragment, title: String) {
+    open fun addFragment(fragment: Fragment, title: String) {
         fragmentList.add(fragment)
         fragmentTitleList.add(title)
     }
