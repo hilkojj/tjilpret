@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.hilkojj.tjilpret.R
@@ -74,12 +77,24 @@ class HomeActivity : UserSessionActivity() {
             val view = View.inflate(
                     this, R.layout.fragment_home_notification_tab, null
             )
-            println(tabLayout.getTabAt(i) == null)
             tabLayout.getTabAt(i)!!.customView = view
             view.findViewById<ImageView>(R.id.tab_icon).setImageResource(
                     icons[i]
             )
+            view.findViewById<TextView>(R.id.notifications_tab_n).alpha = 0f
+            view.findViewById<ImageView>(R.id.notifications_tab_circle).alpha = 0f
         }
+    }
+
+    fun setNotificationBadge(tabIndex: Int, n: Int) {
+        val customView = tabLayout.getTabAt(tabIndex)!!.customView!!
+
+        val text = customView.findViewById<TextView>(R.id.notifications_tab_n)
+        val circle = customView.findViewById<ImageView>(R.id.notifications_tab_circle)
+
+        text.text = n.toString()
+        text.animate().alpha(if (n == 0) 0f else 1f).setDuration(100).start()
+        circle.animate().alpha(if (n == 0) 0f else 1f).setDuration(100).start()
     }
 
     private val hideThreshold: Int = 200
@@ -94,6 +109,9 @@ class HomeActivity : UserSessionActivity() {
 
         if (scrollDistance > hideThreshold && !toolbarHidden) {
 
+            setNotificationBadge(1, 0)
+            setNotificationBadge(0, 8)
+            setNotificationBadge(2, 5)
             toolbarHidden = true
             scrollDistance = 0
             appbar.animate().translationY(-toolbar.height.toFloat()).interpolator = AccelerateInterpolator(2f)
@@ -106,6 +124,10 @@ class HomeActivity : UserSessionActivity() {
         }
 
         appbar.elevation = if (scrollTop < 10 && backgroundIsPrimaryColor) 1f else 10.5f
+    }
+
+    fun showNavView(view: View) {
+        findViewById<DrawerLayout>(R.id.home_drawer).openDrawer(Gravity.LEFT)
     }
 
 }
