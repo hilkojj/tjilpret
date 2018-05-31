@@ -5,7 +5,7 @@
                 <a data-target="slide-out" class="sidenav-trigger">
                     <i class="material-icons" style="float: left">menu</i>
                     <img class="navbar-profile-pic">
-                    <span style="display: inline; vertical-align: middle; font-size: 18px" class="hide-on-small-only" id="username"></span>
+                    <span style="display: inline; vertical-align: middle; font-size: 18px" class="hide-on-med-and-down" id="username"></span>
                 </a>
                 <a href="/" onclick="return navigate('/')" class="brand-logo center">
                     <img src="/static_content/img/logo_full.svg">
@@ -14,25 +14,25 @@
             <div class="nav-content">
                 <ul class="tabs tabs-transparent" id="nav-tabs">
                     <li class="tab">
-                        <a class="active waves-effect waves-light" href="/hoom" onclick="return tab('hoom')">
+                        <a class="active waves-effect waves-light" href="/hoom" onclick="return tab('/hoom')">
                             <i class="material-icons">home</i>
                             <span class="hide-on-med-and-down">hoom</span>
                         </a>
                     </li>
                     <li class="tab">
-                        <a class="waves-effect waves-light" href="/amusement" onclick="return tab('amusement')">
+                        <a class="waves-effect waves-light" href="/amusement" onclick="return tab('/amusement')">
                             <i class="material-icons">subscriptions</i>
                             <span class="hide-on-med-and-down">amusement</span>
                         </a>
                     </li>
                     <li class="tab">
-                        <a class="waves-effect waves-light" href="/tjets" onclick="return tab('tjets')">
+                        <a class="waves-effect waves-light" href="/tjets" onclick="return tab('/tjets')">
                             <i class="material-icons">chat_bubble</i>
                             <span class="hide-on-med-and-down">tjets</span>
                         </a>
                     </li>
                     <li class="tab">
-                        <a class="waves-effect waves-light" href="/tjillers" onclick="return tab('tjillers')">
+                        <a class="waves-effect waves-light" href="/tjillers" onclick="return tab('/tjillers')">
                             <i class="material-icons">group</i>
                             <span class="hide-on-med-and-down">mesnen & vriends</span>
                         </a>
@@ -50,15 +50,15 @@
                     <img class="circle sidenav-profile-pic">
                     <h5 class="sidenav-username black-text"></h5>
                 </a>
-                <p id="sidenav-status" style="line-height: 1.5">hahahahahahah dit is mijn status</p>
+                <p id="sidenav-status" style="line-height: 1.5"></p>
                 <div class="divider"></div>
                 <div class="row sidenav-stats">
                     <br>
-                    <div id="sidenav-chat-stat" class="col s4">
+                    <a id="sidenav-chat-stat" class="col s4 sidenav-close" href="/alle-tjet-berichten" onclick="return navigate('/alle-tjet-berichten')">
                         <i class="material-icons">chat_bubble</i>
                         <b>10</b>
                         <span>tjetberigten</span>
-                    </div>
+                    </a>
                     <a id="sidenav-upload-stat" class="col s4 sidenav-close">
                         <i class="material-icons">subscriptions</i>
                         <b>5</b>

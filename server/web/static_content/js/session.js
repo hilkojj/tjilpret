@@ -70,11 +70,12 @@ function showChooseUser(users) {
         for (var userID in users) {
 
             var user = users[userID];
+            var rgb = rgbString(user.r, user.g, user.b);
             var a = $(
-                "<a class=\"collection-item\" style=\"color: rgb(" + user.r + ", " + user.g + ", " + user.b
+                "<a class=\"collection-item\" style=\"color: " + rgb
                 + ") !important\" onclick=\"choose("
                 + userID +
-                ")\"><img src=\"" + pPicPath(user.profilePic, "small") + "\" class=\"profile-pic\">"
+                ")\"><img src=\"" + pPicPath(user.profilePic, "small") + "\" class=\"profile-pic\" style='background-color: " + rgb + "'>"
                 + user.username + "</a>");
             collection.prepend(a);
         }

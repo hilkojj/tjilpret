@@ -2,6 +2,7 @@ var mobile = /Mobi/.test(navigator.userAgent);
 
 window.paths = {"/hoom": function() {
     startActivity("home", true, function() {});
+    $("title").html("Tjilpret web");
     applyThemeColor(window.userSession.user.r, window.userSession.user.g, window.userSession.user.b);
 }};
 
@@ -62,7 +63,8 @@ $(document).ready(function () {
         "layout.js",
         "navbar.js",
         "session.js",
-        "chats.js"
+        "chats.js",
+        "profile.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

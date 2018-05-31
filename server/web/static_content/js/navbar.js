@@ -35,7 +35,7 @@ function updateNavbarInfo(user) {
         pPicPath(window.userSession.user.profilePic, "small"
         )
     ).css("background-color", rgb);
-    
+
     $(".sidenav-background").css(
         "background-color", rgb
     ).css(
@@ -60,17 +60,22 @@ function tab(path) {
 }
 
 function correctTabs() {
-    if (window.clickedTab) {
-        window.clickedTab = false;
-        return;
-    }
+    var found = false;
     $('#nav-tabs').find("a").each(function () {
         var t = $(this);
-        if (t.attr("href") == window.currentPath)
-            t.addClass("active");
-        else t.removeClass("active");
+        if (t.attr("href") == window.currentPath) {
+            if (!window.clickedTab) t.addClass("active");
+            found = true;
+        } else t.removeClass("active");
+    }).promise().done(function () {
+        var nav = $("nav");
+        if (!found) nav.addClass("hide-indicator");
+        else nav.removeClass("hide-indicator");
+
+        if (window.clickedTab)
+            window.clickedTab = false;
+        else M.Tabs.init($('#nav-tabs')[0]);
     });
-    M.Tabs.init($('#nav-tabs')[0]);
 }
 
 function removeNavbar() {
