@@ -4,6 +4,26 @@ window.paths = {"/hoom": function() {
     startActivity("home", true, function() {});
     $("title").html("Tjilpret web");
     applyThemeColor(window.userSession.user.r, window.userSession.user.g, window.userSession.user.b);
+}, "/moois": function() {
+    window.mooiTimer = 0;
+    window.t = 20;
+    window.z = true;
+    setInterval(function() {
+        window.mooiTimer += .13;
+        var i = 13 + Math.sin(window.mooiTimer) * 10;
+        var str = "😫=======================D";
+        str = str.substr(0, i) + "✊" + str.substring(i);
+        window.t -= .3;
+        if (window.t <= 0) {
+            for (var j = 0; j > window.t * 4; j--)
+                str += "&nbsp;";
+            str += "💦💦💦";
+            if (window.t <= -7)
+                window.t = 12;
+        }
+        $("#activity").html("<p>" + str + "<p>");
+        
+    }, 16);
 }};
 
 window.currentPath = "";

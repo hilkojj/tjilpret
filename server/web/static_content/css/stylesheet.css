@@ -29,6 +29,19 @@ input:focus {
 }
 
 /* BACKGROUND */
+
+.masterpiece-left {
+    position: fixed;
+    z-index: -999;
+    left: 0;
+    bottom: 0;
+    width: 180px;
+    height: 180px;
+    background: url(/static_content/img/masterpiece_left.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 body {
     background: ?rgb?;
     transition: background ease-in-out .15s;

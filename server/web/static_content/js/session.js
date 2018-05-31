@@ -47,15 +47,15 @@ function showGradient() {
 }
 
 function showLogin() {
-    showGradient();
     startActivity("login", false, function () {
+        showGradient();
         hidePreLoader();
     });
 }
 
 function showRegister() {
-    showGradient();
     startActivity("register", false, function () {
+        showGradient();
         hidePreLoader();
     });
 }
@@ -63,8 +63,8 @@ function showRegister() {
 window.chooseUsersInfo;
 function showChooseUser(users) {
     window.chooseUsersInfo = users;
-    showGradient();
     startActivity("chooseUser", false, function () {
+        showGradient();
         hidePreLoader();
         var collection = $("#activity").find(".collection");
         for (var userID in users) {

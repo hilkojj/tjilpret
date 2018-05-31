@@ -25,7 +25,7 @@ window.paths["/tjiller"] = function() {
                             url('/static_content/headers/large/" + user.header + "')"
                     );
                 }
-                $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "med"));
+                $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "large"));
                 $(".header-username").html(user.username);
             });
         }
