@@ -14,8 +14,7 @@ function showNavbar(callback) {
         window.navbarShadow = true;
 
         $("header").prepend(nb);
-        nb.find("#username").html(window.userSession.user.username);
-        nb.find(".navbar-profile-pic").attr("src", pPicPath(window.userSession.user.profilePic, "small"));
+        updateNavbarInfo(userSession.user);
         setTimeout(function () {
             M.Tabs.init($('#nav-tabs')[0]);
             $('.sidenav').sidenav();
@@ -26,6 +25,31 @@ function showNavbar(callback) {
         if (typeof callback !== "undefined")
             callback(nb);
     });
+}
+
+function updateNavbarInfo(user) {
+    var rgb = rgbString(user.r, user.g, user.b);
+    window.navbar.find("#username").html(user.username);
+    window.navbar.find(".navbar-profile-pic").attr(
+        "src",
+        pPicPath(window.userSession.user.profilePic, "small"
+        )
+    ).css("background-color", rgb);
+    
+    $(".sidenav-background").css(
+        "background-color", rgb
+    ).css(
+        "background-image", typeof user.header == "string" ? "url('/static_content/headers/small/" + user.header + "')" : "none"
+    );
+    $(".sidenav-profile-pic").attr("src", pPicPath(user.profilePic, "med")).css("background-color", rgb);
+    $(".sidenav-stats").find("i").css("color", rgb);
+    $(".sidenav-stats").find("b").css("color", rgb);
+    var url = "/tjiller/" + user.id;
+    setHref($(".sidenav-username").html(user.username).parent(), url);
+    $("#sidenav-status").html(user.bio);
+    $("#sidenav-chat-stat").find("b").html(500);
+    setHref($("#sidenav-upload-stat"), url + "/uploads").find("b").html(5);
+    setHref($("#sidenav-friends-stat"), url + "/vriends").find("b").html(50);
 }
 
 window.clickedTab = false;
@@ -52,7 +76,7 @@ function correctTabs() {
 function removeNavbar() {
     if (window.navbar == null)
         return;
-    window.navbar.parent().remove();
+    window.navbar.remove();
     $(".sidenav-overlay").remove();
     window.navbar = null;
 }
@@ -73,10 +97,10 @@ $(window).scroll(function () {
         nav.removeClass("z-depth-0");
         window.navbarShadow = false;
     }
-    if (scrollTop > window.prevScrollTop && !window.navbarHidden) {
+    if (scrollTop > window.prevScrollTop && scrollTop > 20 && !window.navbarHidden) {
         nav.addClass("hidden");
         window.navbarHidden = true;
-    } else if (scrollTop < window.prevScrollTop && window.navbarHidden) {
+    } else if ((scrollTop < window.prevScrollTop || scrollTop < 20) && window.navbarHidden) {
         nav.removeClass("hidden");
         window.navbarHidden = false;
     }

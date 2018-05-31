@@ -11,5 +11,15 @@ function showSuccess(message) {
 function pPicPath(file, size) {
     return file != null ?
         "/static_content/profile_pics/" + (size == "original" ? "" : size + "/") + file
-        : "/static_content/profile_pics/default.jpg";
+        : "/static_content/profile_pics/default.png";
+}
+
+function rgbString(r, g, b) {
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+function setHref(a, href) {
+    return a.attr("href", href).attr(
+        "onclick", "return navigate('" + href + "')"
+    )
 }

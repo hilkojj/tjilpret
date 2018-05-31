@@ -5,7 +5,7 @@
                 <a data-target="slide-out" class="sidenav-trigger">
                     <i class="material-icons" style="float: left">menu</i>
                     <img class="navbar-profile-pic">
-                    <span style="display: inline; vertical-align: middle;" class="hide-on-med-and-down" id="username"></span>
+                    <span style="display: inline; vertical-align: middle; font-size: 18px" class="hide-on-small-only" id="username"></span>
                 </a>
                 <a href="/" onclick="return navigate('/')" class="brand-logo center">
                     <img src="/static_content/img/logo_full.svg">
@@ -43,10 +43,66 @@
     </div>
 
     <ul id="slide-out" class="sidenav">
-        fgdgfgdfgdfg
-        <br>fgdgfgdfgdfg
-        <br>fgdgfgdfgdfg
-        <br>fgdgfgdfgdfg
-        <br>
+        <li>
+            <div class="sidenav-background"></div>
+            <center>
+                <a class="sidenav-close">
+                    <img class="circle sidenav-profile-pic">
+                    <h5 class="sidenav-username black-text"></h5>
+                </a>
+                <p id="sidenav-status" style="line-height: 1.5">hahahahahahah dit is mijn status</p>
+                <div class="divider"></div>
+                <div class="row sidenav-stats">
+                    <br>
+                    <div id="sidenav-chat-stat" class="col s4">
+                        <i class="material-icons">chat_bubble</i>
+                        <b>10</b>
+                        <span>tjetberigten</span>
+                    </div>
+                    <a id="sidenav-upload-stat" class="col s4 sidenav-close">
+                        <i class="material-icons">subscriptions</i>
+                        <b>5</b>
+                        <span>uploods</span>
+                    </a>
+                    <a id="sidenav-friends-stat" class="col s4 sidenav-close">
+                        <i class="material-icons">group</i>
+                        <b>55</b>
+                        <br>
+                        <span>friends</span>
+                    </a>
+                </div>
+            </center>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a class="waves-effect sidenav-close">
+                <i class="material-icons">person</i>Myn profiel
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect sidenav-close">
+                <i class="material-icons">portrait</i>Profilfooto wijzigen
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect sidenav-close">
+                <i class="material-icons">edit</i>Status wijzigen
+            </a>
+        </li>
+        <li>
+            <a class="waves-effect sidenav-close">
+                <i class="material-icons">settings</i>Instelingun
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+            <a class="waves-effect sidenav-close" onclick="{
+                window.userSession = null;
+                Cookies.remove('last_user');
+                onPathChanged();
+            }">
+                <i class="material-icons">swap_horiz</i>Ander account
+            </a>
+        </li>
     </ul>
 </div>
