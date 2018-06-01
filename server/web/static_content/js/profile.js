@@ -1,6 +1,7 @@
 window.paths["/tjiller"] = function() {
 
-    var userID = window.location.pathname.split("/")[2];
+    var splitted = window.location.pathname.split("/");
+    var userID = splitted[2];
 
     $.ajax({
         url: "/api/userInfo",
@@ -17,7 +18,6 @@ window.paths["/tjiller"] = function() {
                 var user = res.userInfo;
                 applyThemeColor(user.r, user.g, user.b);
                 $("title").html(user.username);
-
                 if (user.header != null) {
                     $(".header-img").css("padding-top", "40%").css(
                         "background", "linear-gradient(\
@@ -27,7 +27,22 @@ window.paths["/tjiller"] = function() {
                 }
                 $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "large"));
                 $(".header-username").html(user.username);
+                $(".header-username-black").html(user.username);
+                $("#profile-bio").html(user.bio);
+                if (3 in splitted) { // eg /uploads
+                    showProfilePage(splitted[3]);
+                    $("#profile-tabs").find(".active").removeClass("active");
+                    $("[onclick=\"showProfilePage('" + splitted[3] + "')\"]").addClass("active");
+                }
+                setTimeout(function() {
+                    $("#profile-tabs").tabs();
+                }, 250);
             });
         }
     });
+}
+
+function showProfilePage(page) {
+    $(".profile-page.show").removeClass("show");
+    $("#profile-" + page + "-page").addClass("show");
 }

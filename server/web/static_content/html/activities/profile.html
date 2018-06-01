@@ -2,9 +2,135 @@
 
     <div class="col s12 m10 l8 offset-m1 offset-l2 card profile-header">
         <div class="header-img"></div>
-        <div class="header-info">
+        <div class="header-info hide-on-small-only">
             <img class="header-profile-pic circle">
             <h5 class="header-username"></h5>
+            <btn class="btn waves-effect waves-light">
+                <i class="material-icons left">person_add</i>
+                Vraag om vriendschap
+            </btn>
+            <btn class="btn btn-flat waves-effect">
+                <i class="material-icons left">chat_bubble_outline</i>
+                stuur tjetbericht
+            </btn>
+        </div>
+
+        <div class="header-info hide-on-med-and-up">
+            <center>
+                <img class="header-profile-pic circle">
+                <h5 class="header-username-black" style="margin-top: 0"></h5>
+                <btn class="btn waves-effect waves-light">
+                    <i class="material-icons left">person_add</i>
+                    Vraag om vriendschap
+                </btn>
+                <btn class="btn btn-flat waves-effect">
+                    <i class="material-icons left">chat_bubble_outline</i>
+                    stuur tjetbericht
+                </btn>
+                <br>
+            </center>
+        </div>
+
+        <ul id="profile-tabs" class="tabs fav">
+            <li class="tab col s3">
+                <a class="active" onclick="showProfilePage('profile')">
+                    <br>profiel
+                </a>
+            </li>
+            <li class="tab col s3">
+                <a onclick="showProfilePage('vriends')">
+                    <span class="tab-number">50</span>
+                    <br> Vriends
+                </a>
+            </li>
+            <li class="tab col s3">
+                <a onclick="showProfilePage('uploads')">
+                    <span class="tab-number">4</span>
+                    <br> Uploods
+                </a>
+            </li>
+            <li class="tab col s3">
+                <a onclick="showProfilePage('groeps')">
+                    <span class="tab-number">3</span>
+                    <br> Groeps
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="profile-page show" id="profile-profile-page">
+        <div class="col s12 m10 l3 offset-m1 offset-l2 profile-col profile-col-left">
+            <div class="card">
+                <h6>Status</h6>
+                <p id="profile-bio"></p>
+            </div>
+
+            <div class="card">
+                <h6>Lieflingskleur</h6>
+                wat?
+            </div>
+
+            <div class="card profile-stats">
+                <h6>Statistieken</h6>
+                <ul class="collection">
+                    <li class="collection-item">
+                        <i class="material-icons">chat_bubble</i>
+                        <b id="profile-messages-count">0</b> tjetberichten
+                    </li>
+                    <li class="collection-item">
+                        <i class="material-icons">thumbs_up_down</i>
+                        <b id="profile-likes-count">0</b> reputatie (gebaseerd op likes)
+                    </li>
+                    <li class="collection-item">
+                        <i class="material-icons">remove_red_eye</i>
+                        <b id="profile-likes-count">0</b> views op uploods
+                    </li>
+                    <li class="collection-item">
+                        <i class="material-icons">mode_comment</i>
+                        <b id="profile-messages-count">0</b> reacties achterglaten
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h6>Mijlpalen</h6>
+                binnenkort.
+            </div>
+        </div>
+
+        <div class="col s12 m10 l5 offset-m1 profile-col">
+            <div class="card">
+                <h6>Reakties</h6>
+                hier komen reacties
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-page" id="profile-vriends-page">
+        <div class="col s12 m10 l8 offset-m1 offset-l2 profile-col">
+            <div class="card">
+                <h6>Vriends</h6>
+                vriensdS?D?
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-page" id="profile-uploads-page">
+        <div class="col s12 m10 l8 offset-m1 offset-l2 profile-col">
+            <div class="card">
+                <h6>Uploods</h6>
+                uploaadsS?
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-page" id="profile-groeps-page">
+        <div class="col s12 m10 l8 offset-m1 offset-l2 profile-col">
+            <div class="card">
+                <h6>Groeps</h6>
+                groepen
+            </div>
         </div>
     </div>
 
