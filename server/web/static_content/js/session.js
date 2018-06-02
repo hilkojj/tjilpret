@@ -126,6 +126,7 @@ function authCallback(res) {
         showError(res.error);
     } else if (res.success == true) {
         console.log("login sucessful");
+        console.log(res);
         $("body").removeClass("animatedGradient");
         startUserSession(res.userInfo, res.token);
         onPathChanged();
@@ -134,7 +135,7 @@ function authCallback(res) {
         if (typeof tokens != "object") tokens = {};
         tokens[res.userInfo.id] = res.token;
         Cookies.set("tokens", tokens, { expires: 1000, secure: true });
-        Cookies.set("last_user", userInfo.id);
+        Cookies.set("last_user", res.userInfo.id);
     }
 }
 

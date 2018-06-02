@@ -53,7 +53,7 @@ body {
 }
   
 .animatedGradient:after, .animatedGradient:before{
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -292,6 +292,8 @@ center .header-profile-pic {
     text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.43);
     margin-top: -34px;
     margin-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .profile-header .btn {

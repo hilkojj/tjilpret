@@ -32,7 +32,15 @@ module.exports = {
             appleUser: row.apple_user == 1,
             r: row.r, g: row.g, b: row.b,
             profilePic: row.profile_pic,
-            header: row.header
+            header: row.header,
+            friends: row.friends,
+            uploads: row.uploads,
+            groups: row.groups,
+            messages: row.messages,
+            rep: row.rep,
+            views: row.views,
+            comments: row.comments,
+            joinedOn: row.joined_on
         }
     },
 

@@ -47,9 +47,11 @@ function updateNavbarInfo(user) {
     var url = "/tjiller/" + user.id;
     setHref($(".sidenav-username").html(user.username).parent(), url);
     $("#sidenav-status").html(user.bio);
-    $("#sidenav-chat-stat").find("b").html(500);
-    setHref($("#sidenav-upload-stat"), url + "/uploads").find("b").html(5);
-    setHref($("#sidenav-friends-stat"), url + "/vriends").find("b").html(50);
+    $("#sidenav-chat-stat").find("b").html(user.messages);
+    setHref($("#sidenav-rep-stat"), url).find("b").html(user.rep);
+    setHref($("#sidenav-friends-stat"), url + "/vriends").find("b").html(user.friends);
+    setHref($("#my-page-link"), url);
+    setHref($("#my-uploads-link"), url + "/uploads");
 }
 
 window.clickedTab = false;

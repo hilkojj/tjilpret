@@ -26,9 +26,17 @@ window.paths["/tjiller"] = function() {
                     );
                 }
                 $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "large"));
-                $(".header-username").html(user.username);
-                $(".header-username-black").html(user.username);
-                $("#profile-bio").html(user.bio);
+                usernameHtml($(".header-username"), user);
+                usernameHtml($(".header-username-black"), user);
+                $("#profile-bio").html(nToBr(user.bio));
+                $("#profile-messages-count").html(user.messages);
+                $("#profile-rep").html(user.rep).addClass(user.rep < 0 ? "red-text" : "");
+                $("#profile-views").html(user.views == null ? 0 : user.views);
+                $("#profile-comments").html(user.comments);
+                $("#profile-groups").html(user.groups);
+                $("#profile-friends").html(user.friends);
+                $("#profile-uploads").html(user.uploads);
+                
                 if (3 in splitted) { // eg /uploads
                     showProfilePage(splitted[3]);
                     $("#profile-tabs").find(".active").removeClass("active");

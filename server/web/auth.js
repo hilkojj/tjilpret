@@ -37,7 +37,7 @@ module.exports = function (api) {
             return;
         }
 
-        db.connection.query("SELECT * FROM users WHERE username = ?", [username], (err, users, fields) => {
+        db.connection.query("SELECT * FROM user_info WHERE username = ?", [username], (err, users, fields) => {
             if (err) {
                 console.log(err);
                 return utils.sendError(res, "AAA er is iets mis gegaan!?!?! Sory..");
@@ -99,7 +99,7 @@ module.exports = function (api) {
                         return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
                     }
                     const id = results.insertId;
-                    db.connection.query("SELECT * FROM users WHERE user_id = ?", [id], (err, rows, fields) => {
+                    db.connection.query("SELECT * FROM user_info WHERE user_id = ?", [id], (err, rows, fields) => {
                         if (err) {
                             console.log(err);
                             return utils.sendError(res, "Probeer nu es in te loggen");
@@ -119,7 +119,7 @@ module.exports = function (api) {
 
     api.post("/validateTokens", (req, res) => {
         const tokens = req.body.tokens;
-        var query = "SELECT users.* FROM tokens JOIN users ON (tokens.user_id = users.user_id) WHERE "
+        var query = "SELECT user_info.* FROM tokens JOIN user_info ON (tokens.user_id = user_info.user_id) WHERE "
         var i = 0;
         for (var userID in tokens) {
             if (++i == 40) break;

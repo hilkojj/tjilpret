@@ -14,9 +14,9 @@ module.exports = function (api) {
         }
 
         if ("id" in req.body)
-            db.connection.query("SELECT * FROM users WHERE user_id = ?", [req.body.id], callback);
+            db.connection.query("SELECT * FROM user_info WHERE user_id = ?", [req.body.id], callback);
         else if ("username" in req.body) 
-            db.connection.query("SELECT * FROM users WHERE username = ?", [req.body.username], callback);
+            db.connection.query("SELECT * FROM user_info WHERE username = ?", [req.body.username], callback);
         else res.send({found: false, reason: "no id or username given"})
     });
 
