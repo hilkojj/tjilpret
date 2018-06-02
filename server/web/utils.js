@@ -40,7 +40,8 @@ module.exports = {
             rep: row.rep,
             views: row.views,
             comments: row.comments,
-            joinedOn: row.joined_on
+            joinedOn: row.joined_on,
+            colorClassID: row.color_class_id
         }
     },
 

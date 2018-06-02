@@ -24,10 +24,11 @@ app.use("/api", api);
 const apiFiles = [
   "auth",
   "images",
-  "users"
+  "users",
+  "colors"
 ];
 for (var i in apiFiles)
-  require("./" + apiFiles[i] + ".js")(api);
+  require("./" + apiFiles[i] + ".js").apiFunctions(api);
 
 
 ////////////////////////////////////////////  
