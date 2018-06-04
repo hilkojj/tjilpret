@@ -87,7 +87,8 @@ $(document).ready(function () {
         "navbar.js",
         "session.js",
         "chats.js",
-        "profile.js"
+        "profile.js",
+        "profile-cards.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

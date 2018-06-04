@@ -22,6 +22,28 @@ module.exports = {
             else res.send({ found: false, reason: "no id or username given" })
         });
 
+        api.post("/friendsOf", (req, res) => {
+            var userID = parseInt(req.body.userID);
+            db.connection.query(`
+                SELECT * FROM users AS u
+                JOIN friendships AS fs ON (
+                    (u.user_id = fs.inviter_id AND NOT u.user_id = ?)
+                    OR 
+                    (u.user_id = fs.accepter_id AND NOT u.user_id = ?)
+                )
+                WHERE fs.inviter_id = ? OR fs.accepter_id = ?;`, [userID, userID, userID, userID],
+                (err, rows, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return res.send([]);
+                    }
+                    var friends = [];
+                    for (var i in rows) friends.push(utils.userInfo(rows[i]));
+                    res.send(friends);
+                }
+            );
+        });
+
     }
-    
+
 }

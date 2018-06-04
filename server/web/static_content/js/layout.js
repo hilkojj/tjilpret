@@ -22,6 +22,8 @@ function startActivity(name, doShowNavbar, callback) {
             if (doShowNavbar)
                 showNavbar();
             else removeNavbar();
+            $(window).scrollTop(0);
+            $(".material-tooltip").remove();
             switchingActivity = false;
             ac.html(html);
             ac.addClass("mid").removeClass("out");

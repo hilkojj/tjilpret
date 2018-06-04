@@ -25,18 +25,18 @@ function setHref(a, href) {
 }
 
 function nToBr(string) {
-    return string.replace("\\n", "<br>");
+    return string.replace("\\n", "<br>").replace(/\n/g, "<br>");
 }
 
-function usernameHtml(elements, user) {
+function usernameHtml(elements, user, big) {
     var html = user.username;
     if (user.admin)
-        html += `<i class="material-icons tooltipped" style="vertical-align: middle; margin: 0 4px;"
+        html += `<i class="material-icons tooltipped" style="vertical-align: ` + (big ? "middle" : "sub") + `; margin: 0 4px;"
                 data-position="bottom" data-tooltip="Erkende admin">verified_user</i>`;
     if (user.appleUser)
         html += `<img src="/static_content/img/apple_logo.svg" style="
             width: 24px;
-            vertical-align: text-top;
+            vertical-align: ` + (big ? "text-top" : "sub") + `;
             margin: 0 4px;"
             class="tooltipped" data-position="bottom" data-tooltip="PAS OP,  APPLE FAN!">`;
     
