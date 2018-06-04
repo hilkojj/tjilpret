@@ -46,7 +46,7 @@ app.get("/static_content/*", (req, res) => {
 // Webapp                                 //
 //                                        //
 ////////////////////////////////////////////
-app.get("/tjiller/:id", (req, res) => {
+app.get("/tjiller/:id*", (req, res) => {
 	db.connection.query("SELECT * FROM users WHERE user_id = ?", [parseInt(req.params.id)], (err, rows, fields) => {
 		if (err || rows.length == 0) {
 			console.log(err);
