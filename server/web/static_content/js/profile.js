@@ -59,18 +59,19 @@ window.paths["/tjiller"] = function () {
                     data: { userID: user.id },
                     success: function (res) {
                         console.log(res);
+                        var h6 = $("#profile-friends-h6").html("Vriends van <b>" + user.username + "</b> (" + res.length + "):");
                         if (res.length == 0) {
                             var url = "/tjillers/lieflingskleur/" + user.colorClassID;
-                            $("#profile-friends-p").html(
-                                user.id == window.userSession.user.id ?
+                            h6.parent().html("<br>" +
+                                (user.id == window.userSession.user.id ?
                                     `Je hept geen VRIENDS!!
                                     <br>Zoek naar 
-                                    <a href="`+ url + `" onclick="return navigate('` + url + `')"
-                                        style="color: white !important; text-decoration-line: underline;">
+                                    <a href="`+ url + `" onclick="return navigate('` + url + `')">
                                         vrienden met beivoorbeeld dezelfde lieflingklur!!!
                                     </a>`
                                     :
-                                    `<b>` + user.username + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`
+                                    `<b>` + user.username + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`)
+                                + "<br><br>"
                             );
                             return;
                         }
@@ -79,9 +80,9 @@ window.paths["/tjiller"] = function () {
                         var callback = function (profileCard) {
                             if (++i in res)
                                 if (i % 2 == 0)
-                                    setTimeout(function() {
+                                    setTimeout(function () {
                                         showProfileCard(row, res[i], true, callback);
-                                    }, 100);
+                                    }, 400);
                                 else showProfileCard(row, res[i], true, callback);
                         }
                         showProfileCard(row, res[i], true, callback);
@@ -98,6 +99,15 @@ window.paths["/tjiller"] = function () {
                 }, 250);
             });
         }
+    });
+}
+
+function profileFriendsSearch(input) {
+    input = input.toLowerCase();
+    $("#profile-friends-row").find(".profile-card").each(function () {
+        var card = $(this);
+        var u = card.find("h6").text().toLowerCase();
+        card.css("display", u.indexOf(input) >= 0 ? "block" : "none");
     });
 }
 
