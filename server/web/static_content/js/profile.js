@@ -87,6 +87,7 @@ window.paths["/tjiller"] = function () {
                         var row = $("#profile-friends-row");
                         var i = 0;
                         var callback = function (profileCard) {
+                            profileFriendsSearch();
                             if (++i in res)
                                 if (i % 2 == 0)
                                     setTimeout(function () {
@@ -111,8 +112,8 @@ window.paths["/tjiller"] = function () {
     });
 }
 
-function profileFriendsSearch(input) {
-    input = input.toLowerCase();
+function profileFriendsSearch() {
+    input = $("#profile-friends-search").val().toLowerCase();
     $("#profile-friends-row").find(".profile-card").each(function () {
         var card = $(this);
         var u = card.find("h6").text().toLowerCase();

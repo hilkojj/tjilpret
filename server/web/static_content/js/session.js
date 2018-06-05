@@ -1,12 +1,16 @@
 window.userSession = null;
 
+var userSubject = new Subject("user", {});
+
 function startUserSession(user, token) {
     if (window.userSession != null)
         return;
     window.userSession = {
         token: token,
         user: user
-    }
+    };
+    userSubject.data = user;
+    userSubject.notify();
     for (var i in window.subjects) {
         var f = window.subjects[i].onSessionCreated;
         if (f != null) f();
