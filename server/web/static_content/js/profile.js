@@ -41,6 +41,15 @@ window.paths["/tjiller"] = function () {
                 $("#profile-friends").html(user.friends);
                 $("#profile-uploads").html(user.uploads);
 
+                var friendButton = $(".profile-friend-btn").attr("data-user-id", user.id);
+                var chatButton = $("#profile-chat-btn");
+                requestNotify("friends");
+
+                if (user.id == window.userSession.user.id) {
+                    friendButton.remove();
+                    chatButton.remove();
+                }
+
                 $.ajax({
                     url: "/api/colorInfo",
                     method: "post",
@@ -115,4 +124,36 @@ function showProfilePage(page) {
     $(".profile-page.show").removeClass("show");
     $("#profile-" + page + "-page").addClass("show");
     history.replaceState(null, null, "/tjiller/" + window.profilePageUser.id + (page == "profile" ? "" : "/" + page));
+}
+
+function showProfileCard(parent, user, m6, callback) {
+    getFragment("profileCard", function (profileCard) {
+        parent.append(profileCard);
+        profileCard.find(".profile-card-header").css(
+            "background", "linear-gradient(\
+                transparent, transparent, transparent, rgba(0, 0, 0, .4)),\
+                " + (user.header == null ? rgbString(user.r, user.g, user.b) : "url('/static_content/headers/small/" + user.header + "')")
+        );
+        var rgb = rgbString(user.r, user.g, user.b);
+        profileCard.find(".profile-card-profile-pic").attr("src", pPicPath(user.profilePic, "med")).css("background", rgb);
+        if (m6) profileCard.addClass("m6");
+
+        usernameHtml(profileCard.find(".profile-card-username"), user, false);
+        profileCard.find(".profile-card-status").html(nToBr(user.bio));
+
+        var friendButton = profileCard.find("btn");
+        var chatButton = profileCard.find("#profile-card-chat-btn");
+
+        friendButton.attr("style", "background-color: " + rgb + " !important").attr("data-user-id", user.id);
+        chatButton.find("i").css("color", rgb);
+
+        if (user.id == window.userSession.user.id) {
+            friendButton.css("visibility", "hidden");
+            chatButton.remove();
+        }
+        
+        setHref(profileCard.find("#profile-card-profile-link"), "/tjiller/" + user.id);
+        requestNotify("friends");
+        callback(profileCard);
+    });
 }

@@ -7,6 +7,10 @@ function startUserSession(user, token) {
         token: token,
         user: user
     }
+    for (var i in window.subjects) {
+        var f = window.subjects[i].onSessionCreated;
+        if (f != null) f();
+    }
 }
 
 function needForSession() {

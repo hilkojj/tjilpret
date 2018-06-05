@@ -393,3 +393,21 @@ center .header-profile-pic {
     margin: 10px;
 }
 /* END PROFILE-CARD */
+
+/* RED HOVER BUTTON */
+.btn.red-hover {
+    transition: background-color 0s;
+}
+.btn.red-hover:hover {
+    background-color: rgb(255, 17, 61) !important;
+}
+.btn.red-hover .on-hover {
+    display: none;
+}
+.btn.red-hover:hover .on-hover {
+    display: block;
+}
+.btn.red-hover:hover .normal {
+    display: none;
+}
+/* END RED HOVER BUTTON */

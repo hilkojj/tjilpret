@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 278
+AUTO_INCREMENT = 279
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -221,6 +221,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `tjillepret`.`friend_invites` (
   `inviter_id` INT(11) NOT NULL,
   `invited_id` INT(11) NOT NULL,
+  `time` INT(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`inviter_id`, `invited_id`),
   INDEX `fk_friend_invites_users2_idx` (`invited_id` ASC),
   CONSTRAINT `fk_friend_invites_users1`

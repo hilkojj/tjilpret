@@ -1,5 +1,29 @@
 var mobile = /Mobi/.test(navigator.userAgent);
 
+window.subjects = {};
+
+function Subject(name, data) {
+    this.name = name;
+    this.data = data;
+    this.onSessionCreated = null;
+    window.subjects[name] = this;
+}
+
+Subject.prototype.notify = function() {
+    
+    var data = this.data;
+    $("[data-subject='" + this.name + "']").each(function() {
+
+        var q = $(this);
+        var functionName = q.attr("data-on-notify");
+        eval(functionName + "(data, q)");
+    });
+};
+
+function requestNotify(subjectName) {
+    window.subjects[subjectName].notify();
+}
+
 window.paths = {
     "/hoom": function () {
         startActivity("home", true, function () { });
@@ -87,8 +111,8 @@ $(document).ready(function () {
         "navbar.js",
         "session.js",
         "chats.js",
-        "profile.js",
-        "profile-cards.js"
+        "friends.js",
+        "profile.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

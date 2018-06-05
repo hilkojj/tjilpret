@@ -5,12 +5,12 @@
         <div class="header-info hide-on-small-only">
             <img class="header-profile-pic circle">
             <h5 class="header-username"></h5>
-            <btn class="btn waves-effect waves-light">
-                <i class="material-icons left">person_add</i>
-                Vraag om vriendschap
-            </btn>
-            <btn class="btn btn-flat waves-effect">
-                <i class="material-icons left">chat_bubble_outline</i>
+
+            <btn data-wide="1" data-subject="friends" data-on-notify="updateFriendButton" 
+                class="profile-friend-btn btn waves-effect waves-light"></btn>
+
+            <btn id="profile-chat-btn" class="btn btn-flat waves-effect">
+                <i class="material-icons left">chat_bubble</i>
                 stuur tjetbericht
             </btn>
         </div>
@@ -19,11 +19,11 @@
             <center>
                 <img class="header-profile-pic circle">
                 <h5 class="header-username-black" style="margin-top: 0"></h5>
-                <btn class="btn waves-effect waves-light">
-                    <i class="material-icons left">person_add</i>
-                    Vraag om vriendschap
-                </btn>
-                <btn class="btn btn-flat waves-effect">
+
+                <btn data-wide="1" data-subject="friends" data-on-notify="updateFriendButton" 
+                    class="profile-friend-btn btn waves-effect waves-light"></btn>
+
+                <btn id="profile-chat-btn" class="btn btn-flat waves-effect">
                     <i class="material-icons left">chat_bubble_outline</i>
                     stuur tjetbericht
                 </btn>

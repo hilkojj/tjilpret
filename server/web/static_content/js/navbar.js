@@ -46,7 +46,7 @@ function updateNavbarInfo(user) {
     $(".sidenav-stats").find("b").css("color", rgb);
     var url = "/tjiller/" + user.id;
     setHref($(".sidenav-username").html(user.username).parent(), url);
-    $("#sidenav-status").html(user.bio);
+    $("#sidenav-status").html(nToBr(user.bio));
     $("#sidenav-chat-stat").find("b").html(user.messages);
     setHref($("#sidenav-rep-stat"), url).find("b").html(user.rep);
     setHref($("#sidenav-friends-stat"), url + "/vriends").find("b").html(user.friends);

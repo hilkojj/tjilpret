@@ -9,12 +9,10 @@
                 <p class="profile-card-status">status</p>
             </div>
         </a>
-        <btn class="btn waves-effect waves-light">
-            <i class="material-icons left">person_add</i>
-            Vraag om vriendschap
-        </btn>
-        <a id="profile-card-chat-btn" class="btn-floating btn-flat waves-effect tooltipped" data-position="bottom" data-delay="50"
-            data-tooltip="Tjetten">
+
+        <btn data-subject="friends" data-on-notify="updateFriendButton" class="btn waves-effect waves-light"></btn>
+
+        <a id="profile-card-chat-btn" class="btn-floating btn-flat waves-effect">
             <i class="material-icons">chat_bubble</i>
         </a>
     </div>
