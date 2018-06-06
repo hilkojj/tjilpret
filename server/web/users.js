@@ -31,7 +31,8 @@ module.exports = {
                     OR 
                     (u.user_id = fs.accepter_id AND NOT u.user_id = ?)
                 )
-                WHERE fs.inviter_id = ? OR fs.accepter_id = ?;`, [userID, userID, userID, userID],
+                WHERE fs.inviter_id = ? OR fs.accepter_id = ?
+                ORDER BY since DESC;`, [userID, userID, userID, userID],
                 (err, rows, fields) => {
                     if (err) {
                         console.log(err);
@@ -55,12 +56,14 @@ module.exports = {
                     JOIN tokens ON (tokens.user_id = inviter_id OR tokens.user_id = accepter_id)
                     WHERE token = ?;
                     
-                    SELECT inviter_id, time FROM friend_invites
+                    SELECT user_info.*, inviter_id, time FROM friend_invites
                     JOIN tokens ON (tokens.user_id = invited_id)
+                    JOIN user_info ON (user_info.user_id = inviter_id)
                     WHERE token = ?;
                     
-                    SELECT invited_id, time FROM friend_invites
+                    SELECT user_info.*, invited_id, time FROM friend_invites
                     JOIN tokens ON (tokens.user_id = inviter_id)
+                    JOIN user_info ON (user_info.user_id = invited_id)
                     WHERE token = ?;`,
                 [token, token, token],
                 (err, results, fields) => {
@@ -80,12 +83,12 @@ module.exports = {
                     var receivedRows = results[1];
                     for (i in receivedRows) {
                         var row = receivedRows[i];
-                        receivedInvites[row["inviter_id"]] = { time: row["time"] };
+                        receivedInvites[row["inviter_id"]] = { time: row["time"], userInfo: utils.userInfo(row) };
                     }
                     var sentRows = results[2];
                     for (i in sentRows) {
                         var row = sentRows[i];
-                        sentInvites[row["invited_id"]] = { time: row["time"] };
+                        sentInvites[row["invited_id"]] = { time: row["time"], userInfo: utils.userInfo(row) };
                     }
                     res.send({ friends, receivedInvites, sentInvites });
                 }

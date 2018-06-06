@@ -112,7 +112,8 @@ $(document).ready(function () {
         "session.js",
         "chats.js",
         "friends.js",
-        "profile.js"
+        "profile.js",
+        "people.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

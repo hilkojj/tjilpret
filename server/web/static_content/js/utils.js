@@ -49,7 +49,7 @@ function usernameHtml(elements, user, big) {
                 + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
                     vertical-align: middle; margin: 0 4px; white-space: nowrap;">` 
                 + title + " " + c + "</span>";
-    } else if (((Date.now() / 1000 | 10) - user.joinedOn) / (24 * 3600) < 2) {
+    } else if (((Date.now() / 1000 | 10) - user.joinedOn) / (24 * 3600) < 7) {
         html += `<span style="background-color: ` 
                 + rgbString(user.r, user.g, user.b)
                 + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
@@ -57,6 +57,5 @@ function usernameHtml(elements, user, big) {
     }
     
 
-    elements.html(html);
-    $('.tooltipped').tooltip();
+    elements.html(html).find('.tooltipped').tooltip();
 }

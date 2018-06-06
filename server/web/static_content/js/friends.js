@@ -46,6 +46,7 @@ function updateFriendButton(data, btn) {
     var onclick = "";
     var redHover = true;
     var width = 0;
+
     if (id in data.friends) {
         btn.html(`
             <span class="normal"><i class="material-icons left">done</i>vriends</span>
@@ -67,7 +68,7 @@ function updateFriendButton(data, btn) {
             <i class="material-icons left">email</i>reageer!!
         `);
         redHover = false;
-        onclick = "confirmFriendship(" + id + ")";
+        onclick = "confirmFriendship(" + id + ", true, false)";
     } else {
         var wide = btn.attr("data-wide") == 1;
         btn.html(`
@@ -81,7 +82,7 @@ function updateFriendButton(data, btn) {
     if (redHover && !mobile) btn.addClass("red-hover");
     else btn.removeClass("red-hover");
 
-    btn.attr("onclick", onclick);
+    btn.attr("onclick", onclick + "; $(this).attr('onclick', '');");
 }
 
 function invite(id) {
@@ -114,14 +115,14 @@ function undoInvite(id) {
     });
 }
 
-function confirmFriendship(id) {
+function confirmFriendship(id, showConfirm, accept) {
     $.ajax({
         url: "/api/confirmFriendship",
         method: "post",
         data: { 
             token: window.userSession.token,
             inviterID: id,
-            accept: confirm("Vriendschapsaanvraag accepteren?")
+            accept: (showConfirm ? confirm("Vriendschapsaanvraag accepteren?") : accept)
         },
         success: function (res) {
             if (!res.success) showError("Ecxuses er ging iets mis");

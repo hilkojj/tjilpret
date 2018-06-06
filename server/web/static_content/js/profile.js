@@ -67,7 +67,6 @@ window.paths["/tjiller"] = function () {
                     method: "post",
                     data: { userID: user.id },
                     success: function (res) {
-                        console.log(res);
                         var h6 = $("#profile-friends-h6").html("Vriends van <b>" + user.username + "</b> (" + res.length + "):");
                         if (res.length == 0) {
                             var url = "/tjillers/lieflingskleur/" + user.colorClassID;
@@ -84,18 +83,17 @@ window.paths["/tjiller"] = function () {
                             );
                             return;
                         }
-                        var row = $("#profile-friends-row");
                         var i = 0;
                         var callback = function (profileCard) {
                             profileFriendsSearch();
                             if (++i in res)
                                 if (i % 2 == 0)
                                     setTimeout(function () {
-                                        showProfileCard(row, res[i], true, callback);
-                                    }, 400);
-                                else showProfileCard(row, res[i], true, callback);
+                                        showProfileCard($("#profile-friends-row"), res[i], true, callback);
+                                    }, 200);
+                                else showProfileCard($("#profile-friends-row"), res[i], true, callback);
                         }
-                        showProfileCard(row, res[i], true, callback);
+                        showProfileCard($("#profile-friends-row"), res[i], true, callback);
                     }
                 });
 
@@ -113,7 +111,10 @@ window.paths["/tjiller"] = function () {
 }
 
 function profileFriendsSearch() {
-    input = $("#profile-friends-search").val().toLowerCase();
+    var input = $("#profile-friends-search").val();
+    if (input == undefined)
+        return;
+    input = input.toLowerCase();
     $("#profile-friends-row").find(".profile-card").each(function () {
         var card = $(this);
         var u = card.find("h6").text().toLowerCase();
@@ -128,6 +129,7 @@ function showProfilePage(page) {
 }
 
 function showProfileCard(parent, user, m6, callback) {
+    if (parent.length == 0) return;
     getFragment("profileCard", function (profileCard) {
         parent.append(profileCard);
         profileCard.find(".profile-card-header").css(

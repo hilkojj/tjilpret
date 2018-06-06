@@ -17,24 +17,29 @@
                         <a class="active waves-effect waves-light" href="/hoom" onclick="return tab('/hoom')">
                             <i class="material-icons">home</i>
                             <span class="hide-on-med-and-down">hoom</span>
+                            <span class="badge">0</span>
                         </a>
                     </li>
                     <li class="tab">
                         <a class="waves-effect waves-light" href="/amusement" onclick="return tab('/amusement')">
                             <i class="material-icons">subscriptions</i>
                             <span class="hide-on-med-and-down">amusement</span>
+                            <span class="badge">0</span>
                         </a>
                     </li>
                     <li class="tab">
                         <a class="waves-effect waves-light" href="/tjets" onclick="return tab('/tjets')">
                             <i class="material-icons">chat_bubble</i>
                             <span class="hide-on-med-and-down">tjets</span>
+                            <span class="badge">0</span>
                         </a>
                     </li>
                     <li class="tab">
-                        <a class="waves-effect waves-light" href="/tjillers" onclick="return tab('/tjillers')">
+                        <a class="waves-effect waves-light" href="/tjillers" onclick="return tab('/tjillers')"
+                            data-subject="friends" data-on-notify="updatePeopleTabBadge">
                             <i class="material-icons">group</i>
                             <span class="hide-on-med-and-down">mesnen & vriends</span>
+                            <span class="badge">0</span>
                         </a>
                     </li>
                 </ul>

@@ -22,6 +22,7 @@ function showNavbar(callback) {
             correctTabs();
             $(".drag-target").remove();
         }, 200);
+        requestNotify("friends");
         if (typeof callback !== "undefined")
             callback(nb);
     });
@@ -113,3 +114,18 @@ $(window).scroll(function () {
     }
     window.prevScrollTop = scrollTop;
 });
+
+function showTabBadge(n, tab) {
+    var badge = tab.find(".badge");
+    if (n == 0) badge.fadeOut(200);
+    else {
+        badge.html(n);
+        badge.fadeIn(200);
+    }
+}
+
+function updatePeopleTabBadge(data, tab) {
+    var count = 0;
+    for (var i in data.receivedInvites) count++;
+    showTabBadge(count, tab);
+}
