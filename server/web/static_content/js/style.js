@@ -13,6 +13,11 @@ function initStyle(callback) {
     });
 }
 
+function applyFavColor() {
+    var u = window.userSession.user;
+    applyThemeColor(u.r, u.g, u.b);
+}
+
 function applyThemeColor(r, g, b) {
 
     const values = {

@@ -32,6 +32,17 @@ module.exports = {
                 });
         });
 
+        api.post("/allColors", (req, res) => {
+            db.connection.query("SELECT *, (SELECT COUNT(*) FROM users WHERE color_class_id = color_classes.id) AS people FROM color_classes",
+                [], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "Database error :(");
+                    }
+                    res.send(results);
+                });
+        });
+
     },
 
     updateFavColor: function (userID, r, g, b, callback) {

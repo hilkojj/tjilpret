@@ -269,8 +269,8 @@ body.switching-activity {
 .header-img {
     width: 100%;
     padding-top: 20%;
-    background: linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), ?rgb?;
-    background-size: cover !important;
+    background: linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), url(/static_content/img/tiled_header.png) ?rgb?;
+    background-size: contain;
 }
 
 .profile-header {
@@ -423,3 +423,24 @@ center .header-profile-pic {
     display: none;
 }
 /* END RED HOVER BUTTON */
+
+/* SEARCH PAGE */
+.collapsible-header {
+    color: ?rgb?;
+    outline: none;
+}
+.dropdown-content li>a, 
+.dropdown-content li>span {
+    color: ?rgb?;
+}
+/* END SEARCH PAGE */
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}

@@ -21,13 +21,13 @@ window.paths["/tjiller"] = function () {
                 var user = res.userInfo;
                 window.profilePageUser = user;
                 applyThemeColor(user.r, user.g, user.b);
-                $("title").html(user.username);
+                title(user.username);
                 if (user.header != null) {
                     $(".header-img").css("padding-top", "40%").css(
                         "background", "linear-gradient(\
                             transparent, transparent, transparent, rgba(0, 0, 0, .4)),\
                             url('/static_content/headers/large/" + user.header + "')"
-                    );
+                    ).css("background-size", "cover");
                 }
                 $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "large"));
                 usernameHtml($(".header-username"), user, true);

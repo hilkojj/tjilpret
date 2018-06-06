@@ -166,14 +166,14 @@ module.exports = {
                             INSERT INTO friendships (accepter_id, inviter_id, since)
                             VALUES ((SELECT tokens.user_id FROM tokens WHERE tokens.token = ?), ?, ?)
                             `,
-                        [token, inviterID, Date.now() / 1000 | 0],
-                        (err, results, fields) => {
-                            if (err) {
-                                console.log(err);
-                                return res.send({ success: false });
-                            }
-                            res.send({ success: true });
-                        });
+                            [token, inviterID, Date.now() / 1000 | 0],
+                            (err, results, fields) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.send({ success: false });
+                                }
+                                res.send({ success: true });
+                            });
                     } else res.send({ success: deleted });
                 }
             );
@@ -197,6 +197,49 @@ module.exports = {
                     res.send({ success: results.affectedRows == 1 });
                 }
             );
+        });
+
+        api.post("/searchPeople", (req, res) => {
+
+            console.log(req.body);
+            var query = `
+                SELECT * FROM user_info
+                WHERE username LIKE CONCAT("%", ` + db.connection.escape(req.body.q) + `, "%")
+            `;
+
+            if ("colorClass" in req.body && req.body["colorClass"] != "all")
+                query += `
+                    AND color_class_id = ` + db.connection.escape(req.body["colorClass"]);
+
+            if ("sortBy" in req.body) {
+                var col = {
+                    "activity": "last_activity",
+                    "friends": "friends",
+                    "rep": "rep",
+                    "messages": "messages",
+                    "uploads": "uploads",
+                    "joined": "joined_on"
+                }[req.body.sortBy];
+                if (col != undefined) 
+                    query += `
+                        ORDER BY ` + col + (req.body.desc == true ? ` DESC` : ``);
+            }
+            var pageLimit = 8;
+            var page = parseInt(req.body.page) || 0;
+            query += `
+                LIMIT ` + pageLimit + ` OFFSET ` + (page * pageLimit);
+
+            console.log(query);
+
+            db.connection.query(query, [], (err, rows, fields) => {
+                if (err) {
+                    console.log(err);
+                    return res.send([]);
+                }
+                var users = [];
+                for (var i in rows) users.push(utils.userInfo(rows[i]));
+                res.send(users);
+            });
         });
 
     }

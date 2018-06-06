@@ -27,8 +27,8 @@ function requestNotify(subjectName) {
 window.paths = {
     "/hoom": function () {
         startActivity("home", true, function () { });
-        $("title").html("Tjilpret web");
-        applyThemeColor(window.userSession.user.r, window.userSession.user.g, window.userSession.user.b);
+        title("Tjilpret web");
+        applyFavColor();
     },
     "/moois": function () {
         window.mooiTimer = 0;
@@ -113,7 +113,8 @@ $(document).ready(function () {
         "chats.js",
         "friends.js",
         "profile.js",
-        "people.js"
+        "people.js",
+        "filtered-search.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

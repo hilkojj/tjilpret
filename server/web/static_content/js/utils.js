@@ -25,7 +25,7 @@ function setHref(a, href) {
 }
 
 function nToBr(string) {
-    return string.replace("\\n", "<br>").replace(/\n/g, "<br>");
+    return string == null ? "" : string.replace("\\n", "<br>").replace(/\n/g, "<br>");
 }
 
 function usernameHtml(elements, user, big) {
@@ -58,4 +58,8 @@ function usernameHtml(elements, user, big) {
     
 
     elements.html(html).find('.tooltipped').tooltip();
+}
+
+function title(t) {
+    $("title").html(t);
 }
