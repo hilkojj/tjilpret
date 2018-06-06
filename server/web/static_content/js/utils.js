@@ -28,6 +28,16 @@ function nToBr(string) {
     return string == null ? "" : string.replace("\\n", "<br>").replace(/\n/g, "<br>");
 }
 
+function param(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) return null;
+    else return decodeURIComponent(results[1]);
+}
+
+function replaceAll(string, search, replacement) {
+    return string.split(search).join(replacement);
+};
+
 function usernameHtml(elements, user, big) {
     var html = user.username;
     if (user.admin)
@@ -39,23 +49,23 @@ function usernameHtml(elements, user, big) {
             vertical-align: ` + (big ? "text-top" : "sub") + `;
             margin: 0 4px;"
             class="tooltipped" data-position="bottom" data-tooltip="PAS OP,  APPLE FAN!">`;
-    
+
     if (Math.abs(user.rep) > 10) {
         var title = user.rep < 0 ? "Pretbederver" : "Pretmaker";
         var classes = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
         var c = `<span style='font-family: "Times New Roman"'>` + classes[Math.min(9, parseInt(Math.abs(user.rep) / 30))] + "</span>";
-        html += `<span style="background-color: ` 
-                + (user.rep < 0 ? "#ff113d" : rgbString(user.r, user.g, user.b)) 
-                + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
-                    vertical-align: middle; margin: 0 4px; white-space: nowrap;">` 
-                + title + " " + c + "</span>";
+        html += `<span style="background-color: `
+            + (user.rep < 0 ? "#ff113d" : rgbString(user.r, user.g, user.b))
+            + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
+                    vertical-align: middle; margin: 0 4px; white-space: nowrap;">`
+            + title + " " + c + "</span>";
     } else if (((Date.now() / 1000 | 10) - user.joinedOn) / (24 * 3600) < 7) {
-        html += `<span style="background-color: ` 
-                + rgbString(user.r, user.g, user.b)
-                + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
+        html += `<span style="background-color: `
+            + rgbString(user.r, user.g, user.b)
+            + `; color: white !important; font-size: 13px !important; border-radius: 3px; padding: 3px 6px;
                     vertical-align: middle; margin: 0 4px; white-space: nowrap;">Nieuweling</span>`;
     }
-    
+
 
     elements.html(html).find('.tooltipped').tooltip();
 }

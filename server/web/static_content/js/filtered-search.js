@@ -15,11 +15,10 @@ function showFilteredSearch(parent, filters, url, resultsViewer) {
             var optionsHtml = "";
             if ("default" in filter) {
                 var option = filter.default;
-                optionsHtml += `<option value="` + option + `">` + filter.options[option] + `</option>`;
+                optionsHtml += optionHtml(option, filter, filterIndex);
                 delete filter.options[option];
             }
-            for (var option in filter.options)
-                optionsHtml += `<option value="` + option + `">` + filter.options[option] + `</option>`;
+            for (var option in filter.options) optionsHtml += optionHtml(option, filter, filterIndex);
 
             var dropdown = $(`
                 <div class="input-field col s12 l6">
@@ -35,6 +34,8 @@ function showFilteredSearch(parent, filters, url, resultsViewer) {
         }
 
         var input = searchPage.find("#search-input");
+        var q = param("q");
+        if (q != null && q != "") input.val(replaceAll(q, "+", " "));
         var timeout = false;
         input.on("input", function () {
             if (timeout)
@@ -54,9 +55,17 @@ function showFilteredSearch(parent, filters, url, resultsViewer) {
     });
 }
 
+function optionHtml(option, filter, filterIndex) {
+    return `<option value="` + option + `" ` + (
+        param(filterIndex) == option ? "selected" : ""
+    ) + `>` + filter.options[option] + `</option>`;
+}
+
 function filteredSearch(searchPage, url, resultsViewer, page) {
     var form = searchPage.find("form");
-    console.log(form.serialize());
+
+    history.replaceState(null, null, window.location.pathname + "?" + form.serialize());
+
     var data = { q: form.find("input").val() };
     form.find("select").each(function () {
         var select = $(this);
