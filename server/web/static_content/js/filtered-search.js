@@ -9,8 +9,8 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
         var page = 0;
         var loadingNewPage = false;
         var endReached = false;
-        var scrollFun = function () {
-            if ($("#" + id).length == 0) $(window).off("scroll", onscroll);
+        var interval = setInterval(function () {
+            if ($("#" + id).length == 0) clearInterval(interval);
 
             else if (!loadingNewPage && !endReached && loader.isInViewport()) {
                 if (!endReached) loader.css("opacity", 1);
@@ -22,8 +22,7 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
                     if (endReached) loader.css("opacity", 0);
                 });
             }
-        };
-        $(window).scroll(scrollFun);
+        }, 400);
 
         var searchFun = function () { 
             page = 0;
