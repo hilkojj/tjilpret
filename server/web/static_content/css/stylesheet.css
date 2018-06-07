@@ -433,6 +433,9 @@ center .header-profile-pic {
 .dropdown-content li>span {
     color: ?rgb?;
 }
+.spinner-white-only {
+    border-color: white;
+}
 /* END SEARCH PAGE */
 
 .noselect {

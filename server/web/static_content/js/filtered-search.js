@@ -1,9 +1,35 @@
 
-function showFilteredSearch(parent, filters, url, resultsViewer) {
+function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
     getFragment("filtered-search", function (searchPage) {
         parent.append(searchPage);
 
-        var searchFun = function () { filteredSearch(searchPage, url, resultsViewer, 0); };
+        var loader = searchPage.find("#search-loader");
+        var id = Math.random() * 100000 | 0;
+        searchPage.attr("id", id);
+        var page = 0;
+        var loadingNewPage = false;
+        var endReached = false;
+        var scrollFun = function () {
+            if ($("#" + id).length == 0) $(window).off("scroll", onscroll);
+
+            else if (!loadingNewPage && !endReached && loader.isInViewport()) {
+                if (!endReached) loader.css("opacity", 1);
+                loadingNewPage = true;
+                console.log("download more");
+                filteredSearch(searchPage, url, resultsViewer, ++page, function (i) {
+                    loadingNewPage = false;
+                    endReached = i == 0;
+                    if (endReached) loader.css("opacity", 0);
+                });
+            }
+        };
+        $(window).scroll(scrollFun);
+
+        var searchFun = function () { 
+            page = 0;
+            endReached = false;
+            filteredSearch(searchPage, url, resultsViewer, 0, function (i) { }); 
+        };
 
         var coll = searchPage.find('.collapsible');
         coll.collapsible();
@@ -22,8 +48,8 @@ function showFilteredSearch(parent, filters, url, resultsViewer) {
 
             var dropdown = $(`
                 <div class="input-field col s12 l6">
-                    <select name="` + filterIndex + `">` + optionsHtml + `</select>
-                    <label>` + filter.name + `</label>
+                    <label style="position: initial">` + filter.name + `</label>
+                    <select class="browser-default" name="` + filterIndex + `">` + optionsHtml + `</select>
                 </div>`
             );
 
@@ -34,6 +60,7 @@ function showFilteredSearch(parent, filters, url, resultsViewer) {
         }
 
         var input = searchPage.find("#search-input");
+        input.attr("placeholder", placeholder);
         var q = param("q");
         if (q != null && q != "") input.val(replaceAll(q, "+", " "));
         var timeout = false;
@@ -61,12 +88,12 @@ function optionHtml(option, filter, filterIndex) {
     ) + `>` + filter.options[option] + `</option>`;
 }
 
-function filteredSearch(searchPage, url, resultsViewer, page) {
+function filteredSearch(searchPage, url, resultsViewer, page, callback) {
     var form = searchPage.find("form");
 
     history.replaceState(null, null, window.location.pathname + "?" + form.serialize());
 
-    var data = { q: form.find("input").val() };
+    var data = { q: form.find("input").val(), page: page };
     form.find("select").each(function () {
         var select = $(this);
         data[select.attr("name")] = select.val();
@@ -79,9 +106,10 @@ function filteredSearch(searchPage, url, resultsViewer, page) {
             method: "post",
             data: data,
             success: function (res) {
+                console.log("new page downloaded");
                 var resultsDiv = searchPage.find("#search-results");
                 if (page == 0) resultsDiv.html("");
-                resultsViewer(res, resultsDiv);
+                resultsViewer(res, resultsDiv, callback);
             }
         });
 

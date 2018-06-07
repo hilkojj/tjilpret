@@ -43,20 +43,21 @@ window.paths["/tjillers"] = function () {
                         },
                         default: 1
                     }
-                }, "/api/searchPeople", peopleResultsViewer);
+                }, "/api/searchPeople", peopleResultsViewer, "Soeken naar mensen");
             }
         });
     });
 };
 
-function peopleResultsViewer(results, div) {
-    if (!(0 in results)) return;
+function peopleResultsViewer(results, div, callback) {
+    if (!(0 in results)) return callback(0);
     var i = 0;
-    var callback = function (profileCard) {
+    var profileCardCallback = function (profileCard) {
         if (++i in results)
-            showProfileCard(div, results[i], true, callback);
+            showProfileCard(div, results[i], true, profileCardCallback);
+        else callback(i);
     }
-    showProfileCard(div, results[i], true, callback);
+    showProfileCard(div, results[i], true, profileCardCallback);
 }
 
 function updateInvitesCollection(data, div) {

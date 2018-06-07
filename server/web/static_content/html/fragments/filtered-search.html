@@ -3,7 +3,7 @@
     <form class="col s12 m10 l8 offset-m1 offset-l2 card">
         <div class="input-field">
             <i class="material-icons prefix">search</i>
-            <input placeholder="Soeken" name="q" type="text" id="search-input">
+            <input name="q" type="text" id="search-input">
         </div>
         <ul class="collapsible noselect">
             <li>
@@ -17,5 +17,20 @@
 
     <div class="col s12 m10 l8 offset-m1 offset-l2" id="search-results">
     </div>
+    <center id="search-loader" class="col s12">
+        <div class="preloader-wrapper small active">
+            <div class="spinner-layer spinner-white-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </center>
 
 </div>

@@ -58,7 +58,7 @@ window.paths["/tjiller"] = function () {
                         var favColorCard = $("#profile-fav-color");
                         favColorCard.find("h6").html("Lieflingskleur: <b>" + res.name.toLowerCase() + "</b>");
                         favColorCard.find("p").html(nToBr(res.description));
-                        setHref(favColorCard.find("a"), "/tjillers/lieflingskleur/" + res.id).find("b").html(res.people);
+                        setHref(favColorCard.find("a"), "/tjillers?colorClass=" + res.id).find("b").html(res.people);
                     }
                 });
 
