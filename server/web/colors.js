@@ -7,18 +7,18 @@ module.exports = {
 
     apiFunctions: function (api) {
 
-        // api.get("/updateColors", (req, res) => {
+        api.get("/updateColors", (req, res) => {
 
-        //     db.connection.query("SELECT * FROM users", [], (err, rows, fields) => {
-        //         if (err) {
-        //             console.log(err);
-        //         } else for (var i in rows) {
-        //             var row = rows[i];
-        //             this.updateFavColor(row.user_id, row.r, row.g, row.b, function() {});
-        //         }
-        //     });
+            db.connection.query("SELECT * FROM users", [], (err, rows, fields) => {
+                if (err) {
+                    console.log(err);
+                } else for (var i in rows) {
+                    var row = rows[i];
+                    this.updateFavColor(row.user_id, row.r, row.g, row.b, function (success) { });
+                }
+            });
 
-        // });
+        });
 
         api.post("/colorInfo", (req, res) => {
             var colorClassID = parseInt(req.body.colorClassID);
@@ -43,11 +43,36 @@ module.exports = {
                 });
         });
 
+        api.post("/changeFavColor", (req, res) => {
+
+            var color = { r: 0, g: 0, b: 0 };
+            for (var i in color) {
+                if (!(i in req.body)) return res.send({ success: false });
+                var val = parseInt(req.body[i]) || 0;
+                val = Math.max(0, Math.min(255, val)) | 0;
+                color[i] = val;
+            }
+            db.connection.query("SELECT user_id FROM tokens WHERE token = ?", [req.body.token], (err, rows, fields) => {
+                if (err) {
+                    console.log(err);
+                    return res.send({ success: false });
+                }
+                if (0 in rows) this.updateFavColor(rows[0].user_id, color.r, color.g, color.b, function (success) {
+                    console.log(rows[0].username + " heeft zijn lieflingskleur gewijzigd");
+                    res.send({ success: success });
+                });
+                else res.send({ success: false });
+            });
+        });
+
     },
 
     updateFavColor: function (userID, r, g, b, callback) {
 
         var hsl = convert.rgb.hsl(r, g, b);
+        if (hsl.l > 70)
+            return callback(false);
+
         this.getColorClasses((classes) => {
 
             console.log(hsl);
@@ -73,8 +98,9 @@ module.exports = {
                 [r, g, b, colorClass.id, userID], (err, results, fields) => {
                     if (err) {
                         console.log(err);
+                        callback(false);
                     }
-                    callback();
+                    callback(results.affectedRows == 1);
                 });
         });
     },

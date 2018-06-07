@@ -114,7 +114,9 @@ $(document).ready(function () {
         "friends.js",
         "profile.js",
         "people.js",
-        "filtered-search.js"
+        "filtered-search.js",
+        "change-fav-color.js",
+        "iro.min.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

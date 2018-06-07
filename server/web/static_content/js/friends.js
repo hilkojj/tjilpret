@@ -32,7 +32,7 @@ function updateFriends() {
 }
 
 friends.onSessionCreated = updateFriends;
-setInterval(updateFriends, 5000);
+setInterval(updateFriends, 8000);
 
 function showFriendsCount(data, q) {
     var count = 0;
