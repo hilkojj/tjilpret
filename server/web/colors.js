@@ -52,17 +52,20 @@ module.exports = {
                 val = Math.max(0, Math.min(255, val)) | 0;
                 color[i] = val;
             }
-            db.connection.query("SELECT user_id FROM tokens WHERE token = ?", [req.body.token], (err, rows, fields) => {
-                if (err) {
-                    console.log(err);
-                    return res.send({ success: false });
-                }
-                if (0 in rows) this.updateFavColor(rows[0].user_id, color.r, color.g, color.b, function (success) {
-                    console.log(rows[0].username + " heeft zijn lieflingskleur gewijzigd");
-                    res.send({ success: success });
+            db.connection.query(`
+                    SELECT users.user_id, username FROM tokens, users WHERE users.user_id = tokens.user_id AND token = ?
+                    `, [req.body.token], (err, rows, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return res.send({ success: false });
+                    }
+                    if (0 in rows) this.updateFavColor(rows[0].user_id, color.r, color.g, color.b, function (success) {
+                        console.log(rows[0].username + " heeft zijn lieflingskleur gewijzigd " + Date());
+                        res.send({ success: success });
+                    });
+                    else res.send({ success: false });
                 });
-                else res.send({ success: false });
-            });
         });
 
     },
@@ -74,12 +77,9 @@ module.exports = {
             return callback(false);
 
         this.getColorClasses((classes) => {
-
-            console.log(hsl);
             var colorClass = null;
             for (var i in classes) {
                 var c = classes[i];
-                console.log(c.max_lightness);
                 if (hsl[2] < c.max_lightness * 100) {
                     colorClass = c;
                     break;

@@ -11,7 +11,7 @@ window.paths["/lieflingskleur"] = function () {
 }
 
 function startChangeFavColor(classes) {
-    var user = window.userSession.user;
+    var user = window.subjects.user.data;
     var saveBtn = $("#save-fav-color");
 
     var colorPickerDiv = $("#color-picker");
@@ -35,6 +35,8 @@ function startChangeFavColor(classes) {
 
                 if (res.success) showSuccess("opgeslagen");
                 else showError("Potver er ging iets mis");
+
+                updateUser();
             }
         });
     });
@@ -86,5 +88,36 @@ function startChangeFavColor(classes) {
             newColor = rgb;
         }
 
+    });
+}
+
+window.paths["/status"] = function () {
+
+    startActivity("change-status", true, function () {
+
+        applyFavColor();
+        var textArea = $("#new-status");
+        textArea.val(window.subjects.user.data.bio.replace("\\n", "\n"));
+        M.textareaAutoResize(textArea);
+        textArea.characterCounter();
+        
+    });
+}
+
+function updateStatus(status) {
+    $.ajax({
+        url: "/api/updateStatus",
+        method: "post",
+        data: {
+            token: window.userSession.token,
+            status: status
+        },
+        success: function (res) {
+
+            if (res.success) showSuccess("hoppakeee");
+            else if ("error" in res) showError(res.error);
+
+            updateUser();
+        }
     });
 }

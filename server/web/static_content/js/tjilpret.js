@@ -115,7 +115,7 @@ $(document).ready(function () {
         "profile.js",
         "people.js",
         "filtered-search.js",
-        "change-fav-color.js",
+        "change-profile.js",
         "iro.min.js"
     ], "/static_content/js/").done(function () {
 

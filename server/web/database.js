@@ -7,7 +7,8 @@ const connection = mysql.createConnection({
     user: "root",
     password: password,
     database: "tjillepret",
-    multipleStatements: true
+    multipleStatements: true,
+    charset: "utf8mb4"
 });
 
 connection.connect((err) => {

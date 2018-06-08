@@ -14,7 +14,7 @@ function showNavbar(callback) {
         window.navbarShadow = true;
 
         $("header").prepend(nb);
-        updateNavbarInfo(userSession.user);
+        updateNavbarInfo(window.subjects.user.data);
         setTimeout(function () {
             M.Tabs.init($('#nav-tabs')[0]);
             $('.sidenav').sidenav();
@@ -28,12 +28,13 @@ function showNavbar(callback) {
     });
 }
 
-function updateNavbarInfo(user) {
+function updateNavbarInfo(user, div) {
+    console.log(user);
     var rgb = rgbString(user.r, user.g, user.b);
     window.navbar.find("#username").html(user.username);
     window.navbar.find(".navbar-profile-pic").attr(
         "src",
-        pPicPath(window.userSession.user.profilePic, "small"
+        pPicPath(window.subjects.user.data.profilePic, "small"
         )
     ).css("background-color", rgb);
 

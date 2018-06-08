@@ -14,7 +14,7 @@ function initStyle(callback) {
 }
 
 function applyFavColor() {
-    var u = window.userSession.user;
+    var u = window.subjects.user.data;
     applyThemeColor(u.r, u.g, u.b);
 }
 

@@ -2,12 +2,26 @@ window.userSession = null;
 
 var userSubject = new Subject("user", {});
 
+function updateUser() {
+    $.ajax({
+        url: "/api/userInfo",
+        method: "post",
+        data: { id: userSubject.data.id },
+        success: function (res) {
+            if (!res.found) return;
+            userSubject.data = res.userInfo;
+            userSubject.notify();
+        }
+    });
+}
+
+setInterval(updateUser, 10000);
+
 function startUserSession(user, token) {
     if (window.userSession != null)
         return;
     window.userSession = {
-        token: token,
-        user: user
+        token: token
     };
     userSubject.data = user;
     userSubject.notify();

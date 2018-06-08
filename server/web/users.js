@@ -201,10 +201,10 @@ module.exports = {
 
         api.post("/searchPeople", (req, res) => {
 
-            console.log(req.body);
+            var q = db.connection.escape(req.body.q);
             var query = `
                 SELECT * FROM user_info
-                WHERE username LIKE CONCAT("%", ` + db.connection.escape(req.body.q) + `, "%")
+                WHERE username LIKE CONCAT("%", ` + q + `, "%")
             `;
 
             if ("colorClass" in req.body && req.body["colorClass"] != "all")
@@ -220,7 +220,7 @@ module.exports = {
                     "uploads": "uploads",
                     "joined": "joined_on"
                 }[req.body.sortBy];
-                if (col != undefined) 
+                if (col != undefined)
                     query += `
                         ORDER BY ` + col + (req.body.desc == true ? ` DESC` : ``);
             }
@@ -229,17 +229,37 @@ module.exports = {
             query += `
                 LIMIT ` + pageLimit + ` OFFSET ` + (page * pageLimit);
 
-            console.log(query);
-
             db.connection.query(query, [], (err, rows, fields) => {
                 if (err) {
                     console.log(err);
                     return res.send([]);
                 }
+                if (q != "''") console.log("Gezocht naar mensen like " + q);
                 var users = [];
                 for (var i in rows) users.push(utils.userInfo(rows[i]));
                 res.send(users);
             });
+        });
+
+        api.post("/updateStatus", (req, res) => {
+
+            var status = String(req.body.status);
+            status = status.replace(/\n\s*\n\s*\n/g, '\n\n'); // remove unnecessary newlines
+            if (status.length > 255) return utils.sendError(res, "Status is te lang >:(");
+            var token = parseInt(req.body.token) || 0;
+
+            db.connection.query(`
+                    UPDATE users SET bio = ? WHERE user_id = (SELECT user_id FROM tokens WHERE token = ?)
+                    `, [status, token], (err, results, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "huuuuu er ging iets mis");
+                    }
+                    if (results.affectedRows == 1)
+                        res.send({ success: true });
+                    else utils.sendError(res, "Probeer es opnieuw in te loggen");
+                });
         });
 
     }

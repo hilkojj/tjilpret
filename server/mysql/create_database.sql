@@ -78,8 +78,9 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 279
-DEFAULT CHARACTER SET = utf8;
+AUTO_INCREMENT = 280
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_520_ci;
 
 
 -- -----------------------------------------------------

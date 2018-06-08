@@ -45,7 +45,7 @@ window.paths["/tjiller"] = function () {
                 var chatButton = $("#profile-chat-btn");
                 requestNotify("friends");
 
-                if (user.id == window.userSession.user.id) {
+                if (user.id == window.subjects.user.data.id) {
                     friendButton.remove();
                     chatButton.remove();
                 }
@@ -71,7 +71,7 @@ window.paths["/tjiller"] = function () {
                         if (res.length == 0) {
                             var url = "/tjillers/lieflingskleur/" + user.colorClassID;
                             h6.parent().html("<br>" +
-                                (user.id == window.userSession.user.id ?
+                                (user.id == window.subjects.user.data.id ?
                                     `Je hept geen VRIENDS!!
                                     <br>Zoek naar 
                                     <a href="`+ url + `" onclick="return navigate('` + url + `')">
@@ -150,7 +150,7 @@ function showProfileCard(parent, user, m6, callback) {
         friendButton.attr("style", "background-color: " + rgb + " !important").attr("data-user-id", user.id);
         chatButton.find("i").css("color", rgb);
 
-        if (user.id == window.userSession.user.id) {
+        if (user.id == window.subjects.user.data.id) {
             friendButton.css("visibility", "hidden");
             chatButton.remove();
         }
