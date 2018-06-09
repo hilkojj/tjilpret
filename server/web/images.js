@@ -91,6 +91,14 @@ function saveMultipleImageSizes(file, filePath, dimensions, callback) {
     }
 }
 
+const imgFilter = function (req, file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype) return cb(null, true);
+    else cb('Error: Aleen platjes');
+}
+
 const profilePicStorage = multer.diskStorage({
     destination: __dirname + "/static_content/profile_pics/",
     filename: function (req, file, cb) {
@@ -101,14 +109,21 @@ const profilePicStorage = multer.diskStorage({
 const profilePicUpload = multer({
     storage: profilePicStorage,
     limits: { fileSize: 15000000 },
-    fileFilter: function (req, file, cb) {
-        const filetypes = /jpeg|jpg|png|gif/;
-        const mimetype = filetypes.test(file.mimetype);
-
-        if (mimetype) return cb(null, true);
-        else cb('Error: Aleen platjes');
-    }
+    fileFilter: imgFilter
 }).single("profilePic");
+
+const headerStorage = multer.diskStorage({
+    destination: __dirname + "/static_content/headers/",
+    filename: function (req, file, cb) {
+        cb(null, utils.randomInt(10000000, 99999999) + "." + file.mimetype.replace("image/", ""));
+    }
+});
+
+const headerUpload = multer({
+    storage: headerStorage,
+    limits: { fileSize: 15000000 },
+    fileFilter: imgFilter
+}).single("header");
 
 module.exports = {
 
@@ -124,9 +139,7 @@ module.exports = {
                 var newFileName = req.file.filename;
                 saveMultipleImageSizes(newFileName, req.file.destination, profilePicDim, function (success) {
                     if (success) {
-
                         var token = parseInt(req.body.token) || 0;
-
                         db.connection.query(`UPDATE users SET profile_pic = ? WHERE user_id = (SELECT user_id FROM tokens WHERE token = ?)`,
                             [newFileName, token], (err, results, fields) => {
                                 if (err) {
@@ -139,8 +152,32 @@ module.exports = {
                     } else utils.sendError(res, "Platje opslaan mislukt");
                 });
             });
-        }
-        );
+        });
+
+        api.post("/uploadHeader", (req, res) => {
+            headerUpload(req, res, (err) => {
+                if (err) {
+                    console.log(err);
+                    return utils.sendError(res, "AAAAAAAAAAAAAAA er is iets misgegaan");
+                }
+                console.log(req.body);
+                var newFileName = req.file.filename;
+                saveMultipleImageSizes(newFileName, req.file.destination, headerDim, function (success) {
+                    if (success) {
+                        var token = parseInt(req.body.token) || 0;
+                        db.connection.query(`UPDATE users SET header = ? WHERE user_id = (SELECT user_id FROM tokens WHERE token = ?)`,
+                            [newFileName, token], (err, results, fields) => {
+                                if (err) {
+                                    console.log(err);
+                                    return utils.sendError(res, "huuuuu er ging iets mis");
+                                }
+                                res.send({ success: true });
+                            }
+                        );
+                    } else utils.sendError(res, "Banner opslaan mislukt");
+                });
+            });
+        });
     }
 
 }

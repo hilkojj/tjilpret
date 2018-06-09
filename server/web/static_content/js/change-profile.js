@@ -134,13 +134,13 @@ function updateStatus(status) {
     });
 }
 
-function uploadProfilePic(file) {
+function uploadProfileImg(url, name, file) {
     var fd = new FormData();
     fd.append("token", window.userSession.token);
-    fd.append("profilePic", file, "profilePic");
+    fd.append(name, file, name);
     $.ajax({
         type: 'POST',
-        url: '/api/uploadProfilePic',
+        url: url,
         data: fd,
         processData: false,
         contentType: false
@@ -163,11 +163,11 @@ window.paths["/profilfoto"] = function () {
 
     if (file.name.endsWith(".gif")) startActivity("loader", true, function () {
         applyFavColor();
-        uploadProfilePic(file);
+        uploadProfileImg("/api/uploadProfilePic", "profilePic", file);
     });
     else showCroppie(file, 200, 200, "circle", 300, 800, 800, function (blob) {
         startActivity("loader", true, function () { });
-        uploadProfilePic(blob);
+        uploadProfileImg("/api/uploadProfilePic", "profilePic", blob);
     });
 }
 
@@ -175,6 +175,31 @@ function ppChosen() {
     var input = $("#pp-input")[0];
     if (input.files && input.files[0])
         navigate("/profilfoto");
+}
+
+window.paths["/banner"] = function () {
+
+    var input = $("#header-input")[0];
+    if (!(input.files && input.files[0])) return navigate("/hoom");
+
+    title("Lekker bannertje uploden");
+    var file = input.files[0];
+    input.value = "";
+
+    if (file.name.endsWith(".gif")) startActivity("loader", true, function () {
+        applyFavColor();
+        uploadProfileImg("/api/uploadHeader", "header", file);
+    });
+    else showCroppie(file, 400, 160, "square", 300, 1600, 640, function (blob) {
+        startActivity("loader", true, function () { });
+        uploadProfileImg("/api/uploadHeader", "header", blob);
+    });
+}
+
+function headerChosen() {
+    var input = $("#header-input")[0];
+    if (input.files && input.files[0])
+        navigate("/banner");
 }
 
 function showCroppie(file, vpWidth, vpHeight, type, boundaryHeight, resultWidth, resultHeight, resultCallback) {
