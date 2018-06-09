@@ -22,6 +22,7 @@ app.use("/static_content", express.static(__dirname + "/static_content"));
 ////////////////////////////////////////////
 const api = express.Router();
 app.use("/api", api);
+
 const apiFiles = [
 	"auth",
 	"images",
@@ -47,7 +48,7 @@ app.get("/static_content/*", (req, res) => {
 //                                        //
 ////////////////////////////////////////////
 app.get("/tjiller/:id*", (req, res) => {
-	db.connection.query("SELECT * FROM users WHERE user_id = ?", [parseInt(req.params.id)], (err, rows, fields) => {
+	db.connection.query("SELECT * FROM users WHERE user_id = ?", [parseInt(req.params.id) || -100], (err, rows, fields) => {
 		if (err || rows.length == 0) {
 			console.log(err);
 			webapp.show(`
@@ -59,7 +60,7 @@ app.get("/tjiller/:id*", (req, res) => {
 			var user = rows[0];
 			var pf = "https://tjilpret.tk/static_content/img/login_logo.png";
 			if (user.profile_pic != null)
-				pf = "https://tjilpret.tk/static_content/profile_pics/med/"+ user.profile_pic.replace(".gif", ".jpg");
+				pf = "https://tjilpret.tk/static_content/profile_pics/med/" + user.profile_pic.replace(".gif", ".jpg");
 			webapp.show(`
 				<meta name="og:description" content="`+ user.bio + `"/>
 				<meta name="og:url" content="https://tjilpret.tk"/>\

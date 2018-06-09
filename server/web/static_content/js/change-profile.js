@@ -1,7 +1,18 @@
+
+getFragment("change-profile-modal", function (modal) {
+    $("main").append(modal);
+    modal.modal();
+    var instance = M.Modal.getInstance(modal);
+    modal.find(".collection-item").click(function () {
+        instance.close();
+    });
+});
+
 window.paths["/lieflingskleur"] = function () {
 
     startActivity("change-fav-color", true, function () {
 
+        title("Lievlingskleur");
         $.ajax({
             url: "/api/allColors",
             method: "post",
@@ -95,12 +106,13 @@ window.paths["/status"] = function () {
 
     startActivity("change-status", true, function () {
 
+        title("Stattus wijszigen");
         applyFavColor();
         var textArea = $("#new-status");
         textArea.val(window.subjects.user.data.bio.replace("\\n", "\n"));
         M.textareaAutoResize(textArea);
         textArea.characterCounter();
-        
+
     });
 }
 
@@ -119,5 +131,95 @@ function updateStatus(status) {
 
             updateUser();
         }
+    });
+}
+
+function uploadProfilePic(file) {
+    var fd = new FormData();
+    fd.append("token", window.userSession.token);
+    fd.append("profilePic", file, "profilePic");
+    $.ajax({
+        type: 'POST',
+        url: '/api/uploadProfilePic',
+        data: fd,
+        processData: false,
+        contentType: false
+    }).done(function (res) {
+        if ("error" in res) showError(res.error);
+        else if (res.success) showSuccess("Geniet ervan");
+        updateUser();
+        history.back();
+    });
+}
+
+window.paths["/profilfoto"] = function () {
+
+    var input = $("#pp-input")[0];
+    if (!(input.files && input.files[0])) return navigate("/hoom");
+
+    title("Lekker fototje uploden");
+    var file = input.files[0];
+    input.value = "";
+
+    if (file.name.endsWith(".gif")) startActivity("loader", true, function () {
+        applyFavColor();
+        uploadProfilePic(file);
+    });
+    else showCroppie(file, 200, 200, "circle", 300, 800, 800, function (blob) {
+        startActivity("loader", true, function () { });
+        uploadProfilePic(blob);
+    });
+}
+
+function ppChosen() {
+    var input = $("#pp-input")[0];
+    if (input.files && input.files[0])
+        navigate("/profilfoto");
+}
+
+function showCroppie(file, vpWidth, vpHeight, type, boundaryHeight, resultWidth, resultHeight, resultCallback) {
+    startActivity("croppie", true, function () {
+
+        applyFavColor();
+
+        var iframe = $("#croppie-iframe");
+        iframe.load(function () {
+            var croppieDiv = iframe[0].contentWindow.croppieDiv;
+            var c = croppieDiv.croppie({
+                viewport: {
+                    width: vpWidth,
+                    height: vpHeight,
+                    type: type
+                },
+                boundary: {
+                    height: boundaryHeight
+                },
+                enableOrientation: true
+            });
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                c.croppie("bind", {
+                    url: e.target.result,
+                    orientation: 1
+                });
+            }
+            reader.readAsDataURL(file);
+
+            $("#croppie-rot-left").click(function () { c.croppie("rotate", 90); });
+            $("#croppie-rot-right").click(function () { c.croppie("rotate", -90); });
+
+            var saveBtn = $("#croppie-save");
+            saveBtn.click(function () {
+                c.croppie("result", {
+                    type: "blob",
+                    size: {
+                        width: resultWidth,
+                        height: resultHeight
+                    },
+                    circle: false
+                }).then(resultCallback);
+            });
+        });
+
     });
 }

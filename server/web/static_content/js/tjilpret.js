@@ -9,10 +9,10 @@ function Subject(name, data) {
     window.subjects[name] = this;
 }
 
-Subject.prototype.notify = function() {
-    
+Subject.prototype.notify = function () {
+
     var data = this.data;
-    $("[data-subject='" + this.name + "']").each(function() {
+    $("[data-subject='" + this.name + "']").each(function () {
 
         var q = $(this);
         var functionName = q.attr("data-on-notify");
@@ -94,7 +94,17 @@ $(document).ready(function () {
 
     $.loadScripts = function (arr, path) {
         var _arr = $.map(arr, function (scr) {
-            return $.getScript((path || "") + scr);
+            return $.getScript((path || "") + scr).fail(function (jqxhr, settings, exception) {
+                errorObj = {};
+                if (arguments[0].readyState == 0) {
+                    errorObj.message = 'Failed to load script!';
+                }
+                else {
+                    errorObj.type = arguments[1];
+                    errorObj.message = arguments[2]['message'];
+                }
+                console.log(errorObj);
+            });
         });
 
         _arr.push($.Deferred(function (deferred) {
@@ -116,7 +126,8 @@ $(document).ready(function () {
         "people.js",
         "filtered-search.js",
         "change-profile.js",
-        "iro.min.js"
+        "iro.min.js",
+        "croppie.min.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

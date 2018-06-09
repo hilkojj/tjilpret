@@ -42,13 +42,14 @@ window.paths["/tjiller"] = function () {
                 $("#profile-uploads").html(user.uploads);
 
                 var friendButton = $(".profile-friend-btn").attr("data-user-id", user.id);
-                var chatButton = $("#profile-chat-btn");
+                var chatButton = $(".profile-chat-btn");
+                var editButton = $(".edit-profile-btn");
                 requestNotify("friends");
 
                 if (user.id == window.subjects.user.data.id) {
                     friendButton.remove();
                     chatButton.remove();
-                }
+                } else editButton.remove();
 
                 $.ajax({
                     url: "/api/colorInfo",
