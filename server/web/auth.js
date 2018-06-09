@@ -91,9 +91,8 @@ module.exports = {
                         joined_on: Date.now() / 1000 | 0,
                         email: email,
                         bio: "nieuweling",
-                        r: utils.randomInt(0, 230),
-                        g: utils.randomInt(0, 230),
-                        b: utils.randomInt(0, 230)
+                        r: 94, g: 94, b: 255,
+                        color_class_id: 14
                     }, (err, results, fields) => {
                         console.log(username + " heeft de verstandige keuze gemaakt om lid te worden van tjilpret");
                         if (err) {
