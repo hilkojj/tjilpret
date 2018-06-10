@@ -2,14 +2,17 @@
 const db = require("./database.js");
 const utils = require("./utils.js");
 const bcrypt = require("bcrypt");
+const useragent = require('useragent');
 
-var createSession = function (user, res) {
+var createSession = function (user, req, res) {
     const token = utils.randomInt(100000000, 999999999);
     db.connection.query("INSERT INTO tokens SET ?", {
         token: token,
         user_id: user.user_id,
         created: Date.now() / 1000 | 0,
-        expires: 0
+        expires: 0,
+        user_agent: req.headers["user-agent"] || "unkown",
+        ip: req.headers["x-real-ip"] || "unkown"
     }, (err, rows, fields) => {
         if (err) {
             console.log(err);
@@ -54,7 +57,7 @@ module.exports = {
                     }
                     if (!correct)
                         return utils.sendError(res, "Wachtwoord is niet goed, " + username + "!!");
-                    createSession(users[0], res);
+                    createSession(users[0], req, res);
                 });
             });
         });
@@ -105,7 +108,7 @@ module.exports = {
                                 console.log(err);
                                 return utils.sendError(res, "Probeer nu es in te loggen");
                             }
-                            createSession(rows[0], res);
+                            createSession(rows[0], req, res);
                         });
                     });
                 });
@@ -143,6 +146,59 @@ module.exports = {
                 }
                 res.send(valid);
             });
+        });
+
+        api.post("/tokenHistory", (req, res) => {
+            db.connection.query(`
+                SELECT token, created, user_agent AS userAgent, ip 
+                FROM tokens 
+                WHERE user_id = (SELECT user_id FROM tokens WHERE token = ?)
+                ORDER BY created DESC`,
+                [parseInt(req.body.token) || 0], (err, tokens, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return res.send([]);
+                    }
+                    for (var i in tokens) {
+                        var token = tokens[i];
+                        token["readableUserAgent"] = useragent.parse(token.userAgent).toString();
+                    }
+                    res.send(tokens);
+                }
+            );
+        });
+
+        api.post("/logout", (req, res) => {
+            db.connection.query(`DELETE FROM tokens WHERE token = ?`,
+                [parseInt(req.body.token) || 0], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return res.send({ success: false });
+                    }
+                    res.send({ success: results.affectedRows == 1 });
+                }
+            );
+        });
+
+        api.post("/logoutEverywhere", (req, res) => {
+            db.connection.query(`
+                SELECT user_id FROM tokens WHERE token = ?`,
+                [parseInt(req.body.token) || 0], (err, rows, fields) => {
+                    if (err || !(0 in rows)) {
+                        console.log(err);
+                        return res.send({ success: false });
+                    }
+                    db.connection.query(`DELETE FROM tokens WHERE user_id = ?`,
+                        [rows[0].user_id], (err, results, fields) => {
+                            if (err) {
+                                console.log(err);
+                                return res.send({ success: false });
+                            }
+                            res.send({ success: true });
+                        }
+                    );
+                }
+            );
         });
 
     }

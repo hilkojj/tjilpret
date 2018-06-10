@@ -165,7 +165,7 @@ window.registerButtonTimer = 0;
 window.registerButtonInterval = null;
 function registerButtonHover() {
     if (mobile || window.registerButtonInterval != null) return;
-    window.registerButtonInterval = setInterval(function() {
+    window.registerButtonInterval = setInterval(function () {
 
         var btn = $("#register-button");
         if (!btn.is(":hover")) {
@@ -214,6 +214,37 @@ function showLoginProfilePic() {
                 $("#login-pic").css("background-image", "url('" + pPicPath(res.userInfo.profilePic, "med") + "')").css("opacity", 1);
             else
                 $("#login-pic").css("opacity", 0);
+        }
+    });
+}
+
+function switchUser() {
+    window.userSession = null;
+    Cookies.remove('last_user');
+    onPathChanged();
+}
+
+function logout(token, callback) {
+    $.ajax({
+        url: "/api/logout",
+        method: "post",
+        data: { token: token },
+        success: function (res) {
+            if (typeof callback != "undefined") callback();
+            if (token == window.userSession.token) switchUser();
+        }
+    });
+}
+
+function logoutEverywhere(callback) {
+    if (!confirm("AA overal uitlogge???")) return;
+    $.ajax({
+        url: "/api/logoutEverywhere",
+        method: "post",
+        data: { token: window.userSession.token },
+        success: function (res) {
+            if (typeof callback != "undefined") callback();
+            switchUser();
         }
     });
 }

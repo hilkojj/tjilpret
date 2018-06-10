@@ -101,11 +101,7 @@
         </li>
         <li class="divider"></li>
         <li>
-            <a class="waves-effect sidenav-close" onclick="{
-                window.userSession = null;
-                Cookies.remove('last_user');
-                onPathChanged();
-            }">
+            <a class="waves-effect sidenav-close" onclick="switchUser()">
                 <i class="material-icons">swap_horiz</i>Ander account
             </a>
         </li>

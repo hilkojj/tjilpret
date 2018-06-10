@@ -127,7 +127,8 @@ $(document).ready(function () {
         "filtered-search.js",
         "change-profile.js",
         "iro.min.js",
-        "croppie.min.js"
+        "croppie.min.js",
+        "preferences.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

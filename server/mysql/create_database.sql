@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 280
+AUTO_INCREMENT = 282
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_520_ci;
 
@@ -365,6 +365,8 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`tokens` (
   `user_id` INT(11) NOT NULL,
   `created` INT(11) NOT NULL,
   `expires` INT(11) NOT NULL,
+  `user_agent` VARCHAR(512) NOT NULL DEFAULT 'unkown',
+  `ip` VARCHAR(45) NOT NULL DEFAULT '0',
   PRIMARY KEY (`token`, `user_id`),
   INDEX `fk_tokens_users_idx` (`user_id` ASC),
   CONSTRAINT `fk_tokens_users`

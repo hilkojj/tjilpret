@@ -473,3 +473,23 @@ center .header-profile-pic {
 .cr-boundary {
     box-sizing: initial !important;
 }
+
+/* PREFS */
+.prefs-coll {
+    background: white;
+}
+.token-history-coll-body {
+    padding: 5px !important;
+}
+#token-history .collection-item {
+    line-height: 2.2rem;
+    color: black !important;
+}
+#token-history .collection-item span {
+    color: rgba(0, 0, 0, .6);
+}
+#token-history i {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+/* END PREFS */
