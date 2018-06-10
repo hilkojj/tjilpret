@@ -43,7 +43,9 @@ window.paths["/tjillers"] = function () {
                         },
                         default: 1
                     }
-                }, "/api/searchPeople", peopleResultsViewer, "Soeken naar mensen", "Geen tjillers voldoen aan deze criteria");
+                }, "/api/searchPeople", true, peopleResultsViewer,
+                    "Soeken naar mensen", "Geen tjillers voldoen aan deze criteria"
+                );
             }
         });
     });

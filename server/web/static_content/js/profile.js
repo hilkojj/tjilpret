@@ -64,7 +64,7 @@ window.paths["/tjiller"] = function () {
                 });
 
                 var url = "/tjillers/lieflingskleur/" + user.colorClassID;
-                showFilteredSearch($("#profile-vriends-page"), {}, "/api/friendsOf/" + user.id,
+                showFilteredSearch($("#profile-vriends-page"), {}, "/api/friendsOf/" + user.id, false,
                     function (results, div, callback) {
                         if (!(0 in results)) return callback(0);
                         var i = 0;

@@ -1,5 +1,7 @@
 
-function showFilteredSearch(parent, filters, url, resultsViewer, placeholder, htmlOnNoResults, htmlOnNoResultsWithInput) {
+function showFilteredSearch(
+    parent, filters, url, replaceState, resultsViewer, placeholder, htmlOnNoResults, htmlOnNoResultsWithInput
+) {
     getFragment("filtered-search", function (searchPage) {
         parent.append(searchPage);
 
@@ -17,7 +19,7 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder, ht
                 if (!endReached) loader.css("opacity", 1);
                 loadingNewPage = true;
                 console.log("download more");
-                filteredSearch(searchPage, url, resultsViewer, ++page, function (i) {
+                filteredSearch(searchPage, url, replaceState, resultsViewer, ++page, function (i) {
                     loadingNewPage = false;
                     endReached = i == 0;
                     if (endReached) loader.css("opacity", 0);
@@ -25,16 +27,16 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder, ht
             }
         }, 400);
 
-        var searchFun = function () { 
+        var searchFun = function () {
             page = 0;
             endReached = false;
-            filteredSearch(searchPage, url, resultsViewer, 0, function (i) {
+            filteredSearch(searchPage, url, replaceState, resultsViewer, 0, function (i) {
                 searchPage.find("#on-no-results").html(
-                    i == 0 ? (input.val() == "" || typeof htmlOnNoResultsWithInput == "undefined" ? 
-                    htmlOnNoResults : htmlOnNoResultsWithInput) + "<br><br>" 
-                    : ""
+                    i == 0 ? (input.val() == "" || typeof htmlOnNoResultsWithInput == "undefined" ?
+                        htmlOnNoResults : htmlOnNoResultsWithInput) + "<br><br>"
+                        : ""
                 );
-            }); 
+            });
         };
 
         var coll = searchPage.find('.collapsible');
@@ -95,10 +97,10 @@ function optionHtml(option, filter, filterIndex) {
     ) + `>` + filter.options[option] + `</option>`;
 }
 
-function filteredSearch(searchPage, url, resultsViewer, page, callback) {
+function filteredSearch(searchPage, url, replaceState, resultsViewer, page, callback) {
     var form = searchPage.find("form");
 
-    history.replaceState(null, null, window.location.pathname + "?" + form.serialize());
+    if (replaceState) history.replaceState(null, null, window.location.pathname + "?" + form.serialize());
 
     var data = { q: form.find("input").val(), page: page };
     form.find("select").each(function () {
