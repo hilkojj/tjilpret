@@ -63,40 +63,29 @@ window.paths["/tjiller"] = function () {
                     }
                 });
 
-                $.ajax({
-                    url: "/api/friendsOf",
-                    method: "post",
-                    data: { userID: user.id },
-                    success: function (res) {
-                        var h6 = $("#profile-friends-h6").html("Vriends van <b>" + user.username + "</b> (" + res.length + "):");
-                        if (res.length == 0) {
-                            var url = "/tjillers/lieflingskleur/" + user.colorClassID;
-                            h6.parent().html("<br>" +
-                                (user.id == window.subjects.user.data.id ?
-                                    `Je hept geen VRIENDS!!
-                                    <br>Zoek naar 
-                                    <a href="`+ url + `" onclick="return navigate('` + url + `')">
-                                        vrienden met beivoorbeeld dezelfde lieflingklur!!!
-                                    </a>`
-                                    :
-                                    `<b>` + user.username + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`)
-                                + "<br><br>"
-                            );
-                            return;
-                        }
+                var url = "/tjillers/lieflingskleur/" + user.colorClassID;
+                showFilteredSearch($("#profile-vriends-page"), {}, "/api/friendsOf/" + user.id,
+                    function (results, div, callback) {
+                        if (!(0 in results)) return callback(0);
                         var i = 0;
-                        var callback = function (profileCard) {
-                            profileFriendsSearch();
-                            if (++i in res)
-                                if (i % 2 == 0)
-                                    setTimeout(function () {
-                                        showProfileCard($("#profile-friends-row"), res[i], true, callback);
-                                    }, 200);
-                                else showProfileCard($("#profile-friends-row"), res[i], true, callback);
+                        var profileCardCallback = function (profileCard) {
+                            if (++i in results)
+                                showProfileCard(div, results[i], true, profileCardCallback);
+                            else callback(i);
                         }
-                        showProfileCard($("#profile-friends-row"), res[i], true, callback);
-                    }
-                });
+                        showProfileCard(div, results[i], true, profileCardCallback);
+                    },
+                    "Soek naar vriends van " + user.username,
+                    (user.id == window.subjects.user.data.id ?
+                        `Je hept geen VRIENDS!!
+                        <br>Zoek naar 
+                        <a href="`+ url + `" onclick="return navigate('` + url + `')">
+                            vrienden met beivoorbeeld dezelfde lieflingklur!!!
+                        </a>`
+                        :
+                        `<b>` + user.username + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`
+                    ), "Nimand gevonden"
+                );
 
                 if (3 in splitted) { // eg /uploads
                     showProfilePage(splitted[3]);
@@ -155,7 +144,7 @@ function showProfileCard(parent, user, m6, callback) {
             friendButton.css("visibility", "hidden");
             chatButton.remove();
         }
-        
+
         setHref(profileCard.find("#profile-card-profile-link"), "/tjiller/" + user.id);
         requestNotify("friends");
         callback(profileCard);

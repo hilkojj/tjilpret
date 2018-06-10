@@ -22,8 +22,11 @@ module.exports = {
             else res.send({ found: false, reason: "no id or username given" })
         });
 
-        api.post("/friendsOf", (req, res) => {
-            var userID = parseInt(req.body.userID);
+        api.post("/friendsOf/:userID", (req, res) => {
+            var userID = parseInt(req.params.userID);
+
+            var pageLimit = 8;
+            var page = parseInt(req.body.page) || 0;
             db.connection.query(`
                 SELECT * FROM users AS u
                 JOIN friendships AS fs ON (
@@ -31,8 +34,10 @@ module.exports = {
                     OR 
                     (u.user_id = fs.accepter_id AND NOT u.user_id = ?)
                 )
-                WHERE fs.inviter_id = ? OR fs.accepter_id = ?
-                ORDER BY since DESC;`, [userID, userID, userID, userID],
+                WHERE (fs.inviter_id = ? OR fs.accepter_id = ?)
+                AND u.username LIKE CONCAT("%", ?, "%")
+                ORDER BY since DESC
+                LIMIT ? OFFSET ?;`, [userID, userID, userID, userID, req.body.q, 8, page * 8],
                 (err, rows, fields) => {
                     if (err) {
                         console.log(err);
@@ -196,7 +201,7 @@ module.exports = {
                     }
                     res.send({ success: results.affectedRows == 1 });
                 }
-            );
+            );2
         });
 
         api.post("/searchPeople", (req, res) => {

@@ -1,5 +1,5 @@
 
-function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
+function showFilteredSearch(parent, filters, url, resultsViewer, placeholder, htmlOnNoResults, htmlOnNoResultsWithInput) {
     getFragment("filtered-search", function (searchPage) {
         parent.append(searchPage);
 
@@ -7,6 +7,7 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
         var id = Math.random() * 100000 | 0;
         searchPage.attr("id", id);
         var page = 0;
+        var input = searchPage.find("#search-input");
         var loadingNewPage = false;
         var endReached = false;
         var interval = setInterval(function () {
@@ -27,15 +28,22 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
         var searchFun = function () { 
             page = 0;
             endReached = false;
-            filteredSearch(searchPage, url, resultsViewer, 0, function (i) { }); 
+            filteredSearch(searchPage, url, resultsViewer, 0, function (i) {
+                searchPage.find("#on-no-results").html(
+                    i == 0 ? (input.val() == "" || typeof htmlOnNoResultsWithInput == "undefined" ? 
+                    htmlOnNoResults : htmlOnNoResultsWithInput) + "<br><br>" 
+                    : ""
+                );
+            }); 
         };
 
         var coll = searchPage.find('.collapsible');
         coll.collapsible();
         var collBody = coll.find(".collapsible-body");
 
+        var nFilters = 0;
         for (var filterIndex in filters) {
-
+            nFilters++;
             var filter = filters[filterIndex];
             var optionsHtml = "";
             if ("default" in filter) {
@@ -57,8 +65,8 @@ function showFilteredSearch(parent, filters, url, resultsViewer, placeholder) {
             select.change(searchFun);
             select.formSelect();
         }
+        if (nFilters == 0) coll.remove();
 
-        var input = searchPage.find("#search-input");
         input.attr("placeholder", placeholder);
         var q = param("q");
         if (q != null && q != "") input.val(replaceAll(q, "+", " "));
