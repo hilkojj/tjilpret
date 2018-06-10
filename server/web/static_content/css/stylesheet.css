@@ -478,6 +478,11 @@ center .header-profile-pic {
 .prefs-coll {
     background: white;
 }
+@media only screen and (max-width: 600px) {
+    .prefs-coll {
+        margin: 0 -.75rem;
+    }
+}
 .token-history-coll-body {
     padding: 5px !important;
 }

@@ -39,3 +39,20 @@ function tokenHistoryRemove(token, a) {
         a.remove();
     });
 }
+
+function changePassword() {
+    $.ajax({
+        url: "/api/changePassword",
+        method: "post",
+        data: { 
+            token: window.userSession.token,
+            currentPassword: $("#current-password").val(),
+            newPassword: $("#new-password").val()
+        },
+        success: function (res) {
+            if ("error" in res) showError(res.error);
+            else if (res.success && confirm("Opgeslage. Wil je nu overal uitloggen of nit?"))
+                logoutEverywhere();
+        }
+    });
+}

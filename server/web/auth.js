@@ -4,6 +4,8 @@ const utils = require("./utils.js");
 const bcrypt = require("bcrypt");
 const useragent = require('useragent');
 
+var minPasswordLength = 4;
+
 var createSession = function (user, req, res) {
     const token = utils.randomInt(100000000, 999999999);
     db.connection.query("INSERT INTO tokens SET ?", {
@@ -75,7 +77,7 @@ module.exports = {
                 utils.sendError(res, "Gebriukesnaam moet minimal 3 tekens lang");
             } else if (username.length >= 45) {
                 utils.sendError(res, "Gebriukesnaam mag maximaal 45 tekens lang");
-            } else if (password.length < 4) {
+            } else if (password.length < minPasswordLength) {
                 utils.sendError(res, "Das wel een heel kort wachtwoord");
             } else if (password.length >= 250) {
                 utils.sendError(res, "Das echt een fkng lang wachtwoord");
@@ -201,5 +203,43 @@ module.exports = {
             );
         });
 
+        api.post("/changePassword", (req, res) => {
+
+            var newPassword = req.body.newPassword;
+            if (typeof newPassword != "string" || newPassword.length < minPasswordLength)
+                return utils.sendError(res, "Wacgtwoord is te kort");
+
+            db.connection.query(`SELECT username, users.user_id, password FROM users, tokens 
+                                WHERE users.user_id = tokens.user_id AND token = ?`,
+                [parseInt(req.body.token) || 0], (err, users, fields) => {
+                    if (err || users.length == 0) {
+                        if (err) console.log(err);
+                        return utils.sendError(res, "AAA er is iets mis gegaan!?!?!");
+                    }
+                    var user = users[0];
+                    bcrypt.compare(req.body.currentPassword || "", user.password, (err, correct) => {
+                        if (err) {
+                            console.log(err);
+                            return utils.sendError(res, "RIP tjilpret. er is iets mis");
+                        }
+                        if (!correct)
+                            return utils.sendError(res, "Huidige wagtwoord is niet goed >:(");
+
+                        bcrypt.hash(newPassword, 2, (err, encryptedPassword) => {
+                            db.connection.query("UPDATE users SET password = ? WHERE user_id = ?",
+                                [encryptedPassword, user.user_id], (err, results, fields) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
+                                    }
+                                    console.log(user.username + " heeft zyn wachtwword veranderd " + Date());
+                                    res.send({ success: true });
+                                }
+                            );
+                        });
+                    });
+                }
+            );
+        });
     }
 }
