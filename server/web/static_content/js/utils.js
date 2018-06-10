@@ -24,10 +24,6 @@ function setHref(a, href) {
     )
 }
 
-function nToBr(string) {
-    return string == null ? "" : string.replace("\\n", "<br>").replace(/\n/g, "<br>");
-}
-
 function param(name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) return null;
@@ -39,7 +35,7 @@ function replaceAll(string, search, replacement) {
 };
 
 function usernameHtml(elements, user, big) {
-    var html = user.username;
+    var html = htmlText(user.username);
     if (user.admin)
         html += `<i class="material-icons tooltipped" style="vertical-align: ` + (big ? "middle" : "sub") + `; margin: 0 4px;"
                 data-position="bottom" data-tooltip="Erkende admin">verified_user</i>`;
@@ -74,10 +70,7 @@ function title(t) {
     $("title").html(t);
 }
 
-$.fn.isInViewport = function () {
-    var elementTop = $(this).offset().top;
-    var elementBottom = elementTop + $(this).outerHeight();
-    var viewportTop = $(window).scrollTop();
-    var viewportBottom = viewportTop + $(window).height();
-    return elementBottom > viewportTop && elementTop < viewportBottom;
-};
+function htmlText(string) {
+    return string == null ? ""
+        : string.split("<").join("&lt;").split(">").join("&gt;").split("\\n").join("<br>").replace(/\n/g, "<br>");
+}

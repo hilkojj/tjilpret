@@ -21,7 +21,7 @@ window.paths["/tjiller"] = function () {
                 var user = res.userInfo;
                 window.profilePageUser = user;
                 applyThemeColor(user.r, user.g, user.b);
-                title(user.username);
+                title(htmlText(user.username));
                 if (user.header != null) {
                     $(".header-img").css("padding-top", "40%").css(
                         "background", "linear-gradient(\
@@ -32,7 +32,7 @@ window.paths["/tjiller"] = function () {
                 $(".header-profile-pic").attr("src", pPicPath(user.profilePic, "large"));
                 usernameHtml($(".header-username"), user, true);
                 usernameHtml($(".header-username-black"), user, true);
-                $("#profile-bio").html(nToBr(user.bio));
+                $("#profile-bio").html(htmlText(user.bio));
                 $("#profile-messages-count").html(user.messages);
                 $("#profile-rep").html(user.rep).addClass(user.rep < 0 ? "red-text" : "");
                 $("#profile-views").html(user.views == null ? 0 : user.views);
@@ -58,7 +58,7 @@ window.paths["/tjiller"] = function () {
                     success: function (res) {
                         var favColorCard = $("#profile-fav-color");
                         favColorCard.find("h6").html("Lieflingskleur: <b>" + res.name.toLowerCase() + "</b>");
-                        favColorCard.find("p").html(nToBr(res.description));
+                        favColorCard.find("p").html(htmlText(res.description));
                         setHref(favColorCard.find("a"), "/tjillers?colorClass=" + res.id).find("b").html(res.people);
                     }
                 });
@@ -75,7 +75,7 @@ window.paths["/tjiller"] = function () {
                         }
                         showProfileCard(div, results[i], true, profileCardCallback);
                     },
-                    "Soek naar vriends van " + user.username,
+                    "Soek naar vriends van " + htmlText(user.username),
                     (user.id == window.subjects.user.data.id ?
                         `Je hept geen VRIENDS!!
                         <br>Zoek naar 
@@ -83,7 +83,7 @@ window.paths["/tjiller"] = function () {
                             vrienden met beivoorbeeld dezelfde lieflingklur!!!
                         </a>`
                         :
-                        `<b>` + user.username + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`
+                        `<b>` + htmlText(user.username) + `</b> is een eenzame tjiller.<br>Overweeg vriends te worden.`
                     ), "Nimand gevonden"
                 );
 
@@ -132,7 +132,7 @@ function showProfileCard(parent, user, m6, callback) {
         if (m6) profileCard.addClass("m6");
 
         usernameHtml(profileCard.find(".profile-card-username"), user, false);
-        profileCard.find(".profile-card-status").html(nToBr(user.bio));
+        profileCard.find(".profile-card-status").html(htmlText(user.bio));
 
         var friendButton = profileCard.find("btn");
         var chatButton = profileCard.find("#profile-card-chat-btn");

@@ -31,7 +31,7 @@ function showNavbar(callback) {
 function updateNavbarInfo(user, div) {
     console.log(user);
     var rgb = rgbString(user.r, user.g, user.b);
-    window.navbar.find("#username").html(user.username);
+    window.navbar.find("#username").html(htmlText(user.username));
     window.navbar.find(".navbar-profile-pic").attr(
         "src",
         pPicPath(window.subjects.user.data.profilePic, "small"
@@ -47,8 +47,8 @@ function updateNavbarInfo(user, div) {
     $(".sidenav-stats").find("i").css("color", rgb);
     $(".sidenav-stats").find("b").css("color", rgb);
     var url = "/tjiller/" + user.id;
-    setHref($(".sidenav-username").html(user.username).parent(), url);
-    $("#sidenav-status").html(nToBr(user.bio));
+    setHref($(".sidenav-username").html(htmlText(user.username)).parent(), url);
+    $("#sidenav-status").html(htmlText(user.bio));
     $("#sidenav-chat-stat").find("b").html(user.messages);
     setHref($("#sidenav-rep-stat"), url).find("b").html(user.rep);
     setHref($("#sidenav-friends-stat"), url + "/vriends").find("b").html(user.friends);

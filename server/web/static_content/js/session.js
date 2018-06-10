@@ -98,7 +98,7 @@ function showChooseUser(users) {
                 + ") !important\" onclick=\"choose("
                 + userID +
                 ")\"><img src=\"" + pPicPath(user.profilePic, "small") + "\" class=\"profile-pic\" style='background-color: " + rgb + "'>"
-                + user.username + "</a>");
+                + htmlText(user.username) + "</a>");
             collection.prepend(a);
         }
     });
@@ -193,9 +193,9 @@ function checkRegisterUsername() {
         },
         success: function (res) {
             if (res.exists)
-                showError("'" + u + "' bestaat al!!!!!!!");
+                showError("'" + htmlText(u) + "' bestaat al!!!!!!!");
             else
-                showSuccess("'" + u + "' is besgikbaar");
+                showSuccess("'" + htmlText(u) + "' is besgikbaar");
         }
     });
 }
