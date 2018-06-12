@@ -128,7 +128,8 @@ $(document).ready(function () {
         "change-profile.js",
         "iro.min.js",
         "croppie.min.js",
-        "preferences.js"
+        "preferences.js",
+        "uploads.js"
     ], "/static_content/js/").done(function () {
 
         initStyle(function () {

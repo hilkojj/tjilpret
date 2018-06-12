@@ -45,6 +45,7 @@ function updateFriendButton(data, btn) {
     var id = btn.attr("data-user-id");
     var onclick = "";
     var redHover = true;
+    var removeOnclickAfterClick = true;
     var width = 0;
 
     if (id in data.friends) {
@@ -53,6 +54,7 @@ function updateFriendButton(data, btn) {
             <span class="on-hover"><i class="material-icons left">close</i>verbreek</span>
         `);
         width = 150;
+        removeOnclickAfterClick = false;
         onclick = "removeFriend(" + id + ")";
 
     } else if (id in data.sentInvites) {
@@ -82,7 +84,7 @@ function updateFriendButton(data, btn) {
     if (redHover && !mobile) btn.addClass("red-hover");
     else btn.removeClass("red-hover");
 
-    btn.attr("onclick", onclick + "; $(this).attr('onclick', '');");
+    btn.attr("onclick", onclick + (removeOnclickAfterClick ? "; $(this).attr('onclick', '');" : ""));
 }
 
 function invite(id) {
@@ -132,6 +134,7 @@ function confirmFriendship(id, showConfirm, accept) {
 }
 
 function removeFriend(id) {
+    if (!confirm("vriendschap opheffen??")) return;
     $.ajax({
         url: "/api/removeFriend",
         method: "post",

@@ -92,7 +92,7 @@ body {
 
 /* NAVBAR */
 .navbar-fixed {
-    margin-bottom: 64px;
+    margin-bottom: 48px;
 }
 
 nav.hidden {
@@ -287,7 +287,7 @@ body.switching-activity {
 
 .profile-header {
     padding: 0 !important;
-    margin-top: -10px !important;
+    margin-top: 0px !important;
 }
 
 .header-info {
@@ -498,3 +498,29 @@ center .header-profile-pic {
     margin-right: 8px;
 }
 /* END PREFS */
+
+/* UPLOADS INDEX */
+#uploads-tabs {
+    background: white;
+    height: 64px;
+}
+
+#uploads-tabs .tab {
+    height: 64px !important;
+    min-width: 100px;
+    line-height: 1.5rem !important;
+    flex-grow: 0 !important;
+}
+
+#uploads-tabs .tab a {
+    padding: 4px 10px;
+    font-size: 13px !important;
+}
+#uploads-tabs .tab a i {
+    margin: 5px 0;
+}
+
+#uploads-tabs .tab a i {
+    margin: 5px 0;
+}
+/* END UPLOADS INDEX */
