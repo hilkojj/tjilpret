@@ -6,11 +6,15 @@ import { MaterializeModule } from 'angular2-materialize';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routingComponents } from './/app-routing.module';
 import { ThemeService } from './services/theme/theme.service';
+import { LoginComponent } from './pages/login/login.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents
+    routingComponents,
+    LoginComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
