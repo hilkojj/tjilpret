@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import { ThemeService } from './services/theme/theme.service';
 
 @Component({
   selector: 'tjille-app-root',
@@ -15,10 +15,12 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private themeService: ThemeService
   ) {
 
     this.subscribeToNavEnd();
+    // themeService.applyThemeColor(10, 200, 100);
 
   }
 

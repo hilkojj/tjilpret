@@ -1,0 +1,528 @@
+body {
+    width: 100vw;
+    opacity: 1 !important;
+    transition: opacity 3s 1s;
+}
+
+.btn {
+    background-color: ?rgb? !important;
+}
+
+.btn-flat {
+    background-color: transparent !important;
+    color: ?rgb? !important;
+}
+
+.btn-flat:hover {
+    background-color: rgba(?r?, ?g?, ?b?, .2) !important;
+}
+
+.input-field .prefix.active {
+    color: ?rgb? !important;
+}
+
+input:not([type]):focus:not([readonly]), 
+input[type=text]:not(.browser-default):focus:not([readonly]), 
+input[type=password]:not(.browser-default):focus:not([readonly]), 
+input[type=email]:not(.browser-default):focus:not([readonly]), 
+input[type=url]:not(.browser-default):focus:not([readonly]), 
+input[type=time]:not(.browser-default):focus:not([readonly]), 
+input[type=date]:not(.browser-default):focus:not([readonly]), 
+input[type=datetime]:not(.browser-default):focus:not([readonly]), 
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]), 
+input[type=tel]:not(.browser-default):focus:not([readonly]), 
+input[type=number]:not(.browser-default):focus:not([readonly]), 
+input[type=search]:not(.browser-default):focus:not([readonly]), 
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid ?rgb? !important;
+    box-shadow: 0 1px 0 0 ?rgb? !important;
+}
+
+.input-field label.active {
+    color: ?rgb? !important;
+}
+
+/* BACKGROUND */
+
+.masterpiece-left {
+    position: fixed;
+    z-index: -999;
+    left: 0;
+    bottom: 0;
+    width: 180px;
+    height: 180px;
+    background: url(/static_content/img/masterpiece_left.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+body {
+    background: ?rgb?;
+    transition: background ease-in-out .15s;
+    overflow-x: hidden !important;
+}
+
+.animatedGradient{
+    position: relative;
+}
+  
+.animatedGradient:after, .animatedGradient:before{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    z-index: -1;
+}
+  
+.animatedGradient:after{
+    background: radial-gradient(circle, ?rgbSec?, transparent);
+    background-size: 400%;
+    animation: colorSpin 30s ease-in-out infinite;
+}
+  
+.animatedGradient:before{
+    background-color: ?rgb?;
+}
+  
+@keyframes colorSpin{
+    25%{background-position: 10% 30%}
+    75%{background-position: -50% 110%}
+}
+/* END BACKGROUND */
+
+/* NAVBAR */
+.navbar-fixed {
+    margin-bottom: 48px;
+}
+
+nav.hidden {
+    transform: translateY(-64px);
+}
+
+nav {
+    background: ?rgb? !important;
+    transition: background ease-in-out .15s, transform ease-in-out .5s;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    perspective: 1000;
+    width: 100vw;
+}
+
+nav.hide-indicator .indicator {
+    opacity: 0;
+}
+
+nav.hide-indicator .tab a {
+    color: rgba(255,255,255,0.7) !important;
+}
+
+nav.hide-indicator .tab a:hover {
+    color: white !important;
+}
+
+nav .indicator {
+    transition: opacity 200ms;
+}
+
+nav .brand-logo img {
+    height: 40px;
+    vertical-align: middle;
+}
+
+nav .tabs {
+    text-align: center;
+    overflow-x: hidden;
+}
+
+nav .tabs li {
+    float: none;
+}
+
+nav .tabs li i {
+    display: inline;
+    vertical-align: middle;
+}
+
+nav .tabs .badge {
+    min-width: 22px;
+    height: 22px;
+    background: rgb(255, 17, 61);
+    border: 2px solid rgb(255, 17, 61);
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    display: none;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.43);
+}
+
+.navbar-profile-pic {
+    display: inline;
+    margin: 0 8px;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    vertical-align: middle;
+    border-radius: 100px;
+}
+
+nav a.sidenav-trigger {
+    display: block !important;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background-color: transparent !important;
+}
+/* END NAVBAR */
+
+.logo-shadow {
+    height: 60px;
+    margin: 30px;
+    -webkit-filter: drop-shadow( 1px 2px 0px #00000057 );
+    filter: drop-shadow( 1px 2px 0px #00000057 );
+}
+
+a {
+    cursor: pointer;
+}
+
+.collection a.collection-item {
+    color: ?rgb? !important;
+}
+
+.collection a.collection-item.active {
+    color: white !important;
+    background-color: ?rgb? !important;
+}
+
+.collection a.collection-item i {
+    vertical-align: bottom;
+}
+
+.collection .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: -10px;
+    transition: transform .2s ease-in-out;
+    transform: rotate(0deg);
+}
+
+.collection a:hover .profile-pic {
+    transform: rotate(-10deg);
+}
+
+/* ACTIVITY-ANIMATION */
+body.switching-activity {
+    overflow: hidden;
+}
+
+#activity {
+    will-change: transform, opacity;
+    transform-origin: 50% 50px;
+}
+
+#activity.in {
+    transition: ease-out .15s;
+    transform: scale(1);
+    opacity: 1;
+}
+
+#activity.mid {
+    transition: 0s !important;
+    opacity: 0;
+    transform: scale(1.1);
+}
+
+#activity.out {
+    transition: ease-in .15s;
+    transform: scale(.95);
+    opacity: 0;
+}
+/* END ACTIVITY-ANIMATION */
+
+/* SIDENAV */
+
+.sidenav-background {
+    background-size: cover;
+    height: 120px;
+}
+
+.sidenav-profile-pic {
+    width: 120px;
+    height: 120px;
+    margin-top: -60px;
+    border: solid 4px white;
+    background: white;
+}
+
+.sidenav-username {
+    margin-top: -10px;
+}
+
+.sidenav-stats i {
+    vertical-align: middle;
+}
+
+.sidenav-stats {
+    line-height: 20px;
+}
+
+.sidenav-stats span {
+    color: rgb(88, 88, 88) !important;
+}
+
+/* END SIDENAV */
+
+/* PROFILE-PAGE */
+.header-img {
+    width: 100%;
+    padding-top: 20%;
+    background: linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), url(/static_content/img/tiled_header.png) ?rgb?;
+    background-size: contain;
+}
+
+.profile-header {
+    padding: 0 !important;
+    margin-top: 0px !important;
+}
+
+.header-info {
+    width: 100%;
+}
+
+.header-profile-pic {
+    border: solid 4px white;
+    height: 180px;
+    width: 180px;
+    margin: 12px;
+    margin-top: -65px;
+    background: ?rgb?;
+    float: left;
+}
+
+center .header-profile-pic {
+    float: none;
+    height: 140px;
+    width: 140px;
+    margin: 0px;
+    margin-top: -70px;
+}
+
+.header-username {
+    color: white;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.43);
+    margin-top: -34px;
+    margin-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.profile-header .btn {
+    margin: 10px 0;
+}
+
+.profile-col {
+    padding: 0 !important;
+}
+.profile-col .card {
+    padding: .1rem .75rem;
+}
+@media only screen and (max-width: 992px) {
+    .profile-col .card {
+        border-radius: 0;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .profile-col-left {
+        padding-right: 10px !important;
+    }
+}
+
+.profile-page {
+    display: none;
+}
+.profile-page.show {
+    display: block;
+}
+
+.profile-stats i, .profile-stats b {
+    vertical-align: middle;
+    color: ?rgb?;
+}
+/* END PROFILE-PAGE */
+
+/* TABS  */
+.tabs.fav .tab a {
+    color: rgba(?r?, ?g?, ?b?, 0.7) !important;
+}
+.tabs.fav .tab a:hover, .tabs.fav .tab a.active {
+    color: ?rgb? !important;
+}
+.tabs.fav .indicator {
+    background-color: ?rgb? !important;
+    height: 4px;
+}
+.tabs.fav a i {
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+#profile-tabs {
+    height: 50px;
+}
+#profile-tabs a {
+    line-height: 20px;
+}
+.tab-number {
+    font-weight: bold;
+    font-size: 20px;
+}
+/* END TABS */
+
+/* PROFILE-CARD */
+
+.profile-card-header {
+    padding-top: 20%;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.profile-card-profile-pic {
+    height: 100px;
+    width: 100px;
+    margin: -50px 10px 0px;
+    border: 4px solid white;
+}
+
+.profile-card-info {
+    padding: 0 10px 1px;
+    overflow: hidden;
+    height: 82px;
+}
+
+.profile-card-status {
+    color: slategrey;
+}
+
+.profile-card h6 {
+    margin: 0 !important;
+}
+
+.profile-card btn {
+    margin: 10px;
+}
+/* END PROFILE-CARD */
+
+/* RED HOVER BUTTON */
+.btn.red-hover {
+    transition: background-color 0s;
+}
+.btn.red-hover:hover {
+    background-color: rgb(255, 17, 61) !important;
+}
+.btn.red-hover .on-hover {
+    display: none;
+}
+.btn.red-hover:hover .on-hover {
+    display: block;
+}
+.btn.red-hover:hover .normal {
+    display: none;
+}
+/* END RED HOVER BUTTON */
+
+/* SEARCH PAGE */
+.collapsible-header {
+    color: ?rgb?;
+    outline: none;
+}
+.dropdown-content li>a, 
+.dropdown-content li>span {
+    color: ?rgb?;
+}
+.spinner-white-only {
+    border-color: white;
+}
+/* END SEARCH PAGE */
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+.modal-content .collection .collection-item {
+    width: 100%;
+}
+
+/* CHANGE PROFILE */
+#change-profile-modal {
+    max-height: 100% !important;
+}
+/* END CHANGE PROFILE */
+
+.cr-boundary {
+    box-sizing: initial !important;
+}
+
+/* PREFS */
+.prefs-coll {
+    background: white;
+}
+@media only screen and (max-width: 600px) {
+    .prefs-coll {
+        margin: 0 -.75rem;
+    }
+}
+.token-history-coll-body {
+    padding: 5px !important;
+}
+#token-history .collection-item {
+    line-height: 2.2rem;
+    color: black !important;
+}
+#token-history .collection-item span {
+    color: rgba(0, 0, 0, .6);
+}
+#token-history i {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+/* END PREFS */
+
+/* UPLOADS INDEX */
+#uploads-tabs {
+    background: white;
+    height: 64px;
+}
+
+#uploads-tabs .tab {
+    height: 64px !important;
+    min-width: 100px;
+    line-height: 1.5rem !important;
+    flex-grow: 0 !important;
+}
+
+#uploads-tabs .tab a {
+    padding: 4px 10px;
+    font-size: 13px !important;
+}
+#uploads-tabs .tab a i {
+    margin: 5px 0;
+}
+
+#uploads-tabs .tab a i {
+    margin: 5px 0;
+}
+/* END UPLOADS INDEX */
