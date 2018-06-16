@@ -14,7 +14,7 @@ export const enum RouterPath {
 
 const routes: Routes = [
   {
-    path: "", redirectTo: "hoom", pathMatch: "full"
+    path: "", redirectTo: RouterPath.Home, pathMatch: "full"
   },
   {
     path: RouterPath.Home, component: HomeComponent, canActivate: [AuthService]

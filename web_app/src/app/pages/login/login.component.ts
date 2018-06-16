@@ -4,6 +4,7 @@ import { User } from '../../models/user';
 import { ThemeService } from '../../services/theme/theme.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { RouterPath } from '../../app-routing.module';
 
 @Component({
     selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        if (this.auth.authenticated) return this.router.navigate(["hoom"]);
+        if (this.auth.authenticated) return this.router.navigate([RouterPath.Home]);
     }
 
     checkUsername() {
