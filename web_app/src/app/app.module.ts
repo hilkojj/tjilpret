@@ -4,15 +4,16 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { MaterializeModule } from 'angular2-materialize';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule, routingComponents } from './/app-routing.module';
+import { AppRoutingModule } from './/app-routing.module';
 import { ThemeService } from './services/theme/theme.service';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
+    HomeComponent,
     LoginComponent,
     NotFoundComponent
   ],

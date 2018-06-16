@@ -4,8 +4,13 @@ body {
     transition: opacity 3s 1s;
 }
 
+.card {
+    border-radius: 5px;
+}
+
 .btn {
     background-color: ?rgb? !important;
+    border-radius: 100px;
 }
 
 .btn-flat {

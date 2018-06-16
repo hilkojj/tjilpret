@@ -1,0 +1,16 @@
+.ppic-parent {
+    width: 10rem; 
+    height: 10rem; 
+    background-image: url('/assets/img/login_logo.png'); 
+    background-size: contain;
+    display: inline-block;
+}
+
+.ppic {
+    width: 10rem;
+    height: 10rem;
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+    background-color: white;
+    background-size: cover;
+}
