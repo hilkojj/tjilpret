@@ -20,7 +20,7 @@
                     <div class="input-field">
                         <i class="material-icons prefix">account_circle</i>
                         <input [(ngModel)]="username" placeholder="Gebruiksnam" type="text" 
-                            (keyup)="showProfilePic()" (focusout)="showRealUsername()"
+                            (keyup)="showProfilePic()" (focusout)="showRealUsername(); showProfilePic()"
                             name="username">
                     </div>
 
