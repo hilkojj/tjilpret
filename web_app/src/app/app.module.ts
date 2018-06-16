@@ -10,13 +10,15 @@ import { ThemeService } from './services/theme/theme.service';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ChooseRecentUserComponent
   ],
   imports: [
     BrowserModule,

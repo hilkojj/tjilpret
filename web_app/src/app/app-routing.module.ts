@@ -1,19 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { AuthGuardService } from './services/auth/auth-guard.service';
+import { AuthService } from './services/auth/auth.service';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
+
+export const enum RouterPath {
+    Home = "hoom",
+    Login = "inlogge",
+    ChooseRecentUser = "resente-accounts"
+}
 
 const routes: Routes = [
   {
     path: "", redirectTo: "hoom", pathMatch: "full"
   },
   {
-    path: "hoom", component: HomeComponent, canActivate: [AuthGuardService]
+    path: RouterPath.Home, component: HomeComponent, canActivate: [AuthService]
   },
   {
-    path: "inlogge", component: LoginComponent
+    path: RouterPath.Login, component: LoginComponent
+  },
+  {
+    path: RouterPath.ChooseRecentUser, component: ChooseRecentUserComponent
   },
   {
     path: "**", component: NotFoundComponent 
