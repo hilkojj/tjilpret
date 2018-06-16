@@ -1,46 +1,53 @@
 <div class="row">
 
-  <div class="col s10 m6 l4 offset-l4 offset-m3 offset-s1 card">
-    <div class="row">
+    <div class="col s10 m6 l4 offset-l4 offset-m3 offset-s1 card">
+        <div class="row">
 
-      <div class="col s12 l10 offset-l1">
-        <br>
-        <div class="center-align">
-          <div class="ppic-parent circle">
-            <div class="ppic circle"></div>
-          </div>
+            <div class="col s12 l10 offset-l1">
+                <br>
+                <div class="center-align">
+                    <div class="ppic-parent circle">
+                        <div class="ppic circle" 
+                            [style.backgroundImage]="foundUser == undefined ? 'none' : 'url(' + foundUser.profilePicUrl('med') + ')'"
+                            [style.opacity]="foundUser == undefined ? 0 : 1"
+                            [style.backgroundColor]="foundUser?.rgbString"
+                            [style.transform]="foundUser == undefined ? 'scale(.4)' : 'scale(1)'"></div>
+                    </div>
+                </div>
+
+                <br>
+                <form>
+                    <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input [(ngModel)]="username" placeholder="Gebruiksnam" type="text" 
+                            (keyup)="showProfilePic()" (focusout)="showRealUsername()"
+                            name="username">
+                    </div>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <input [(ngModel)]="password" placeholder="Wagtwoord" type="password" 
+                            (keyup.enter)="login()" name="password">
+                    </div>
+                </form>
+
+                <div class="center-align">
+
+                    <a class="btn waves-effect waves-light" (click)="login()">
+                        inlogguh
+                        <i class="material-icons left">arrow_forward</i>
+                    </a>
+
+                    <br>
+                    <br>
+                    <a class="btn waves-effect btn-flat" onclick="showRegister()">
+                        registreren
+                        <i class="material-icons left">edit</i>
+                    </a>
+                </div>
+            </div>
         </div>
 
-        <br>
-        <form materialize>
-          
-          <div class="input-field">
-            <i class="material-icons prefix">account_circle</i>
-            <input placeholder="Gebruiksnam" type="text">
-          </div>
-
-          <div class="input-field">
-            <i class="material-icons prefix">lock</i>
-            <input placeholder="Wagtwoord" type="password">
-          </div>
-
-          <div class="center-align">
-
-            <a class="btn waves-effect waves-light" onclick="login()">
-              inlogguh
-              <i class="material-icons left">arrow_forward</i>
-            </a>
-
-            <br><br>
-            <a class="btn waves-effect btn-flat" onclick="showRegister()">
-              registreren
-              <i class="material-icons left">edit</i>
-            </a>
-          </div>
-        </form>
-      </div>
     </div>
-
-  </div>
 
 </div>

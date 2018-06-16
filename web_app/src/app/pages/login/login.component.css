@@ -10,7 +10,6 @@
     width: 10rem;
     height: 10rem;
     opacity: 0;
-    transition: opacity 300ms ease-in-out;
-    background-color: white;
+    transition: opacity 300ms ease-in-out, transform 300ms ease-out;
     background-size: cover;
 }

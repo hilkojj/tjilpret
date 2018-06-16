@@ -1,6 +1,7 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { HomeComponent } from './pages/home/home.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
     MaterializeModule
