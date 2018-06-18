@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const Materialzie = window["Materialize"];
+const Materialize = window["Materialize"];
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +24,7 @@ export class UtilsService {
     }
 
     toast(message: string, duration: number) {
-        Materialzie.toast(message, duration);
+        Materialize.toast(message, duration);
     }
 
 }
