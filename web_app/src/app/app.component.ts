@@ -4,7 +4,7 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
-import { ThemeService } from './services/theme/theme.service';
+import { ThemeService } from './services/theme.service';
 
 @Component({
     selector: 'tjille-app-root',

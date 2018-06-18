@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/users/user.service';
+import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
-import { ThemeService } from '../../services/theme/theme.service';
-import { AuthService } from '../../services/auth/auth.service';
+import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RouterPath } from '../../app-routing.module';
 

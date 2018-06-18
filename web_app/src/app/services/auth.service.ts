@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as Cookies from 'js-cookie';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { RouterPath } from '../../app-routing.module';
+import { RouterPath } from '../app-routing.module';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '../../constants';
-import { User } from '../../models/user';
-import { UtilsService } from '../utils/utils.service';
-import { Session } from '../../models/session';
+import { API_URL } from '../constants';
+import { User } from '../models/user';
+import { UtilsService } from './utils.service';
+import { Session } from '../models/session';
 
 @Injectable({
     providedIn: 'root'
