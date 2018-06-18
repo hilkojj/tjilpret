@@ -24,9 +24,7 @@ export class LoginComponent implements OnInit {
         private router: Router
     ) { }
 
-    ngOnInit() {
-        if (this.auth.authenticated) return this.router.navigate([RouterPath.Home]);
-    }
+    ngOnInit() { }
 
     checkUsername() {
         this.users.userByUsername(this.username).subscribe(user => {

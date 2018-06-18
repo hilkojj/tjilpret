@@ -13,25 +13,32 @@ export const enum RouterPath {
 }
 
 const routes: Routes = [
-  {
-    path: "", redirectTo: RouterPath.Home, pathMatch: "full"
-  },
-  {
-    path: RouterPath.Home, component: HomeComponent, canActivate: [AuthService]
-  },
-  {
-    path: RouterPath.Login, component: LoginComponent
-  },
-  {
-    path: RouterPath.ChooseRecentUser, component: ChooseRecentUserComponent
-  },
-  {
-    path: "**", component: NotFoundComponent 
-  }
+    {
+        path: "", redirectTo: RouterPath.Home, pathMatch: "full"
+    },
+    {
+        path: RouterPath.Home, component: HomeComponent, 
+        canActivate: [AuthService]
+    },
+    {
+        path: RouterPath.Login, component: LoginComponent, 
+        canActivate: [AuthService], data: {
+            disallowAuth: true
+        }
+    },
+    {
+        path: RouterPath.ChooseRecentUser, component: ChooseRecentUserComponent,
+        canActivate: [AuthService], data: {
+            disallowAuth: true
+        }
+    },
+    {
+        path: "**", component: NotFoundComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }
