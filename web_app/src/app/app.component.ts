@@ -5,6 +5,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import { ThemeService } from './services/theme.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'tjille-app-root',
@@ -16,7 +17,8 @@ export class AppComponent {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private themeService: ThemeService
+        private themeService: ThemeService,
+        private title: Title
     ) {
 
         this.subscribeToNavEnd();
@@ -35,8 +37,9 @@ export class AppComponent {
             })
             .filter((route) => route.outlet === 'primary')
             .mergeMap((route) => route.data)
-            .subscribe(event => {
-                console.log(event);
+            .subscribe(data => {
+                if ("title" in data)
+                    this.title.setTitle(data["title"]);
             });
     }
 

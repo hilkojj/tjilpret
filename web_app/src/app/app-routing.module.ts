@@ -17,23 +17,29 @@ const routes: Routes = [
         path: "", redirectTo: RouterPath.Home, pathMatch: "full"
     },
     {
-        path: RouterPath.Home, component: HomeComponent, 
-        canActivate: [AuthService]
+        path: RouterPath.Home, component: HomeComponent,
+        canActivate: [AuthService], data: {
+            title: "Hoom"
+        }
     },
     {
-        path: RouterPath.Login, component: LoginComponent, 
+        path: RouterPath.Login, component: LoginComponent,
         canActivate: [AuthService], data: {
-            disallowAuth: true
+            disallowAuth: true,
+            title: "Inlogge bij tjilpret"
         }
     },
     {
         path: RouterPath.ChooseRecentUser, component: ChooseRecentUserComponent,
         canActivate: [AuthService], data: {
-            disallowAuth: true
+            disallowAuth: true,
+            title: "Recente accounts"
         }
     },
     {
-        path: "**", component: NotFoundComponent
+        path: "**", component: NotFoundComponent, data: {
+            title: "o nee o nee o nee o nee o nee"
+        }
     }
 ];
 
