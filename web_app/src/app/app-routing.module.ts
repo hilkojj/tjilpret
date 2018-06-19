@@ -28,26 +28,30 @@ const routes: Routes = [
         path: RouterPath.Login, component: LoginComponent,
         canActivate: [AuthService], data: {
             disallowAuth: true,
-            title: "Inlogge bij tjilpret"
+            title: "Inlogge bij tjilpret",
+            animatedGradient: true
         }
     },
     {
         path: RouterPath.ChooseRecentUser, component: ChooseRecentUserComponent,
         canActivate: [AuthService], data: {
             disallowAuth: true,
-            title: "Recente accounts"
+            title: "Recente accounts",
+            animatedGradient: true
         }
     },
     {
         path: RouterPath.Register, component: RegisterComponent,
         canActivate: [AuthService], data: {
             disallowAuth: true,
-            title: "Wordt een tjiller"
+            title: "Wordt een tjiller",
+            animatedGradient: true
         }
     },
     {
         path: "**", component: NotFoundComponent, data: {
-            title: "o nee o nee o nee o nee o nee"
+            title: "o nee o nee o nee o nee o nee",
+            animatedGradient: true
         }
     }
 ];

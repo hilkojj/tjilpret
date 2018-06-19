@@ -42,6 +42,8 @@ export class AppComponent {
             .subscribe(data => {
                 if ("title" in data)
                     this.title.setTitle(data["title"]);
+
+                this.themeService.showAnimatedGradient(data["animatedGradient"] == true);
             });
     }
 
