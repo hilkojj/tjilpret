@@ -29,9 +29,9 @@ export class RegisterComponent implements OnInit {
     checkUsername() {
         if (this.username == "") return;
         this.users.usernameExists(this.username).subscribe(exists => {
-            if (exists) 
+            if (exists)
                 this.utils.errorToast(`'${this.utils.htmlText(this.username)}' bestat al :(`, 4000);
-            else 
+            else
                 this.utils.successToast(`'${this.utils.htmlText(this.username)}' is bescrhikbaar`, 3000);
         });
     }
@@ -40,6 +40,6 @@ export class RegisterComponent implements OnInit {
         this.auth.register(this.username, this.password, this.email);
     }
 
-    showLogin() { this.router.navigateByUrl(RouterPath.Login) }
+    showLogin() { this.router.navigateByUrl(RouterPath.Login, { replaceUrl: true }) }
 
 }

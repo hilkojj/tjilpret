@@ -62,10 +62,10 @@ export class AuthService implements CanActivate {
                         this._recentUsers[lastUserID]
                     );
 
-                else this.router.navigate([RouterPath.ChooseRecentUser]);
+                else this.router.navigate([RouterPath.ChooseRecentUser], { replaceUrl: true });
             });
 
-        } else this.router.navigate([RouterPath.Login]);
+        } else this.router.navigate([RouterPath.Login], { replaceUrl: true });
     }
 
     createSession(token: number, user: User) {
@@ -76,7 +76,9 @@ export class AuthService implements CanActivate {
         tokens[user.id] = token;
         localStorage.setItem("tokens", JSON.stringify(tokens));
         localStorage.setItem("last_user", user.id + "");
-        this.router.navigateByUrl(this.returnUrl == undefined ? "" : this.returnUrl);
+        this.router.navigateByUrl(this.returnUrl == undefined ? "" : this.returnUrl, {
+            replaceUrl: true
+        });
     }
 
     login(username: string, password: string) {

@@ -37,6 +37,6 @@ export class ChooseRecentUserComponent implements OnInit {
         this.auth.createSession(token, user);
     }
 
-    showLogin() { this.router.navigate([RouterPath.Login]) }
+    showLogin() { this.router.navigate([RouterPath.Login], { replaceUrl: true }) }
 
 }
