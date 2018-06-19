@@ -12,7 +12,8 @@
                 <div class="collection">
 
                     <a *ngFor="let user of recentUsers" class="collection-item waves-effect" (click)="chooseUser(user)">
-                        <img class="profile-pic" [src]="user.profilePicUrl('small')">
+                        <img class="profile-pic" [src]="user.profilePicUrl('small')"
+                            [style.background]="user.rgbString">
                         <span [style.color]="user.rgbString">{{user.username}}</span>
                     </a>
 
