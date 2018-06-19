@@ -6,11 +6,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import { ThemeService } from './services/theme.service';
 import { Title } from '@angular/platform-browser';
+import { routerAnimation } from './animations/routerAnimation';
 
 @Component({
     selector: 'tjille-app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    animations: [routerAnimation]
 })
 export class AppComponent {
 
