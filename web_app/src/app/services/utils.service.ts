@@ -27,4 +27,9 @@ export class UtilsService {
         Materialize.toast(message, duration);
     }
 
+    htmlText(string: string): string {
+        return string == null ? ""
+            : string.split("<").join("&lt;").split(">").join("&gt;").replace(/\n/g, "<br>");
+    }
+
 }
