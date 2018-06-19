@@ -1,0 +1,53 @@
+<div class="row">
+
+    <div class="col s10 m6 l4 offset-l4 offset-m3 offset-s1 card">
+        <div class="row">
+
+            <div class="col s10 l10 offset-l1 offset-s1">
+                <br>
+                <div class="center-align">
+                    <a class="btn waves-effect btn-flat" (click)="showLogin()">
+                        tog inloggen
+                        <i class="material-icons left">arrow_back</i>
+                    </a>
+                </div>
+                <br>Vint nieuwe vriends op basis van je lieflingskleur
+                en kom tjetten
+                <form>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input [(ngModel)]="username" name="username" id="register-username"
+                            type="text" (focusout)="checkUsername()">
+                        <label for="register-username" class="active">Gebruiksnam</label>
+                    </div>
+
+                    <div class="input-field">
+                        <i class="material-icons prefix">lock</i>
+                        <input [(ngModel)]="password" name="password" id="register-password"
+                            type="password" autocomplete="new-password">
+                        <label for="register-password" class="active">Wagtwoort</label>
+                    </div>
+                    
+                    <div class="input-field">
+                        <i class="material-icons prefix">email</i>
+                        <input [(ngModel)]="email" name="email" id="register-mail" type="email"
+                            (keyup.enter)="register()" autocomplete="email">
+                        <label for="register-mail" class="active">Je email</label>
+                    </div>
+                    
+                    <div class="center-align">
+                        <a id="register-button" class="btn waves-effect" (click)="register()">
+                            goooooooo
+                            <i class="material-icons left">done</i>
+                        </a>
+                    </div>
+                    <br>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

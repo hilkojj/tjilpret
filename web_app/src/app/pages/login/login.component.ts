@@ -37,4 +37,6 @@ export class LoginComponent implements OnInit {
 
     login() { this.auth.login(this.username, this.password) }
 
+    showRegister() { this.router.navigateByUrl(RouterPath.Register) }
+
 }

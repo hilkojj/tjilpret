@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-rec
     HomeComponent,
     LoginComponent,
     NotFoundComponent,
-    ChooseRecentUserComponent
+    ChooseRecentUserComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

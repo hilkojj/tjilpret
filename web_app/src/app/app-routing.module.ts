@@ -5,11 +5,13 @@ import { AuthService } from './services/auth.service';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const enum RouterPath {
     Home = "hoom",
     Login = "inlogge",
-    ChooseRecentUser = "resente-accounts"
+    ChooseRecentUser = "resente-accounts",
+    Register = "wordt-lid-van-deze-super-koele-site"
 }
 
 const routes: Routes = [
@@ -34,6 +36,13 @@ const routes: Routes = [
         canActivate: [AuthService], data: {
             disallowAuth: true,
             title: "Recente accounts"
+        }
+    },
+    {
+        path: RouterPath.Register, component: RegisterComponent,
+        canActivate: [AuthService], data: {
+            disallowAuth: true,
+            title: "Wordt een tjiller"
         }
     },
     {

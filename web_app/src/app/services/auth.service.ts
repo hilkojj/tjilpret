@@ -58,7 +58,7 @@ export class AuthService implements CanActivate {
                 var lastUserID = this.lastUserID;
                 if (lastUserID in validatedTokens)
                     this.createSession(
-                        validatedTokens[lastUserID], 
+                        validatedTokens[lastUserID],
                         this._recentUsers[lastUserID]
                     );
 
@@ -83,12 +83,20 @@ export class AuthService implements CanActivate {
         this.http.post(
             API_URL + "login",
             { username: username, password: password }
-        ).subscribe(res => {
-            if ("error" in res)
-                this.utils.errorToast(res["error"], 4000);
-            else if (res["success"])
-                this.createSession(res["token"], res["userInfo"]);
-        });
+        ).subscribe(res => this.loginRegisterCallback(res));
+    }
+
+    register(username: string, password: string, email: string) {
+        this.http.post(
+            API_URL + "register", { username: username, password: password, email: email }
+        ).subscribe(res => this.loginRegisterCallback(res));
+    }
+
+    private loginRegisterCallback(res) {
+        if ("error" in res)
+            this.utils.errorToast(res["error"], 4000);
+        else if (res["success"])
+            this.createSession(res["token"], res["userInfo"]);
     }
 
     validateTokens(callback) {
@@ -107,7 +115,7 @@ export class AuthService implements CanActivate {
                     newTokens[id] = oldTokens[id];
 
             localStorage.setItem("tokens", JSON.stringify(newTokens));
-            
+
             callback();
         });
     }
