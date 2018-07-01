@@ -28,3 +28,10 @@ nav {
     height: inherit;
     width: inherit;
 }
+
+app-tabs {
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+}
