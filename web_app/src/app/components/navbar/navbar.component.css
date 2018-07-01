@@ -29,6 +29,10 @@ nav {
     width: inherit;
 }
 
+.random-words {
+    display: inline;
+}
+
 app-tabs {
     display: inline-block;
     left: 50%;
