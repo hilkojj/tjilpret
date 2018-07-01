@@ -21,7 +21,8 @@ const routes: Routes = [
     {
         path: RouterPath.Home, component: HomeComponent,
         canActivate: [AuthService], data: {
-            title: "Hoom"
+            title: "Hoom",
+            favColorTheme: true
         }
     },
     {
@@ -29,7 +30,9 @@ const routes: Routes = [
         canActivate: [AuthService], data: {
             disallowAuth: true,
             title: "Inlogge bij tjilpret",
-            animatedGradient: true
+            showLogo: true,
+            animatedGradient: true,
+            defaultTheme: true
         }
     },
     {
@@ -37,7 +40,9 @@ const routes: Routes = [
         canActivate: [AuthService], data: {
             disallowAuth: true,
             title: "Recente accounts",
-            animatedGradient: true
+            showLogo: true,
+            animatedGradient: true,
+            defaultTheme: true
         }
     },
     {
@@ -45,13 +50,16 @@ const routes: Routes = [
         canActivate: [AuthService], data: {
             disallowAuth: true,
             title: "Wordt een tjiller",
-            animatedGradient: true
+            showLogo: true,
+            animatedGradient: true,
+            defaultTheme: true
         }
     },
     {
         path: "**", component: NotFoundComponent, data: {
             title: "o nee o nee o nee o nee o nee",
-            animatedGradient: true
+            animatedGradient: true,
+            defaultTheme: true
         }
     }
 ];

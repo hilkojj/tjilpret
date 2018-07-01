@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
         this.users.userByUsername(this.username).subscribe(user => {
             this.foundUser = user;
             if (user == undefined) return;
+            this.themes.showAnimatedGradient(false);
             this.themes.applyThemeColor(user.r, user.g, user.b);
             this.username = user.username;
         });
