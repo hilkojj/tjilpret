@@ -5,7 +5,7 @@ body {
 }
 
 .nav-logo #logo-outer {
-    fill: #1d1d33;
+    fill: ?rgb.6?;
     transition: .1s ease-out;
 }
 
@@ -15,10 +15,22 @@ body {
 }
 
 .nav-logo:active #logo-inner {
-    fill: #1d1d33;
+    fill: ?rgb.6?;
 }
 .nav-logo:active #logo-outer {
     fill: ?rgb?;
+}
+
+nav .random-words {
+    color: ?rgb?;
+}
+
+.tab {
+    color: ?rgb? !important;
+}
+
+.tab .indicator {
+    background: ?rgb? !important;
 }
 
 .card {

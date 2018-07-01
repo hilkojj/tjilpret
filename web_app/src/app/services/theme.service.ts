@@ -46,7 +46,8 @@ export class ThemeService {
         const values = {
             r: r, g: g, b: b,
             rgb: "rgb(" + r + "," + g + "," + b + ")",
-            rgbSec: "rgb(55, 255, 135)"
+            rgbSec: "rgb(55, 255, 135)",
+            "rgb.6": "rgb(" + r * .6 + "," + g * .6 + "," + b * .6 + ")"
         }
         var newCss = this.css;
 

@@ -15,7 +15,7 @@ export class Tab {
     templateUrl: './tabs.component.html',
     styleUrls: ['./tabs.component.css']
 })
-export class RainbowTabsComponent implements OnInit {
+export class TabsComponent implements OnInit {
 
     @Input() tabs: Tab[];
 

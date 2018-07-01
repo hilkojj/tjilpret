@@ -1,0 +1,49 @@
+:host {
+    width: 100%;
+    text-align: center;
+}
+
+.tab {
+    display: inline-block;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: grey;
+    padding: 0 12px;
+    outline: none;
+    opacity: .7;
+    font-size: 14px !important;
+}
+
+.active {
+    opacity: 1;
+}
+
+.active .indicator {
+    height: 3px;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 0;
+    transition: .1s ease-in-out;
+    height: 0;
+    background: grey;
+}
+
+.tab:hover {
+    opacity: 1;
+}
+
+.tab:hover .indicator {
+    height: 3px;
+    left: 10px;
+    right: 10px;
+}
+
+i {
+    line-height: 0 !important;
+    vertical-align: middle;
+    display: inline !important;
+}

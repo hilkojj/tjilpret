@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
     }
 
     showRandomWords() {
-        this.randomWords = tWords[Math.floor(Math.random() * tWords.length)] + " " + pWords[Math.floor(Math.random() * pWords.length)];
+        this.randomWords = "♥ " +  tWords[Math.floor(Math.random() * tWords.length)] + " " + pWords[Math.floor(Math.random() * pWords.length)];
         clearTimeout(this.randomWordsTimeout);
         this.randomWordsTimeout = setTimeout(() => {
             this.randomWords = "";

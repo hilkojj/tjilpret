@@ -15,7 +15,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { RainbowTabsComponent } from './components/tabs/tabs.component';
+import { TabsComponent } from './components/tabs/tabs.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RainbowTabsComponent } from './components/tabs/tabs.component';
     ChooseRecentUserComponent,
     RegisterComponent,
     NavbarComponent,
-    RainbowTabsComponent
+    TabsComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

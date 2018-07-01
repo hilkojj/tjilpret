@@ -1,8 +1,10 @@
-<!-- <div *ngFor="let tab of tabs" class="tab">
-    <a [routerLink]="tab.routerLink">
-        <!-- <i class="material-icons">
-            {{tab.icon}}
-        </i> -->
-        <!-- {{tab.title}} -->
-    <!-- </a>
-</div> -->
+<div *ngFor="let tab of tabs" class="tab waves-effect" [routerLink]="tab.routerLink"
+    routerLinkActive="active">
+    <i class="material-icons">
+        {{tab.icon}}
+    </i>
+    <span class="hide-on-med-and-down">
+        {{tab.title}}
+    </span>
+    <div class="indicator"></div>
+</div>

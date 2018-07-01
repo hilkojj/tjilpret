@@ -1,10 +1,12 @@
 <div *ngIf="utils.navbarVisible" class="navbar-fixed">
-    <nav>
+    <nav class="z-depth-2">
         <div class="nav-wrapper valign-wrapper">
             <a [routerLink]="'/hoom'" (click)="showRandomWords()" class="nav-logo"
                 [inlineSVG]="'/assets/img/logo_icon.svg'"></a>
-                
-            <p class="random-words">{{randomWords}}</p>
+
+            <p class="random-words" [style.transform]="randomWords == '' ? 'scale(0)' : 'scale(1)'">
+                {{randomWords}}
+            </p>
 
             <app-tabs [tabs]="tabs"></app-tabs>
         </div>
