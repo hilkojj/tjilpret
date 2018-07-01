@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -13,6 +14,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { RegisterComponent } from './pages/register/register.component';
     LoginComponent,
     NotFoundComponent,
     ChooseRecentUserComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,8 @@ import { RegisterComponent } from './pages/register/register.component';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    MaterializeModule
+    MaterializeModule,
+    InlineSVGModule.forRoot()
   ],
   providers: [
     {

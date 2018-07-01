@@ -7,6 +7,9 @@ import 'rxjs/add/operator/mergeMap';
 import { ThemeService } from './services/theme.service';
 import { Title } from '@angular/platform-browser';
 import { routerAnimation } from './animations/routerAnimation';
+import { UtilsService } from './services/utils.service';
+import { AuthService } from './services/auth.service';
+import { THEME_COLOR } from './constants';
 
 @Component({
     selector: 'tjille-app-root',
@@ -19,13 +22,13 @@ export class AppComponent {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private themeService: ThemeService,
-        private title: Title
+        private theme: ThemeService,
+        private utils: UtilsService,
+        private title: Title,
+        private auth: AuthService
     ) {
 
         this.subscribeToNavEnd();
-        // themeService.applyThemeColor(10, 200, 100);
-
     }
 
     private subscribeToNavEnd() {
@@ -42,8 +45,18 @@ export class AppComponent {
             .subscribe(data => {
                 if ("title" in data)
                     this.title.setTitle(data["title"]);
+                
+                this.utils.navbarVisible = "showNavbar" in data && data["showNavbar"];
 
-                this.themeService.showAnimatedGradient(data["animatedGradient"] == true);
+                if ("favColorTheme" in data && data["favColorTheme"] && this.auth.authenticated) {
+                    var user = this.auth.session.user;
+                    this.theme.applyThemeColor(user.r, user.g, user.b);
+
+                } else if ("defaultTheme" in data && data["defaultTheme"]) {
+                    this.theme.applyThemeColor(THEME_COLOR.r, THEME_COLOR.g, THEME_COLOR.b);
+                }
+                    
+                this.theme.showAnimatedGradient(data["animatedGradient"] == true);
             });
     }
 

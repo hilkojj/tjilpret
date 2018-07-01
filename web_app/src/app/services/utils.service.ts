@@ -9,6 +9,8 @@ export class UtilsService {
 
     constructor() { }
 
+    navbarVisible = false;
+
     successToast(message: string, duration: number) {
         this.toast(
             "<i class=\"material-icons green-text\" style=\"margin-right: 10px\">check_circle</i>"

@@ -22,7 +22,8 @@ const routes: Routes = [
         path: RouterPath.Home, component: HomeComponent,
         canActivate: [AuthService], data: {
             title: "Hoom",
-            favColorTheme: true
+            favColorTheme: true,
+            showNavbar: true
         }
     },
     {

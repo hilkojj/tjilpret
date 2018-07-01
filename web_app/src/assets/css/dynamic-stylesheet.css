@@ -4,6 +4,23 @@ body {
     transition: opacity 3s 1s;
 }
 
+.nav-logo #logo-outer {
+    fill: #1d1d33;
+    transition: .1s ease-out;
+}
+
+.nav-logo #logo-inner {
+    fill: ?rgb?;
+    transition: .1s ease-out;
+}
+
+.nav-logo:active #logo-inner {
+    fill: #1d1d33;
+}
+.nav-logo:active #logo-outer {
+    fill: ?rgb?;
+}
+
 .card {
     border-radius: 5px;
 }
@@ -96,92 +113,6 @@ body {
     75%{background-position: -50% 110%}
 }
 /* END BACKGROUND */
-
-/* NAVBAR */
-.navbar-fixed {
-    margin-bottom: 48px;
-}
-
-nav.hidden {
-    transform: translateY(-64px);
-}
-
-nav {
-    background: ?rgb? !important;
-    transition: background ease-in-out .15s, transform ease-in-out .5s;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
-    perspective: 1000;
-    width: 100vw;
-}
-
-nav.hide-indicator .indicator {
-    opacity: 0;
-}
-
-nav.hide-indicator .tab a {
-    color: rgba(255,255,255,0.7) !important;
-}
-
-nav.hide-indicator .tab a:hover {
-    color: white !important;
-}
-
-nav .indicator {
-    transition: opacity 200ms;
-}
-
-nav .brand-logo img {
-    height: 40px;
-    vertical-align: middle;
-}
-
-nav .tabs {
-    text-align: center;
-    overflow-x: hidden;
-}
-
-nav .tabs li {
-    float: none;
-}
-
-nav .tabs li i {
-    display: inline;
-    vertical-align: middle;
-}
-
-nav .tabs .badge {
-    min-width: 22px;
-    height: 22px;
-    background: rgb(255, 17, 61);
-    border: 2px solid rgb(255, 17, 61);
-    color: white;
-    font-weight: bold;
-    border-radius: 4px;
-    display: none;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.43);
-}
-
-.navbar-profile-pic {
-    display: inline;
-    margin: 0 8px;
-    width: 40px;
-    height: 40px;
-    background-color: white;
-    vertical-align: middle;
-    border-radius: 100px;
-}
-
-nav a.sidenav-trigger {
-    display: block !important;
-    padding: 0 10px;
-    margin: 0;
-}
-
-.tabs .tab a:focus, .tabs .tab a:focus.active {
-    background-color: transparent !important;
-}
-/* END NAVBAR */
 
 .logo-shadow {
     height: 60px;

@@ -26,6 +26,7 @@
     "jquery": "^2.2.4",
     "js-cookie": "^2.2.0",
     "materialize-css": "^0.100.2",
+    "ng-inline-svg": "^8.0.0",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
     "zone.js": "^0.8.26"
