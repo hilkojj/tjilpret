@@ -3,6 +3,7 @@ nav {
     width: 100vw;
     background: white;
     color: #1d1d33;
+    user-select: none;
 }
 
 @media only screen and (max-width: 992px) {
@@ -46,9 +47,4 @@ app-tabs {
     left: 50%;
     transform: translateX(-50%);
     position: absolute;
-    z-index: 1;
-}
-
-a {
-    z-index: 2;
 }

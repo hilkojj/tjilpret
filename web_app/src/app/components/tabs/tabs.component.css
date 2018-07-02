@@ -1,5 +1,4 @@
 :host {
-    width: 100%;
     text-align: center;
 }
 
@@ -11,6 +10,7 @@
     padding: 0 12px;
     outline: none;
     opacity: .7;
+    transition: .1s ease-in-out;
     font-size: 14px !important;
 }
 
