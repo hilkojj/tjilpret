@@ -7,7 +7,7 @@ import { User } from '../../models/user';
 @Component({
     selector: 'app-choose-recent-user',
     templateUrl: './choose-recent-user.component.html',
-    styleUrls: ['./choose-recent-user.component.css']
+    styleUrls: ['./choose-recent-user.component.scss']
 })
 export class ChooseRecentUserComponent implements OnInit {
 

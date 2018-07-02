@@ -14,7 +14,7 @@ import { THEME_COLOR } from './constants';
 @Component({
     selector: 'tjille-app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
+    styleUrls: ['./app.component.scss'],
     animations: [routerAnimation]
 })
 export class AppComponent {
