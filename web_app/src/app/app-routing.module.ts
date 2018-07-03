@@ -41,7 +41,6 @@ const routes: Routes = [
             disallowAuth: true,
             title: "Inlogge bij tjilpret",
             showLogo: true,
-            animatedGradient: true,
             defaultTheme: true
         }
     },
@@ -51,7 +50,6 @@ const routes: Routes = [
             disallowAuth: true,
             title: "Recente accounts",
             showLogo: true,
-            animatedGradient: true,
             defaultTheme: true
         }
     },
@@ -61,14 +59,12 @@ const routes: Routes = [
             disallowAuth: true,
             title: "Wordt een tjiller",
             showLogo: true,
-            animatedGradient: true,
             defaultTheme: true
         }
     },
     {
         path: "**", component: NotFoundComponent, data: {
             title: "o nee o nee o nee o nee o nee",
-            animatedGradient: true,
             defaultTheme: true
         }
     }

@@ -55,8 +55,6 @@ export class AppComponent {
                 } else if ("defaultTheme" in data && data["defaultTheme"]) {
                     this.theme.applyThemeColor(THEME_COLOR.r, THEME_COLOR.g, THEME_COLOR.b);
                 }
-                    
-                this.theme.showAnimatedGradient(data["animatedGradient"] == true);
             });
     }
 

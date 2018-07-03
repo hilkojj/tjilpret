@@ -93,35 +93,6 @@ body {
     transition: background ease-in-out .15s;
     overflow-x: hidden !important;
 }
-
-.animatedGradient{
-    position: relative;
-}
-  
-.animatedGradient:after, .animatedGradient:before{
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    content: "";
-    z-index: -1;
-}
-  
-.animatedGradient:after{
-    background: radial-gradient(circle, ?rgbSec?, transparent);
-    background-size: 400%;
-    animation: colorSpin 30s ease-in-out infinite;
-}
-  
-.animatedGradient:before{
-    background-color: ?rgb?;
-}
-  
-@keyframes colorSpin{
-    25%{background-position: 10% 30%}
-    75%{background-position: -50% 110%}
-}
 /* END BACKGROUND */
 
 .logo-shadow {

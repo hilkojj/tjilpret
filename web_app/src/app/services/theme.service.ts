@@ -31,11 +31,6 @@ export class ThemeService {
         });
     }
 
-    showAnimatedGradient(show: boolean) {
-        if (show) $("body").addClass("animatedGradient");
-        else $("body").removeClass("animatedGradient");
-    }
-
     applyThemeColor(r: number, g: number, b: number) {
         this.r = r;
         this.g = g;

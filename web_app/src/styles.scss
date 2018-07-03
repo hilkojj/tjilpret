@@ -3,8 +3,7 @@ $break-med: 992px;
 
 router-outlet ~ * {
     position: absolute;
-    /* height: 100%; */
-    width: 100%;
+    width: 100vw;
     transform-origin: 50% 50px;
 }
 

@@ -6,11 +6,21 @@ $navbar-small-height: 56px;
 $full-width-tabs-height: 44px;
 
 .navbar-fixed {
+
+    transition: height .4s ease-in-out;
+
     @media only screen and (max-width: $break-med) {
         height: $navbar-height + $full-width-tabs-height;
 
         @media only screen and (max-width: $break-small) {
             height: $navbar-small-height + $full-width-tabs-height;
+        }
+    }
+
+    &.hidden {
+        height: 0;
+        nav {
+            transform: translateY(-$navbar-height - $full-width-tabs-height);
         }
     }
 }
@@ -28,7 +38,7 @@ nav {
         }
     }
 
-    transition: transform .2s ease-out;
+    transition: transform .4s ease-in-out;
 
     @media only screen and (max-width: $break-med) {
         &.collapsed {
