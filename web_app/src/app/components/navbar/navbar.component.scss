@@ -21,6 +21,7 @@ $full-width-tabs-height: 44px;
         height: 0;
         nav {
             transform: translateY(-$navbar-height - $full-width-tabs-height);
+            box-shadow: none !important;
         }
     }
 }
