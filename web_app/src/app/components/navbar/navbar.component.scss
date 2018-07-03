@@ -1,9 +1,44 @@
 
+@import "../../../styles.scss";
+
+$navbar-height: 64px;
+$navbar-small-height: 56px;
+$full-width-tabs-height: 44px;
+
+.navbar-fixed {
+    @media only screen and (max-width: $break-med) {
+        height: $navbar-height + $full-width-tabs-height;
+
+        @media only screen and (max-width: $break-small) {
+            height: $navbar-small-height + $full-width-tabs-height;
+        }
+    }
+}
+
 nav {
     width: 100vw;
     background: white;
-    color: #1d1d33;
     user-select: none;
+
+    .nav-wrapper {
+        height: $navbar-height;
+
+        @media only screen and (max-width: $break-small) {
+            height: $navbar-small-height;
+        }
+    }
+
+    transition: transform .2s ease-out;
+
+    @media only screen and (max-width: $break-med) {
+        &.collapsed {
+            transform: translateY(-$navbar-height);
+
+            @media only screen and (max-width: $break-small) {
+                transform: translateY(-$navbar-small-height);
+            }
+        }
+    }
 }
 
 .nav-logo {
@@ -16,7 +51,9 @@ nav {
     cursor: pointer;
 
     &:hover {
-        padding: 1px;
+        @media (any-hover: hover) { // only play hover animation on desktop
+            padding: 1px;
+        }
         filter: drop-shadow(-1px 1px 3px rgba(0, 0, 0, .3));
     }
 
@@ -35,24 +72,94 @@ nav {
     display: inline;
     transition: .1s ease-out;
     text-transform: capitalize;
+    background: white;
+    z-index: 2;
+    border-radius: 100px;
+    padding-right: 15px;
 }
 
 app-tabs {
+    bottom: 0;
     display: table;
     left: 50%;
     transform: translateX(-50%);
     position: absolute;
+
+    @media only screen and (max-width: 1234px) {
+
+        ::ng-deep .tab {
+
+            .title {
+                display: none;
+            }
+
+            padding: 0 20px;
+        }
+    }
 }
 
-@media only screen and (max-width: 992px) {
+.full-width-tabs-wrapper {
+
+    height: $full-width-tabs-height;
 
     app-tabs {
-
         width: 100%;
+        height: $full-width-tabs-height;
+        line-height: $full-width-tabs-height;
 
         ::ng-deep .tab {
             width: 25%;
         }
     }
-    
+}
+
+.right-ul {
+    position: absolute;
+    right: 0;
+
+    a {
+        margin: 0 5px;
+        @media only screen and (max-width: $break-med) {
+            margin: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+.profile-sidenav-trigger {
+    background: none !important;
+
+    $img-size: 40px;
+    img {
+        border-radius: $img-size * .5;
+        width: $img-size;
+        height: $img-size;
+        vertical-align: middle;
+        margin: 0 8px;
+        margin-top: -1px;
+
+        transition: .1s ease-in-out;
+        
+    }
+
+    @media (any-hover: hover) { // only play hover animation on desktop
+        &:hover img {
+            transform: scale(1.1);
+        }
+    }
+
+    &:active img {
+        transform: scale(.9);
+    }
+
+    p {
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+        max-width: 140px;
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+    }
+
 }

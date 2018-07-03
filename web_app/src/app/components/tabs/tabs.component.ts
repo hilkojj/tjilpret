@@ -18,6 +18,7 @@ export class Tab {
 export class TabsComponent implements OnInit {
 
     @Input() tabs: Tab[];
+    @Input() hideLabelOnMed: boolean;
 
     constructor() { }
 

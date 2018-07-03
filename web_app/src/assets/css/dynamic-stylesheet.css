@@ -4,16 +4,18 @@ body {
     transition: opacity 3s 1s;
 }
 
+.fav-bg {
+    background: ?rgb? !important;
+}
+
 .nav-logo #logo-outer {
     fill: ?rgb.6?;
     transition: .1s ease-out;
 }
-
 .nav-logo #logo-inner {
     fill: ?rgb?;
     transition: .1s ease-out;
 }
-
 .nav-logo:active #logo-inner {
     fill: ?rgb.6?;
 }
@@ -21,16 +23,12 @@ body {
     fill: ?rgb?;
 }
 
-nav .random-words {
-    color: ?rgb?;
+nav .random-words, nav a, nav a i {
+    color: ?rgb? !important;
 }
 
 .tab {
     color: ?rgb? !important;
-}
-
-.tab .indicator {
-    background: ?rgb? !important;
 }
 
 .card {

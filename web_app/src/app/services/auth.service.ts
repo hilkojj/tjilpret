@@ -76,6 +76,7 @@ export class AuthService implements CanActivate {
         tokens[user.id] = token;
         localStorage.setItem("tokens", JSON.stringify(tokens));
         localStorage.setItem("last_user", user.id + "");
+        console.log(user.profilePicUrl("small"));
         this.router.navigateByUrl(this.returnUrl == undefined ? "" : this.returnUrl, {
             replaceUrl: true
         });
@@ -98,7 +99,7 @@ export class AuthService implements CanActivate {
         if ("error" in res)
             this.utils.errorToast(res["error"], 4000);
         else if (res["success"])
-            this.createSession(res["token"], res["userInfo"]);
+            this.createSession(res["token"], Object.assign(new User(), res["userInfo"]));
     }
 
     validateTokens(callback) {

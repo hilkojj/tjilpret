@@ -1,5 +1,6 @@
 <div *ngIf="utils.navbarVisible" class="navbar-fixed">
-    <nav class="z-depth-2">
+    <nav class="z-depth-2 nav-extended" [ngClass]="{'collapsed': collapseNavbar}">
+
         <div class="nav-wrapper valign-wrapper">
             <a [routerLink]="'/hoom'" (click)="showRandomWords()" class="nav-logo"
                 [inlineSVG]="'/assets/img/logo_icon.svg'"></a>
@@ -8,6 +9,35 @@
                 {{randomWords}}
             </p>
 
+            <app-tabs class="hide-on-med-and-down" [tabs]="tabs"></app-tabs>
+
+            <ul class="right-ul">
+
+                <li>
+                    <a class="btn-flat btn-floating waves-effect">
+                        <i class="material-icons">search</i>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="btn-flat btn-floating waves-effect">
+                        <i class="material-icons">notifications</i>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="profile-sidenav-trigger" *ngIf="auth.session">
+
+                        <p class="hide-on-med-and-down">{{auth.session?.user.username}}</p>
+
+                        <img [src]="auth.session?.user.profilePicUrl('small')" class="fav-bg">
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="nav-content full-width-tabs-wrapper hide-on-large-only">
             <app-tabs [tabs]="tabs"></app-tabs>
         </div>
     </nav>

@@ -1,5 +1,21 @@
+$break-small: 600px;
+$break-med: 992px;
+
 router-outlet ~ * {
     position: absolute;
     /* height: 100%; */
     width: 100%;
+    transform-origin: 50% 50px;
+}
+
+@media (pointer: fine) {
+    // custom scrollbar only on desktops
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, .4);
+    }
 }
