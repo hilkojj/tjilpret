@@ -1,0 +1,20 @@
+:host {
+    background-image: url(https://media.giphy.com/media/3og0IFrHkIglEOg8Ba/giphy.gif);
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+}
+
+a {
+    width: 280px;
+}
+
+.credits {
+    margin: 10px;
+    position: absolute;
+    bottom: 0;
+
+    a {
+        color: white;
+    }
+}

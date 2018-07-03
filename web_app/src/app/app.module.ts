@@ -17,6 +17,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { FullLogoComponent } from './components/full-logo/full-logo.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ChatComponent } from './pages/chat/chat.component';
     RegisterComponent,
     NavbarComponent,
     TabsComponent,
-    ChatComponent
+    ChatComponent,
+    FullLogoComponent
   ],
   imports: [
     BrowserModule,
