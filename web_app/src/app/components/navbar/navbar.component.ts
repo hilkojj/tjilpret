@@ -3,6 +3,7 @@ import { UtilsService } from '../../services/utils.service';
 import { Tab } from '../tabs/tabs.component';
 import { tWords, pWords } from './random-words';
 import { AuthService } from '../../services/auth.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-navbar',
@@ -13,7 +14,8 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         private utils: UtilsService,
-        private auth: AuthService
+        private auth: AuthService,
+        private modals: ModalService
     ) { }
 
     randomWords = "";

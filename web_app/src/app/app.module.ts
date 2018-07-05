@@ -18,6 +18,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { FullLogoComponent } from './components/full-logo/full-logo.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FullLogoComponent } from './components/full-logo/full-logo.component';
     NavbarComponent,
     TabsComponent,
     ChatComponent,
-    FullLogoComponent
+    FullLogoComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

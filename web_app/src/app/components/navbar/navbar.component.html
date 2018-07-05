@@ -14,19 +14,19 @@
             <ul class="right-ul">
 
                 <li>
-                    <a class="btn-flat btn-floating waves-effect">
+                    <a class="btn-flat btn-floating waves-effect" (click)="modals.showModal('search')">
                         <i class="material-icons">search</i>
                     </a>
                 </li>
 
                 <li>
-                    <a class="btn-flat btn-floating waves-effect">
+                    <a class="btn-flat btn-floating waves-effect" (click)="modals.showModal('notifications')">
                         <i class="material-icons">notifications</i>
                     </a>
                 </li>
 
                 <li>
-                    <a class="profile-sidenav-trigger" *ngIf="auth.session">
+                    <a class="profile-sidenav-trigger" *ngIf="auth.session" (click)="modals.showModal('sideNav')">
 
                         <p class="hide-on-med-and-down">{{auth.session?.user.username}}</p>
 
