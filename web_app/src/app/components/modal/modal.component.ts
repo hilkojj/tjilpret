@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 
 @Component({
     selector: 'app-modal',
@@ -18,6 +18,16 @@ import { trigger, transition, style, animate } from '@angular/animations';
                     animate(".2s ease-in", style({ opacity: 0 }))
                 ])
             ]
+        ),
+
+        trigger(
+            "modalAnim", [
+                state("default, left, right, bottom", style({
+                    opacity: 1,
+                    transform: "scaleX(1) translate(0, 0)"
+                })),
+                transition("* => *", animate(".2s ease-out"))
+            ]
         )
     ]
 })
@@ -25,7 +35,8 @@ export class ModalComponent implements OnInit {
 
     @Input() name: string;
     @Input() hash: string;
-    @Input() closable: boolean = true;
+    @Input() type: string = "default";
+    @Input() width: string = "600px";
     
     active = false;
 

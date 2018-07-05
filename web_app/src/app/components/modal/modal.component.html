@@ -1,11 +1,13 @@
-<div class="modal-container" [ngClass]="{'active': active}">
+<div class="modal-container" [ngClass]="type">
 
     <div *ngIf="active" class="overlay" [@fade] (click)="close()">
     </div>
 
-    <div *ngIf="active" class="card modal-card z-depth-5">
+    <div *ngIf="active" [@modalAnim]="type" class="card modal-card z-depth-5"
+        [style.width]="width">
+
         <ng-content></ng-content>
+        
     </div>
 
 </div>
-

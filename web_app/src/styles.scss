@@ -22,3 +22,7 @@ router-outlet ~ * {
 body.modal-open {
     overflow: hidden;
 }
+
+.card {
+    border-radius: 8px;
+}

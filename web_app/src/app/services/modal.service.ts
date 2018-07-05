@@ -52,7 +52,7 @@ export class ModalService {
 
         modal.active = false;
         this.activeModal = null;
-        document.body.classList.remove("modal-open");
+        setTimeout(() => document.body.classList.remove("modal-open"), 200);
     }
 
 }

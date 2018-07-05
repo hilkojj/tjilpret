@@ -31,10 +31,6 @@ nav .random-words, nav a, nav a i {
     color: ?rgb? !important;
 }
 
-.card {
-    border-radius: 5px;
-}
-
 .btn {
     background-color: ?rgb? !important;
     border-radius: 100px;
