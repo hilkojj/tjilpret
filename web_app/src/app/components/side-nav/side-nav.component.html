@@ -10,7 +10,7 @@
             borderWidth="4px"></app-profile-pic>
     </a>
 
-    <div>
+    <div class="info">
         <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
             <app-username [user]="auth.session.user" fontSize="20px"></app-username>
         </a>
