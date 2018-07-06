@@ -28,15 +28,15 @@ body {
     background-color: ?bw.3?;
 }
 
-.bw-on-bw30 {
-    background-color: ?bwOnBw.3?;
+.bw-on-bw30, .waves-ripple {
+    background-color: ?bwOnBw.3? !important;
 }
 
 .bw10 {
     background-color: ?bw.1?;
 }
 
-.bw-on-bw10 {
+.bw-on-bw10, .hover-bg:hover {
     background-color: ?bwOnBw.1?;
 }
 
