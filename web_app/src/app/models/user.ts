@@ -5,6 +5,7 @@ export class User {
     username: string;
     header: string;
     profilePic: string;
+    bio: string;
 
     r: number;
     g: number;
@@ -13,6 +14,9 @@ export class User {
     appleUser: boolean;
     rep: number;
     joinedOn: number;
+
+    friends: number;
+    messages: number;
 
     profilePicUrl(dim: string): string {
         var profilePic = this.profilePic == null ? "default.png" : this.profilePic;

@@ -4,3 +4,52 @@
     padding-top: 40%;
     margin-bottom: -80px;
 }
+
+.stats {
+    background: rgba(0, 0, 0, .03);
+    box-shadow: 1px 1px 1px #00000030;
+    padding: 12px 0;
+    margin: 20px 0;
+
+    a {
+        color: black;
+    }
+
+    i {
+        vertical-align: middle;
+    }
+}
+
+ul {
+    a {
+        color: rgba(0,0,0,0.87);
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        height: 48px;
+        line-height: 48px;
+        padding: 0 32px;
+        font-weight: 400;
+        text-align: left;
+        user-select: none;
+
+        i {
+            color: rgba(0,0,0,0.54);
+            margin-right: 32px;
+            vertical-align: middle;
+        }
+
+        &:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .switch {
+            display: inline;
+            pointer-events: none;
+        }
+    }
+
+    .divider {
+        margin: 8px 0;
+    }
+}

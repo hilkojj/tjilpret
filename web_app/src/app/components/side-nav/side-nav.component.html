@@ -8,7 +8,93 @@
     <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
         <app-profile-pic [user]="auth.session.user" dim="med" size="160px"
             borderWidth="4px"></app-profile-pic>
-
-        <app-username [user]="auth.session.user" fontSize="20px"></app-username>
     </a>
+
+    <div>
+        <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
+            <app-username [user]="auth.session.user" fontSize="20px"></app-username>
+        </a>
+
+        {{auth.session.user.bio}}
+
+        <div class="row stats">
+            <a class="col s4">
+                <i class="material-icons" [style.color]="auth.session.user.rgbString">chat_bubble</i>
+                <b [style.color]="auth.session.user.rgbString">
+                    {{auth.session.user.messages}}
+                </b>
+                <span>tjetberigten</span>
+            </a>
+            <a class="col s4" (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
+                <i class="material-icons" [style.color]="auth.session.user.rgbString">thumbs_up_down</i>
+                <b [style.color]="auth.session.user.rgbString">
+                    {{auth.session.user.rep}}
+                </b>
+                <span>reputatie</span>
+            </a>
+            <a class="col s4" (click)="modal.navigate('/tjiller/' + auth.session.user.id + '/vriends')">
+                <i class="material-icons" [style.color]="auth.session.user.rgbString">group</i>
+                <b [style.color]="auth.session.user.rgbString">
+                    {{auth.session.user.friends}}
+                </b>
+                <br>
+                <span>vriends</span>
+            </a>
+        </div>
+
+        <ul>
+            <li>
+                <a class="waves-effect" (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
+                    <i class="material-icons">person</i>
+                    Myn profiel
+                </a>
+            </li>
+
+            <li>
+                <a class="waves-effect" (click)="modal.navigate('/tjiller/' + auth.session.user.id + '/uploods')">
+                    <i class="material-icons">subscriptions</i>
+                    Mijn uploods
+                </a>
+            </li>
+
+            <li>
+                <a class="waves-effect" (click)="modals.showModal('editProfile')">
+                    <i class="material-icons">edit</i>
+                    Profil wijsigen
+                </a>
+            </li>
+
+            <li>
+                <a class="waves-effect" (click)="modal.navigate('/instellingun')">
+                    <i class="material-icons">settings</i>
+                    Instellingun
+                </a>
+            </li>
+
+            <li>
+                <a (click)="darkTheme = !darkTheme">
+                    <i class="material-icons">brightness_4</i>
+                    Duistere modus
+
+                    <div class="switch">
+                        <label>
+                            <input type="checkbox" [checked]="darkTheme">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+                <a class="waves-effect" href="resente-accounts">
+                    <i class="material-icons">swap_horiz</i>
+                    Ander account
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
 </div>

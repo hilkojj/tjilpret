@@ -66,6 +66,13 @@ textarea.materialize-textarea:focus:not([readonly]) {
     box-shadow: 0 1px 0 0 ?rgb? !important;
 }
 
+.switch label input[type=checkbox]:checked + .lever:after {
+    background-color: ?rgb?;
+}
+.switch label input[type=checkbox]:checked + .lever {
+    background-color: rgba(?r?, ?g?, ?b?, .5);
+}
+
 .input-field label.active {
     color: ?rgb? !important;
 }
