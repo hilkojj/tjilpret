@@ -1,0 +1,30 @@
+<p class="black-text">
+    <span [style.fontSize]="fontSize">
+        {{user.username}}
+    </span>
+
+    <i *ngIf="user.admin" class="material-icons" title="Admin"
+        [style.color]="user.rgbString">verified_user</i>
+
+    <img *ngIf="user.appleUser" src="/assets/img/apl_icon.svg"
+        class="apple-icon" title="Pas op. Apple-fan">
+
+    <span *ngIf="math.abs(user.rep) > 10" class="username-badge"
+        [title]="'Reputatie: ' + user.rep" [ngClass]="{'red': math.abs(user.rep) < 0}"
+        [style.backgroundColor]="user.rgbString">
+
+        {{
+            user.rep < 0 ? "Pretbederver" : "Pretmaker"
+        }} 
+        <span class="class">
+            {{ classes[math.min(classes.length - 1, parseInt(math.abs(user.rep) / 30))] }}
+        </span>
+    </span>
+
+    <span *ngIf="user.joinedOn > time - 3600 * 24 * 14" class="username-badge"
+        [style.backgroundColor]="user.rgbString">
+
+        Nieuweling
+    </span>
+
+</p>

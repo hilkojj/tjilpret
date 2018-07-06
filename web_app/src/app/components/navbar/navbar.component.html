@@ -28,9 +28,10 @@
                 <li>
                     <a class="profile-sidenav-trigger" *ngIf="auth.session" (click)="modals.showModal('sideNav')">
 
-                        <p class="hide-on-med-and-down">{{auth.session?.user.username}}</p>
+                        <p class="hide-on-med-and-down">{{auth.session.user.username}}</p>
 
-                        <img [src]="auth.session?.user.profilePicUrl('small')" class="fav-bg">
+                        <app-profile-pic class="ppic" [user]="auth.session.user" dim="small"
+                            size="40px"></app-profile-pic>
                     </a>
                 </li>
 

@@ -1,0 +1,9 @@
+<div class="profile-pic circle" *ngIf="user"
+    [ngStyle]="{
+        backgroundImage: 'url(' + user.profilePicUrl(dim) + ')',
+        backgroundColor: user.rgbString,
+        height: size, width: size,
+        borderWidth: borderWidth
+    }">
+
+</div>

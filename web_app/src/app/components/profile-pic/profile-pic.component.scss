@@ -1,0 +1,12 @@
+.profile-pic {
+    background-size: cover;
+    background-position: center;
+    border-color: white;
+    border-style: solid;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+:host {
+    display: inline-block;
+}

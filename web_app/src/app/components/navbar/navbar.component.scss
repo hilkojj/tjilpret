@@ -140,26 +140,19 @@ app-tabs {
 .profile-sidenav-trigger {
     background: none !important;
 
-    $img-size: 40px;
-    img {
-        border-radius: $img-size * .5;
-        width: $img-size;
-        height: $img-size;
-        vertical-align: middle;
+    .ppic {
         margin: 0 8px;
         margin-top: -1px;
-
-        transition: .1s ease-in-out;
-        
+        transition: .1s ease-in-out;        
     }
 
     @media (any-hover: hover) { // only play hover animation on desktop
-        &:hover img {
+        &:hover .ppic {
             transform: scale(1.1);
         }
     }
 
-    &:active img {
+    &:active .ppic {
         transform: scale(.9);
     }
 

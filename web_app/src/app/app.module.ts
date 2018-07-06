@@ -19,6 +19,9 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { FullLogoComponent } from './components/full-logo/full-logo.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { ProfilePicComponent } from './components/profile-pic/profile-pic.component';
+import { UsernameComponent } from './components/username/username.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { ModalComponent } from './components/modal/modal.component';
     TabsComponent,
     ChatComponent,
     FullLogoComponent,
-    ModalComponent
+    ModalComponent,
+    SideNavComponent,
+    ProfilePicComponent,
+    UsernameComponent
   ],
   imports: [
     BrowserModule,

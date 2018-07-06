@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { trigger, transition, style, animate, state } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-modal',
@@ -26,7 +27,7 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
                     opacity: 1,
                     transform: "scaleX(1) translate(0, 0)"
                 })),
-                transition("* => *", animate(".2s ease-out"))
+                transition("* => *", animate(".2s ease-in-out"))
             ]
         )
     ]
@@ -37,11 +38,12 @@ export class ModalComponent implements OnInit {
     @Input() hash: string;
     @Input() type: string = "default";
     @Input() width: string = "600px";
-    
+
     active = false;
 
     constructor(
-        private modals: ModalService
+        private modals: ModalService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -52,6 +54,13 @@ export class ModalComponent implements OnInit {
 
     close() {
         history.back();
+    }
+
+    navigate(url: string) {
+        this.modals.hideModal();
+        this.router.navigateByUrl(url, {
+            replaceUrl: true
+        });
     }
 
 }

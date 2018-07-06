@@ -10,6 +10,7 @@ import { routerAnimation } from './animations/routerAnimation';
 import { UtilsService } from './services/utils.service';
 import { AuthService } from './services/auth.service';
 import { THEME_COLOR } from './constants';
+import { ModalService } from './services/modal.service';
 
 @Component({
     selector: 'tjille-app-root',

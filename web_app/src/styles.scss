@@ -23,6 +23,8 @@ body.modal-open {
     overflow: hidden;
 }
 
-.card {
-    border-radius: 8px;
+::ng-deep {
+    .card {
+        border-radius: 8px;
+    }
 }
