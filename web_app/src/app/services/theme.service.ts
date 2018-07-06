@@ -47,9 +47,9 @@ export class ThemeService {
 
         if (this.css == undefined) return;
 
-        const darkColor = "#040530";
-        const darkColorpoint3 = "#4D040530";
-        const darkColorpoint1 = "#1a04050a";
+        const darkColor = "rgb(28, 29, 51)";
+        const darkColorpoint3 = "rgba(28, 29, 51, .3)";
+        const darkColorpoint1 = "rgba(28, 29, 51, .1)";
         const darkTheme = localStorage.getItem("darkTheme") == "true";
         this._darkThemeEnabled = darkTheme;
 

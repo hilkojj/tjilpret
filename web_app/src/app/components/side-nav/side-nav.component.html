@@ -23,14 +23,14 @@
                 <b [style.color]="auth.session.user.rgbString">
                     {{auth.session.user.messages}}
                 </b>
-                <span class="bw-on-bw-text">tjetberigten</span>
+                <div class="bw-on-bw-text">tjetberigten</div>
             </a>
             <a class="col s4" (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
                 <i class="material-icons" [style.color]="auth.session.user.rgbString">thumbs_up_down</i>
                 <b [style.color]="auth.session.user.rgbString">
                     {{auth.session.user.rep}}
                 </b>
-                <span class="bw-on-bw-text">reputatie</span>
+                <div class="bw-on-bw-text">reputatie</div>
             </a>
             <a class="col s4" (click)="modal.navigate('/tjiller/' + auth.session.user.id + '/vriends')">
                 <i class="material-icons" [style.color]="auth.session.user.rgbString">group</i>
@@ -38,7 +38,7 @@
                     {{auth.session.user.friends}}
                 </b>
                 <br>
-                <span class="bw-on-bw-text">vriends</span>
+                <div class="bw-on-bw-text">vriends</div>
             </a>
         </div>
 
