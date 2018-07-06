@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
                     opacity: 1,
                     transform: "scaleX(1) translate(0, 0)"
                 })),
-                transition("* => *", animate(".2s ease-in-out"))
+                transition("* => *", animate(".6s cubic-bezier(0.19, 1, 0.22, 1)"))
             ]
         )
     ]

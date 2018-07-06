@@ -82,7 +82,7 @@
 
 .right .modal-card {
     left: auto;
-    transform: translateX(100%);
+    transform: translateX(calc(100% + 10px));
 }
 
 .left .modal-card {
