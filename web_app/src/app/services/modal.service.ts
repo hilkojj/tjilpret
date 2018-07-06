@@ -21,6 +21,7 @@ export class ModalService {
             )
                 this.hideModal()
         });
+        location.hash = "";
     }
 
     get activeModalComponent(): ModalComponent {
