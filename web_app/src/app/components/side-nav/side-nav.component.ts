@@ -2,6 +2,7 @@ import { Component, OnInit, Host } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalService } from '../../services/modal.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
     selector: 'app-side-nav',
@@ -16,12 +17,14 @@ export class SideNavComponent implements OnInit {
 
     set darkTheme(value: boolean) {
         localStorage.setItem("darkTheme", "" + value);
+        this.theme.update();
     }
 
     constructor(
         private auth: AuthService,
         @Host() private modal: ModalComponent,
-        private modals: ModalService
+        private modals: ModalService,
+        private theme: ThemeService
     ) { }
 
     ngOnInit() {

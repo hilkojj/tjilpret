@@ -3,7 +3,8 @@
     <i class="material-icons">
         {{tab.icon}}
     </i>
-    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed}" class="title">
+    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed, 'bold': theme.darkThemeEnabled}"
+        class="title">
         {{tab.title}}
     </span>
     <div class="indicator fav-bg"></div>

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalComponent } from '../components/modal/modal.component';
 
 @Injectable({

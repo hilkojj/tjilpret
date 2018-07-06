@@ -28,7 +28,6 @@ $full-width-tabs-height: 44px;
 
 nav {
     width: 100vw;
-    background: white;
     user-select: none;
 
     .nav-wrapper {
@@ -83,7 +82,6 @@ nav {
     display: inline;
     transition: .1s ease-out;
     text-transform: capitalize;
-    background: white;
     z-index: 2;
     border-radius: 100px;
     padding-right: 15px;

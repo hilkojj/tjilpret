@@ -4,6 +4,42 @@ body {
     transition: opacity 3s 1s;
 }
 
+.bw-border {
+    border-color: ?bw?;
+}
+
+.bw-text {
+    color: ?bw? !important;
+}
+
+.bw-on-bw-text {
+    color: ?bwOnBwText? !important;
+}
+
+.bw {
+    background-color: ?bw?;
+}
+
+.bw-on-bw {
+    background-color: ?bwOnBw?;
+}
+
+.bw30 {
+    background-color: ?bw.3?;
+}
+
+.bw-on-bw30 {
+    background-color: ?bwOnBw.3?;
+}
+
+.bw10 {
+    background-color: ?bw.1?;
+}
+
+.bw-on-bw10 {
+    background-color: ?bwOnBw.1?;
+}
+
 .fav-bg {
     background: ?rgb? !important;
 }

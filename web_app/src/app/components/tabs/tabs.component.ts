@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
 
 export class Tab {
 
@@ -20,7 +21,9 @@ export class TabsComponent implements OnInit {
     @Input() tabs: Tab[];
     @Input() hideLabelOnMed: boolean;
 
-    constructor() { }
+    constructor(
+        private theme: ThemeService
+    ) { }
 
     ngOnInit() {
     }

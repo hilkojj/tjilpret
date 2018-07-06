@@ -1,17 +1,17 @@
 <div class="navbar-fixed" [ngClass]="{'hidden': !utils.navbarVisible}">
-    <nav class="z-depth-2 nav-extended" [ngClass]="{'collapsed': collapseNavbar}">
+    <nav class="z-depth-2 nav-extended bw" [ngClass]="{'collapsed': collapseNavbar}">
 
         <div class="nav-wrapper valign-wrapper">
             <a [routerLink]="'/hoom'" (click)="showRandomWords()" class="nav-logo"
                 [inlineSVG]="'/assets/img/logo_icon.svg'"></a>
 
-            <p class="random-words" [style.transform]="randomWords == '' ? 'scale(0)' : 'scale(1)'">
+            <p class="random-words bw" [style.transform]="randomWords == '' ? 'scale(0)' : 'scale(1)'">
                 {{randomWords}}
             </p>
 
             <app-tabs class="hide-on-med-and-down" [tabs]="tabs"></app-tabs>
 
-            <ul class="right-ul">
+            <ul class="right-ul bw-on-bw-text">
 
                 <li>
                     <a class="btn-flat btn-floating waves-effect" (click)="modals.showModal('search')">
