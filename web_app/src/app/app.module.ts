@@ -22,6 +22,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ProfilePicComponent } from './components/profile-pic/profile-pic.component';
 import { UsernameComponent } from './components/username/username.component';
+import { EditProfileModalComponent } from './components/edit-profile-modal/edit-profile-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UsernameComponent } from './components/username/username.component';
     ModalComponent,
     SideNavComponent,
     ProfilePicComponent,
-    UsernameComponent
+    UsernameComponent,
+    EditProfileModalComponent
   ],
   imports: [
     BrowserModule,

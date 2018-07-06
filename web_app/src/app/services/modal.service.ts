@@ -37,7 +37,12 @@ export class ModalService {
 
         this.activeModal = name;
         modal.active = true
-        location.hash = modal.hash;
+
+        if (location.hash == "")
+            location.hash = modal.hash;
+        else
+            history.replaceState(null, null, document.location.pathname + `#${modal.hash}`);
+
         document.body.classList.add("modal-open");
     }
 
@@ -50,7 +55,9 @@ export class ModalService {
 
         modal.active = false;
         this.activeModal = null;
-        setTimeout(() => document.body.classList.remove("modal-open"), 200);
+        setTimeout(() => {
+            if (this.activeModal == null) document.body.classList.remove("modal-open")
+        }, 200);
     }
 
 }

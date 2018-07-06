@@ -1,0 +1,7 @@
+<ul class="collection row">
+    <li *ngFor="let option of options" class="collection-item avatar waves-effect" (click)="option.click()">
+        <i class="material-icons circle" [ngClass]="option.color">{{option.icon}}</i>
+        <span class="title">{{option.title}}</span>
+        <p>{{option.desc}}</p>
+    </li>
+</ul>
