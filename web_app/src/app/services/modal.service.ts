@@ -1,6 +1,5 @@
-import { Injectable, HostListener, Renderer2 } from '@angular/core';
-import { CanDeactivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Component } from '@angular/compiler/src/core';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalComponent } from '../components/modal/modal.component';
 
 @Injectable({
@@ -12,7 +11,6 @@ export class ModalService {
     activeModal: string;
 
     constructor(
-        private router: Router
     ) {
         window.addEventListener('hashchange', () => {
             if (
