@@ -27,9 +27,10 @@ export class EditBioModalComponent implements OnInit {
         if (!this.active && this.modal.active) {
             this.active = true;
             this.bio = this.auth.session.user.bio;
-        }
+        } else if (!this.modal.active)
+            this.active = false;
 
-        return this.modal.active;
+        return true;
     }
 
     save() {
