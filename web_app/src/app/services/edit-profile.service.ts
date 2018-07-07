@@ -22,6 +22,7 @@ export class EditProfileService {
         ).subscribe(res => {
             if ("error" in res)
                 this.utils.errorToast(res["error"], 4000);
+            else this.auth.updateUser();
         });
     }
 
