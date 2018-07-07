@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-edit-profile-modal',
@@ -37,7 +38,7 @@ export class EditProfileModalComponent implements OnInit {
             color: "teal",
             title: "Status",
             desc: "Vertel je levensverhaal. Of andere onzin",
-            click: () => console.log("poep")
+            click: () => this.modals.showModal("editBio")
         },
 
         {
@@ -50,7 +51,9 @@ export class EditProfileModalComponent implements OnInit {
 
     ];
 
-    constructor() { }
+    constructor(
+        private modals: ModalService
+    ) { }
 
     ngOnInit() {
     }

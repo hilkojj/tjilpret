@@ -23,6 +23,8 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { ProfilePicComponent } from './components/profile-pic/profile-pic.component';
 import { UsernameComponent } from './components/username/username.component';
 import { EditProfileModalComponent } from './components/edit-profile-modal/edit-profile-modal.component';
+import { EditBioModalComponent } from './components/edit-bio-modal/edit-bio-modal.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { EditProfileModalComponent } from './components/edit-profile-modal/edit-
     SideNavComponent,
     ProfilePicComponent,
     UsernameComponent,
-    EditProfileModalComponent
+    EditProfileModalComponent,
+    EditBioModalComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,

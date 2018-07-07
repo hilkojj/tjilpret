@@ -1,0 +1,22 @@
+<app-toolbar titleText="Status wyzigen">
+
+</app-toolbar>
+
+<div class="row" *ngIf="checkActive()">
+    <div class="col s12">
+        <textarea class="materialize-textarea" placeholder="vurtel iets over jezelf"
+            data-length="255" style="height: 42px;" [(ngModel)]="bio"></textarea>
+
+        <p [ngClass]="{'red-text': bio.length > maxLength}" class="left counter">
+            {{bio.length}} / {{maxLength}}
+        </p>
+
+        <button class="btn waves-effect waves-light right" [ngClass]="{'disabled': bio.length > maxLength || bio.length == 0}"
+            (click)="save()">
+            
+            <i class="material-icons left">done</i>
+            oopslaan
+        </button>
+
+    </div>
+</div>
