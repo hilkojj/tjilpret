@@ -30,7 +30,7 @@ export class EditProfileModalComponent implements OnInit {
             color: "fav-bg",
             title: "Lieflingskleur",
             desc: "Kies jou persoonlijke lieflingskleur, die tevens het thema aanpast.",
-            click: () => console.log("poep")
+            click: () => this.modals.showModal("editFavColor")
         },
 
         {

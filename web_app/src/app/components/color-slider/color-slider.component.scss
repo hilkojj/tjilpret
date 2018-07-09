@@ -1,0 +1,46 @@
+@import "../../../styles.scss";
+
+.color-slider {
+
+    $slider-height: 36px;
+        
+    width: 100%;
+    height: $slider-height;
+    border-radius: 3px;
+    border: solid 2px rgba(128, 128, 128, .4);
+    padding: 0 2px;
+    background-clip: padding-box;
+
+    &.hue {
+        background: linear-gradient(
+            to right,
+            #ff0000 0%, 
+            #ffff00 17%, 
+            #00ff00 33%, 
+            #00ffff 50%, 
+            #0000ff 67%, 
+            #ff00ff 83%, 
+            #ff0000 100%
+        ) !important;
+    }
+
+    .thumb {
+        height: $slider-height + 4px;
+        width: 12px;
+        margin: -4px -5px;
+        border-radius: 3px;
+        border: solid 2px;
+        pointer-events: none;
+        
+        @media only screen and (max-width: $break-small) {
+            box-shadow: none !important;
+        }
+    }
+
+    cursor: -webkit-grab;
+
+    &:active {
+        cursor: -webkit-grabbing;
+    }
+    
+}

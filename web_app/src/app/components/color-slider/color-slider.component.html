@@ -1,0 +1,7 @@
+<div class="color-slider" [ngClass]="type" (mousemove)="mouseMove($event)"
+    (mousedown)="mouseDown = true; mouseMove($event)"
+    (touchmove)="mouseMove($event)" (touchstart)="mouseDown = true; mouseMove($event)"
+    (touchend)="mouseDown = false" [style.backgroundImage]="background">
+
+    <div class="thumb z-depth-1 bw-on-bw-border" [style.marginLeft]="'calc(' + perc + '% - 6px)'"></div>
+</div>

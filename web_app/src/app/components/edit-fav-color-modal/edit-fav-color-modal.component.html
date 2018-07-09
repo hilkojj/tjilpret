@@ -1,0 +1,37 @@
+<app-toolbar titleText="Kies je lieflingskleur">
+
+</app-toolbar>
+
+<div class="row" *ngIf="checkActive()">
+    <div class="col s12" *ngIf="hsl">
+
+        <h6>1. Kies een klur</h6>
+        <app-color-slider type="hue" [(hsl)]="hsl"></app-color-slider>
+
+        <!-- <br> -->
+        <h6>2. Kies verzadiging</h6>
+        <app-color-slider type="sat" [(hsl)]="hsl"></app-color-slider>
+
+        <!-- <br> -->
+        <h6>3. Kies ligtheid</h6>
+        <app-color-slider type="lig" minL="30" maxL="70" [(hsl)]="hsl"></app-color-slider>
+
+        <br>
+        <div class="stats">
+            <div class="color-circle circle" [style.background]="hslString"></div>
+            <p>{{colorClass.name}}</p>
+            <br>
+            <br>
+            <i class="material-icons">group</i>
+            {{colorClass.people}} andere tjillers hebben dezen lieflingsklur
+        </div>
+
+        <button class="btn waves-effect waves-light right" (click)="save()">
+
+            <i class="material-icons left">done</i>
+            oopslaan
+        </button>
+
+    </div>
+
+</div>

@@ -25,6 +25,8 @@ import { UsernameComponent } from './components/username/username.component';
 import { EditProfileModalComponent } from './components/edit-profile-modal/edit-profile-modal.component';
 import { EditBioModalComponent } from './components/edit-bio-modal/edit-bio-modal.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { EditFavColorModalComponent } from './components/edit-fav-color-modal/edit-fav-color-modal.component';
+import { ColorSliderComponent } from './components/color-slider/color-slider.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     UsernameComponent,
     EditProfileModalComponent,
     EditBioModalComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    EditFavColorModalComponent,
+    ColorSliderComponent
   ],
   imports: [
     BrowserModule,

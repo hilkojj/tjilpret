@@ -1,0 +1,30 @@
+:host {
+    user-select: none;
+}
+
+
+.stats {
+
+    i {
+        vertical-align: bottom;
+        margin-right: 10px;
+        opacity: .8;
+    }
+
+    .color-circle {
+        $size: 28px;
+        height: $size;
+        width: $size;
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 10px;
+    }
+
+    p {
+        display: inline;
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    margin-bottom: 16px;
+}
