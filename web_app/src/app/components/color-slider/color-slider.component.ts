@@ -1,4 +1,4 @@
-import { Component,, Input, HostListener, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, HostListener, Output, EventEmitter, OnChanges } from '@angular/core';
 import { HSL } from '../../models/colors';
 import { DomSanitizer } from '@angular/platform-browser';
 
