@@ -1,15 +1,26 @@
 
 const fs = require("fs");
-const password = fs.readFileSync(__dirname + "/database_password.txt").toString();
 const mysql = require("mysql");
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: password,
-    database: "tjillepret",
-    multipleStatements: true,
-    charset: "utf8mb4"
-});
+
+// example file database-connection.json:
+// {
+//     "host": "tjilpret.tk",
+//     "port": 123,
+//     "user": "username",
+//     "password": "password",
+//     "database": "databasename"
+// }
+
+const connection = mysql.createConnection(
+
+    Object.assign(
+        JSON.parse(fs.readFileSync(__dirname + "/database-connection.json").toString()),
+        {
+            multipleStatements: true,
+            charset: "utf8mb4"
+        }
+    )
+);
 
 connection.connect((err) => {
     if (err) {

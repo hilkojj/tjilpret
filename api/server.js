@@ -39,21 +39,13 @@ const apiFiles = [
 for (var i in apiFiles)
     require("./" + apiFiles[i] + ".js").apiFunctions(api);
 
-
-////////////////////////////////////////////  
-//                                        //
-// 404 error for static content           //
-//                                        //
-////////////////////////////////////////////
-app.get("/static_content/*", (req, res) => {
-    res.status(404).send("Je zit hier helemaal verkeerd<br><br>Ga naar de <a href=\"https://tjilpret.tk\">hoompagina</a>");
-});
-
 ////////////////////////////////////////////  
 //                                        //
 // Webapp                                 //
 //                                        //
 ////////////////////////////////////////////
+app.use("/", express.static(__dirname + "/tjilgular"));
+
 app.get("/tjiller/:id*", (req, res) => {
     db.connection.query("SELECT * FROM users WHERE user_id = ?", [parseInt(req.params.id) || -100], (err, rows, fields) => {
         if (err || rows.length == 0) {
@@ -79,12 +71,7 @@ app.get("/tjiller/:id*", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-    webapp.show(`
-		<meta name="og:description" content="Kom tjetten en tjillen! Deel je lieflingskleur en maak nieuwe vrienden!!!!!?!?"/>
-		<meta name="og:url" content="https://tjilpret.tk"/>
-		<meta name="og:image" content="https://tjilpret.tk/static_content/img/login_logo.png"/>
-		<meta name="og:title" content="Tjilpret"/>
-	`, res);
+    webapp.show(null, res);
 });
 
 app.listen(8080, () => console.log("Tjillepret listening on port 8080"));
