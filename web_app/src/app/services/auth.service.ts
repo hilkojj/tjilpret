@@ -49,13 +49,15 @@ export class AuthService implements CanActivate {
         }
     }
 
-    updateUser() {
+    updateUser(callback: () => void) {
         this.http.post(
             API_URL + "userInfo",
             { id: this.session.user.id }
         ).subscribe(res => {
             if ("userInfo" in res)
                 this.session.user = Object.assign(this.session.user, res["userInfo"]);
+
+            if (callback) callback();
         });
     }
 
@@ -90,7 +92,7 @@ export class AuthService implements CanActivate {
         this.router.navigateByUrl(this.returnUrl == undefined ? "" : this.returnUrl, {
             replaceUrl: true
         });
-        setInterval(() => this.updateUser(), 5000);
+        setInterval(() => this.updateUser(null), 5000);
     }
 
     login(username: string, password: string) {

@@ -24,18 +24,18 @@ export class EditProfileService {
         ).subscribe(res => {
             if ("error" in res)
                 this.utils.errorToast(res["error"], 4000);
-            else this.auth.updateUser();
+            else this.auth.updateUser(null);
         });
     }
 
-    editFavColor(rgb: RGB) {
+    editFavColor(rgb: RGB, callback: () => void) {
         this.http.post(
             API_URL + "changeFavColor",
             { r: rgb.r, g: rgb.g, b: rgb.b, token: this.auth.session.token }
         ).subscribe(res => {
             if ("error" in res)
                 this.utils.errorToast(res["error"], 4000);
-            else this.auth.updateUser();
+            else this.auth.updateUser(callback);
         });
     }
 

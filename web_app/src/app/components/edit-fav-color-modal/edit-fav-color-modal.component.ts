@@ -83,11 +83,10 @@ export class EditFavColorModalComponent implements OnInit {
     }
 
     save() {
-        history.back();
         var rgb = ColorConvert.hsl.rgb(
             this.hsl.h, this.hsl.s, this.hsl.l
         );
-        this.editProfile.editFavColor({ r: rgb[0], g: rgb[1], b: rgb[2] });
+        this.editProfile.editFavColor({ r: rgb[0], g: rgb[1], b: rgb[2] }, () => history.back());
     }
 
 }
