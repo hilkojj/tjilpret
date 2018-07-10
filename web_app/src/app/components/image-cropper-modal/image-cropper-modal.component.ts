@@ -12,7 +12,7 @@ export class ImageCropperModalComponent implements OnInit {
     croppie;
 
     constructor(
-        private service: ImageCropperService
+        public service: ImageCropperService
     ) { }
 
     ngOnInit() {

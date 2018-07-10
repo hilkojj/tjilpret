@@ -11,6 +11,7 @@ export class User {
     g: number;
     b: number;
 
+    admin: boolean;
     appleUser: boolean;
     rep: number;
     joinedOn: number;

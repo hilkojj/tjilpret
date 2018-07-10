@@ -9,7 +9,7 @@ import { ModalService } from '../../services/modal.service';
 export class NotFoundComponent implements OnInit {
 
     constructor(
-        private modals: ModalService
+        public modals: ModalService
     ) { }
 
     ngOnInit() {

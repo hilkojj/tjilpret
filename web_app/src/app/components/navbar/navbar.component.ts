@@ -13,9 +13,9 @@ import { ModalService } from '../../services/modal.service';
 export class NavbarComponent implements OnInit {
 
     constructor(
-        private utils: UtilsService,
-        private auth: AuthService,
-        private modals: ModalService
+        public utils: UtilsService,
+        public auth: AuthService,
+        public modals: ModalService
     ) { }
 
     randomWords = "";

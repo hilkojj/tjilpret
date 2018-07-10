@@ -21,9 +21,9 @@ export class SideNavComponent implements OnInit {
     }
 
     constructor(
-        private auth: AuthService,
-        @Host() private modal: ModalComponent,
-        private modals: ModalService,
+        public auth: AuthService,
+        @Host() public modal: ModalComponent,
+        public modals: ModalService,
         private theme: ThemeService
     ) { }
 
