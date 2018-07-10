@@ -27,6 +27,7 @@ import { EditBioModalComponent } from './components/edit-bio-modal/edit-bio-moda
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { EditFavColorModalComponent } from './components/edit-fav-color-modal/edit-fav-color-modal.component';
 import { ColorSliderComponent } from './components/color-slider/color-slider.component';
+import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ColorSliderComponent } from './components/color-slider/color-slider.com
     EditBioModalComponent,
     ToolbarComponent,
     EditFavColorModalComponent,
-    ColorSliderComponent
+    ColorSliderComponent,
+    ImageCropperModalComponent
   ],
   imports: [
     BrowserModule,

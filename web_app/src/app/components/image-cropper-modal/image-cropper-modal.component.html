@@ -1,0 +1,28 @@
+<app-toolbar [titleText]="service.options?.title">
+
+    <div class="toolbar-right">
+        <a class="back-btn btn-flat btn-floating waves-effect waves-light"
+            title="Nar links draien" (click)="croppie?.rotate(90)">
+            <i class="material-icons">rotate_left</i>
+        </a>
+        <a class="back-btn btn-flat btn-floating waves-effect waves-light"
+            title="Nar regts draien" (click)="croppie?.rotate(-90)">
+            <i class="material-icons">rotate_right</i>
+        </a>
+    </div>
+
+</app-toolbar>
+
+<iframe #iframe (load)="initCroppie()" [style.height]="(service.options?.boundaryHeight + 65) + 'px'"
+    src="/assets/html-documents/croppie.html">
+</iframe>
+
+<div class="row">
+    <div class="col s12 center">
+        <button class="btn btn-flat waves-effect waves-light" (click)="save()">
+
+            <i class="material-icons left">done</i>
+            oopslaan
+        </button>
+    </div>
+</div>

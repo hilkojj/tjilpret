@@ -11,4 +11,9 @@
     .title {
         font-size: 19px;
     }
+
+    ::ng-deep .toolbar-right {
+        position: absolute;
+        right: 8px;
+    }
 }

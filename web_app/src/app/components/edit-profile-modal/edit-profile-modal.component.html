@@ -1,7 +1,11 @@
 <ul class="collection row">
-    <li *ngFor="let option of options" class="collection-item avatar waves-effect" (click)="option.click()">
+    <li *ngFor="let option of options" class="collection-item avatar waves-effect"
+        (click)="option.click ? option.click() : input.click()">
+
         <i class="material-icons circle" [ngClass]="option.color">{{option.icon}}</i>
         <span class="title">{{option.title}}</span>
         <p>{{option.desc}}</p>
+
+        <input [accept]="option.upload" #input hidden type="file" (change)="$event.target.files[0] && option.fileSelected($event.target.files[0])">
     </li>
 </ul>

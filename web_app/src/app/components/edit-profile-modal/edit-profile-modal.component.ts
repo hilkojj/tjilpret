@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
+import { ImageCropperService } from '../../services/image-cropper.service';
+import { EditProfileService } from '../../services/edit-profile.service';
 
 @Component({
     selector: 'app-edit-profile-modal',
@@ -14,7 +16,21 @@ export class EditProfileModalComponent implements OnInit {
             color: "indigo",
             title: "Profilfoto",
             desc: "Uplood een profilfoto (GIFjes toegestaan!)",
-            click: () => console.log("poep")
+            upload: "image/*",
+            fileSelected: file => this.imageCropper.cropImage(
+                {
+                    file: file,
+                    title: "Profilfoto bysnyden",
+                    viewPortWidth: 160, viewPortHeight: 160,
+                    circle: true,
+                    boundaryHeight: 340,
+                    resultWidth: 800, resultHeight: 800
+                }
+            ).then(cropped => {
+
+                this.editProfile.uploadProfilePic(cropped);
+
+            })
         },
 
         {
@@ -22,7 +38,21 @@ export class EditProfileModalComponent implements OnInit {
             color: "red accent-3",
             title: "Banner",
             desc: "Uplood een banner voor boven je profiel",
-            click: () => console.log("poep")
+            upload: "image/*",
+            fileSelected: file => this.imageCropper.cropImage(
+                {
+                    file: file,
+                    title: "Banner bijsneiden",
+                    viewPortWidth: 400, viewPortHeight: 160,
+                    circle: false,
+                    boundaryHeight: 340,
+                    resultWidth: 1600, resultHeight: 640
+                }
+            ).then(cropped => {
+
+                this.editProfile.uploadBanner(cropped);
+
+            })
         },
         
         {
@@ -46,13 +76,15 @@ export class EditProfileModalComponent implements OnInit {
             color: "green accent-3",
             title: "Geluidje",
             desc: "Uplood een ingesproken bericht/muziekje dat zich afspeelt op jou profiel, of als iemand zn muis op je pf houd.",
-            click: () => console.log("poep")
+            upload: "image/*"
         }
 
     ];
 
     constructor(
-        private modals: ModalService
+        private modals: ModalService,
+        private imageCropper: ImageCropperService,
+        private editProfile: EditProfileService
     ) { }
 
     ngOnInit() {
