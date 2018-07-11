@@ -35,13 +35,15 @@ body.modal-open {
         border-radius: $border-radius;
         border: none;
 
+        $border-color: rgba(128, 128, 128, 0.4);
+
         .collapsible-header {
             background: none;
-            border-color: rgba(128, 128, 128, 0.4);
+            border-color: $border-color;
         }
 
         .collapsible-body {
-            border-color: rgba(128, 128, 128, 0.4);
+            border-color: $border-color;
         }
 
         .first {
@@ -56,9 +58,13 @@ body.modal-open {
                 border-bottom-left-radius: $border-radius;
                 border-bottom-right-radius: $border-radius;
 
+                border-color: transparent;
+
                 &.active {
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
+
+                    border-color: $border-color;
                 }
             }
 
@@ -73,4 +79,20 @@ body.modal-open {
 body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+}
+
+.masterpiece-left {
+    position: fixed;
+    z-index: -999;
+    left: 0;
+    bottom: 0;
+    width: 180px;
+    height: 180px;
+    background: url(/assets/img/masterpiece_left.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    @media only screen and (max-width: $break-small) {
+        display: none;
+    }
 }
