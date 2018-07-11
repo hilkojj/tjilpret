@@ -7,7 +7,7 @@ module.exports = {
         fs.readFile(__dirname + "/tjilgular/index.html", (err, data) => {
             if (err) {
                 console.log(err);
-                res.send("Klein foutje.");
+                return res.send("Klein foutje.");
             }
 
             var html = data.toString();
