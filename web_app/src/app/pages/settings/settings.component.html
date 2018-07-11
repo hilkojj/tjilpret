@@ -21,7 +21,7 @@
                     <div class="card bw-on-bw10 editableValue waves-effect" (click)="modals.showModal('changeEmail')"
                         title="email verandere">
 
-                        <h6 class="fav-text truncate">{{currentEmail}}</h6>
+                        <h6 class="fav-text truncate">{{currentEmail || "Geen"}}</h6>
 
                         <i class="material-icons left fav-text">edit</i>
                     </div>
@@ -98,19 +98,49 @@
                 </div>
                 <div class="collapsible-body token-history-coll-body bw-on-bw-text">
 
-                    <div *ngFor="let partialToken of tokenHistory">
-                        {{partialToken.created | timestamp}}
-                    </div>
+                    Hieronder staat een lijst van alle plekken waar ju ingelogd bent.
+                    <br>
+                    <br>
 
                     <div style="margin-bottom: 5px; text-align: right">
-                        <button class="btn btn-flat waves-effect" (click)="auth.logoutEverywhere()">
+                        <button class="btn btn-flat waves-effect" (click)="logoutEverywhere()">
                             <i class="material-icons left">exit_to_app</i>
                             overal afmelde
                         </button>
                     </div>
 
-                    <div class="collection">
-                    </div>
+                    <ul class="collection">
+
+                        <li class="collection-item bw-on-bw10 avatar" *ngFor="let partialToken of tokenHistory">
+                            <div class="browser-icon-wrapper bw-on-bw10">
+                                <img [src]="getBrowserIcon(partialToken.readableUserAgent)" alt>
+                            </div>
+
+                            <i class="material-icons">location_on</i>
+                            {{partialToken.ip}}
+
+                            <br>
+
+                            <i class="material-icons">access_time</i>
+                            {{partialToken.created | timestamp}}
+
+                            <br>
+
+                            <i class="material-icons">devices</i>
+                            {{partialToken.readableUserAgent}}
+
+                            <p class="fav-text" *ngIf="isThisSession(partialToken)">
+                                <i class="material-icons">check</i>
+                                Deze sessie
+                            </p>
+
+                            <a class="secondary-content" (click)="logout(partialToken)">
+                                <i class="material-icons red-text" title="Sessie beëindingen">close</i>
+                            </a>
+                        </li>
+
+                    </ul>
+
                 </div>
             </li>
         </ul>

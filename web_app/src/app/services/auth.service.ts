@@ -197,4 +197,10 @@ export class AuthService implements CanActivate {
         });
     }
 
+    logout(p: PartialToken): Observable<boolean> {
+        return this.http.post(
+            API_URL + "logout", { token: this.session.token, partialToken: p.partialToken }
+        ).map(res => res["success"]);
+    }
+
 }

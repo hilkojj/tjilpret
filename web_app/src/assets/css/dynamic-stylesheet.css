@@ -41,7 +41,7 @@ body {
 }
 
 .bw-on-bw10, .hover-bg:hover {
-    background-color: ?bwOnBw.1?;
+    background-color: ?bwOnBw.1? !important;
 }
 
 .spinner-layer {

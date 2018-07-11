@@ -7,7 +7,7 @@ const useragent = require('useragent');
 var minPasswordLength = 4;
 
 var createSession = function (user, req, res) {
-    const token = utils.randomInt(100000000000, 999999999999);
+    const token = utils.randomInt(10000000, 99999999);
     db.connection.query("INSERT INTO tokens SET ?", {
         token: token,
         user_id: user.user_id,
@@ -163,9 +163,10 @@ module.exports = {
                     }
                     for (var i in tokens) {
                         var token = tokens[i];
-                        token.partialToken = (token.token + "").substring(0, 6);
+                        token.partialToken = (token.token + "").substring(0, 4);
                         delete token.token;
-                        token.readableUserAgent = useragent.parse(token.userAgent).toString();
+                        var agent = useragent.parse(token.userAgent);
+                        token.readableUserAgent = agent.toString().replace(" " + agent.toVersion(), "").replace(" 0.0.0", "");
                     }
                     res.send(tokens);
                 }
@@ -173,8 +174,12 @@ module.exports = {
         });
 
         api.post("/logout", (req, res) => {
-            db.connection.query(`DELETE FROM tokens WHERE token = ?`,
-                [parseInt(req.body.token) || 0], (err, results, fields) => {
+            var token = parseInt(req.body.token) || 0;
+            db.connection.query(`
+                DELETE FROM tokens 
+                WHERE user_id = (SELECT user_id FROM (SELECT * FROM tokens) AS t WHERE token = ?)
+                AND token LIKE "` + db.connection.escape(parseInt(req.body.partialToken) || token) + `%"`,
+                [token], (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         return res.send({ success: false });
