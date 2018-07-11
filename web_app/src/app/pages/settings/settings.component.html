@@ -99,7 +99,7 @@
                 <div class="collapsible-body token-history-coll-body bw-on-bw-text">
 
                     <div *ngFor="let partialToken of tokenHistory">
-                        {{partialToken.created}}
+                        {{partialToken.created | timestamp}}
                     </div>
 
                     <div style="margin-bottom: 5px; text-align: right">

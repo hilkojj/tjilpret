@@ -29,6 +29,7 @@ import { EditFavColorModalComponent } from './components/edit-fav-color-modal/ed
 import { ColorSliderComponent } from './components/color-slider/color-slider.component';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { TimestampPipe } from './pipes/timestamp.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
     EditFavColorModalComponent,
     ColorSliderComponent,
     ImageCropperModalComponent,
-    SettingsComponent
+    SettingsComponent,
+    TimestampPipe
   ],
   imports: [
     BrowserModule,
