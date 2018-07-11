@@ -28,6 +28,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { EditFavColorModalComponent } from './components/edit-fav-color-modal/edit-fav-color-modal.component';
 import { ColorSliderComponent } from './components/color-slider/color-slider.component';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ImageCropperModalComponent } from './components/image-cropper-modal/ima
     ToolbarComponent,
     EditFavColorModalComponent,
     ColorSliderComponent,
-    ImageCropperModalComponent
+    ImageCropperModalComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

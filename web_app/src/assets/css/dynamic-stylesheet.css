@@ -55,6 +55,10 @@ body {
     background: ?rgb? !important;
 }
 
+.fav-text {
+    color: ?rgb?;
+}
+
 .nav-logo #logo-outer {
     fill: ?rgb.6?;
     transition: .1s ease-out;

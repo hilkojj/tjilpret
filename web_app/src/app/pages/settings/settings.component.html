@@ -1,0 +1,106 @@
+<div class="row">
+
+    <div class="col s12 m8 l6 offset-m2 offset-l3">
+        <h4 class="white-text">Instelingen</h4>
+
+        <h6 class="white-text">Beveiliging ofzo</h6>
+        <ul class="collapsible bw" materialize="collapsible">
+
+            <!-- EMAIL -->
+
+            <li class="first">
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">alternate_email</i>E-mail
+                </div>
+                <div class="collapsible-body bw-on-bw-text">
+
+                    piet@henk.nl
+
+                </div>
+            </li>
+
+            <!-- PASSWORD -->
+
+            <li>
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">lock</i>Wagtwoord verandere
+                </div>
+                <div class="collapsible-body bw-on-bw-text">
+
+                    <div class="input-field">
+                        <input value="" id="current-password" type="password">
+                        <label for="current-password">Huidige wachtword</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input value="" id="new-password" type="password" (keypress)="$event.keyCode != 13 || changePassword()">
+                        <label for="new-password">Nieuwe wachtwoord</label>
+                    </div>
+
+                    <button class="btn btn-flat waves-effect waves-light" (click)="changePassword()">
+                        <i class="material-icons left">done</i>Opslaan
+                    </button>
+
+                </div>
+            </li>
+
+            <li class="last">
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">list_alt</i>Inlog aktiviteit
+                </div>
+                <div class="collapsible-body token-history-coll-body bw-on-bw-text">
+
+                    <div style="margin-bottom: 5px; text-align: right">
+                        <button class="btn btn-flat waves-effect"
+                            (click)="logoutEverywhere()">
+                            <i class="material-icons left">exit_to_app</i>
+                            overal afmelde
+                        </button>
+                    </div>
+
+                    <div class="collection">
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <h6 class="white-text">Tjetten</h6>
+        <ul class="collapsible bw" materialize="collapsible">
+            <li class="first last">
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">wallpaper</i>Tjet achtergrond
+                </div>
+                <div class="collapsible-body bw-on-bw-text">
+
+                    Erg lelijk, nieuwe uploden?
+                </div>
+            </li>
+        </ul>
+
+        <h6 class="white-text">Tjilpret</h6>
+        <ul class="collapsible bw" materialize="collapsible">
+            <li class="first last">
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">info_outline</i>Over
+                </div>
+                <div class="collapsible-body bw-on-bw-text">
+                    <h6>Tjilpret (kopierecht 2005-2020)</h6>
+                    <br>
+                    <br> Gemaakt door
+                    <a [routerLink]="'/tjiller/11'">kaasflip</a>
+                    (ook wel eens Hilko Janssen genoemd)
+                    <br>
+                    <br> Standaard profielfoto / groepsfoto & overige
+                    decoratie door:
+                    <br>
+                    <a [routerLink]="'/tjiller/6'">Speksteen61 (admin)</a>
+                    <br>
+                    <br>
+                    Source code:
+                    <a href="https://github.com/hilkojj/tjilpret">Github ofzo</a>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</div>

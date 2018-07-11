@@ -7,6 +7,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-recent-user.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -31,6 +32,14 @@ const routes: Routes = [
         path: "tjets", component: ChatComponent,
         canActivate: [AuthService], data: {
             title: "Tjets",
+            favColorTheme: true,
+            showNavbar: true
+        }
+    },
+    {
+        path: "instellingun", component: SettingsComponent,
+        canActivate: [AuthService], data: {
+            title: "Instellingun",
             favColorTheme: true,
             showNavbar: true
         }

@@ -24,8 +24,49 @@ body.modal-open {
 }
 
 ::ng-deep {
+
+    $border-radius: 8px;
+
     .card {
-        border-radius: 8px;
+        border-radius: $border-radius;
+    }
+
+    .collapsible {
+        border-radius: $border-radius;
+        border: none;
+
+        .collapsible-header {
+            background: none;
+            border-color: rgba(128, 128, 128, 0.4);
+        }
+
+        .collapsible-body {
+            border-color: rgba(128, 128, 128, 0.4);
+        }
+
+        .first {
+            .collapsible-header {
+                border-top-left-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+            }
+        }
+
+        .last {
+            .collapsible-header {
+                border-bottom-left-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+
+                &.active {
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+                }
+            }
+
+            .collapsible-body {
+                border: none;
+            }
+        }
+        
     }
 }
 
