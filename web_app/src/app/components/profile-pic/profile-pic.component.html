@@ -1,9 +1,17 @@
-<div class="profile-pic circle bw-border" *ngIf="user"
-    [ngStyle]="{
-        backgroundImage: 'url(' + user.profilePicUrl(dim) + ')',
-        backgroundColor: user.rgbString,
-        height: size, width: size,
-        borderWidth: borderWidth
-    }">
+<div class="profile-pic-container" *ngIf="user" (mouseleave)="stopSoundFragment()"
+    (mouseover)="playSoundFragOnHover && playSoundFragment()">
+
+    <div class="profile-pic circle bw-border" [ngStyle]="{
+            backgroundImage: 'url(' + user.profilePicUrl(dim) + ')',
+            backgroundColor: user.rgbString,
+            height: size, width: size,
+            borderWidth: borderWidth
+        }">
+
+    </div>
+
+    <i class="material-icons sound-icon bw-on-bw-text" *ngIf="playSoundFragOnHover && user.soundFragment">
+        volume_up
+    </i>
 
 </div>

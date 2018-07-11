@@ -6,8 +6,8 @@
     </div>
 
     <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
-        <app-profile-pic [user]="auth.session.user" dim="med" size="160px"
-            borderWidth="4px"></app-profile-pic>
+        <app-profile-pic [user]="auth.session.user" playSoundFragOnHover="true"
+            dim="med" size="160px" borderWidth="4px"></app-profile-pic>
     </a>
 
     <div class="info">

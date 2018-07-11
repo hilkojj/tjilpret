@@ -9,6 +9,12 @@ const webapp = require("./webapp.js");
 app.use(bodyParser());
 app.use(bodyParser.json());
 
+app.use((_req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+    next();
+});
+
 ////////////////////////////////////////////  
 //                                        //
 // Public access to static content        //
@@ -23,12 +29,6 @@ app.use("/static_content", express.static(__dirname + "/static_content"));
 ////////////////////////////////////////////
 const api = express.Router();
 app.use("/api", api);
-
-api.use((_req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-    next();
-});
 
 const apiFiles = [
     "auth",
