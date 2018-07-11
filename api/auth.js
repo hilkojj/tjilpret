@@ -7,7 +7,7 @@ const useragent = require('useragent');
 var minPasswordLength = 4;
 
 var createSession = function (user, req, res) {
-    const token = utils.randomInt(100000000, 999999999);
+    const token = utils.randomInt(100000000000, 999999999999);
     db.connection.query("INSERT INTO tokens SET ?", {
         token: token,
         user_id: user.user_id,
@@ -163,7 +163,9 @@ module.exports = {
                     }
                     for (var i in tokens) {
                         var token = tokens[i];
-                        token["readableUserAgent"] = useragent.parse(token.userAgent).toString();
+                        token.partialToken = (token.token + "").substring(0, 6);
+                        delete token.token;
+                        token.readableUserAgent = useragent.parse(token.userAgent).toString();
                     }
                     res.send(tokens);
                 }
@@ -237,6 +239,59 @@ module.exports = {
                                 }
                             );
                         });
+                    });
+                }
+            );
+        });
+
+        api.post("/myEmail", (req, res) => {
+
+            db.connection.query(`SELECT email FROM users, tokens 
+            WHERE users.user_id = tokens.user_id AND token = ?`, [parseInt(req.body.token) || 0],
+                (err, rows, fields) => {
+                    if (err || rows.length == 0) {
+                        if (err) console.log(err);
+                        return utils.sendError(res, "AAA er is iets mis gegaan!?!?!");
+                    }
+
+                    res.send({ email: rows[0].email });
+                }
+            );
+        });
+
+        api.post("/changeEmail", (req, res) => {
+
+            var newEmail = req.body.newEmail;
+
+            if (!utils.validateEmail(newEmail || ""))
+                return utils.sendError(res, "Ik denk dat dat een neppe email is >:( rotzak!");
+
+            db.connection.query(`SELECT username, users.user_id, password FROM users, tokens 
+                                WHERE users.user_id = tokens.user_id AND token = ?`,
+                [parseInt(req.body.token) || 0], (err, users, fields) => {
+                    if (err || users.length == 0) {
+                        if (err) console.log(err);
+                        return utils.sendError(res, "AAA er is iets mis gegaan!?!?!");
+                    }
+                    var user = users[0];
+                    bcrypt.compare(req.body.password || "", user.password, (err, correct) => {
+                        if (err) {
+                            console.log(err);
+                            return utils.sendError(res, "RIP tjilpret. er is iets mis");
+                        }
+                        if (!correct)
+                            return utils.sendError(res, "Wagtwoord is niet goed >:(");
+
+                        db.connection.query("UPDATE users SET email = ? WHERE user_id = ?",
+                            [newEmail, user.user_id], (err, results, fields) => {
+                                if (err) {
+                                    console.log(err);
+                                    return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
+                                }
+                                console.log(user.username + " heeft zyn email veranderd " + Date());
+                                res.send({ success: true });
+                            }
+                        );
                     });
                 }
             );

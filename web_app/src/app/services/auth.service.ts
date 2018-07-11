@@ -7,6 +7,15 @@ import { API_URL } from '../constants';
 import { User } from '../models/user';
 import { UtilsService } from './utils.service';
 import { Session } from '../models/session';
+import { Observable } from '../../../node_modules/rxjs';
+
+export interface PartialToken {
+    created: number;
+    ip: string;
+    partialToken: number;
+    readableUserAgent: string;
+    userAgent: string;
+}
 
 @Injectable({
     providedIn: 'root'
@@ -133,6 +142,58 @@ export class AuthService implements CanActivate {
             localStorage.setItem("tokens", JSON.stringify(newTokens));
 
             callback();
+        });
+    }
+
+    getCurrentEmail(): Observable<string> {
+        return this.http.post(
+            API_URL + "myEmail", { token: this.session.token }
+        ).map(res => res["email"]);
+    }
+
+    changePassword(currentPassword: string, newPassword: string, callback: (success: boolean) => void) {
+        var token = this.session.token;
+        this.http.post(API_URL + "changePassword", {
+            currentPassword, newPassword, token
+        }).subscribe(res => {
+
+            if (res["success"] && confirm("Uw wagtwoord is gewijzigd.\nWil je nu overal uitloggen om die smerige hackers weg te jagen?"))
+                this.logoutEverywhere();
+
+            else if ("error" in res)
+                this.utils.errorToast(res["error"], 6000);
+
+            if (callback) callback(res["success"]);
+        });
+    }
+
+    changeEmail(password: string, newEmail: string, callback: (success: boolean) => void) {
+        var token = this.session.token;
+        this.http.post(API_URL + "changeEmail", {
+            password, newEmail, token
+        }).subscribe(res => {
+
+            if (res["success"])
+                this.utils.successToast("Email geupdate", 3000);
+            else if ("error" in res)
+                this.utils.errorToast(res["error"], 6000);
+
+            if (callback) callback(res["success"]);
+        });
+    }
+
+    logoutEverywhere() {
+        this.http.post(API_URL + "logoutEverywhere", {
+            token: this.session.token
+        }).subscribe(res => {
+            if (res["success"])
+                window.location.reload();
+        });
+    }
+
+    getTokenHistory(): Observable<PartialToken[]> {
+        return this.http.post<PartialToken[]>(API_URL + "tokenHistory", {
+            token: this.session.token
         });
     }
 

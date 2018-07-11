@@ -56,7 +56,7 @@ body {
 }
 
 .fav-text {
-    color: ?rgb?;
+    color: ?rgb? !important;
 }
 
 .nav-logo #logo-outer {

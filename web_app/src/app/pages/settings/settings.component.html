@@ -14,7 +14,50 @@
                 </div>
                 <div class="collapsible-body bw-on-bw-text">
 
-                    piet@henk.nl
+                    Huidige email adres:
+
+                    <br>
+
+                    <div class="card bw-on-bw10 editableValue waves-effect" (click)="modals.showModal('changeEmail')"
+                        title="email verandere">
+
+                        <h6 class="fav-text truncate">{{currentEmail}}</h6>
+
+                        <i class="material-icons left fav-text">edit</i>
+                    </div>
+
+
+                    <br> Als je je wachtword vergeten bent word er
+                    een reset-mail gestuurd naar dit adres.
+
+
+                    <app-modal name="changeEmail" hash="email-verandere">
+                        <app-toolbar titleText="Email verandere"></app-toolbar>
+
+                        <div class="row">
+                            <div class="col s12">
+
+                                <div class="input-field">
+                                    <input value="" id="password" type="password" autocomplete="current-password"
+                                        [(ngModel)]="changeEmailVars.password">
+
+                                    <label for="password">Je wachtword</label>
+                                </div>
+
+                                <div class="input-field">
+                                    <input value="" id="new-email" type="email" [(ngModel)]="changeEmailVars.newEmail"
+                                        (keypress)="$event.keyCode != 13 || changeEmail()">
+
+                                    <label for="new-email">Nieuwe email</label>
+                                </div>
+
+                                <button class="btn btn-flat waves-effect waves-light right" (click)="changeEmail()">
+                                    <i class="material-icons left">done</i>Opslaan
+                                </button>
+                            </div>
+                        </div>
+
+                    </app-modal>
 
                 </div>
             </li>
@@ -27,13 +70,16 @@
                 </div>
                 <div class="collapsible-body bw-on-bw-text">
 
+                    <input hidden type="text" autocomplete="username" [value]="auth.session.user.username">
                     <div class="input-field">
-                        <input value="" id="current-password" type="password">
+                        <input value="" id="current-password" type="password" [(ngModel)]="changePasswordVars.currentPassword">
                         <label for="current-password">Huidige wachtword</label>
                     </div>
 
                     <div class="input-field">
-                        <input value="" id="new-password" type="password" (keypress)="$event.keyCode != 13 || changePassword()">
+                        <input value="" id="new-password" type="password" [(ngModel)]="changePasswordVars.newPassword"
+                            (keypress)="$event.keyCode != 13 || changePassword()">
+
                         <label for="new-password">Nieuwe wachtwoord</label>
                     </div>
 
@@ -44,15 +90,20 @@
                 </div>
             </li>
 
+            <!-- TOKEN HISTORY -->
+
             <li class="last">
                 <div class="collapsible-header waves-effect fav-text">
                     <i class="material-icons">list_alt</i>Inlog aktiviteit
                 </div>
                 <div class="collapsible-body token-history-coll-body bw-on-bw-text">
 
+                    <div *ngFor="let partialToken of tokenHistory">
+                        {{partialToken.created}}
+                    </div>
+
                     <div style="margin-bottom: 5px; text-align: right">
-                        <button class="btn btn-flat waves-effect"
-                            (click)="logoutEverywhere()">
+                        <button class="btn btn-flat waves-effect" (click)="auth.logoutEverywhere()">
                             <i class="material-icons left">exit_to_app</i>
                             overal afmelde
                         </button>
@@ -95,8 +146,7 @@
                     <br>
                     <a [routerLink]="'/tjiller/6'">Speksteen61 (admin)</a>
                     <br>
-                    <br>
-                    Source code:
+                    <br> Source code:
                     <a href="https://github.com/hilkojj/tjilpret" target="_blank">Github ofzo</a>
                 </div>
             </li>
