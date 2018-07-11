@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
 import { CONTENT_URL, MOBILE } from '../../constants';
 import { Howl } from 'howler';
@@ -15,11 +15,15 @@ export class ProfilePicComponent implements OnInit {
     @Input() dim: string = "med";
     @Input() borderWidth: string = "0";
     @Input() playSoundFragOnHover = false;
+    @Input() cursor: string = "default";
 
     private soundFrag: Howl;
     private soundFragStopTimeout;
 
-    constructor() { }
+    @Output() onProfilePicClick = new EventEmitter();
+
+    constructor(
+    ) { }
 
     ngOnInit() {
         this.playSoundFragOnHover = this.playSoundFragOnHover && !MOBILE;

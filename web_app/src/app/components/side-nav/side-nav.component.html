@@ -5,13 +5,12 @@
             : 'url(' + auth.session.user.headerUrl('small') + ')'">
     </div>
 
-    <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
-        <app-profile-pic [user]="auth.session.user" playSoundFragOnHover="true"
-            dim="med" size="160px" borderWidth="4px"></app-profile-pic>
-    </a>
+    <app-profile-pic [user]="auth.session.user" playSoundFragOnHover="true"
+        dim="med" size="160px" borderWidth="4px" cursor="pointer"
+        (onProfilePicClick)="goToProfile()"></app-profile-pic>
 
     <div class="info">
-        <a (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
+        <a (click)="goToProfile()">
             <app-username [user]="auth.session.user" fontSize="20px"></app-username>
         </a>
 
@@ -25,7 +24,7 @@
                 </b>
                 <div class="bw-on-bw-text">tjetberigten</div>
             </a>
-            <a class="col s4" (click)="modal.navigate('/tjiller/' + auth.session.user.id)">
+            <a class="col s4" (click)="goToProfile()">
                 <i class="material-icons" [style.color]="auth.session.user.rgbString">thumbs_up_down</i>
                 <b [style.color]="auth.session.user.rgbString">
                     {{auth.session.user.rep}}

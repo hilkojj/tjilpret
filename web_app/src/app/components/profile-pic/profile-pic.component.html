@@ -5,8 +5,9 @@
             backgroundImage: 'url(' + user.profilePicUrl(dim) + ')',
             backgroundColor: user.rgbString,
             height: size, width: size,
-            borderWidth: borderWidth
-        }">
+            borderWidth: borderWidth,
+            cursor: cursor
+        }" (click)="onProfilePicClick.emit(true)">
 
     </div>
 

@@ -30,4 +30,8 @@ export class SideNavComponent implements OnInit {
     ngOnInit() {
     }
 
+    goToProfile() {
+        this.modal.navigate(`/tjiller/${this.auth.session.user.id}`)
+    }
+
 }
