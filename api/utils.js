@@ -33,6 +33,7 @@ module.exports = {
             r: row.r, g: row.g, b: row.b,
             profilePic: row.profile_pic,
             header: row.header,
+            soundFragment: row.sound_fragment,
             friends: row.friends,
             uploads: row.uploads,
             groups: row.groups,

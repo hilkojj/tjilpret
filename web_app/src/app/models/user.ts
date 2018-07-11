@@ -6,6 +6,7 @@ export class User {
     header: string;
     profilePic: string;
     bio: string;
+    soundFragment: string;
 
     r: number;
     g: number;

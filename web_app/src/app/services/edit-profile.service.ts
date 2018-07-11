@@ -54,20 +54,7 @@ export class EditProfileService {
     private uploadImg(url: string, name: string, image: File) {
         const M = window["Materialize"];
 
-        var toast = M.toast(
-            `<div class="preloader-wrapper small active" style="margin-right: 20px; width: 28px; height: 28px;">
-                <div class="spinner-layer">
-                <div class="circle-clipper left">
-                    <div class="circle"></div>
-                </div><div class="gap-patch">
-                    <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                    <div class="circle"></div>
-                </div>
-                </div>
-            </div>
-            Uplooden....`
-        );
+        var toast = this.utils.loadingToast("Uplooden...");
 
         var fd = new FormData();
         fd.append("token", this.auth.session.token + "");
@@ -76,16 +63,36 @@ export class EditProfileService {
         this.http.post(url, fd).subscribe(res => {
 
             if ("error" in res)
-                toast.el.innerHTML = "<i class=\"material-icons\" style=\"margin-right: 20px\">error</i>"
-                    + res["error"];
+                this.utils.endLoadingToast(true, res["error"], toast);
             else
-                toast.el.innerHTML = "<i class=\"material-icons\" style=\"margin-right: 20px\">check</i>Geniet ervan";
+                this.utils.endLoadingToast(false, "Geniet ervan", toast);
 
-            setTimeout(() => toast.remove(), "error" in res ? 6000 : 3000);
             this.auth.updateUser(null);
 
         });
 
+    }
+
+    uploadSoundFragment(file: File) {
+        if (file.size > 5000000)
+            return alert("Jong, das wel een heel groot bestand. Hou het ff onder de 5mb (wat ook al veelste veel is)");
+
+        var toast = this.utils.loadingToast("Geluidje uplooden...");
+
+        var fd = new FormData();
+        fd.append("token", this.auth.session.token + "");
+        fd.append("soundFragment", file, "soundFragment");
+
+        this.http.post(API_URL + "uploadSoundFragment", fd).subscribe(res => {
+
+            if ("error" in res)
+                this.utils.endLoadingToast(true, res["error"], toast);
+            else
+                this.utils.endLoadingToast(false, "Geniet, maar met mate", toast);
+
+            this.auth.updateUser(null);
+
+        });
     }
 
 }

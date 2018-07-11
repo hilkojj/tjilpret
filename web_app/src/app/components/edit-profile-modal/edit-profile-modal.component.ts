@@ -89,9 +89,12 @@ export class EditProfileModalComponent implements OnInit {
                 icon: "volume_up",
                 color: "green accent-3",
                 title: "Geluidje",
-                desc: "Uplood een ingesproken bericht/muziekje dat zich afspeelt op jou profiel, of als iemand zn muis op je pf houd.",
-                upload: "image/*",
-                fileSelected: null,
+                desc: "Uplood een ingesproken bericht/muziekje dat zich afspeelt op jou profiel, of als iemand zn muis op je pf houd. (.mp3 of .wav)",
+                upload: "audio/mpeg, audio/wav",
+                fileSelected: file => { 
+                    this.editProfile.uploadSoundFragment(file); 
+                    history.back(); 
+                },
                 click: null
             }
 

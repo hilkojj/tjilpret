@@ -34,7 +34,8 @@ const apiFiles = [
     "auth",
     "images",
     "users",
-    "colors"
+    "colors",
+    "sound-fragments"
 ];
 for (var i in apiFiles)
     require("./" + apiFiles[i] + ".js").apiFunctions(api);

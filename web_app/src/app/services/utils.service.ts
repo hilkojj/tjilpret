@@ -29,6 +29,35 @@ export class UtilsService {
         Materialize.toast(message, duration);
     }
 
+    loadingToast(text: string) {
+        return Materialize.toast(
+            `<div class="preloader-wrapper small active" style="margin-right: 20px; width: 28px; height: 28px;">
+                <div class="spinner-layer">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div><div class="gap-patch">
+                    <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+                </div>
+            </div>
+            ${text}`
+        );
+    }
+
+    endLoadingToast(error: boolean, text: string, toast) {
+        if (error)
+            toast.el.innerHTML = "<i class=\"material-icons\" style=\"margin-right: 20px\">error</i>"
+                + text;
+
+        else
+            toast.el.innerHTML = "<i class=\"material-icons\" style=\"margin-right: 20px\">check</i>"
+                + text;
+
+        setTimeout(() => toast.remove(), error ? 6000 : 3000);
+    }
+
     htmlText(string: string): string {
         return string == null ? ""
             : string.split("<").join("&lt;").split(">").join("&gt;").replace(/\n/g, "<br>");
