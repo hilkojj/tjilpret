@@ -10,7 +10,7 @@
         class="apple-icon" title="Pas op. Apple-fan">
 
     <span *ngIf="math.abs(user.rep) > 10" class="username-badge"
-        [title]="'Reputatie: ' + user.rep" [ngClass]="{'red': math.abs(user.rep) < 0}"
+        [title]="'Reputatie: ' + user.rep" [ngClass]="{'red': user.rep < 0}"
         [style.backgroundColor]="user.rgbString">
 
         {{
