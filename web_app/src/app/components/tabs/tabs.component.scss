@@ -6,11 +6,9 @@
     display: inline-block;
     text-transform: uppercase;
     cursor: pointer;
-    color: grey;
+    transition: none;
     padding: 0 12px;
     outline: none;
-    opacity: .6;
-    transition: .1s ease-in-out;
     font-size: 14px !important;
 
     position: relative;
@@ -39,21 +37,29 @@
         font-weight: bold;
     }
 
+    .title, .number, i {
+        opacity: .7;
+        transition: none !important;
+    }
+
 }
 
 .tab.active {
-    opacity: 1;
 
     .indicator {
         height: 3px;
         left: 0 !important;
         right: 0 !important;
     }
+
+    .title, .number, i {
+        opacity: 1;
+    }
+
 }
 
 @media (any-hover: hover) {
     .tab:hover {
-        opacity: 1;
 
         .indicator {
             height: 3px;

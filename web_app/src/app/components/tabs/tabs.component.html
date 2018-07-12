@@ -1,15 +1,15 @@
-<div *ngFor="let tab of tabs" class="tab" [ngClass]="{'waves-effect': wavesEffect}"
-    [routerLink]="tab.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+<div *ngFor="let tab of tabs" class="tab bw-on-bw-text" [ngClass]="{'waves-effect': wavesEffect}"
+    [routerLink]="tab.routerLink" routerLinkActive="active fav-text" [routerLinkActiveOptions]="{exact: true}">
 
     <span class="number" *ngIf="tab.number != null || numbersInTabs">
-        {{tab.number}}
+        <span>{{tab.number}}</span>
         <br>
     </span>
 
     <i class="material-icons" *ngIf="tab.icon">
         {{tab.icon}}
     </i>
-    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed, 'bold': theme.darkThemeEnabled}"
+    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed}"
         class="title">
         {{tab.title}}
     </span>
