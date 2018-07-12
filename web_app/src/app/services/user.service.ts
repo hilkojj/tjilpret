@@ -19,6 +19,12 @@ export class UserService {
         ).map(res => res["found"] ? Object.assign(new User(), res["userInfo"]) : undefined);
     }
 
+    userById(id: number): Observable<User> {
+        return this.http.post(
+            API_URL + "userInfo", { id }
+        ).map(res => res["found"] ? Object.assign(new User(), res["userInfo"]) : undefined);
+    }
+
     usernameExists(username: string): Observable<boolean> {
         return this.http.post(
             API_URL + "usernameExists", { username: username }

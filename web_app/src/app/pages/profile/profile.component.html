@@ -1,0 +1,20 @@
+<div *ngIf="notFound" class="center-align">
+
+    <h5>Tjiller niet gevonden.</h5>
+
+</div>
+
+<div *ngIf="user">
+
+    {{user.username}}
+
+    <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="med"
+        size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null"></app-profile-pic>
+
+    <div class="bw">
+
+        <app-tabs [tabs]="tabs"></app-tabs>
+    </div>
+
+    <router-outlet></router-outlet>
+</div>

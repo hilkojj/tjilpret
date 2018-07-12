@@ -1,5 +1,5 @@
 <div *ngFor="let tab of tabs" class="tab waves-effect" [routerLink]="tab.routerLink"
-    routerLinkActive="active">
+    routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <i class="material-icons">
         {{tab.icon}}
     </i>

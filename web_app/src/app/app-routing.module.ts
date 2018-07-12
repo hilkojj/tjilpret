@@ -10,6 +10,11 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { UploadsComponent } from './pages/uploads/uploads.component';
 import { PeopleComponent } from './pages/people/people.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
+import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
+import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
+import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -53,6 +58,18 @@ const routes: Routes = [
             favColorTheme: true,
             showNavbar: true
         }
+    },
+    {
+        path: "tjiller/:id", component: ProfileComponent,
+        canActivate: [AuthService], data: {
+            showNavbar: true
+        },
+        children: [
+            { path: '', component: ProfileFirstTabComponent, data: { showNavbar: true } },
+            { path: 'vriends', component: ProfileFriendsComponent, data: { showNavbar: true } },
+            { path: 'uploods', component: ProfileUploadsComponent, data: { showNavbar: true } },
+            { path: 'groeps', component: ProfileGroupsComponent, data: { showNavbar: true } },
+        ]
     },
     {
         path: "instellingun", component: SettingsComponent,

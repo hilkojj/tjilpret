@@ -32,6 +32,11 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
 import { UploadsComponent } from './pages/uploads/uploads.component';
 import { PeopleComponent } from './pages/people/people.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
+import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
+import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
+import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +63,12 @@ import { PeopleComponent } from './pages/people/people.component';
     SettingsComponent,
     TimestampPipe,
     UploadsComponent,
-    PeopleComponent
+    PeopleComponent,
+    ProfileComponent,
+    ProfileFirstTabComponent,
+    ProfileFriendsComponent,
+    ProfileUploadsComponent,
+    ProfileGroupsComponent
   ],
   imports: [
     BrowserModule,
