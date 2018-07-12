@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
         new Tab("Hoom", "home", "/hoom"),
         new Tab("Amusement", "subscriptions", "/amusement"),
         new Tab("Tjets", "chat_bubble", "/tjets"),
-        new Tab("Mesnen & vriends", "group", "/vriends")
+        new Tab("Mesnen & vriends", "group", "/tjillers")
     ];
 
     ngOnInit() {

@@ -8,6 +8,8 @@ import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-rec
 import { RegisterComponent } from './pages/register/register.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { UploadsComponent } from './pages/uploads/uploads.component';
+import { PeopleComponent } from './pages/people/people.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -32,6 +34,22 @@ const routes: Routes = [
         path: "tjets", component: ChatComponent,
         canActivate: [AuthService], data: {
             title: "Tjets",
+            favColorTheme: true,
+            showNavbar: true
+        }
+    },
+    {
+        path: "amusement", component: UploadsComponent,
+        canActivate: [AuthService], data: {
+            title: "Genieten van topcontent",
+            favColorTheme: true,
+            showNavbar: true
+        }
+    },
+    {
+        path: "tjillers", component: PeopleComponent,
+        canActivate: [AuthService], data: {
+            title: "Mesnen & vriends",
             favColorTheme: true,
             showNavbar: true
         }

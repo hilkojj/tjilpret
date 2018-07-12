@@ -30,6 +30,8 @@ import { ColorSliderComponent } from './components/color-slider/color-slider.com
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
+import { UploadsComponent } from './pages/uploads/uploads.component';
+import { PeopleComponent } from './pages/people/people.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { TimestampPipe } from './pipes/timestamp.pipe';
     ColorSliderComponent,
     ImageCropperModalComponent,
     SettingsComponent,
-    TimestampPipe
+    TimestampPipe,
+    UploadsComponent,
+    PeopleComponent
   ],
   imports: [
     BrowserModule,
