@@ -6,6 +6,7 @@ import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
 import { Title } from '../../../../node_modules/@angular/platform-browser';
 import { Tab } from '../../components/tabs/tabs.component';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-profile',
@@ -23,7 +24,6 @@ export class ProfileComponent implements OnInit {
 
     id: number;
     user: User;
-    notFound = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -31,7 +31,9 @@ export class ProfileComponent implements OnInit {
         private router: Router,
         private theme: ThemeService,
         private auth: AuthService,
-        private title: Title
+        private title: Title,
+
+        public modals: ModalService
     ) { }
 
     ngOnInit() {
@@ -40,12 +42,11 @@ export class ProfileComponent implements OnInit {
 
         this.users.userById(this.id).subscribe(user => {
             this.user = user;
-            this.notFound = !user;
-            
-            var themeUser = user ? user : this.auth.session.user;
-            this.theme.applyThemeColor(themeUser.r, themeUser.g, themeUser.b);
 
-            if (this.notFound) this.title.setTitle("Tjiller nit gevonvdn");
+            if (!user)
+                return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
+
+            this.theme.applyThemeColor(user.r, user.g, user.b);
         });
 
     }
