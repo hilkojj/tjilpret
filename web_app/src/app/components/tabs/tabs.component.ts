@@ -28,7 +28,6 @@ export class TabsComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log(this.wavesEffect === false);
     }
 
     get numbersInTabs() {

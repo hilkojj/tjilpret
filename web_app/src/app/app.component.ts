@@ -30,6 +30,35 @@ export class AppComponent {
     ) {
 
         this.subscribeToNavEnd();
+
+        /*
+            this code will make sure that a component will NOT 
+            be reused  if a parameter (that is listed in data.dontReuse) changed.
+
+            For example:
+
+            /tjiller/6 -> /tjiller/241
+            Component will NOT be reused
+
+            /tjiller/6 -> /tjiller/6/vriends
+            Component will be reused
+        */ 
+        this.router.routeReuseStrategy.shouldReuseRoute = (future, current) => {
+
+            if (future.routeConfig != current.routeConfig)
+                return false;
+
+            var dontReuse: string[] = future.data.dontReuse;
+
+            for (var i in dontReuse) {
+                var param = dontReuse[i];
+                if (future.params[param] != current.params[param])
+                    return false;
+            }
+
+            return true;
+        }
+
     }
 
     private subscribeToNavEnd() {
@@ -46,7 +75,7 @@ export class AppComponent {
             .subscribe(data => {
                 if ("title" in data)
                     this.title.setTitle(data["title"]);
-                
+
                 this.utils.navbarVisible = "showNavbar" in data && data["showNavbar"];
 
                 if ("favColorTheme" in data && data["favColorTheme"] && this.auth.authenticated) {

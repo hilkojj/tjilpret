@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 .header-card {
     margin-top: 0;
     border-top-left-radius: 0;
@@ -16,4 +18,36 @@
         }
 
     }
+
+    .banner {
+        position: relative;
+        background: linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), 
+                    url(/assets/img/tiled_header.png) transparent;
+        background-size: contain;
+        margin: 0 -.75rem;
+
+        @media only screen and (max-width: $break-med) {
+            padding-top: 40% !important;
+        }
+
+        $half-ppic-size: 90px;
+
+        app-profile-pic {
+            position: absolute;
+            bottom: -$half-ppic-size;
+            left: .75rem;
+        }
+
+        margin-bottom: $half-ppic-size + 10px;
+
+        @media only screen and (max-width: $break-small) {
+            app-profile-pic {
+                left: calc(50% - #{$half-ppic-size});
+            }
+        }
+
+        
+
+    }
+
 }

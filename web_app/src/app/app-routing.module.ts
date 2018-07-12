@@ -62,7 +62,8 @@ const routes: Routes = [
     {
         path: "tjiller/:id", component: ProfileComponent,
         canActivate: [AuthService], data: {
-            showNavbar: true
+            showNavbar: true,
+            dontReuse: ["id"]
         },
         children: [
             { path: '', component: ProfileFirstTabComponent, data: { showNavbar: true } },

@@ -32,7 +32,6 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-
         this.id = +this.route.snapshot.paramMap.get("id");
 
         this.users.userById(this.id).subscribe(user => {
@@ -50,7 +49,16 @@ export class ProfileComponent implements OnInit {
                 new Tab("Groeps", null, "./groeps", user.groups)
             ]
         });
+    }
 
+    get bannerStyle() {
+        if (this.user.header) {
+            return {
+                'background': `linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), 
+                                url('${this.user.headerUrl('large')}') transparent`,
+                'backgroundSize': 'cover'
+            }
+        } else return {};
     }
 
 }
