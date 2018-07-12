@@ -15,12 +15,7 @@ import { ModalService } from '../../services/modal.service';
 })
 export class ProfileComponent implements OnInit {
 
-    tabs: Tab[] = [
-        new Tab("Profiel", "", "./"),
-        new Tab("Vriends", "group", "./vriends"),
-        new Tab("Uploods", "subscriptions", "./uploods"),
-        new Tab("Groeps", "group", "./groeps")
-    ];
+    tabs: Tab[];
 
     id: number;
     user: User;
@@ -47,6 +42,13 @@ export class ProfileComponent implements OnInit {
                 return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
 
             this.theme.applyThemeColor(user.r, user.g, user.b);
+
+            this.tabs = [
+                new Tab("Profiel", null, "./"),
+                new Tab("Vriends", null, "./vriends", user.friends),
+                new Tab("Uploods", null, "./uploods", user.uploads),
+                new Tab("Groeps", null, "./groeps", user.groups)
+            ]
         });
 
     }

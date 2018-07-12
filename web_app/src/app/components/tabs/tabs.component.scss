@@ -13,6 +13,13 @@
     transition: .1s ease-in-out;
     font-size: 14px !important;
 
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+
     .indicator {
         position: absolute;
         bottom: 0;
@@ -23,6 +30,12 @@
     }
     
     .bold {
+        font-weight: bold;
+    }
+
+    .number {
+        line-height: 28px;
+        font-size: 22px;
         font-weight: bold;
     }
 

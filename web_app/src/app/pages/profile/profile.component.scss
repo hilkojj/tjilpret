@@ -1,0 +1,19 @@
+.header-card {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+    app-tabs {
+
+        display: block;
+
+        $tabs-height: 58px;
+        height: $tabs-height;
+        
+        ::ng-deep .tab {
+            height: $tabs-height;
+            width: 25%;
+        }
+
+    }
+}

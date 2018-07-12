@@ -1,14 +1,13 @@
-<div *ngIf="user">
+<div *ngIf="user" class="row">
 
-    {{user.username}}
+    <div class="col s12 m10 l8 offset-m1 offset-l2 card bw header-card">
 
-    <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="med"
-        size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null"></app-profile-pic>
+        <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="med"
+            size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null"></app-profile-pic>
 
-    <div class="bw">
+        <app-tabs [tabs]="tabs" [wavesEffect]="false"></app-tabs>
 
-        <app-tabs [tabs]="tabs"></app-tabs>
     </div>
-
-    <router-outlet></router-outlet>
 </div>
+
+<router-outlet *ngIf="user"></router-outlet>

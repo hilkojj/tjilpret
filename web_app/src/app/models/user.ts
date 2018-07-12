@@ -19,6 +19,8 @@ export class User {
 
     friends: number;
     messages: number;
+    uploads: number;
+    groups: number;
 
     profilePicUrl(dim: string): string {
         var profilePic = this.profilePic == null ? "default.png" : this.profilePic;

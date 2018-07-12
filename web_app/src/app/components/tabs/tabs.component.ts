@@ -6,8 +6,9 @@ export class Tab {
     constructor(
         public title: string,
         public icon: string,
-        public routerLink: any[] | string
-    ) {}
+        public routerLink: any[] | string,
+        public number?: number
+    ) { }
 
 }
 
@@ -20,12 +21,19 @@ export class TabsComponent implements OnInit {
 
     @Input() tabs: Tab[];
     @Input() hideLabelOnMed: boolean;
+    @Input() wavesEffect = true;
 
     constructor(
         private theme: ThemeService
     ) { }
 
     ngOnInit() {
+        console.log(this.wavesEffect === false);
+    }
+
+    get numbersInTabs() {
+        for (var i in this.tabs) if (this.tabs[i].number != null) return true;
+        return false;
     }
 
 }
