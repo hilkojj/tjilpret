@@ -8,7 +8,8 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ToolbarComponent implements OnInit {
 
     @Input() titleText: string = "";
-    
+    @Input() width: string = "100%";
+    @Input() bw: boolean = false;
 
     constructor() { }
 

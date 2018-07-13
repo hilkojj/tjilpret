@@ -9,13 +9,14 @@ import { Title } from '@angular/platform-browser';
 import { routerAnimation } from './animations/routerAnimation';
 import { UtilsService } from './services/utils.service';
 import { AuthService } from './services/auth.service';
-import { THEME_COLOR } from './constants';
+import { THEME_COLOR, MOBILE } from './constants';
+import { trigger } from '../../node_modules/@angular/animations';
 
 @Component({
     selector: 'tjille-app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [routerAnimation]
+    animations: [MOBILE ? trigger('routerAnimation', []) : routerAnimation]
 })
 export class AppComponent {
 

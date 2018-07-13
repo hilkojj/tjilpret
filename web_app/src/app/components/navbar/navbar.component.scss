@@ -7,6 +7,18 @@ $full-width-tabs-height: 44px;
 
 .navbar-fixed {
 
+    @mixin translateUp() {
+        height: 0;
+        nav {
+            transform: translateY(-$navbar-height - $full-width-tabs-height);
+            box-shadow: none !important;
+        }
+
+        &.no-anim {
+            display: none;
+        }
+    }
+
     transition: height .4s ease-in-out;
 
     @media only screen and (max-width: $break-med) {
@@ -14,15 +26,16 @@ $full-width-tabs-height: 44px;
 
         @media only screen and (max-width: $break-small) {
             height: $navbar-small-height + $full-width-tabs-height;
+
+            &.hidden-if-small {
+
+                @include translateUp;
+            }
         }
     }
 
     &.hidden {
-        height: 0;
-        nav {
-            transform: translateY(-$navbar-height - $full-width-tabs-height);
-            box-shadow: none !important;
-        }
+        @include translateUp;
     }
 }
 
@@ -85,6 +98,10 @@ nav {
     z-index: 2;
     border-radius: 100px;
     padding-right: 15px;
+
+    @media only screen and (max-width: $break-small) {
+        display: none;
+    }
 }
 
 app-tabs {

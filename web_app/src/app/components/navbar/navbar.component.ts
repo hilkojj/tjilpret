@@ -4,6 +4,8 @@ import { Tab } from '../tabs/tabs.component';
 import { tWords, pWords } from './random-words';
 import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
+import { Router } from '../../../../node_modules/@angular/router';
+import { MOBILE } from '../../constants';
 
 @Component({
     selector: 'app-navbar',
@@ -15,11 +17,14 @@ export class NavbarComponent implements OnInit {
     constructor(
         public utils: UtilsService,
         public auth: AuthService,
-        public modals: ModalService
+        public modals: ModalService,
+
+        private router: Router
     ) { }
 
     randomWords = "";
     randomWordsTimeout;
+    noAnimation = MOBILE;
 
     tabs: Tab[] = [
         new Tab("Hoom", "home", "/hoom"),
@@ -65,6 +70,18 @@ export class NavbarComponent implements OnInit {
         }
         
         this.prevScrollTop = scrollTop;
+    }
+
+    get noTabSelected(): boolean {
+
+        var url = this.router.url.split(";")[0].split("#")[0];
+
+        for (var i in this.tabs) {
+            var tab = this.tabs[i];
+            if (tab.routerLink == url) return false;
+        }
+
+        return true;
     }
 
 }

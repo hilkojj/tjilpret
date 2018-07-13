@@ -1,4 +1,4 @@
-<div class="navbar-fixed" [ngClass]="{'hidden': !utils.navbarVisible}">
+<div class="navbar-fixed" [ngClass]="{'hidden': !utils.navbarVisible, 'hidden-if-small': noTabSelected, 'no-anim': noAnimation}">
     <nav class="z-depth-2 nav-extended bw" [ngClass]="{'collapsed': collapseNavbar}">
 
         <div class="nav-wrapper valign-wrapper">
