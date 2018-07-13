@@ -4,8 +4,8 @@ import { Tab } from '../tabs/tabs.component';
 import { tWords, pWords } from './random-words';
 import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
-import { Router } from '../../../../node_modules/@angular/router';
-import { MOBILE } from '../../constants';
+import { Router } from '@angular/router';
+import { utils } from '../../../../node_modules/protractor';
 
 @Component({
     selector: 'app-navbar',
@@ -24,7 +24,6 @@ export class NavbarComponent implements OnInit {
 
     randomWords = "";
     randomWordsTimeout;
-    noAnimation = MOBILE;
 
     tabs: Tab[] = [
         new Tab("Hoom", "home", "/hoom"),

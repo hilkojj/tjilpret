@@ -7,7 +7,7 @@ import { API_URL } from '../constants';
 import { User } from '../models/user';
 import { UtilsService } from './utils.service';
 import { Session } from '../models/session';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 
 export interface PartialToken {
     created: number;

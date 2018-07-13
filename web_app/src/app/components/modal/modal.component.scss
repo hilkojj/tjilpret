@@ -30,7 +30,9 @@
     max-width: 85%;
     width: 600px;
     margin: auto;
+    overflow-x: hidden;
     overflow-y: auto;
+    overflow-y: overlay !important;
     will-change: opacity;
 }
 

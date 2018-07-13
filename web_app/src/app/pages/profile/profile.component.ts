@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
-import { Title } from '../../../../node_modules/@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { Tab } from '../../components/tabs/tabs.component';
 import { ModalService } from '../../services/modal.service';
 

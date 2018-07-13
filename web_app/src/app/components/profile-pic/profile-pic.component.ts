@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
-import { CONTENT_URL, MOBILE } from '../../constants';
+import { CONTENT_URL } from '../../constants';
 import { Howl } from 'howler';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
     selector: 'app-profile-pic',
@@ -23,10 +24,11 @@ export class ProfilePicComponent implements OnInit {
     @Output() onProfilePicClick = new EventEmitter();
 
     constructor(
+        private utils: UtilsService
     ) { }
 
     ngOnInit() {
-        this.playSoundFragOnHover = this.playSoundFragOnHover && !MOBILE;
+        this.playSoundFragOnHover = this.playSoundFragOnHover && !this.utils.mobile;
     }
 
     playSoundFragment() {

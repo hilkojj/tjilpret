@@ -11,6 +11,13 @@ export class UtilsService {
 
     navbarVisible = false;
 
+    private _mobile: boolean;
+
+    get mobile(): boolean {
+        if (this._mobile == null) this._mobile = /Mobi/.test(navigator.userAgent);
+        return this._mobile;
+    }
+
     successToast(message: string, duration: number) {
         this.toast(
             "<i class=\"material-icons green-text\" style=\"margin-right: 10px\">check_circle</i>"

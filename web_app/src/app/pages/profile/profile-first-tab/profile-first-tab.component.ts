@@ -1,6 +1,6 @@
 import { Component, OnInit, Host } from '@angular/core';
 import { ProfileComponent } from '../profile.component';
-import { Title } from '../../../../../node_modules/@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-profile-first-tab',
