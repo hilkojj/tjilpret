@@ -5,14 +5,27 @@
         <div class="banner" [style.backgroundColor]="user.rgbString"
             [style.paddingTop]="user.header ? '40%' : '20%'" [ngStyle]="bannerStyle">
 
-            <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="med"
+            <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="large"
                 size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null">
             </app-profile-pic>
+
+            <app-username class="hide-on-small-only" [user]="user" fontSize="24px"
+                color="white" [shadow]="true"></app-username>
 
         </div>
 
         <div class="center hide-on-med-and-up">
             <app-username [user]="user" fontSize="20px"></app-username>
+        </div>
+
+        <div class="buttons">
+            <button class="btn waves-effect waves-light">
+                <i class="material-icons left">done</i>
+                vriends
+            </button>
+            <button class="btn btn-flat btn-floating waves-effect" title="Stuur tjetbericht naar {{user.username}}">
+                <i class="material-icons fav-text">chat_bubble</i>
+            </button>
         </div>
 
         <app-tabs [tabs]="tabs" [wavesEffect]="false"></app-tabs>

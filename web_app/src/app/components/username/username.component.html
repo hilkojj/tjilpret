@@ -1,5 +1,7 @@
 <p class="bw-on-bw-text">
-    <span [style.fontSize]="fontSize">
+    <span [style.fontSize]="fontSize" [ngStyle]="color ? {color: color} : {}" 
+        [class]="shadow ? 'shadow' : ''">
+        
         {{user.username}}
     </span>
 

@@ -10,9 +10,11 @@
         display: block;
 
         $tabs-height: 58px;
-        height: $tabs-height;
+        $margin-top: 5px;
+        height: $tabs-height + $margin-top;
         
         ::ng-deep .tab {
+            margin-top: $margin-top;
             height: $tabs-height;
             width: 25%;
         }
@@ -47,7 +49,32 @@
             }
         }
 
-        
+        app-username {
+
+            position: absolute;
+            bottom: 0;
+            left: $half-ppic-size * 2 + 30px;
+            word-break: break-all;
+
+        }
+
+    }
+
+    .buttons {
+
+        button {
+            margin: .75rem;
+        }
+
+        position: absolute;
+        margin-top: -90px;
+        margin-left: 190px;
+
+        @media only screen and (max-width: $break-small) {
+            text-align: center;
+            position: relative;
+            margin: 0;
+        }
 
     }
 

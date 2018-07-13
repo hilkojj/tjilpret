@@ -10,6 +10,8 @@ export class UsernameComponent implements OnInit {
 
     @Input() user: User;
     @Input() fontSize: string;
+    @Input() color: string;
+    @Input() shadow: boolean;
 
     math: Math = Math;
     classes: string[] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
