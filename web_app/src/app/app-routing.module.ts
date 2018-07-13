@@ -15,6 +15,7 @@ import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile
 import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
 import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
+import { UserResolver } from './resolvers/user-resolver';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -64,6 +65,9 @@ const routes: Routes = [
         canActivate: [AuthService], data: {
             showNavbar: true,
             dontReuse: ["id"]
+        },
+        resolve: {
+            user: UserResolver
         },
         children: [
             { path: '', component: ProfileFirstTabComponent, data: { showNavbar: true } },
@@ -117,6 +121,9 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [
+        UserResolver
+    ]
 })
 export class AppRoutingModule { }

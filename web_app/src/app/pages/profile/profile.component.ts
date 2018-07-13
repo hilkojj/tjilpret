@@ -32,27 +32,26 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.id = +this.route.snapshot.paramMap.get("id");
 
-        this.users.userById(this.id).subscribe(user => {
-            this.user = user;
+        var user = this.route.snapshot.data.user as User;
+        this.user = user;
 
-            if (!user)
-                return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
+        if (!user)
+            return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
 
-            this.theme.applyThemeColor(user.r, user.g, user.b);
+        this.theme.applyThemeColor(user.r, user.g, user.b);
 
-            this.tabs = [
-                new Tab("Profiel", null, "./"),
-                new Tab("Vriends", null, "./vriends", user.friends),
-                new Tab("Uploods", null, "./uploods", user.uploads),
-                new Tab("Groeps", null, "./groeps", user.groups)
-            ]
-        });
+        this.tabs = [
+            new Tab("Profiel", null, "./"),
+            new Tab("Vriends", null, "./vriends", user.friends),
+            new Tab("Uploods", null, "./uploods", user.uploads),
+            new Tab("Groeps", null, "./groeps", user.groups)
+        ];
+
     }
 
     get bannerStyle() {
-        if (this.user.header) {
+        if (this.user && this.user.header) {
             return {
                 'background': `linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), 
                                 url('${this.user.headerUrl('large')}') transparent`,

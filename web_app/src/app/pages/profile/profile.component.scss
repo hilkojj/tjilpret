@@ -24,6 +24,7 @@
         background: linear-gradient(transparent, transparent, transparent, rgba(0, 0, 0, .4)), 
                     url(/assets/img/tiled_header.png) transparent;
         background-size: contain;
+        background-position: center !important;
         margin: 0 -.75rem;
 
         @media only screen and (max-width: $break-med) {

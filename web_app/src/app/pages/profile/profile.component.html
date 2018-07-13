@@ -1,4 +1,4 @@
-<div *ngIf="user" class="row">
+<div class="row">
 
     <div class="col s12 m10 l8 offset-m1 offset-l2 card bw header-card no-border-radius-on-small">
 
@@ -6,7 +6,8 @@
             [style.paddingTop]="user.header ? '40%' : '20%'" [ngStyle]="bannerStyle">
 
             <app-profile-pic [user]="user" playSoundFragOnHover="true" dim="med"
-                size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null"></app-profile-pic>
+                size="180px" borderWidth="4px" cursor="zoom-in" (onProfilePicClick)="null">
+            </app-profile-pic>
 
         </div>
 
@@ -19,4 +20,4 @@
     </div>
 </div>
 
-<router-outlet *ngIf="user"></router-outlet>
+<router-outlet></router-outlet>
