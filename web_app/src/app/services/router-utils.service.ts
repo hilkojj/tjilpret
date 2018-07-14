@@ -56,7 +56,7 @@ export class RouterUtilsService {
 
                 if (!this.firstNavigation)
                     this.firstNavigation = true;
-                else this._navigatedAfterFistPage = true
+                else this._navigatedAfterFirstPage = true
             });
 
 
