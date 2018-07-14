@@ -1,6 +1,6 @@
 <div class="toolbar valign-wrapper z-depth-1" [style.width]="width" [ngClass]="bw ? 'bw' : 'fav-bg'">
 
-    <a onclick="history.back()" class="back-btn btn-flat btn-floating waves-effect waves-light">
+    <a (click)="back()" class="back-btn btn-flat btn-floating waves-effect waves-light">
         <i class="material-icons" [ngClass]="{'fav-text': bw}">arrow_back</i>
     </a>
 

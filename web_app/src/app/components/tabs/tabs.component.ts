@@ -22,6 +22,7 @@ export class TabsComponent implements OnInit {
     @Input() tabs: Tab[];
     @Input() hideLabelOnMed: boolean;
     @Input() wavesEffect = true;
+    @Input() replaceUrl = false;
 
     constructor(
         private theme: ThemeService
