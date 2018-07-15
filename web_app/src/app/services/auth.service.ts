@@ -64,7 +64,7 @@ export class AuthService implements CanActivate {
             { id: this.session.user.id }
         ).subscribe(res => {
             if ("userInfo" in res)
-                this.session.user = Object.assign(this.session.user, res["userInfo"]);
+                Object.assign(this.session.user, res["userInfo"]);
 
             if (callback) callback();
         });
@@ -97,7 +97,7 @@ export class AuthService implements CanActivate {
         tokens[user.id] = token;
         localStorage.setItem("tokens", JSON.stringify(tokens));
         localStorage.setItem("last_user", user.id + "");
-        console.log(user.profilePicUrl("small"));
+        
         this.router.navigateByUrl(this.returnUrl == undefined ? "" : this.returnUrl, {
             replaceUrl: true
         });

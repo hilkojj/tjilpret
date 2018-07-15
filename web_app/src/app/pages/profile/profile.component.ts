@@ -38,8 +38,7 @@ export class ProfileComponent implements OnInit {
             return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
 
         if (user.id == this.auth.session.user.id) {
-            user = this.auth.session.user, user;
-            console.log("hihihih");
+            user = this.user = Object.assign(this.auth.session.user, user);
         }
             
 

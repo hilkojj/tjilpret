@@ -24,7 +24,6 @@ export class ToolbarComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         this.navigated = this.routerUtils.navigatedAfterFirstPage;
-        console.log(this.navigated);
     }
 
     back() {
