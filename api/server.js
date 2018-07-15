@@ -62,7 +62,7 @@ app.get("/tjiller/:id*", (req, res) => {
             if (user.profile_pic != null)
                 pf = "https://tjilpret.tk/static_content/profile_pics/med/" + user.profile_pic.replace(".gif", ".jpg");
             webapp.show(`
-				<meta name="og:description" content="`+ user.bio + `"/>
+				<meta name="og:description" content="`+ user.bio.replace(/"/g, '&quot;') + `"/>
 				<meta name="og:url" content="https://tjilpret.tk"/>\
 				<meta name="og:image" content="` + pf + `"/>
 				<meta name="og:title" content="`+ user.username + `"/>
