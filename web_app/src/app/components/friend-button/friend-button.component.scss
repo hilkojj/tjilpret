@@ -1,0 +1,53 @@
+
+@mixin i() {
+    transition: .2s ease-in-out;
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+    will-change: opacity, transform;
+}
+
+.red-hover {
+
+    span.hover {
+        display: none;
+    }
+
+    i.hover {
+        position: absolute;
+        left: 28px;
+
+        @include i();
+        transform: rotate(-180deg) scale(.5);
+        opacity: 0;
+
+    }
+
+    i.default {
+        @include i();
+    }
+
+    &:hover {
+
+        background-color: #FF1744 !important;
+
+        span.default {
+            display: none;
+        }
+
+        span.hover {
+            display: inline;
+        }
+
+        i.default {
+            opacity: 0;
+            transform: rotate(180deg) scale(.5);
+        }
+
+        i.hover {
+            @include i();
+        }
+
+    }
+
+
+}

@@ -1,0 +1,41 @@
+<span [ngSwitch]="friends.friendStatus(user.id)">
+
+    <!-- friends -->
+    <button *ngSwitchCase="enum.Friends" class="btn waves-effect waves-light red-hover"
+        [style.backgroundColor]="user.rgbString" (click)="remove()"
+        [style.width]="'180px'">
+
+        <i class="material-icons left default">done</i>
+        <span class="default">vriends</span>
+
+        <i class="material-icons left hover">close</i>
+        <span class="hover">verwyder</span>
+    </button>
+
+    <!-- sent -->
+    <button *ngSwitchCase="enum.InviteSent" class="btn waves-effect waves-light red-hover"
+        [style.backgroundColor]="user.rgbString" (click)="friends.undoInvite(user.id)"
+        [style.width]="'190px'">
+
+        <i class="material-icons left default">send</i>
+        <span class="default">verstuurt</span>
+
+        <i class="material-icons left hover">undo</i>
+        <span class="hover">tog niet</span>
+    </button>
+
+    <!-- recieved -->
+    <button *ngSwitchCase="enum.InviteRecieved" class="btn waves-effect waves-light"
+        [style.backgroundColor]="user.rgbString" (click)="confirm()">
+        <i class="material-icons left">new_releases</i>
+        reageer!!
+    </button>
+
+    <!-- None -->
+    <button *ngSwitchCase="enum.None" class="btn waves-effect waves-light"
+        [style.backgroundColor]="user.rgbString" (click)="friends.invite(user.id)">
+        <i class="material-icons left">person_add</i>
+        toefoegen
+    </button>
+
+</span>

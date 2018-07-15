@@ -37,6 +37,7 @@ import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/prof
 import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
 import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
+import { FriendButtonComponent } from './components/friend-button/friend-button.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-g
     ProfileFirstTabComponent,
     ProfileFriendsComponent,
     ProfileUploadsComponent,
-    ProfileGroupsComponent
+    ProfileGroupsComponent,
+    FriendButtonComponent
   ],
   imports: [
     BrowserModule,

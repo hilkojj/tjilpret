@@ -2,6 +2,14 @@
 
     <div class="col s12 m10 l3 offset-m1 offset-l2 no-padding bw-on-bw-text">
 
+        <div *ngIf="profile.user.soundFragment" class="card bw no-border-radius-on-small no-margin-top">
+            <span class="fav-text title">Geluidje</span>
+
+            <audio controls>
+                <source [src]="profile.user.soundFragmentUrl">
+            </audio>
+        </div>
+
         <div class="card bw no-border-radius-on-small no-margin-top">
             <span class="fav-text title">Status</span>
 
@@ -29,7 +37,7 @@
             <div class="row stats">
                 <div *ngFor="let stat of stats" class="col s4 center">
                     <i class="material-icons circle white-text z-depth-1" [ngClass]="stat.color">{{stat.icon}}</i>
-                    <br> 
+                    <br>
                     <b [ngClass]="stat.number < 0 ? 'red-text' : ''">{{stat.number ? stat.number : 0}}</b>
                     <br> {{stat.title}}
                 </div>

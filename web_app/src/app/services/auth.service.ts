@@ -8,6 +8,7 @@ import { User } from '../models/user';
 import { UtilsService } from './utils.service';
 import { Session } from '../models/session';
 import { Observable } from 'rxjs';
+import { FriendsService } from './friends.service';
 
 export interface PartialToken {
     created: number;

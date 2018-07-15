@@ -37,7 +37,7 @@ module.exports = {
                 WHERE (fs.inviter_id = ? OR fs.accepter_id = ?)
                 AND u.username LIKE CONCAT("%", ?, "%")
                 ORDER BY since DESC
-                LIMIT ? OFFSET ?;`, [userID, userID, userID, userID, req.body.q, 8, page * 8],
+                LIMIT ? OFFSET ?;`, [userID, userID, userID, userID, req.body.q, pageLimit, page * pageLimit],
                 (err, rows, fields) => {
                     if (err) {
                         console.log(err);
@@ -166,7 +166,7 @@ module.exports = {
                         return res.send({ success: false });
                     }
                     var deleted = results.affectedRows == 1;
-                    if (deleted && req.body.accept == "true") {
+                    if (deleted && (req.body.accept == "true") || req.body.accept == true) {
                         db.connection.query(`
                             INSERT INTO friendships (accepter_id, inviter_id, since)
                             VALUES ((SELECT tokens.user_id FROM tokens WHERE tokens.token = ?), ?, ?)

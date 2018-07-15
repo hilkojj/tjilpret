@@ -35,6 +35,10 @@ export class User {
         return `${CONTENT_URL}headers/${dim}/${this.header}`;
     }
 
+    get soundFragmentUrl(): string {
+        return `${CONTENT_URL}sound_fragments/${this.soundFragment}`;
+    }
+
     get rgbString(): string {
         return `rgb(${this.r}, ${this.g}, ${this.b})`;
     }

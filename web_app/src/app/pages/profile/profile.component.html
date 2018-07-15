@@ -25,10 +25,8 @@
         <div class="buttons">
             <div *ngIf="auth.session.user.id != user.id">
 
-                <button class="btn waves-effect waves-light">
-                    <i class="material-icons left">done</i>
-                    vriends
-                </button>
+                <app-friend-button [user]="user"></app-friend-button>
+                
                 <button class="btn btn-flat btn-floating waves-effect" title="Stuur tjetbericht naar {{user.username}}">
                     <i class="material-icons fav-text">chat_bubble</i>
                 </button>
