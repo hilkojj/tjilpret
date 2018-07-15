@@ -32,6 +32,23 @@ module.exports = {
                 });
         });
 
+        api.post("/colorInfoByUserID", (req, res) => {
+            db.connection.query(`
+                SELECT 
+                    color_classes.*, 
+                    (SELECT COUNT(*) FROM users WHERE color_class_id = color_classes.id) AS people
+                FROM color_classes, users 
+                WHERE color_classes.id = users.color_class_id 
+                AND users.user_id = ?`,
+                [parseInt(req.body.id) || 0], (err, results, fields) => {
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "Database error :(");
+                    }
+                    res.send(results[0]);
+                });
+        });
+
         api.post("/allColors", (req, res) => {
             db.connection.query("SELECT *, (SELECT COUNT(*) FROM users WHERE color_class_id = color_classes.id) AS people FROM color_classes",
                 [], (err, results, fields) => {

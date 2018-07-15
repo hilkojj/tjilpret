@@ -16,6 +16,7 @@ import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/prof
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
 import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
 import { UserResolver } from './resolvers/user-resolver';
+import { ColorClassResolver } from './pages/profile/profile-first-tab/color-class-resolver';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -70,7 +71,11 @@ const routes: Routes = [
             user: UserResolver
         },
         children: [
-            { path: '', component: ProfileFirstTabComponent, data: { showNavbar: true } },
+            {
+                path: '', component: ProfileFirstTabComponent, resolve: {
+                    colorClass: ColorClassResolver
+                }, data: { showNavbar: true }
+            },
             { path: 'vriends', component: ProfileFriendsComponent, data: { showNavbar: true } },
             { path: 'uploods', component: ProfileUploadsComponent, data: { showNavbar: true } },
             { path: 'groeps', component: ProfileGroupsComponent, data: { showNavbar: true } },
@@ -123,7 +128,8 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
     providers: [
-        UserResolver
+        UserResolver,
+        ColorClassResolver
     ]
 })
 export class AppRoutingModule { }

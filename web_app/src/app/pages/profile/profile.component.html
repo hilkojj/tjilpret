@@ -23,12 +23,22 @@
         </div>
 
         <div class="buttons">
-            <button class="btn waves-effect waves-light">
-                <i class="material-icons left">done</i>
-                vriends
-            </button>
-            <button class="btn btn-flat btn-floating waves-effect" title="Stuur tjetbericht naar {{user.username}}">
-                <i class="material-icons fav-text">chat_bubble</i>
+            <div *ngIf="auth.session.user.id != user.id">
+
+                <button class="btn waves-effect waves-light">
+                    <i class="material-icons left">done</i>
+                    vriends
+                </button>
+                <button class="btn btn-flat btn-floating waves-effect" title="Stuur tjetbericht naar {{user.username}}">
+                    <i class="material-icons fav-text">chat_bubble</i>
+                </button>
+
+            </div>
+
+            <button *ngIf="auth.session.user.id == user.id" class="btn btn-flat waves-effect"
+                (click)="modals.showModal('editProfile')">
+                <i class="material-icons left">edit</i>
+                Profil bewerken
             </button>
         </div>
 

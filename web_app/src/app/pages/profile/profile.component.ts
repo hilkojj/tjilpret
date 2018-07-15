@@ -22,13 +22,11 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        private users: UserService,
         private router: Router,
         private theme: ThemeService,
-        private auth: AuthService,
-        private title: Title,
 
-        public modals: ModalService
+        public modals: ModalService,
+        public auth: AuthService
     ) { }
 
     ngOnInit() {
@@ -38,6 +36,12 @@ export class ProfileComponent implements OnInit {
 
         if (!user)
             return this.router.navigateByUrl("/tjiller-niet-gevonden", { replaceUrl: true });
+
+        if (user.id == this.auth.session.user.id) {
+            user = this.auth.session.user, user;
+            console.log("hihihih");
+        }
+            
 
         this.theme.applyThemeColor(user.r, user.g, user.b);
 

@@ -1,3 +1,41 @@
-<p>
-  profile-first-tab works!
-</p>
+<div class="row">
+
+    <div class="col s12 m10 l3 offset-m1 offset-l2 no-padding bw-on-bw-text">
+
+        <div class="card bw no-border-radius-on-small no-margin-top">
+            <span class="fav-text title">Status</span>
+
+            <span class="pre-wrap">{{profile.user.bio}}</span>
+        </div>
+
+        <div class="card bw no-border-radius-on-small">
+            <span class="fav-text title">Lieflingsklur:
+                <b>{{colorClass.name}}</b>
+            </span>
+
+            <span class="pre-wrap">{{colorClass.description}}</span>
+
+            <br>
+            <br>
+            <a class="fav-text">
+                <i class="material-icons icon-left">group</i>
+                {{colorClass.people - 1}} andere tjillers hebben dezen lieflingsklur
+            </a>
+        </div>
+
+        <div class="card bw no-border-radius-on-small">
+            <span class="fav-text title">Statistieken</span>
+
+            <div class="row stats">
+                <div *ngFor="let stat of stats" class="col s4 center">
+                    <i class="material-icons circle white-text z-depth-1" [ngClass]="stat.color">{{stat.icon}}</i>
+                    <br> 
+                    <b [ngClass]="stat.number < 0 ? 'red-text' : ''">{{stat.number ? stat.number : 0}}</b>
+                    <br> {{stat.title}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -94,6 +94,20 @@ body.modal-open {
 
     }
 
+    .no-margin-top {
+        margin-top: 0;
+    }
+
+    .pre-wrap {
+        white-space: pre-wrap;
+    }
+
+    .icon-left {
+        vertical-align: bottom;
+        margin-right: 10px;
+        opacity: .8;
+    }
+
 }
 
 body {

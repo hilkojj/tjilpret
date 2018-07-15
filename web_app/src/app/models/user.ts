@@ -19,6 +19,9 @@ export class User {
 
     friends: number;
     messages: number;
+    comments: number;
+    views: number;
+    groupsStarted: number;
     uploads: number;
     groups: number;
 

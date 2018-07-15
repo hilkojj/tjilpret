@@ -41,6 +41,7 @@ module.exports = {
             rep: row.rep,
             views: row.views,
             comments: row.comments,
+            groupsStarted: row.groups_started,
             joinedOn: row.joined_on,
             colorClassID: row.color_class_id
         }
