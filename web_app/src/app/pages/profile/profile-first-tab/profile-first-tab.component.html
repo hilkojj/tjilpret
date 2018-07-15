@@ -39,7 +39,7 @@
                     <i class="material-icons circle white-text z-depth-1" [ngClass]="stat.color">{{stat.icon}}</i>
                     <br>
                     <b [ngClass]="stat.number < 0 ? 'red-text' : ''">{{stat.number ? stat.number : 0}}</b>
-                    <br> {{stat.title}}
+                    <br>{{statTitle(stat)}}
                 </div>
             </div>
         </div>

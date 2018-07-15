@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 
 interface Stat {
     icon: string,
-    title: string,
+    title: string[],
     number: number,
     color: string
 }
@@ -33,41 +33,45 @@ export class ProfileFirstTabComponent implements OnInit {
         this.stats = [
             {
                 icon: "thumbs_up_down",
-                title: "Reputatie",
+                title: ["Reputatie"],
                 number: this.profile.user.rep,
                 color: this.profile.user.rep < 0 ? "red accent-3" : "green accent-3"
             },
             {
                 icon: "forum",
-                title: "Tjet berichte",
+                title: ["Tjet berichte", "Tjet bericht"],
                 number: this.profile.user.messages,
                 color: "indigo accent-3"
             },
             {
                 icon: "create",
-                title: "Groeps opgericht",
+                title: ["Groeps opgericht", "Groep opgericht"],
                 number: this.profile.user.groupsStarted,
                 color: "deep-orange"
             },
             {
                 icon: "visibility",
-                title: "Views",
+                title: ["Views", "View"],
                 number: this.profile.user.views,
                 color: "indigo"
             },
             {
                 icon: "chat_bubble",
-                title: "Reakties agtergelaten",
+                title: ["Reakties agtergelaten", "Reaktie agtergelaten"],
                 number: this.profile.user.comments,
                 color: "purple accent-4"
             },
             {
                 icon: "subscriptions",
-                title: "Uploods",
+                title: ["Uploods", "Uplood"],
                 number: this.profile.user.uploads,
                 color: "orange accent-4"
             },
         ];
+    }
+
+    statTitle(stat: Stat): string {
+        return stat.number == 1 && 1 in stat.title ? stat.title[1] : stat.title[0]
     }
 
 }
