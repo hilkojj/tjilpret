@@ -1,5 +1,5 @@
-<div class="profile-pic-container" *ngIf="user" (mouseleave)="stopSoundFragment()"
-    (mouseover)="playSoundFragOnHover && playSoundFragment()">
+<div class="profile-pic-container" *ngIf="user" (mouseover)="playSoundFragOnHover && playSoundFragment()"
+    [id]="id">
 
     <div class="profile-pic circle bw-border" [ngStyle]="{
             backgroundImage: 'url(' + user.profilePicUrl(dim) + ')',

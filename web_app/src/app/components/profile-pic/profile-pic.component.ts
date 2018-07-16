@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/user';
-import { CONTENT_URL } from '../../constants';
 import { Howl } from 'howler';
 import { UtilsService } from '../../services/utils.service';
+import * as $ from 'jquery'; // sorry
 
 @Component({
     selector: 'app-profile-pic',
@@ -18,8 +18,11 @@ export class ProfilePicComponent implements OnInit {
     @Input() playSoundFragOnHover = false;
     @Input() cursor: string = "default";
 
+    id = "profile-pic-" + (Math.random() * 1000 | 0);
+
     private soundFrag: Howl;
     private soundFragStopTimeout;
+    private checkInterval;
 
     @Output() onProfilePicClick = new EventEmitter();
 
@@ -52,6 +55,14 @@ export class ProfilePicComponent implements OnInit {
             }
         });
         this.soundFrag.play();
+        this.checkInterval = setInterval(() => {
+
+            if ($(`#${this.id}:hover`).length == 0) {
+                this.stopSoundFragment();
+                clearInterval(this.checkInterval);
+            }
+
+        }, 500);
     }
 
     stopSoundFragment() {
