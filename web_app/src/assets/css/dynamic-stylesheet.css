@@ -79,7 +79,7 @@ nav .random-words, nav a, nav a i {
 }
 
 .btn {
-    background-color: ?rgb?;
+    background-color: ?rgb? !important;
     border-radius: 100px;
 }
 

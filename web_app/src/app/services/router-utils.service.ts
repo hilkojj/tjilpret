@@ -47,12 +47,12 @@ export class RouterUtilsService {
                 this.utils.navbarVisible = "showNavbar" in data && data["showNavbar"];
 
                 if ("favColorTheme" in data && data["favColorTheme"] && this.auth.authenticated) {
-                    var user = this.auth.session.user;
-                    this.theme.applyThemeColor(user.r, user.g, user.b);
+                    this.theme.applyFavColor(this.auth.session.user);
 
                 } else if ("defaultTheme" in data && data["defaultTheme"]) {
                     this.theme.applyThemeColor(THEME_COLOR.r, THEME_COLOR.g, THEME_COLOR.b);
                 }
+                else this.theme.update();
 
                 if (!this.firstNavigation)
                     this.firstNavigation = true;

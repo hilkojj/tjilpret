@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
+import { User } from '../models/user';
 
 const styleSheetURL = "/assets/css/dynamic-stylesheet.css";
 
@@ -18,6 +20,8 @@ export class ThemeService {
     private r: number = 94;
     private g: number = 94;
     private b: number = 255;
+
+    user: User;
 
     constructor(
         private http: HttpClient
@@ -37,15 +41,40 @@ export class ThemeService {
     }
 
     update() {
-        this.applyThemeColor(this.r, this.g, this.b);
+        this.updateCSS();
+    }
+
+    applyFavColor(user: User) {
+        this.user = user;
+        this.updateCSS();
     }
 
     applyThemeColor(r: number, g: number, b: number) {
         this.r = r;
         this.g = g;
         this.b = b;
+        this.user = null;
 
+        this.updateCSS();
+    }
+
+    get rgbString(): string {
+        return `rgb(${this.r}, ${this.g}, ${this.b})`;
+    }
+
+    private updateCSS() {
         if (this.css == undefined) return;
+
+        var r = this.r;
+        var g = this.g;
+        var b = this.b;
+
+        if (this.user) {
+            var u = this.user;
+            r = u.r;
+            g = u.g;
+            b = u.b;
+        }
 
         const darkColor = "rgb(36, 36, 43)";
         const darkColorpoint3 = "rgba(36, 36, 43, .3)";
@@ -74,10 +103,6 @@ export class ThemeService {
         $("#dynamic-css").html(newCss);
         $("[name='theme-color']").remove();
         $("head").append("<meta name='theme-color' content='" + values.rgb + "'>");
-    }
-
-    get rgbString(): string {
-        return `rgb(${this.r}, ${this.g}, ${this.b})`;
     }
 
 }
