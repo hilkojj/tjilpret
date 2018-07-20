@@ -5,22 +5,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema tjillepret
+-- Schema tjille_database
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema tjillepret
+-- Schema tjille_database
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `tjillepret` DEFAULT CHARACTER SET utf8 ;
-USE `tjillepret` ;
+CREATE SCHEMA IF NOT EXISTS `tjille_database` DEFAULT CHARACTER SET utf8 ;
+USE `tjille_database` ;
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`categories`
+-- Table `tjille_database`.`categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`categories` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`categories` (
   `category_id` INT(11) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
@@ -32,9 +29,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`color_classes`
+-- Table `tjille_database`.`color_classes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`color_classes` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`color_classes` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(600) NOT NULL,
@@ -47,10 +44,26 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`users`
+-- Table `tjille_database`.`entities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
-  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `tjille_database`.`entities` (
+  `entity_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NULL,
+  PRIMARY KEY (`entity_id`),
+  INDEX `fk_entities_users1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_entities_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`users` (
+  `user_id` INT(11) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(250) NOT NULL,
   `joined_on` INT(11) NOT NULL,
@@ -74,7 +87,12 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`users` (
   INDEX `fk_users_color_classes1` (`color_class_id` ASC),
   CONSTRAINT `fk_users_color_classes1`
     FOREIGN KEY (`color_class_id`)
-    REFERENCES `tjillepret`.`color_classes` (`id`)
+    REFERENCES `tjille_database`.`color_classes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_entities`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tjille_database`.`entities` (`entity_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -84,9 +102,9 @@ COLLATE = utf8mb4_unicode_520_ci;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`chats`
+-- Table `tjille_database`.`chats`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`chats` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`chats` (
   `chat_id` INT(11) NOT NULL AUTO_INCREMENT,
   `started_by` INT(11) NOT NULL,
   `started_on` INT(11) NOT NULL,
@@ -99,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`chats` (
   INDEX `fk_chat_users1_idx` (`started_by` ASC),
   CONSTRAINT `fk_chat_users1`
     FOREIGN KEY (`started_by`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -108,9 +126,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`chat_members`
+-- Table `tjille_database`.`chat_members`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`chat_members` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`chat_members` (
   `chat_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `joined_chat_on` INT(11) NOT NULL,
@@ -120,12 +138,12 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`chat_members` (
   INDEX `fk_chat_member_users1_idx` (`user_id` ASC),
   CONSTRAINT `fk_chat_member_chat1`
     FOREIGN KEY (`chat_id`)
-    REFERENCES `tjillepret`.`chats` (`chat_id`)
+    REFERENCES `tjille_database`.`chats` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_chat_member_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -133,93 +151,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`posts`
+-- Table `tjille_database`.`friend_invites`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`posts` (
-  `post_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `uploaded_by` INT(11) NOT NULL,
-  `category_id` INT(11) NOT NULL,
-  `title` VARCHAR(100) NOT NULL,
-  `description` VARCHAR(2048) NOT NULL,
-  `uploaded_on` INT(11) NOT NULL,
-  `type` ENUM('img', 'vid', 'gif') NOT NULL,
-  `path` VARCHAR(45) NOT NULL,
-  `views` INT(11) NOT NULL DEFAULT '0',
-  `duration` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`post_id`, `uploaded_by`, `category_id`),
-  INDEX `fk_uploads_users1_idx` (`uploaded_by` ASC),
-  INDEX `fk_uploads_categories1_idx` (`category_id` ASC),
-  CONSTRAINT `fk_uploads_categories1`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `tjillepret`.`categories` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_uploads_users1`
-    FOREIGN KEY (`uploaded_by`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 120
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `tjillepret`.`comments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`comments` (
-  `comment_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `post_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  `time` INT(11) NOT NULL,
-  `text` VARCHAR(512) NULL DEFAULT NULL,
-  `giphy` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`comment_id`, `post_id`, `user_id`),
-  INDEX `fk_comments_users1_idx` (`user_id` ASC),
-  INDEX `fk_comments_uploads1` (`post_id` ASC),
-  CONSTRAINT `fk_comments_uploads1`
-    FOREIGN KEY (`post_id`)
-    REFERENCES `tjillepret`.`posts` (`post_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comments_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 579
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `tjillepret`.`comment_votes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`comment_votes` (
-  `comment_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  `up` TINYINT(4) NOT NULL,
-  `time` INT(11) NOT NULL,
-  PRIMARY KEY (`comment_id`, `user_id`),
-  INDEX `fk_comment_votes_users1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_comment_votes_comments1`
-    FOREIGN KEY (`comment_id`)
-    REFERENCES `tjillepret`.`comments` (`comment_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comment_votes_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `tjillepret`.`friend_invites`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`friend_invites` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`friend_invites` (
   `inviter_id` INT(11) NOT NULL,
   `invited_id` INT(11) NOT NULL,
   `time` INT(11) NOT NULL DEFAULT '0',
@@ -227,12 +161,12 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`friend_invites` (
   INDEX `fk_friend_invites_users2_idx` (`invited_id` ASC),
   CONSTRAINT `fk_friend_invites_users1`
     FOREIGN KEY (`inviter_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_friend_invites_users2`
     FOREIGN KEY (`invited_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -240,9 +174,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`friendships`
+-- Table `tjille_database`.`friendships`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`friendships` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`friendships` (
   `accepter_id` INT(11) NOT NULL,
   `inviter_id` INT(11) NOT NULL,
   `since` INT(11) NOT NULL,
@@ -250,12 +184,12 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`friendships` (
   INDEX `fk_friendship_users2_idx` (`inviter_id` ASC),
   CONSTRAINT `fk_friendship_users1`
     FOREIGN KEY (`accepter_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_friendship_users2`
     FOREIGN KEY (`inviter_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -263,9 +197,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`message_media`
+-- Table `tjille_database`.`message_media`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`message_media` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`message_media` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `type` ENUM('giphy', 'upload') NOT NULL DEFAULT 'upload',
   `path` VARCHAR(255) NOT NULL,
@@ -276,9 +210,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`messages`
+-- Table `tjille_database`.`messages`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`messages` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`messages` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `chat_id` INT(11) NOT NULL,
   `sent_by` INT(11) NOT NULL,
@@ -292,17 +226,17 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`messages` (
   INDEX `fk_message_message_media1_idx` (`message_media_id` ASC),
   CONSTRAINT `fk_message_chat1`
     FOREIGN KEY (`chat_id`)
-    REFERENCES `tjillepret`.`chats` (`chat_id`)
+    REFERENCES `tjille_database`.`chats` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_message_media1`
     FOREIGN KEY (`message_media_id`)
-    REFERENCES `tjillepret`.`message_media` (`id`)
+    REFERENCES `tjille_database`.`message_media` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_users1`
     FOREIGN KEY (`sent_by`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -311,9 +245,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`message_readers`
+-- Table `tjille_database`.`message_readers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`message_readers` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`message_readers` (
   `message_id` INT(11) NOT NULL,
   `read_by` INT(11) NOT NULL,
   `read_on` INT(11) NOT NULL,
@@ -321,12 +255,12 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`message_readers` (
   INDEX `fk_message_reader_users1_idx` (`read_by` ASC),
   CONSTRAINT `fk_message_reader_message1`
     FOREIGN KEY (`message_id`)
-    REFERENCES `tjillepret`.`messages` (`id`)
+    REFERENCES `tjille_database`.`messages` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_reader_users1`
     FOREIGN KEY (`read_by`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -334,33 +268,40 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`post_votes`
+-- Table `tjille_database`.`posts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`post_votes` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`posts` (
   `post_id` INT(11) NOT NULL,
-  `user_id` INT(11) NOT NULL,
-  `up` TINYINT(4) NOT NULL,
-  `time` INT(11) NOT NULL,
-  PRIMARY KEY (`post_id`, `user_id`),
-  INDEX `fk_post_votes_users1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_post_votes_posts1`
-    FOREIGN KEY (`post_id`)
-    REFERENCES `tjillepret`.`posts` (`post_id`)
+  `category_id` INT(11) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
+  `description` VARCHAR(2048) NOT NULL,
+  `uploaded_on` INT(11) NOT NULL,
+  `type` ENUM('img', 'vid', 'gif') NOT NULL,
+  `path` VARCHAR(45) NOT NULL,
+  `views` INT(11) NOT NULL DEFAULT '0',
+  `duration` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`post_id`, `category_id`),
+  INDEX `fk_uploads_categories1_idx` (`category_id` ASC),
+  INDEX `fk_posts_entities1_idx` (`post_id` ASC),
+  CONSTRAINT `fk_uploads_categories1`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `tjille_database`.`categories` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_post_votes_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+  CONSTRAINT `fk_posts_entities1`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `tjille_database`.`entities` (`entity_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 120
 DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjillepret`.`tokens`
+-- Table `tjille_database`.`tokens`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`tokens` (
+CREATE TABLE IF NOT EXISTS `tjille_database`.`tokens` (
   `token` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `created` INT(11) NOT NULL,
@@ -371,25 +312,169 @@ CREATE TABLE IF NOT EXISTS `tjillepret`.`tokens` (
   INDEX `fk_tokens_users_idx` (`user_id` ASC),
   CONSTRAINT `fk_tokens_users`
     FOREIGN KEY (`user_id`)
-    REFERENCES `tjillepret`.`users` (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-USE `tjillepret` ;
 
 -- -----------------------------------------------------
--- Placeholder table for view `tjillepret`.`user_info`
+-- Table `tjille_database`.`entity_comments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjillepret`.`user_info` (`user_id` INT, `username` INT, `password` INT, `joined_on` INT, `email` INT, `bio` INT, `is_admin` INT, `last_activity` INT, `online` INT, `checked_notifications_time` INT, `apple_user` INT, `r` INT, `g` INT, `b` INT, `profile_pic` INT, `header` INT, `sound_fragment` INT, `wallpaper` INT, `color_class_id` INT, `groups_started` INT, `friends` INT, `uploads` INT, `groups` INT, `messages` INT, `rep` INT, `views` INT, `comments` INT);
+CREATE TABLE IF NOT EXISTS `tjille_database`.`entity_comments` (
+  `entity_id` INT(11) NOT NULL,
+  `comment_on_entity_id` INT(11) NOT NULL,
+  `time` INT(11) NOT NULL,
+  `text` VARCHAR(1024) NULL,
+  `giphy` VARCHAR(45) NULL,
+  PRIMARY KEY (`entity_id`, `comment_on_entity_id`),
+  INDEX `fk_entity_comments_entities2_idx` (`comment_on_entity_id` ASC),
+  UNIQUE INDEX `entity_id_UNIQUE` (`entity_id` ASC),
+  CONSTRAINT `fk_entity_comments_entities1`
+    FOREIGN KEY (`entity_id`)
+    REFERENCES `tjille_database`.`entities` (`entity_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_entity_comments_entities2`
+    FOREIGN KEY (`comment_on_entity_id`)
+    REFERENCES `tjille_database`.`entities` (`entity_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
--- View `tjillepret`.`user_info`
+-- Table `tjille_database`.`entity_votes`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tjillepret`.`user_info`;
-USE `tjillepret`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tjillepret`.`user_info` AS select `tjillepret`.`users`.`user_id` AS `user_id`,`tjillepret`.`users`.`username` AS `username`,`tjillepret`.`users`.`password` AS `password`,`tjillepret`.`users`.`joined_on` AS `joined_on`,`tjillepret`.`users`.`email` AS `email`,`tjillepret`.`users`.`bio` AS `bio`,`tjillepret`.`users`.`is_admin` AS `is_admin`,`tjillepret`.`users`.`last_activity` AS `last_activity`,`tjillepret`.`users`.`online` AS `online`,`tjillepret`.`users`.`checked_notifications_time` AS `checked_notifications_time`,`tjillepret`.`users`.`apple_user` AS `apple_user`,`tjillepret`.`users`.`r` AS `r`,`tjillepret`.`users`.`g` AS `g`,`tjillepret`.`users`.`b` AS `b`,`tjillepret`.`users`.`profile_pic` AS `profile_pic`,`tjillepret`.`users`.`header` AS `header`,`tjillepret`.`users`.`sound_fragment` AS `sound_fragment`,`tjillepret`.`users`.`wallpaper` AS `wallpaper`,`tjillepret`.`users`.`color_class_id` AS `color_class_id`,(select count(0) from `tjillepret`.`chats` where (`tjillepret`.`chats`.`is_group` and (`tjillepret`.`chats`.`started_by` = `tjillepret`.`users`.`user_id`))) AS `groups_started`,(select count(0) from `tjillepret`.`friendships` where ((`tjillepret`.`friendships`.`inviter_id` = `tjillepret`.`users`.`user_id`) or (`tjillepret`.`friendships`.`accepter_id` = `tjillepret`.`users`.`user_id`))) AS `friends`,(select count(0) from `tjillepret`.`posts` where (`tjillepret`.`posts`.`uploaded_by` = `tjillepret`.`users`.`user_id`)) AS `uploads`,(select count(0) from (`tjillepret`.`chat_members` join `tjillepret`.`chats` on(((`tjillepret`.`chats`.`chat_id` = `tjillepret`.`chat_members`.`chat_id`) and (`tjillepret`.`chats`.`is_group` = 1)))) where (`tjillepret`.`chat_members`.`user_id` = `tjillepret`.`users`.`user_id`)) AS `groups`,(select count(0) from `tjillepret`.`messages` where (`tjillepret`.`messages`.`sent_by` = `tjillepret`.`users`.`user_id`)) AS `messages`,(((select count(0) from (`tjillepret`.`post_votes` join `tjillepret`.`posts` on((`tjillepret`.`posts`.`post_id` = `tjillepret`.`post_votes`.`post_id`))) where ((`tjillepret`.`post_votes`.`up` = 1) and (`tjillepret`.`posts`.`uploaded_by` = `tjillepret`.`users`.`user_id`))) - (select count(0) from (`tjillepret`.`post_votes` join `tjillepret`.`posts` on((`tjillepret`.`posts`.`post_id` = `tjillepret`.`post_votes`.`post_id`))) where ((`tjillepret`.`post_votes`.`up` = 0) and (`tjillepret`.`posts`.`uploaded_by` = `tjillepret`.`users`.`user_id`)))) + ((select count(0) from (`tjillepret`.`comment_votes` join `tjillepret`.`comments` on((`tjillepret`.`comments`.`comment_id` = `tjillepret`.`comment_votes`.`comment_id`))) where ((`tjillepret`.`comment_votes`.`up` = 1) and (`tjillepret`.`comments`.`user_id` = `tjillepret`.`users`.`user_id`))) - (select count(0) from (`tjillepret`.`comment_votes` join `tjillepret`.`comments` on((`tjillepret`.`comments`.`comment_id` = `tjillepret`.`comment_votes`.`comment_id`))) where ((`tjillepret`.`comment_votes`.`up` = 0) and (`tjillepret`.`comments`.`user_id` = `tjillepret`.`users`.`user_id`))))) AS `rep`,(select sum(`tjillepret`.`posts`.`views`) from `tjillepret`.`posts` where (`tjillepret`.`posts`.`uploaded_by` = `tjillepret`.`users`.`user_id`)) AS `views`,(select count(0) from `tjillepret`.`comments` where (`tjillepret`.`comments`.`user_id` = `tjillepret`.`users`.`user_id`)) AS `comments` from `tjillepret`.`users`;
+CREATE TABLE IF NOT EXISTS `tjille_database`.`entity_votes` (
+  `user_id` INT(11) NOT NULL,
+  `entity_id` INT(11) NOT NULL,
+  `up` TINYINT NOT NULL,
+  `time` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `entity_id`),
+  INDEX `fk_entity_votes_entities1_idx` (`entity_id` ASC),
+  INDEX `fk_entity_votes_users1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_entity_votes_entities1`
+    FOREIGN KEY (`entity_id`)
+    REFERENCES `tjille_database`.`entities` (`entity_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_entity_votes_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+USE `tjille_database` ;
+
+-- -----------------------------------------------------
+-- Placeholder table for view `tjille_database`.`user_info`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`user_info` (`user_id` INT, `username` INT, `password` INT, `joined_on` INT, `email` INT, `bio` INT, `is_admin` INT, `last_activity` INT, `online` INT, `checked_notifications_time` INT, `apple_user` INT, `r` INT, `g` INT, `b` INT, `profile_pic` INT, `header` INT, `sound_fragment` INT, `wallpaper` INT, `color_class_id` INT, `groups_started` INT, `friends` INT, `uploads` INT, `groups` INT, `messages` INT, `rep` INT, `views` INT, `comments` INT);
+
+-- -----------------------------------------------------
+-- View `tjille_database`.`user_info`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `tjille_database`.`user_info`;
+USE `tjille_database`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `user_info` AS
+    SELECT 
+        `users`.`user_id` AS `user_id`,
+        `users`.`username` AS `username`,
+        `users`.`password` AS `password`,
+        `users`.`joined_on` AS `joined_on`,
+        `users`.`email` AS `email`,
+        `users`.`bio` AS `bio`,
+        `users`.`is_admin` AS `is_admin`,
+        `users`.`last_activity` AS `last_activity`,
+        `users`.`online` AS `online`,
+        `users`.`checked_notifications_time` AS `checked_notifications_time`,
+        `users`.`apple_user` AS `apple_user`,
+        `users`.`r` AS `r`,
+        `users`.`g` AS `g`,
+        `users`.`b` AS `b`,
+        `users`.`profile_pic` AS `profile_pic`,
+        `users`.`header` AS `header`,
+        `users`.`sound_fragment` AS `sound_fragment`,
+        `users`.`wallpaper` AS `wallpaper`,
+        `users`.`color_class_id` AS `color_class_id`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `chats`
+            WHERE
+                (`chats`.`is_group`
+                    AND (`chats`.`started_by` = `users`.`user_id`))) AS `groups_started`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `friendships`
+            WHERE
+                ((`friendships`.`inviter_id` = `users`.`user_id`)
+                    OR (`friendships`.`accepter_id` = `users`.`user_id`))) AS `friends`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                (`posts`
+                JOIN `entities`)
+            WHERE
+                ((`entities`.`user_id` = `users`.`user_id`)
+                    AND (`posts`.`post_id` = `entities`.`entity_id`))) AS `uploads`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                (`chat_members`
+                JOIN `chats` ON (((`chats`.`chat_id` = `chat_members`.`chat_id`)
+                    AND (`chats`.`is_group` = 1))))
+            WHERE
+                (`chat_members`.`user_id` = `users`.`user_id`)) AS `groups`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                `messages`
+            WHERE
+                (`messages`.`sent_by` = `users`.`user_id`)) AS `messages`,
+        ((SELECT 
+                COUNT(0)
+            FROM
+                (`entity_votes`
+                JOIN `entities`)
+            WHERE
+                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+                    AND (`entities`.`user_id` = `users`.`user_id`)
+                    AND (`entity_votes`.`up` = 1))) - (SELECT 
+                COUNT(0)
+            FROM
+                (`entity_votes`
+                JOIN `entities`)
+            WHERE
+                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+                    AND (`entities`.`user_id` = `users`.`user_id`)
+                    AND (`entity_votes`.`up` = 0)))) AS `rep`,
+        (SELECT 
+                SUM(`posts`.`views`)
+            FROM
+                (`posts`
+                JOIN `entities`)
+            WHERE
+                ((`entities`.`user_id` = `users`.`user_id`)
+                    AND (`posts`.`post_id` = `entities`.`entity_id`))) AS `views`,
+        (SELECT 
+                COUNT(0)
+            FROM
+                (`entity_comments`
+                JOIN `entities`)
+            WHERE
+                ((`entity_comments`.`entity_id` = `entities`.`entity_id`)
+                    AND (`entities`.`user_id` = `users`.`user_id`))) AS `comments`
+    FROM
+        `users`;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
