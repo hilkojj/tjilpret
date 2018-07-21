@@ -249,7 +249,7 @@ module.exports = {
         api.post("/updateStatus", (req, res) => {
 
             var status = String(req.body.status);
-            status = status.replace(/\n\s*\n\s*\n/g, '\n\n'); // remove unnecessary newlines
+            status = utils.removeExtraNewlines(status);
             if (status.length > 255) return utils.sendError(res, "Status is te lang >:(");
             var token = parseInt(req.body.token) || 0;
 

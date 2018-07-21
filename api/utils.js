@@ -3,6 +3,31 @@ const db = require("./database.js");
 
 module.exports = {
 
+    createEntity: function (userId, token, callback) {
+
+        const sqlCallback = (err, results, fields) => {
+            if (err) {
+                console.log("error while creating entity", err);
+                return callback(null);
+            }
+            callback(results.insertId);
+        };
+
+        if (token)
+            db.connection.query("INSERT INTO entities (user_id) VALUES ((SELECT user_id FROM tokens WHERE token = ?))",
+                [token], sqlCallback
+            );
+        else if (userId)
+            db.connection.query("INSERT INTO entities SET ?", { user_id: userId }, sqlCallback);
+        else
+            db.connection.query("INSERT INTO entities () VALUES ()", {}, sqlCallback);
+
+    },
+
+    removeExtraNewlines: function (text) {
+        return text.replace(/\n\s*\n\s*\n/g, '\n\n');
+    },
+
     sendError: function (res, errorMessage) {
 
         res.send({ error: errorMessage });
@@ -21,7 +46,7 @@ module.exports = {
         return Math.floor(Math.random() * (max + 1 - min)) + min;
     },
 
-    userInfo: function(row) {
+    userInfo: function (row) {
         return {
             id: row.user_id,
             username: row.username,
@@ -47,12 +72,12 @@ module.exports = {
         }
     },
 
-    validateEmail: function(email) {
+    validateEmail: function (email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     },
 
-    usernameExists: function(username, callback) {
+    usernameExists: function (username, callback) {
         db.connection.query("SELECT COUNT(*) > 0 AS existss FROM users WHERE username = ?", [username], (err, rows, fields) => {
             if (err) {
                 console.log(err);

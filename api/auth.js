@@ -91,12 +91,7 @@ module.exports = {
 
                 bcrypt.hash(password, 2, (err, encryptedPassword) => {
 
-                    db.connection.query("INSERT INTO entities () VALUES ()", {}, (err, results, fields) => {
-                        if (err) {
-                            console.log(err);
-                            return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
-                        }
-                        const id = results.insertId;
+                    utils.createEntity(null, null, id => {
                         db.connection.query("INSERT INTO users SET ?", {
                             user_id: id,
                             username: username,
