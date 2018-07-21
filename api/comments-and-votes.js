@@ -94,13 +94,13 @@ module.exports = {
 
                             var parentComment = comments[row.comment_on_entity_id];
 
-                            if (!("subComments" in parentComment)) parentComment.subComments = {};
+                            if (!("subComments" in parentComment)) parentComment.subComments = [];
 
-                            parentComment.subComments[comment.id] = comment; 
+                            parentComment.subComments.push(comment);
 
                         } else comments[comment.id] = comment;
                     }
-                    res.send(comments);
+                    res.send(Object.values(comments));
                 }
             );
         });
