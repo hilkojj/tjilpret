@@ -4,9 +4,9 @@
 
 <main>
     <div *ngIf="!utils.mobile" [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
-        <router-outlet #o="outlet"></router-outlet>
+        <router-outlet #o="outlet" (activate)="onActivate()"></router-outlet>
     </div>
-    <router-outlet *ngIf="utils.mobile"></router-outlet>
+    <router-outlet *ngIf="utils.mobile" (activate)="onActivate()"></router-outlet>
 
     <app-modal name="sideNav" type="right" hash="menuu" width="350px">
         <app-side-nav></app-side-nav>

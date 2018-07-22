@@ -22,4 +22,8 @@ export class AppComponent {
         this.routerUtils.initialize();
     }
 
+    onActivate() {
+        window.scrollTo(0, 0);
+    }
+
 }
