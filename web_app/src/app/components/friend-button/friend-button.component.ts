@@ -26,7 +26,7 @@ export class FriendButtonComponent implements OnInit {
     }
 
     remove() {
-        if (confirm(`${this.user.username} verwijdren als vrient?`))
+        if (confirm(`Vrientschap verbreken met ${this.user.username}?`))
             this.friends.remove(this.user.id);
     }
 

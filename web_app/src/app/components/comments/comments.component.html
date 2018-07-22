@@ -61,7 +61,7 @@
 
             <app-votes [entityId]="comment.id"></app-votes>
 
-            <button *ngIf="!isSub" class="btn btn-flat btn-floating waves-effect"
+            <button class="btn btn-flat btn-floating waves-effect"
                 (click)="showReplyInput(parent ? parent.id : comment.id)"
                 title="Reagir">
 
