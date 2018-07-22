@@ -46,7 +46,7 @@ export class ProfilePicComponent implements OnInit {
             return;
         }
 
-        var sound = this.soundFrag = new Howl({
+        let sound = this.soundFrag = new Howl({
             src: [this.user.soundFragmentUrl],
             onend: () => this.soundFrag = null,
             onload: () => {

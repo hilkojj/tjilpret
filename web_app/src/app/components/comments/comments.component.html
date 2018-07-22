@@ -1,0 +1,116 @@
+<ng-template #writeComment let-commentOn="commentOn" let-smallPPic="smallPPic"
+    let-label="label">
+
+    <div class="comment write">
+
+        <app-profile-pic [ngClass]="smallPPic ? 'small-ppic' : ''" [user]="auth.session.user"
+            [size]="smallPPic ? '40px' : '48px'">
+        </app-profile-pic>
+
+        <div class="input-field">
+            <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="commentInput[commentOn]"
+                maxlength="512" [id]="'comment-input-' + commentOn"></textarea>
+            <label for="textarea1">
+                {{label ? label : 'Laat een reacti achter'}}
+            </label>
+        </div>
+
+        <div class="buttons">
+
+            <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij">
+                <i class="material-icons left fav-text gif-icon">
+                    gif
+                </i>
+            </button>
+
+            <button class="btn waves-effect" (click)="postComment(commentOn)"
+                [disabled]="commentInput[commentOn] == null || commentInput[commentOn].length == 0">
+                <i class="material-icons left">
+                    send
+                </i>
+                plaatsun
+            </button>
+
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #commentTemplate let-comment="comment" let-threadLine="threadLine"
+    let-parent="parent">
+    <div class="comment">
+
+        <div *ngIf="threadLine" class="fav-bg thread-line"></div>
+
+        <a [routerLink]="'/tjiller/' + comment.user.id">
+
+            <app-profile-pic [ngClass]="parent ? 'small-ppic' : ''" [user]="comment.user"
+                [size]="parent ? '40px' : '48px'" cursor="pointer">
+            </app-profile-pic>
+
+            <app-username [user]="comment.user" [color]="comment.user.rgbString"></app-username>
+        </a>
+
+        <span class="time"> · {{comment.time | timestamp}}</span>
+
+        <br>
+
+        <p class="pre-wrap comment-text">{{comment.text}}</p>
+
+        <div class="vote-and-reply">
+
+            <app-votes [entityId]="comment.id"></app-votes>
+
+            <button *ngIf="!isSub" class="btn btn-flat btn-floating waves-effect"
+                (click)="showReplyInput(parent ? parent.id : comment.id)"
+                title="Reagir">
+
+                <i class="material-icons fav-text">
+                    reply
+                </i>
+            </button>
+
+        </div>
+
+    </div>
+</ng-template>
+
+<!-- WRITE COMMENT -->
+<ng-container *ngTemplateOutlet="writeComment; context: {commentOn: entityId}"></ng-container>
+
+<!-- COMMENTS -->
+<div *ngFor="let comment of comments">
+
+    <div class="divider bw-on-bw30"></div>
+
+    <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: comment, threadLine: comment.subComments || commentInput[comment.id] != null ? true : false}">
+    </ng-container>
+
+    <!-- SUB-COMMENTS -->
+    <div *ngFor="let child of comment.subComments; let i = index">
+
+        <ng-container *ngTemplateOutlet="commentTemplate; context: {comment: child, threadLine: i + 1 != comment.subComments.length || commentInput[comment.id] != null, parent: comment}"></ng-container>
+    </div>
+
+    <!-- REPLY TO COMMENT -->
+    <div *ngIf="commentInput[comment.id] != null">
+        <ng-container *ngTemplateOutlet="writeComment; context: {commentOn: comment.id, smallPPic: true, label: writeCommentLabel(comment)}"></ng-container>
+    </div>
+
+</div>
+
+
+
+<div class="no-comments-dog" *ngIf="comments && comments.length == 0">
+
+    <div class="divider bw-on-bw10"></div>
+
+    <h5>
+        Griephonden!
+    </h5>
+    <h6>
+        Er zijn nog geen reacties!!
+    </h6>
+
+    <div [inlineSVG]="'/assets/img/no-comments-dog.svg'"></div>
+</div>

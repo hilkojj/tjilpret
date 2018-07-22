@@ -13,6 +13,7 @@ export class UsernameComponent implements OnInit {
     @Input() color: string;
     @Input() shadow: boolean;
 
+
     math: Math = Math;
     classes: string[] = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
     time = Date.now() / 1000 | 0;

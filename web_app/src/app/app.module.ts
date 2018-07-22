@@ -38,6 +38,9 @@ import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
 import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
 import { FriendButtonComponent } from './components/friend-button/friend-button.component';
+import { CommentsComponent } from './components/comments/comments.component';
+import { AuthService } from './services/auth.service';
+import { VotesComponent } from './components/votes/votes.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,9 @@ import { FriendButtonComponent } from './components/friend-button/friend-button.
     ProfileFriendsComponent,
     ProfileUploadsComponent,
     ProfileGroupsComponent,
-    FriendButtonComponent
+    FriendButtonComponent,
+    CommentsComponent,
+    VotesComponent
   ],
   imports: [
     BrowserModule,

@@ -73,6 +73,9 @@ body {
 .nav-logo:active #logo-outer {
     fill: ?rgb?;
 }
+.no-comments-dog #dog {
+    fill: ?rgb?;
+}
 
 nav .random-words, nav a, nav a i {
     color: ?rgb? !important;

@@ -29,6 +29,9 @@ module.exports = {
             var token = parseInt(req.body.token);
             var entityId = parseInt(req.body.entityId);
 
+            if (String(req.body.giphy || "").length == 0 && comment.length == "")
+                return utils.sendError(res, "Je moet wel iets versturen >:|");
+
             if (!token || !entityId)
                 return utils.sendError(res, !token ? "Geen token gegeven" : "Geen entityId gegeven");
 
@@ -63,7 +66,7 @@ module.exports = {
         api.post("/comments", (req, res) => {
             var entityId = parseInt(req.body.entityId) || 0;
             db.connection.query(`
-                SELECT entities.user_id, comments.* FROM (
+                SELECT comments.*, user_info.* FROM (
                     SELECT * FROM entity_comments WHERE comment_on_entity_id = ?
                     UNION
                     SELECT * FROM entity_comments AS sub WHERE comment_on_entity_id IN (
@@ -71,6 +74,7 @@ module.exports = {
                     )
                 ) AS comments
                 JOIN entities ON (entities.entity_id = comments.entity_id)
+                JOIN user_info ON (user_info.user_id = entities.user_id)
                 ORDER BY comment_on_entity_id ASC
                 `, [entityId, entityId], (err, rows, fields) => {
                     if (err) {
@@ -84,7 +88,7 @@ module.exports = {
 
                         var comment = {
                             id: row.entity_id,
-                            userId: row.user_id,
+                            user: utils.userInfo(row),
                             time: row.time,
                             text: row.text,
                             giphy: row.giphy

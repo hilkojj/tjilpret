@@ -1,3 +1,5 @@
+@import "../../../../styles.scss";
+
 .card {
     padding: 0.75rem;
 
@@ -22,5 +24,11 @@
         width: 52px;
         height: 52px;
         margin: 8px 0px;
+    }
+}
+
+@media only screen and (min-width: $break-med + 1px) {
+    .right-col {
+        padding-left: .75rem !important;
     }
 }

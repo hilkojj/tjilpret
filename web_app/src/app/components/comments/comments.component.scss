@@ -1,0 +1,84 @@
+
+$profile-pic-size: 48px;
+
+.comment {
+    
+    min-height: 64px;
+    position: relative;
+    padding-left: $profile-pic-size + 10px;
+    margin-bottom: .75rem;
+
+    app-profile-pic {
+        position: absolute;
+        left: 0;
+    }
+
+    ::ng-deep app-username p {
+        display: inline;
+    }
+
+    .time {
+        opacity: .6;
+    }
+
+    &.write {
+
+        .buttons {
+            text-align: right;
+
+            button {
+                margin-left: .75rem;
+
+                .gif-icon {
+                    font-size: 38px;
+                }
+            }
+
+        }
+
+    }
+
+    .thread-line {
+        width: 4px;
+        border-radius: 10px;
+        top: 51px;
+        bottom: -11px;
+        position: absolute;
+        left: 22px;
+        opacity: .4;
+    }
+
+    .small-ppic {
+        top: 6px;
+        left: 4px;
+    }
+
+    .comment-text {
+        margin: 8px 0;
+    }
+
+    .vote-and-reply {
+        
+    }
+
+}
+
+.divider {
+    margin: 0 -.75rem 1.5rem;
+}
+
+.no-comments-dog {
+    text-align: center;
+    user-select: none;
+
+    h5 {
+        margin-top: 1.5rem;
+        font-weight: 300;
+    }
+
+    margin-bottom: -.75rem;
+
+    ::ng-deep svg {
+        margin-bottom: -7px;
+    }
+}

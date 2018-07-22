@@ -40,9 +40,8 @@ export class ProfileComponent implements OnInit {
         if (user.id == this.auth.session.user.id) {
             user = this.user = Object.assign(this.auth.session.user, user);
         }
-            
-
-        this.theme.applyThemeColor(user.r, user.g, user.b);
+        
+        this.theme.applyFavColor(user);
 
         this.tabs = [
             new Tab("Profiel", null, "./"),
