@@ -4,7 +4,7 @@
     <div class="comment write">
 
         <app-profile-pic [ngClass]="smallPPic ? 'small-ppic' : ''" [user]="auth.session.user"
-            [size]="smallPPic ? '40px' : '48px'">
+            [size]="smallPPic ? '40px' : '48px'" dim="small">
         </app-profile-pic>
 
         <div class="input-field">
@@ -45,7 +45,7 @@
         <a [routerLink]="'/tjiller/' + comment.user.id">
 
             <app-profile-pic [ngClass]="parent ? 'small-ppic' : ''" [user]="comment.user"
-                [size]="parent ? '40px' : '48px'" cursor="pointer">
+                [size]="parent ? '40px' : '48px'" cursor="pointer" dim="small">
             </app-profile-pic>
 
             <app-username [user]="comment.user" [color]="comment.user.rgbString"></app-username>
