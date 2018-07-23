@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 import { Comment } from '../../models/comment';
+import { GiphyService } from '../../services/giphy.service';
 
 @Component({
     selector: 'app-comments',
@@ -17,7 +18,8 @@ export class CommentsComponent implements OnInit {
 
     constructor(
         public auth: AuthService,
-        public service: CommentsAndVotesService
+        public service: CommentsAndVotesService,
+        private giphy: GiphyService
     ) { }
 
     ngOnInit() {
@@ -72,6 +74,12 @@ export class CommentsComponent implements OnInit {
             input.focus();
 
         }, 20);
+    }
+
+    includeGiphy(commentOn: number) {
+        this.giphy.getGiphy().then(giphy => {
+            
+        });
     }
 
 }

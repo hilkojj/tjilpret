@@ -41,6 +41,8 @@ import { FriendButtonComponent } from './components/friend-button/friend-button.
 import { CommentsComponent } from './components/comments/comments.component';
 import { AuthService } from './services/auth.service';
 import { VotesComponent } from './components/votes/votes.component';
+import { GiphySearchComponent } from './components/giphy-search/giphy-search.component';
+import { CircularPreloaderComponent } from './components/circular-preloader/circular-preloader.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import { VotesComponent } from './components/votes/votes.component';
     ProfileGroupsComponent,
     FriendButtonComponent,
     CommentsComponent,
-    VotesComponent
+    VotesComponent,
+    GiphySearchComponent,
+    CircularPreloaderComponent
   ],
   imports: [
     BrowserModule,

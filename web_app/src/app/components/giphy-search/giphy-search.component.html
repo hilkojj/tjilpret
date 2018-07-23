@@ -1,0 +1,22 @@
+<app-toolbar>
+
+    <input class="white-input no-margin" placeholder="Zoek naar GIF's met Giphy"
+        [(ngModel)]="query" (keyup.enter)="search($event)">
+
+    <button class="btn-flat btn-floating waves-effect waves-light"
+        (click)="search()">
+        <i class="material-icons">search</i>
+    </button>
+</app-toolbar>
+
+<div *ngIf="showCategories">
+    categorieieen
+</div>
+
+<div *ngIf="!showCategories" class="center">
+
+    <br><br>
+    <app-circular-preloader></app-circular-preloader>
+    
+    
+</div>

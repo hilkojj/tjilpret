@@ -17,7 +17,9 @@
 
         <div class="buttons">
 
-            <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij">
+            <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij"
+                (click)="includeGiphy(commentOn)">
+                
                 <i class="material-icons left fav-text gif-icon">
                     gif
                 </i>
@@ -45,7 +47,8 @@
         <a [routerLink]="'/tjiller/' + comment.user.id">
 
             <app-profile-pic [ngClass]="parent ? 'small-ppic' : ''" [user]="comment.user"
-                [size]="parent ? '40px' : '48px'" cursor="pointer" dim="small">
+                [size]="parent ? '40px' : '48px'" cursor="pointer"
+                dim="small">
             </app-profile-pic>
 
             <app-username [user]="comment.user" [color]="comment.user.rgbString"></app-username>
@@ -61,8 +64,7 @@
 
             <app-votes [entityId]="comment.id"></app-votes>
 
-            <button class="btn btn-flat btn-floating waves-effect"
-                (click)="showReplyInput(parent ? parent.id : comment.id)"
+            <button class="btn btn-flat btn-floating waves-effect" (click)="showReplyInput(parent ? parent.id : comment.id)"
                 title="Reagir">
 
                 <i class="material-icons fav-text">

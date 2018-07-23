@@ -12,11 +12,8 @@ export class ModalService {
     constructor(
     ) {
         window.addEventListener('hashchange', () => {
-            if (
-                this.activeModalComponent != undefined
-                && location.hash != `#${this.activeModalComponent.hash}`
-            )
-                this.hideModal()
+            if (!location.hash.startsWith("#"))
+                this.hideModal();
         });
         location.hash = "";
     }
