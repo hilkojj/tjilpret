@@ -16,7 +16,7 @@
         </div>
 
         <div class="giphy" *ngIf="commentGiphy[commentOn]">
-            <app-gif-player [giphy]="commentGiphy[commentOn]"></app-gif-player>
+            <app-gif-player [giphy]="commentGiphy[commentOn]" [showGiphyLogo]="true"></app-gif-player>
         </div>
 
         <div class="buttons">
@@ -65,7 +65,7 @@
         <p class="pre-wrap comment-text">{{comment.text}}</p>
 
         <div class="giphy" *ngIf="comment.giphy">
-            <app-gif-player [giphyId]="comment.giphy"></app-gif-player>
+            <app-gif-player [giphyId]="comment.giphy" [showGiphyLogo]="true"></app-gif-player>
         </div>
 
         <div class="vote-and-reply">

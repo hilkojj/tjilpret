@@ -4,13 +4,16 @@
     [style.cursor]="!autoPlay ? 'pointer' : ''" (click)="playing = autoPlay ? playing : !playing">
 
     <img *ngIf="(!playing || !loaded) && !(preload && mobile)" [src]="stillUrl"
-        [style.opacity]="playing && !loaded && !preload ? .3 : 1">
+        [style.opacity]="playing && !loaded && !preload ? .3 : 1" class="gif">
 
     <img *ngIf="playing || preload" [src]="url" (load)="loaded=true"
-        [style.display]="loaded && playing ? 'block' : 'none'">
+        [style.display]="loaded && playing ? 'block' : 'none'" class="gif">
 
-    <div *ngIf="!playing && !autoPlay" class="gif-button">
+    <div *ngIf="!playing && !autoPlay" class="gif-button valign-wrapper">
         <i class="material-icons">gif</i>
     </div>
+
+    <img *ngIf="showGiphyLogo" src="/assets/img/giphy_small_logo.png"
+        class="giphy-logo">
 
 </div>
