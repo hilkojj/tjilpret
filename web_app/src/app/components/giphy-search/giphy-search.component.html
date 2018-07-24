@@ -1,6 +1,6 @@
 <app-toolbar>
 
-    <input class="white-input no-margin" placeholder="Zoek naar GIF's met Giphy"
+    <input class="white-input white-text no-margin" placeholder="Zoek naar GIF's met Giphy"
         [(ngModel)]="query" (keyup.enter)="search($event)">
 
     <button class="btn-flat btn-floating waves-effect waves-light"
@@ -9,14 +9,64 @@
     </button>
 </app-toolbar>
 
-<div *ngIf="showCategories">
-    categorieieen
-</div>
+<div class="scroll" #scrollParent>
 
-<div *ngIf="!showCategories" class="center">
+    <div *ngIf="showCategories">
+        categorieieen
+    </div>
 
-    <br><br>
-    <app-circular-preloader></app-circular-preloader>
-    
-    
+    <div *ngIf="!showCategories">
+
+        <div *ngIf="giphies">
+
+            <p class="giphy-icon-and-count center">
+                <img src="assets/img/giphy_icon.png"> GIPHY -
+                <b>{{ count }} resultaten</b>
+            </p>
+
+            <div *ngFor="let g of giphies; let i = index">
+
+                <div *ngIf="i != 0" class="center">
+                    <br>
+                    <div class="divider bw-on-bw10"></div>
+
+                    <br> Pagina {{ i + 1 }}
+
+                    <span *ngIf="i == 2">
+                        <br> Nog niks gevonden??
+                    </span>
+
+                    <span *ngIf="i == 4">
+                        <br> Dit gaat niet oneindig door hoor.
+                    </span>
+
+                    <br>
+                    <br>
+                </div>
+
+                <div class="masonry">
+                    <div class="player-container" *ngFor="let giphy of g">
+
+                        <app-gif-player [giphy]="giphy" [fullHeight]="false" [autoPlay]="true"
+                            [preload]="true" [lowQuality]="true">
+                        </app-gif-player>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="center">
+            <app-circular-preloader *ngIf="!last" inViewport (ifInViewport)="loadMore()"
+                [intervalTimeout]="100">
+            </app-circular-preloader>
+
+            <p *ngIf="last">
+                {{ giphies.length < 3 ? "Helaas dit was alles" : "Zit hier nou echt niks bij??" }}
+            </p>
+        </div>
+
+    </div>
+
 </div>

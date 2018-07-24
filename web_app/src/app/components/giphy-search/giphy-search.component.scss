@@ -1,3 +1,4 @@
+@import "../../../styles.scss";
 
 app-toolbar {
     input {
@@ -8,3 +9,45 @@ app-toolbar {
         margin: 0 8px;
     }
 }
+
+.scroll {
+
+    overflow-x: auto;
+    height: 60vh;
+
+    @media only screen and (max-width: $break-small) {
+
+        height: calc(100% - 56px);
+    }
+
+    app-circular-preloader {
+        margin: 1.5rem;
+    }
+
+    .giphy-icon-and-count {
+        img {
+            height: 24px;
+            width: 24px;
+            vertical-align: bottom;
+            margin-right: 4px;
+        }
+        user-select: none;
+    }
+
+    .masonry {
+        padding: 0 .75rem;
+        column-count: 3;
+        column-gap: 5px;
+
+        @media only screen and (max-width: $break-small) {
+            column-count: 2;
+        }
+
+        .player-container {
+            display: inline-block;
+            width: 100%;
+        }
+    }
+
+}
+

@@ -6,30 +6,28 @@ import { Directive, ElementRef, Output, EventEmitter, HostListener, AfterViewChe
 export class InViewportDirective implements OnInit, OnDestroy {
 
     private inViewport = false;
+    private interval;
 
     @Output() ifInViewport = new EventEmitter();
     @Output() ifNotInViewport = new EventEmitter();
 
-    @Input() scrollParent: Element;
-
-    scrollListener = () => {
-        this.check();
-    };
+    @Input() intervalTimeout = 1000;
 
     constructor(
         private el: ElementRef
     ) { }
 
     ngOnInit() {
-        this.scrollParent.addEventListener("scroll", this.scrollListener);
+        
+        this.interval = setInterval(() => this.check(), this.intervalTimeout);
+        this.check();
     }
 
     ngOnDestroy() {
-        this.scrollParent.removeEventListener("scroll", this.scrollListener);
+        clearInterval(this.interval);
     }
 
     check() {
-
         var prevInViewport = this.inViewport;
 
         var rect = this.el.nativeElement.getBoundingClientRect();

@@ -77,7 +77,7 @@ export class CommentsComponent implements OnInit {
     }
 
     includeGiphy(commentOn: number) {
-        this.giphy.getGiphy().then(giphy => {
+        this.giphy.openGiphySearch().then(giphy => {
             
         });
     }

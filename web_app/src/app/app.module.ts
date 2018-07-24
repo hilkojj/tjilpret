@@ -43,6 +43,8 @@ import { AuthService } from './services/auth.service';
 import { VotesComponent } from './components/votes/votes.component';
 import { GiphySearchComponent } from './components/giphy-search/giphy-search.component';
 import { CircularPreloaderComponent } from './components/circular-preloader/circular-preloader.component';
+import { InViewportDirective } from './directives/in-viewport.directive';
+import { GifPlayerComponent } from './components/gif-player/gif-player.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { CircularPreloaderComponent } from './components/circular-preloader/circ
     CommentsComponent,
     VotesComponent,
     GiphySearchComponent,
-    CircularPreloaderComponent
+    CircularPreloaderComponent,
+    InViewportDirective,
+    GifPlayerComponent
   ],
   imports: [
     BrowserModule,

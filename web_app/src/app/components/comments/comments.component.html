@@ -60,6 +60,10 @@
 
         <p class="pre-wrap comment-text">{{comment.text}}</p>
 
+        <div class="giphy" *ngIf="comment.giphy">
+            <app-gif-player [giphyId]="comment.giphy"></app-gif-player>
+        </div>
+
         <div class="vote-and-reply">
 
             <app-votes [entityId]="comment.id"></app-votes>

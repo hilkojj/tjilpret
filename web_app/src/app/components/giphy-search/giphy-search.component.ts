@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer, HostListener } from '@angular/core';
-import { GiphyService, GiphyResponse } from '../../services/giphy.service';
+import { GiphyService, Giphy } from '../../services/giphy.service';
 
 @Component({
     selector: 'app-giphy-search',
@@ -9,11 +9,14 @@ import { GiphyService, GiphyResponse } from '../../services/giphy.service';
 export class GiphySearchComponent implements OnInit {
 
     query = "";
-
+    giphies: Giphy[][];
     showCategories = true;
-    searchHash = "gif-zoeke";
+    last = false;
+    count = 0;
 
-    searchResults: GiphyResponse;
+    private searchHash = "gif-zoeke";
+    private page = 0;
+    private submittedQuery = "";
 
     constructor(
         private renderer: Renderer,
@@ -27,16 +30,35 @@ export class GiphySearchComponent implements OnInit {
         if (event) this.renderer.invokeElementMethod(event.target, 'blur');
         location.hash = this.searchHash;
 
+        this.giphies = null;
+        this.last = false;
+        this.page = 0;
+        this.submittedQuery = this.query;
         this.showCategories = false;
-        this.giphy.search(this.query).subscribe(res => this.searchResults = res);
+        this.giphy.search(this.query, 0).subscribe(res => {
+            this.giphies = [res.data];
+            this.last = res.pagination.last;
+            this.count = res.pagination.total_count;
+        });
     }
 
     @HostListener('window:hashchange', ['$event'])
     hashChange() {
         if (location.hash != "#" + this.searchHash) {
             this.showCategories = true;
-            this.searchResults = null;
+            this.giphies = null;
         }
+    }
+
+    loadMore() {
+
+        if (this.giphies == null) return;
+
+        if (!this.last)
+            this.giphy.search(this.query, ++this.page).subscribe(res => {
+                this.giphies[this.page] = res.data;
+                this.last = res.pagination.last;
+            });
     }
 
 }
