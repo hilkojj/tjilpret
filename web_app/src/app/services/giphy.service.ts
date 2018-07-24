@@ -25,7 +25,7 @@ export interface GiphyResponse {
 }
 
 const GIPHY_API_KEY = "dc6zaTOxFJmzC";
-const GIPHY_API_URL = "http://api.giphy.com/v1/";
+const GIPHY_API_URL = "https://api.giphy.com/v1/";
 const GIFS_PER_PAGE = 25;
 
 @Injectable({
