@@ -11,8 +11,17 @@
 
 <div class="scroll" #scrollParent>
 
-    <div *ngIf="showCategories">
-        categorieieen
+    <div *ngIf="showCategories" class="row categories">
+
+        <div class="col s6 category" *ngFor="let cat of categories">
+            <div class="category-gif" [style.backgroundImage]="'url(' + cat.gifUrl + ')'"
+                (click)="searchByQuery(cat.query)">
+                <p>
+                    {{cat.title}}
+                </p>
+            </div>
+        </div>
+
     </div>
 
     <div *ngIf="!showCategories">
@@ -63,8 +72,9 @@
             </app-circular-preloader>
 
             <p *ngIf="last">
-                {{ giphies.length < 3 ? "Helaas dit was alles" : "Zit hier nou echt niks bij??" }}
-            </p>
+                {{ giphies.length
+                < 3 ? "Helaas dit was alles" : "Zit hier nou echt niks bij??"
+                    }} </p>
         </div>
 
     </div>
