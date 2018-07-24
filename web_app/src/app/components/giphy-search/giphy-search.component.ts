@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer, HostListener } from '@angular/core';
 import { GiphyService, Giphy } from '../../services/giphy.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-giphy-search',
@@ -59,6 +60,13 @@ export class GiphySearchComponent implements OnInit {
                 this.giphies[this.page] = res.data;
                 this.last = res.pagination.last;
             });
+    }
+
+    choose(giphy: Giphy) {
+        this.giphy.resolve(giphy);
+        this.showCategories = true;
+        this.giphies = null;
+        history.go(-2);
     }
 
 }

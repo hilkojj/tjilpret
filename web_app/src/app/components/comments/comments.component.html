@@ -15,18 +15,22 @@
             </label>
         </div>
 
+        <div class="giphy" *ngIf="commentGiphy[commentOn]">
+            <app-gif-player [giphy]="commentGiphy[commentOn]"></app-gif-player>
+        </div>
+
         <div class="buttons">
 
             <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij"
                 (click)="includeGiphy(commentOn)">
-                
+
                 <i class="material-icons left fav-text gif-icon">
                     gif
                 </i>
             </button>
 
             <button class="btn waves-effect" (click)="postComment(commentOn)"
-                [disabled]="commentInput[commentOn] == null || commentInput[commentOn].length == 0">
+                [disabled]="(commentInput[commentOn] == null || commentInput[commentOn].length == 0) && commentGiphy[commentOn] == null">
                 <i class="material-icons left">
                     send
                 </i>

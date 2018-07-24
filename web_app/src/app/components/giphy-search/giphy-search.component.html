@@ -45,13 +45,13 @@
                 </div>
 
                 <div class="masonry">
-                    <div class="player-container" *ngFor="let giphy of g">
+                    <a (click)="choose(giphy)" class="player-container" *ngFor="let giphy of g">
 
                         <app-gif-player [giphy]="giphy" [fullHeight]="false" [autoPlay]="true"
                             [preload]="true" [lowQuality]="true">
                         </app-gif-player>
 
-                    </div>
+                    </a>
                 </div>
             </div>
 

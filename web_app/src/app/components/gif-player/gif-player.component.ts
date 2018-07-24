@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Giphy, GiphyService } from '../../services/giphy.service';
 import { UtilsService } from '../../services/utils.service';
 
@@ -7,7 +7,7 @@ import { UtilsService } from '../../services/utils.service';
     templateUrl: './gif-player.component.html',
     styleUrls: ['./gif-player.component.scss']
 })
-export class GifPlayerComponent implements OnInit {
+export class GifPlayerComponent implements OnInit, OnChanges {
 
     @Input() giphyId: string;
     // OR GIVE GIPHY OBJECT:
@@ -47,10 +47,14 @@ export class GifPlayerComponent implements OnInit {
 
     }
 
+    ngOnChanges() {
+        this.ngOnInit();
+    }
+
     setPropertiesFromGiphy() {
         var still = this.giphy.images.fixed_width_still;
 
-        this.stillUrl = still.url;
+        this.stillUrl = still.url.split("?")[0];
         this.dimensions = {
             x: still.width,
             y: still.height
@@ -58,7 +62,7 @@ export class GifPlayerComponent implements OnInit {
 
         var gif = this.lowQuality ? this.giphy.images.fixed_width_small : this.giphy.images.downsized;
 
-        this.url = gif.url;
+        this.url = gif.url.split("?")[0];
     }
 
     onInViewport() {

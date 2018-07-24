@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 import { Comment } from '../../models/comment';
-import { GiphyService } from '../../services/giphy.service';
+import { GiphyService, Giphy } from '../../services/giphy.service';
 
 @Component({
     selector: 'app-comments',
@@ -14,6 +14,7 @@ export class CommentsComponent implements OnInit {
     @Input() entityId: number;
 
     commentInput: { [entityId: number]: string } = {};
+    commentGiphy: { [entityId: number]: Giphy } = {};
     comments: Comment[];
 
     constructor(
@@ -30,11 +31,18 @@ export class CommentsComponent implements OnInit {
         this.service.getComments(this.entityId).subscribe(comments => {
             this.comments = comments;
             this.commentInput = {};
+            this.commentGiphy = {};
         });
     }
 
     postComment(entityId: number) {
-        this.service.postComment(entityId, this.commentInput[entityId]).subscribe(success => {
+        var giphy = this.commentGiphy[entityId];
+        this.service.postComment(
+            entityId,
+            this.commentInput[entityId],
+            giphy ? giphy.id : null
+
+        ).subscribe(success => {
             this.loadComments();
         });
     }
@@ -42,7 +50,7 @@ export class CommentsComponent implements OnInit {
     writeCommentLabel(commentOn: Comment): string {
         if (!commentOn.subComments) return `Reageer op ${commentOn.user.username}`;
         else {
-            var users: {[username: string]: boolean} = {};
+            var users: { [username: string]: boolean } = {};
             users[commentOn.user.username] = true;
             for (var i in commentOn.subComments) {
                 var sub = commentOn.subComments[i];
@@ -78,7 +86,7 @@ export class CommentsComponent implements OnInit {
 
     includeGiphy(commentOn: number) {
         this.giphy.openGiphySearch().then(giphy => {
-            
+            this.commentGiphy[commentOn] = giphy;
         });
     }
 

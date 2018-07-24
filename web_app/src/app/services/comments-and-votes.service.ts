@@ -31,11 +31,12 @@ export class CommentsAndVotesService {
         });
     }
 
-    postComment(entityId: number, comment: string): Observable<boolean> {
+    postComment(entityId: number, comment: string, giphyId: string): Observable<boolean> {
         return this.http.post(API_URL + "postComment", {
             token: this.auth.session.token,
             entityId,
-            comment
+            comment,
+            giphy: giphyId
         }).map(res => res["success"]);
     }
 
