@@ -74,8 +74,8 @@ export class EditProfileService {
     }
 
     uploadSoundFragment(file: File) {
-        if (file.size > 5000000)
-            return alert("Jong, das wel een heel groot bestand. Hou het ff onder de 5mb (wat ook al veelste veel is)");
+        if (file.size > 10000000)
+            return alert("Jong, das wel een heel groot bestand. Hou het ff onder de 10mb (wat ook al veelste veel is)");
 
         var toast = this.utils.loadingToast("Geluidje uplooden...");
 

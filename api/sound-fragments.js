@@ -26,7 +26,7 @@ const soundFragmentStorage = multer.diskStorage({
 
 const soundFragmentUpload = multer({
     storage: soundFragmentStorage,
-    limits: { fileSize: 5000000 },
+    limits: { fileSize: 10000000 },
     fileFilter: soundFilter
 }).single("soundFragment");
 
