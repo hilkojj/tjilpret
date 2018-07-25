@@ -36,6 +36,13 @@ $profile-pic-size: 48px;
 
         }
 
+        label.active {
+            white-space: nowrap;
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
     }
 
     .thread-line {
