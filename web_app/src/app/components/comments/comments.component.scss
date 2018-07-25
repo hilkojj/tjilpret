@@ -1,4 +1,6 @@
 
+@import "../../../styles.scss";
+
 $profile-pic-size: 48px;
 
 .comment {
@@ -69,7 +71,7 @@ $profile-pic-size: 48px;
     }
 
     .giphy {
-        height: 200px;
+        width: 280px;
         max-width: 100%;
         margin-bottom: .75rem;
     }
