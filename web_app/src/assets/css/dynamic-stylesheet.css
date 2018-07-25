@@ -105,12 +105,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
     box-shadow: 0 1px 0 0 ?rgb? !important;
 }
 
-input.white-input:focus:not([readonly]), 
-textarea.white-input.materialize-textarea:focus:not([readonly]) {
-    border-bottom: 1px solid white !important;
-    box-shadow: 0 1px 0 0 white !important;
-}
-
 .switch label input[type=checkbox]:checked + .lever:after {
     background-color: ?rgb?;
 }

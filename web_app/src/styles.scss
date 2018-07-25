@@ -113,6 +113,19 @@ body.modal-open {
         margin: 0 !important;
     }
 
+    input.white-input:not([readonly]), 
+    textarea.white-input.materialize-textarea:not([readonly]) {
+        border-bottom: 1px solid white !important;
+        
+        &::placeholder {
+            color: white;
+        }
+
+        &:focus {
+            box-shadow: 0 1px 0 0 white !important;
+        }
+    }
+
 }
 
 body {
