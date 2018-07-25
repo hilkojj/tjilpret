@@ -22,7 +22,6 @@
     "@angular/router": "^6.0.3",
     "@types/howler": "^2.0.5",
     "angular2-materialize": "^15.1.10",
-    "blueimp-canvas-to-blob": "^3.14.0",
     "color-convert": "^1.9.2",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
@@ -31,8 +30,6 @@
     "js-cookie": "^2.2.0",
     "materialize-css": "^0.100.2",
     "ng-inline-svg": "^8.0.0",
-    "ng2-img-max": "^2.1.16",
-    "ng2-pica": "^1.2.8",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
     "zone.js": "^0.8.26"

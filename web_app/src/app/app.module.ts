@@ -5,7 +5,6 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { InlineSVGModule } from 'ng-inline-svg';
-import { Ng2PicaModule } from 'ng2-pica';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -87,7 +86,6 @@ import { GifPlayerComponent } from './components/gif-player/gif-player.component
     GifPlayerComponent
   ],
   imports: [
-    Ng2PicaModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
