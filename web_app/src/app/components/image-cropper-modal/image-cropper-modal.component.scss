@@ -3,3 +3,18 @@ iframe {
     width: 100%;
     border: none;
 }
+
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    bottom: 0;
+
+    app-circular-preloader {
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+
+}

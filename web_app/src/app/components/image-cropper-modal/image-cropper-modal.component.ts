@@ -10,6 +10,7 @@ export class ImageCropperModalComponent implements OnInit {
 
     @ViewChild('iframe') iframe: ElementRef;
     croppie;
+    loading = true;
 
     constructor(
         public service: ImageCropperService
@@ -45,6 +46,7 @@ export class ImageCropperModalComponent implements OnInit {
                 url: result,
                 orientation: 1
             });
+            this.loading = false;
         }
 
         reader.readAsDataURL(o.file);
@@ -53,6 +55,7 @@ export class ImageCropperModalComponent implements OnInit {
     save() {
 
         var o = this.service.options;
+        this.loading = true;
 
         this.croppie.result({
             type: "blob",
@@ -61,9 +64,10 @@ export class ImageCropperModalComponent implements OnInit {
                 height: o.resultHeight
             },
             circle: false
-        }).then((blob: File) => this.service.resolve(blob));
-
-        history.back();
+        }).then((blob: File) => {
+            this.service.resolve(blob);
+            history.back();
+        });
     }
 
 }
