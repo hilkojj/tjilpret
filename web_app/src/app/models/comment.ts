@@ -7,4 +7,5 @@ export interface Comment {
     text: string;
     giphy: string;
     subComments: Comment[];
+    deleted: boolean;
 }

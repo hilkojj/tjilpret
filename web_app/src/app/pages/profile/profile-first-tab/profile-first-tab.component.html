@@ -52,8 +52,9 @@
         <div class="card bw no-border-radius-on-small no-margin-top">
             <span class="fav-text title">Reacties</span>
 
-            <app-comments [entityId]="profile.user.id"></app-comments>
-        </div> 
+            <app-comments [entityId]="profile.user.id" [canDelete]="profile.auth.session.user.id == profile.user.id">
+            </app-comments>
+        </div>
 
     </div>
 

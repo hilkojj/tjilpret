@@ -12,6 +12,7 @@ import { GiphyService, Giphy } from '../../services/giphy.service';
 export class CommentsComponent implements OnInit {
 
     @Input() entityId: number;
+    @Input() canDelete: number;
 
     commentInput: { [entityId: number]: string } = {};
     commentGiphy: { [entityId: number]: Giphy } = {};
@@ -43,6 +44,12 @@ export class CommentsComponent implements OnInit {
             giphy ? giphy.id : null
 
         ).subscribe(success => {
+            this.loadComments();
+        });
+    }
+
+    deleteComment(commentId: number) {
+        if (confirm("Reakti verwijdren?")) this.service.deleteComment(commentId).subscribe(success => {
             this.loadComments();
         });
     }

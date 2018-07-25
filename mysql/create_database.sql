@@ -328,6 +328,7 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`entity_comments` (
   `time` INT(11) NOT NULL,
   `text` VARCHAR(1024) NULL,
   `giphy` VARCHAR(45) NULL,
+  `deleted` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`entity_id`, `comment_on_entity_id`),
   INDEX `fk_entity_comments_entities2_idx` (`comment_on_entity_id` ASC),
   UNIQUE INDEX `entity_id_UNIQUE` (`entity_id` ASC),

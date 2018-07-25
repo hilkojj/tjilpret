@@ -40,4 +40,11 @@ export class CommentsAndVotesService {
         }).map(res => res["success"]);
     }
 
+    deleteComment(commentId: number): Observable<boolean> {
+        return this.http.post(API_URL + "deleteComment", {
+            token: this.auth.session.token,
+            commentId
+        }).map(res => res["success"]);
+    }
+
 }

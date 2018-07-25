@@ -91,7 +91,8 @@ module.exports = {
                             user: utils.userInfo(row),
                             time: row.time,
                             text: row.text,
-                            giphy: row.giphy
+                            giphy: row.giphy,
+                            deleted: row.deleted
                         }
 
                         if (row.comment_on_entity_id != entityId) {
@@ -107,6 +108,50 @@ module.exports = {
                     res.send(Object.values(comments));
                 }
             );
+        });
+
+        api.post("/deleteComment", (req, res) => {
+
+            var commentId = parseInt(req.body.commentId);
+            var token = parseInt(req.body.token);
+
+            if (!commentId) return utils.sendError(res, "No commentId given");
+            if (!token) return utils.sendError(res, "No token given");
+
+            db.connection.query(`
+                UPDATE 
+                    entity_comments AS comment
+
+                JOIN entities AS comment_entity ON (
+                    comment_entity.entity_id = comment.entity_id
+                    AND
+                    comment_entity.entity_id = ?
+                )
+                JOIN users AS commenter ON comment_entity.user_id = commenter.user_id
+
+                JOIN entities AS commented_on ON commented_on.entity_id = comment.comment_on_entity_id
+                LEFT JOIN users AS profile ON commented_on.entity_id = profile.user_id
+
+                JOIN tokens AS token ON token.token = ?
+                JOIN users AS user ON user.user_id = token.user_id
+
+                SET
+                    text = CONCAT("*verwyderd door ", user.username, "*"),
+                    giphy = NULL,
+                    deleted = true
+
+                WHERE user.is_admin
+
+                OR commenter.user_id = user.user_id
+
+                OR profile.user_id = user.user_id
+            `, [commentId, token], (err, results, fields) => {
+                if (err) {
+                    console.log(err);
+                    return res.send({ success: false });
+                }
+                res.send({ success: results.affectedRows == 1 });
+            });
         });
 
     }

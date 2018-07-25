@@ -46,7 +46,7 @@
 
 <ng-template #commentTemplate let-comment="comment" let-threadLine="threadLine"
     let-parent="parent">
-    <div class="comment">
+    <div class="comment" [style.opacity]="comment.deleted ? .5 : 1">
 
         <div *ngIf="threadLine" class="fav-bg thread-line"></div>
 
@@ -81,6 +81,14 @@
 
                 <i class="material-icons fav-text">
                     reply
+                </i>
+            </button>
+
+            <button *ngIf="!comment.deleted && (canDelete || auth.session.user.admin || auth.session.user.id == comment.user.id)"
+                class="btn btn-flat btn-floating waves-effect" title="Verwydren" (click)="deleteComment(comment.id)">
+
+                <i class="material-icons red-text">
+                    delete_forever
                 </i>
             </button>
 
