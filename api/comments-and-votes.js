@@ -137,7 +137,7 @@ module.exports = {
                             time: row.time,
                             text: row.text,
                             giphy: row.giphy,
-                            deleted: row.deleted
+                            deleted: row.deleted == 1
                         }
 
                         if (row.comment_on_entity_id != entityId) {
