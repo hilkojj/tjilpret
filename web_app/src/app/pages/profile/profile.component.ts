@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Title } from '@angular/platform-browser';
 import { Tab } from '../../components/tabs/tabs.component';
 import { ModalService } from '../../services/modal.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
     selector: 'app-profile',
@@ -20,10 +21,13 @@ export class ProfileComponent implements OnInit {
     id: number;
     user: User;
 
+    soundFrag: Howl;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private theme: ThemeService,
+        private service: ProfileService,
 
         public modals: ModalService,
         public auth: AuthService
@@ -40,7 +44,7 @@ export class ProfileComponent implements OnInit {
         if (user.id == this.auth.session.user.id) {
             user = this.user = Object.assign(this.auth.session.user, user);
         }
-        
+
         this.theme.applyFavColor(user);
 
         this.tabs = [
@@ -50,6 +54,8 @@ export class ProfileComponent implements OnInit {
             new Tab("Groeps", null, "./groeps", user.groups)
         ];
 
+
+        if (this.service.autoPlaySoundFragment) this.playSound();
     }
 
     get bannerStyle() {
@@ -60,6 +66,36 @@ export class ProfileComponent implements OnInit {
                 'backgroundSize': 'cover'
             }
         } else return {};
+    }
+
+    ngOnDestroy() {
+        this.stopSound();
+    }
+
+    playSound() {
+        let sound = this.soundFrag = new Howl({
+            src: [this.user.soundFragmentUrl],
+            onend: () => this.soundFrag = null,
+            onload: () => {
+                if (this.soundFrag == null)
+                    sound.stop();
+            }
+        });
+        this.soundFrag.play();
+
+    }
+
+    stopSound() {
+        if (this.soundFrag != null) {
+            this.soundFrag.stop();
+            this.soundFrag = null;
+        }
+    }
+
+    autoPlayChanged() {
+        if (this.service.autoPlaySoundFragment)
+            this.playSound();
+        else this.stopSound()
     }
 
 }

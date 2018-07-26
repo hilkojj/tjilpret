@@ -5,7 +5,18 @@
         <div *ngIf="profile.user.soundFragment" class="card bw no-border-radius-on-small no-margin-top">
             <span class="fav-text title">Geluidje</span>
 
-            <audio controls>
+            Autoplay:
+            <div class="switch audio-auto-play-switch">
+                <label>
+                    Uit
+                    <input type="checkbox" [(ngModel)]="service.autoPlaySoundFragment"
+                        (change)="profile.autoPlayChanged()">
+                    <span class="lever"></span>
+                    Aan
+                </label>
+            </div>
+
+            <audio controls *ngIf="!service.autoPlaySoundFragment">
                 <source [src]="profile.user.soundFragmentUrl">
             </audio>
         </div>

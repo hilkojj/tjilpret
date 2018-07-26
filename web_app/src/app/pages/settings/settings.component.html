@@ -149,6 +149,36 @@
             </li>
         </ul>
 
+        <h6 class="white-text">Tjillers & profielpaginaas</h6>
+        <ul class="collapsible bw" materialize="collapsible">
+            <li class="first last">
+                <div class="collapsible-header waves-effect fav-text">
+                    <i class="material-icons">volume_up</i>Warm welkom op profiel
+                </div>
+                <div class="collapsible-body bw-on-bw-text">
+
+                    Speel geluidsfragment van persoon automatisch af bij binnenkomst
+                    op profielpagina.
+
+                    <br>
+                    <br>
+
+                    <div class="switch">
+                        <label>
+                            Uit
+                            <input type="checkbox" [(ngModel)]="profile.autoPlaySoundFragment">
+                            <span class="lever"></span>
+                            Aan
+                        </label>
+                    </div>
+
+                    <br>
+                    (Optie wordt per apparaat opgeslagen)
+
+                </div>
+            </li>
+        </ul>
+
         <h6 class="white-text">Tjetten</h6>
         <ul class="collapsible bw" materialize="collapsible">
             <li class="first last">

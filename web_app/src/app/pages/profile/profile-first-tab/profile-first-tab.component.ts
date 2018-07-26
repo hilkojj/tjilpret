@@ -3,6 +3,7 @@ import { ProfileComponent } from '../profile.component';
 import { Title } from '@angular/platform-browser';
 import { ColorClass } from '../../../models/colors';
 import { ActivatedRoute } from '@angular/router';
+import { ProfileService } from '../../../services/profile.service';
 
 interface Stat {
     icon: string,
@@ -20,6 +21,7 @@ export class ProfileFirstTabComponent implements OnInit {
 
     constructor(
         @Host() public profile: ProfileComponent,
+        public service: ProfileService,
         private title: Title,
         private route: ActivatedRoute
     ) { }
@@ -28,6 +30,7 @@ export class ProfileFirstTabComponent implements OnInit {
     stats: Stat[];
 
     ngOnInit() {
+
         this.colorClass = this.route.snapshot.data.colorClass;
         this.title.setTitle(this.profile.user.username);
         this.stats = [
@@ -68,6 +71,7 @@ export class ProfileFirstTabComponent implements OnInit {
                 color: "orange accent-4"
             },
         ];
+
     }
 
     statTitle(stat: Stat): string {

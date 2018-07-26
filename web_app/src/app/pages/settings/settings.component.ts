@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, PartialToken } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
 import { UtilsService } from '../../services/utils.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
     selector: 'app-settings',
@@ -70,6 +71,7 @@ export class SettingsComponent implements OnInit {
     constructor(
         public auth: AuthService,
         public modals: ModalService,
+        public profile: ProfileService,
         private utils: UtilsService
     ) { }
 

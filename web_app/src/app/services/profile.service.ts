@@ -9,6 +9,14 @@ import { Observable } from 'rxjs';
 })
 export class ProfileService {
 
+    get autoPlaySoundFragment(): boolean {
+        return localStorage.getItem("autoPlaySoundFragment") == "true";
+    }
+
+    set autoPlaySoundFragment(value: boolean) {
+        localStorage.setItem("autoPlaySoundFragment", value + "");
+    }
+
     constructor(
         private http: HttpClient
     ) { }
