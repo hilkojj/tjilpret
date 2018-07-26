@@ -19,6 +19,50 @@ module.exports = {
         });
     },
 
+    getVotes: function (entityIds, token, callback) {
+
+        db.connection.query(`
+            SELECT
+                entities.entity_id,
+                (SELECT COUNT(*) FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND up)
+                AS up,
+                (SELECT COUNT(*) FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND NOT up)
+                AS down,
+                COALESCE(
+                    (SELECT up FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND entity_votes.user_id = tokens.user_id),
+                    0
+                )
+                AS my_vote
+            FROM
+                entities
+            LEFT JOIN tokens ON tokens.token = ?
+            
+            WHERE
+                entities.entity_id IN (?)`, [token, entityIds],
+            (err, rows, fields) => {
+
+                if (err) {
+                    console.log(err);
+                    return callback({});
+                }
+
+                var votes = {};
+
+                for (var i in rows) {
+
+                    var row = rows[i];
+                    votes[row.entity_id] = {
+                        upVotes: row.up,
+                        downVotes: row.down,
+                        myVote: row.my_vote
+                    }
+                }
+
+                callback(votes);
+            }
+        );
+    },
+
     apiFunctions: function (api) {
 
         api.post("/postComment", (req, res) => {
@@ -83,6 +127,7 @@ module.exports = {
                     }
 
                     var comments = {};
+                    var commentsAndSubComments = {};
                     for (var i in rows) {
                         var row = rows[i];
 
@@ -104,8 +149,15 @@ module.exports = {
                             parentComment.subComments.push(comment);
 
                         } else comments[comment.id] = comment;
+
+                        commentsAndSubComments[comment.id] = comment;
                     }
-                    res.send(Object.values(comments));
+                    this.getVotes(Object.keys(commentsAndSubComments), 243, votes => {
+                        for (var i in votes) {
+                            commentsAndSubComments[i].votes = votes[i];
+                        }
+                        res.send(Object.values(comments));
+                    });
                 }
             );
         });
@@ -146,12 +198,12 @@ module.exports = {
 
                 OR profile.user_id = user.user_id
             `, [commentId, token], (err, results, fields) => {
-                if (err) {
-                    console.log(err);
-                    return res.send({ success: false });
-                }
-                res.send({ success: results.affectedRows == 1 });
-            });
+                    if (err) {
+                        console.log(err);
+                        return res.send({ success: false });
+                    }
+                    res.send({ success: results.affectedRows == 1 });
+                });
         });
 
     }
