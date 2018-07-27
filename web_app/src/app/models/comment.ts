@@ -1,4 +1,5 @@
 import { User } from "./user";
+import { Votes } from "./votes";
 
 export interface Comment {
     id: number;
@@ -7,5 +8,6 @@ export interface Comment {
     text: string;
     giphy: string;
     subComments: Comment[];
+    votes: Votes;
     deleted: boolean;
 }

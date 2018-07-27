@@ -29,7 +29,7 @@ module.exports = {
                 (SELECT COUNT(*) FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND NOT up)
                 AS down,
                 COALESCE(
-                    (SELECT up FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND entity_votes.user_id = tokens.user_id),
+                    (SELECT IF(up, 1, -1) FROM entity_votes WHERE entity_votes.entity_id = entities.entity_id AND entity_votes.user_id = tokens.user_id),
                     0
                 )
                 AS my_vote
@@ -152,7 +152,7 @@ module.exports = {
 
                         commentsAndSubComments[comment.id] = comment;
                     }
-                    this.getVotes(Object.keys(commentsAndSubComments), 243, votes => {
+                    this.getVotes(Object.keys(commentsAndSubComments), parseInt(req.body.token) || 0, votes => {
                         for (var i in votes) {
                             commentsAndSubComments[i].votes = votes[i];
                         }
@@ -204,6 +204,40 @@ module.exports = {
                     }
                     res.send({ success: results.affectedRows == 1 });
                 });
+        });
+
+        api.post("/vote", (req, res) => {
+            var token = parseInt(req.body.token) || 0;
+            var entityId = parseInt(req.body.entityId) || -1;
+            var vote = req.body.vote == 1 ? 1 : (req.body.vote == -1 ? -1 : 0);
+
+            var values = [entityId, token];
+            if (vote != 0) values = [...values, token, entityId, vote == 1, Date.now() / 1000 | 0];
+
+            console.log(values);
+
+            db.connection.query(`
+                DELETE FROM entity_votes
+                WHERE entity_id = ? AND user_id = (SELECT user_id FROM tokens WHERE token = ?);
+            ` + (vote != 0 ? `
+
+                INSERT INTO entity_votes
+                (user_id, entity_id, up, time)
+                VALUES
+                ((SELECT user_id FROM tokens WHERE token = ?), ?, ?, ?)
+
+            `: ""), values, (err, rows, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "Er is iets vreselijk mis gegaan");
+                    }
+
+                    this.getVotes([entityId], token, votes => {
+                        res.send(votes[entityId]);
+                    });
+                }
+            );
         });
 
     }

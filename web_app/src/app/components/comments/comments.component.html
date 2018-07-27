@@ -74,7 +74,7 @@
 
         <div class="vote-and-reply">
 
-            <app-votes [entityId]="comment.id"></app-votes>
+            <app-votes [votes]="comment.votes" [entityId]="comment.id"></app-votes>
 
             <button class="btn btn-flat btn-floating waves-effect" (click)="showReplyInput(parent ? parent.id : comment.id)"
                 title="Reagir">

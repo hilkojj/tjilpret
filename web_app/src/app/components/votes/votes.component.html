@@ -1,15 +1,23 @@
-
 <span class="container">
-    <button class="btn btn-flat btn-floating waves-effect" title="Dit waardeer ik">
-        <i class="material-icons green-text">exposure_plus_1</i>
+
+    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes.myVote == 1 ? 'fav-bg not-default' : ''"
+        title="Dit waardeer ik" (click)="vote(votes.myVote == 1 ? 0 : 1)">
+
+        <i class="material-icons" [ngClass]="votes.myVote == 1 ? 'bw-text' : 'fav-text'">
+            exposure_plus_1
+        </i>
+
     </button>
 
-    <button class="btn btn-flat btn-floating waves-effect" title="Dit is pretbedervend">
-        <i class="material-icons red-text">exposure_neg_1</i>
+    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes.myVote == -1 ? 'red not-default not-fav-bg' : ''"
+        title="Dit is pretbedervend" (click)="vote(votes.myVote == -1 ? 0 : -1)">
+        <i class="material-icons" [ngClass]="votes.myVote == -1 ? 'bw-text' : 'red-text'">
+            exposure_neg_1
+        </i>
     </button>
 
     <span class="counter">
-        +5
+        {{ score }}
     </span>
 
 </span>

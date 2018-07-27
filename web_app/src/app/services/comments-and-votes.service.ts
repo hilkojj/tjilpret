@@ -5,6 +5,7 @@ import { API_URL } from '../constants';
 import { Comment } from '../models/comment';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
+import { Votes } from '../models/votes';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,8 @@ export class CommentsAndVotesService {
     ) { }
 
     getComments(entityId: number): Observable<Comment[]> {
-        return this.http.post<Comment[]>(API_URL + "comments", { entityId }).map(comments => {
+        var token = this.auth.session.token;
+        return this.http.post<Comment[]>(API_URL + "comments", { entityId, token }).map(comments => {
             
             const loop = comments => {
                 for (var i in comments) {
@@ -45,6 +47,14 @@ export class CommentsAndVotesService {
             token: this.auth.session.token,
             commentId
         }).map(res => res["success"]);
+    }
+
+    vote(entityId: number, vote: number): Observable<Votes> {
+        return this.http.post<Votes>(API_URL + "vote", {
+            token: this.auth.session.token,
+            entityId,
+            vote
+        });
     }
 
 }

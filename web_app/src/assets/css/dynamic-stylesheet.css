@@ -82,16 +82,19 @@ nav .random-words, nav a, nav a i {
 }
 
 .btn {
-    background-color: ?rgb? !important;
     border-radius: 100px;
 }
 
-.btn-flat {
+.btn:not(.not-fav-bg) {
+    background-color: ?rgb? !important;
+}
+
+.btn-flat:not(.not-default) {
     background-color: transparent !important;
     color: ?rgb? !important;
 }
 
-.btn-flat:hover {
+.btn-flat:hover:not(.not-default) {
     background-color: rgba(?r?, ?g?, ?b?, .2) !important;
 }
 

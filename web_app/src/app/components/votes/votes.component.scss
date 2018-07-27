@@ -2,6 +2,20 @@
 .container {
     margin: .75rem 0;
 
+    button {
+
+        $size: 34px;
+
+        width: $size;
+        height: $size;
+        margin-right: 12px;
+
+        i {
+            line-height: $size;
+            vertical-align: text-bottom;
+            font-size: 20px;
+        }
+    }
 
     .counter {
         opacity: .6;
