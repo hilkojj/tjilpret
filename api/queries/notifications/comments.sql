@@ -6,7 +6,7 @@ FROM (
 
 	SELECT
 		
-        GROUP_CONCAT(commenter.user_id separator ",") AS commenter_ids,
+        GROUP_CONCAT(DISTINCT commenter.user_id separator ",") AS commenter_ids,
 		parent_entity.entity_id AS parent_id,
 		COUNT(DISTINCT comment_entity.user_id) AS number_of_commenters,
 		MAX(comment.time) AS latest_comment_time,
