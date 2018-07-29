@@ -55,6 +55,10 @@ body {
     background: ?rgb? !important;
 }
 
+.fav30 {
+    background: rgba(?r?, ?g?, ?b?, .3) !important;
+}
+
 .fav-text {
     color: ?rgb? !important;
 }

@@ -1,4 +1,83 @@
+@import "../../../styles.scss";
+
 .scroll {
-    overflow-x: auto;
+    overflow-x: hidden;
     height: 60vh;
+    overflow-y: auto;
+
+    @media only screen and (max-width: $break-small) {
+
+        height: calc(100% - 56px);
+    }
+}
+
+.waves-effect {
+    display: block;
+}
+
+.notification {
+    .inner {
+        $padding: 12px;
+
+        padding: $padding;
+        padding-left: $padding + 48px + $padding;
+        position: relative;
+
+        app-profile-pic {
+            margin-right: 4px;
+            margin-bottom: 8px;
+        }
+
+        .more-pfs-dots {
+            vertical-align: middle;
+            opacity: .5;
+            user-select: none;
+        }
+
+        i.notification-icon {
+            position: absolute;
+            top: $padding;
+            left: $padding + 24px;
+            user-select: none;
+        }
+
+        a {
+            font-weight: bold;
+        }
+
+        .time {
+            margin: 5px 0;
+            opacity: .5;
+            display: inline;
+            white-space: nowrap;
+        }
+
+        .item {
+            padding: 6px;
+            border-radius: 8px;
+
+            transition: .1s;
+            cursor: pointer;
+
+            .item-text {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 100%;
+                display: inline-block;
+            }
+
+            &.with-thumbnail {
+                .thumbnail {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    width: 60px;
+                }
+                padding-left: 68px !important;
+            }
+        }
+    }
+    
 }

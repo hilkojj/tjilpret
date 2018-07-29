@@ -1,8 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../constants';
 import { User } from '../models/user';
+import { Comment } from '../models/comment';
+import { Post } from '../models/post';
 
 export enum NotificationType {
     Comments = "COMMENTS",
@@ -16,6 +18,24 @@ export interface Notification {
     time: number;
     userIds: number[];
 
+}
+
+export interface VotesNotification extends Notification {
+    comment: Comment;
+    post: Post;
+    numberOfVotes: number;
+    up: boolean;
+}
+
+export interface CommentsNotification extends Notification {
+    commentsOnMyProfile: boolean;
+    commentsOnMyPost: Post;
+    commentsOnMyComment: Comment;
+    numberOfCommenters: number;
+}
+
+export interface FriendAcceptanceNotification extends Notification {
+    accepterId: number;
 }
 
 interface Response {
@@ -56,7 +76,7 @@ export class NotificationsService {
             token: this.auth.session.token
         }).subscribe(res => {
             this.checkedNotificationsTime = res.checkedNotificationsTime;
-            this.notifications = res.notifications.sort((a, b) => a.time - b.time);
+            this.notifications = res.notifications.sort((a, b) => b.time - a.time);
             
             for (var id in res.users) {
                 var user = res.users[id];

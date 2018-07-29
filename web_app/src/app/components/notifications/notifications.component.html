@@ -1,8 +1,146 @@
 <app-toolbar titleText="Notifikaties">
 </app-toolbar>
 
-<div class="scroll">
+<div class="scroll" *ngIf="checkActive()">
 
+    <div class="notification" *ngFor="let n of notifications" [ngSwitch]="n.type"
+        [ngClass]="n.time > unreadSince ? 'fav30' : ''">
 
-    
+        <!-- VOTES NOTIFICATION -->
+        <div *ngSwitchCase="'VOTES'" class="inner">
+
+            <i class="material-icons notification-icon" [ngClass]="n.up ? 'fav-text' : 'red-text'">
+                {{n.up ? 'exposure_plus_1' : 'exposure_neg_1'}}
+            </i>
+
+            <ng-container *ngTemplateOutlet="users; context: {userIds: n.userIds, number: n.numberOfVotes}">
+            </ng-container>
+
+            <span *ngIf="n.up">{{n.numberOfVotes == 1 ? 'waardeert' : 'waarderen'}}
+                je </span>
+
+            <span *ngIf="!n.up">{{n.numberOfVotes == 1 ? 'vint' : 'vinden'}} je</span>
+
+            {{n.comment ? 'reakti' : (n.post ? 'uplood' : '?')}}
+
+            <span *ngIf="!n.up" class="red-text">pretbedervend</span>
+
+            <p class="time" *ngIf="n.time != 0"> · {{n.time | timestamp}}</p>
+
+            <div *ngIf="n.comment">
+                <ng-container *ngTemplateOutlet="comment; context: {comment: n.comment}"></ng-container>
+            </div>
+
+            <div *ngIf="n.post">
+                <ng-container *ngTemplateOutlet="post; context: {post: n.post}"></ng-container>
+            </div>
+
+        </div>
+
+        <!-- COMMENTS NOTIFICATION -->
+        <div *ngSwitchCase="'COMMENTS'" class="inner">
+
+            <i class="material-icons notification-icon fav-text">
+                chat_bubble_outline
+            </i>
+
+            <ng-container *ngTemplateOutlet="users; context: {userIds: n.userIds, number: n.numberOfCommenters}">
+            </ng-container>
+
+            {{n.numberOfCommenters > 1 ? 'hebben' : 'heefd'}} gereagird op
+
+            <a *ngIf="n.commentsOnMyProfile" class="fav-text" (click)="goTo('/tjiller/' + auth.session.user.id)">
+                jou profilpaginaa!
+            </a>
+
+            <span *ngIf="n.commentsOnMyComment">jou reakti</span>
+            <span *ngIf="n.commentsOnMyPost">jou uplood</span>
+
+            <p class="time"> · {{n.time | timestamp}}</p>
+
+            <div *ngIf="n.commentsOnMyComment">
+                <ng-container *ngTemplateOutlet="comment; context: {comment: n.commentsOnMyComment}"></ng-container>
+            </div>
+
+            <div *ngIf="n.commentsOnMyPost">
+                <ng-container *ngTemplateOutlet="post; context: {post: n.commentsOnMyPost}"></ng-container>
+            </div>
+
+        </div>
+
+        <!-- FRIEND ACCEPTANCE NOTIFICATION -->
+        <div *ngSwitchCase="'FRIEND_ACCEPTANCE'" class="inner waves-effect" [style.cursor]="'pointer'"
+            (click)="goTo('/tjiller/' + n.accepterId)">
+
+            <i class="material-icons notification-icon fav-text">
+                person_add
+            </i>
+
+            <ng-container *ngTemplateOutlet="users; context: {userIds: n.userIds, number: 1}">
+            </ng-container>
+
+            heeft je geacceptirt
+
+            <br>
+            <p class="time" *ngIf="n.time != 0">{{n.time | timestamp}}</p>
+        </div>
+
+        <div class="divider bw-on-bw10"></div>
+
+    </div>
+
+    <p *ngIf="notifications.length > 0" class="center">Dat was het dan.</p>
+
 </div>
+
+<ng-template #users let-userIds="userIds" let-number="number">
+    <span *ngFor="let userId of userIds.slice(0, 5)" [title]="service.users[userId].username">
+        <app-profile-pic [user]="service.users[userId]" dim="small" size="24px"
+            cursor="pointer" (click)="goTo('/tjiller/' + userId)"></app-profile-pic>
+    </span>
+
+    <i class="material-icons more-pfs-dots" *ngIf="number > 5" [title]="'Nog ' + (number - 5) + '...'">
+        more_horiz
+    </i>
+
+    <br>
+
+    <a (click)="goTo('/tjiller/' + userIds[0])" class="fav-text">
+        {{service.users[userIds[0]].username}}
+    </a>
+
+    <span *ngIf="number == 2">
+        en
+        <a (click)="goTo('/tjiller/' + userIds[1])" class="fav-text">
+            {{service.users[userIds[1]].username}}
+        </a>
+    </span>
+
+    <span *ngIf="number > 2">
+        en {{number - 1}} anderen
+    </span>
+
+</ng-template>
+
+<ng-template #comment let-comment="comment">
+    <div class="item waves-effect bw-on-bw10">
+        <b>Jou reakti:</b>
+
+        <br>
+        <span class="item-text" *ngIf="comment.text.length > 0">
+            {{comment.text}}
+        </span>
+        <b *ngIf="comment.giphy" class="fav-text">(GIF)</b>
+    </div>
+</ng-template>
+
+<ng-template #post let-post="post">
+    <div class="item with-thumbnail waves-effect bw-on-bw10">
+        <div class="thumbnail fav-bg"></div>
+        <b>{{post.title}}</b>
+        <br>
+        <span class="item-text">
+            {{post.description}}
+        </span>
+    </div>
+</ng-template>
