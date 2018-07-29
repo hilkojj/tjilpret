@@ -11,7 +11,22 @@ const votesQuery = fs.readFileSync(__dirname + "/queries/notifications/votes.sql
 
 module.exports = {
 
-    apiFunctions: function (api) {
+    getCheckedNotificationsTime: (token) => new Promise(resolve => {
+        db.connection.query(`
+            SELECT checked_notifications_time
+            FROM users, tokens
+            WHERE users.user_id = tokens.user_id
+            AND tokens.token = ?
+        `, [token], (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                resolve(0);
+            }
+            resolve(rows.length > 0 ? parseInt(rows[0].checked_notifications_time) : 0);
+        });
+    }),
+
+    apiFunctions: (api) => {
 
         api.post("/notifications", async (req, res) => {
 
@@ -19,6 +34,7 @@ module.exports = {
             let usersPerNotification = parseInt(req.body.usersPerNotification) || 5;
             let fromTime = parseInt(req.body.fromTime) || 0;
             let toTime = parseInt(req.body.toTime) || Date.now() / 1000 | 0;
+            checkedNotificationsTime = await module.exports.getCheckedNotificationsTime(token);
 
             let funcs = [
                 getCommentNotifications,
@@ -39,6 +55,7 @@ module.exports = {
             userIds = userIds.filter((val, i) => userIds.indexOf(val) === i);
 
             res.send({
+                checkedNotificationsTime,
                 notifications,
                 users: userIds.length == 0 ? [] : await users.getUsersByids(userIds)
             });
