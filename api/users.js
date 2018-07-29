@@ -4,6 +4,26 @@ const utils = require("./utils.js");
 
 module.exports = {
 
+    getUsersByids: (ids) => new Promise(resolve => {
+
+        db.connection.query(`
+            SELECT * FROM user_info
+            WHERE user_id IN (?)
+        `, [ids], (err, rows, fields) => {
+
+            if (err) {
+                console.log(err);
+                return resolve([]);
+            }
+            var users = {};
+            for (var row of rows) {
+                var user = utils.userInfo(row);
+                users[user.id] = user;
+            }
+            resolve(users);
+        }); 
+    }),
+
     apiFunctions: function (api) {
 
         api.post("/userInfo", (req, res) => {

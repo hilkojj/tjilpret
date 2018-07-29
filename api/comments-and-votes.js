@@ -4,6 +4,44 @@ const utils = require("./utils.js");
 
 module.exports = {
 
+    getVoters: (entityId, up, limit, offset) => new Promise(resolve => {
+
+        db.connection.query(`
+            SELECT
+                time,
+                up,
+                user_info.*
+            FROM
+                entity_votes
+                
+            JOIN user_info ON entity_votes.user_id = user_info.user_id
+                
+            WHERE
+                entity_id = ?
+            AND
+                up != ?
+                
+            ORDER BY time DESC
+                
+            LIMIT ? OFFSET ?`, [entityId, -up, limit, offset], (err, rows, fields) => {
+
+                var voters = [];
+
+                for (var i in rows) {
+                    var row = rows[i];
+                    voters.push({
+                        time: row.time,
+                        up: row.up == 1,
+                        user: utils.userInfo(row)
+                    });
+                }
+
+                resolve(voters);
+            }
+        );
+
+    }),
+
     isCommentOnComment: function (entityId, callback) {
 
         var query = `SELECT * FROM entity_comments WHERE entity_id = ?`;
