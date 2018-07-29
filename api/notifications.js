@@ -64,7 +64,7 @@ const getCommentNotifications = (token, fromTime, toTime) => new Promise(resolve
             time: row.latest_comment_time,
             userIds: row.commenter_ids.split(",").map(id => parseInt(id)),
 
-            numberOfCommenter: row.number_of_commenters,
+            numberOfCommenters: row.number_of_commenters,
 
             commentsOnMyComment: row.text ?
                 {
