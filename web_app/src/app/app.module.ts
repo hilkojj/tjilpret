@@ -45,6 +45,7 @@ import { GiphySearchComponent } from './components/giphy-search/giphy-search.com
 import { CircularPreloaderComponent } from './components/circular-preloader/circular-preloader.component';
 import { InViewportDirective } from './directives/in-viewport.directive';
 import { GifPlayerComponent } from './components/gif-player/gif-player.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { GifPlayerComponent } from './components/gif-player/gif-player.component
     GiphySearchComponent,
     CircularPreloaderComponent,
     InViewportDirective,
-    GifPlayerComponent
+    GifPlayerComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

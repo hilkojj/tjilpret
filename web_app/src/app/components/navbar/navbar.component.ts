@@ -5,6 +5,7 @@ import { tWords, pWords } from './random-words';
 import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
 import { Router } from '@angular/router';
+import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
     selector: 'app-navbar',
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
         public utils: UtilsService,
         public auth: AuthService,
         public modals: ModalService,
+        public notifications: NotificationsService,
 
         private router: Router
     ) { }

@@ -23,6 +23,9 @@
                     <a class="btn-flat btn-floating waves-effect" (click)="modals.showModal('notifications')">
                         <i class="material-icons">notifications</i>
                     </a>
+                    <div class="notifications-badge red z-depth-1" *ngIf="notifications.newNotifications > 0">
+                        {{ notifications.newNotifications > 99 ? '99+' : notifications.newNotifications }}
+                    </div>
                 </li>
 
                 <li>

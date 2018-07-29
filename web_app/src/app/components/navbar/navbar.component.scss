@@ -150,6 +150,37 @@ app-tabs {
             padding-left: 0;
         }
     }
+
+    li {
+        position: relative;
+
+        .notifications-badge {
+            $size: 20px;
+            position: absolute;
+            z-index: 2;
+            top: 11px;
+            right: 0;
+            height: $size;
+            width: $size;
+            border-radius: 100px;
+            line-height: $size;
+            font-size: 11px;
+            text-align: center;
+            color: white;
+            pointer-events: none;
+
+            animation: badge-zoom-in .5s cubic-bezier(0.19, 1, 0.22, 1);
+
+            @keyframes badge-zoom-in {
+                from {
+                    transform: scale(0) rotate(300deg);
+                }
+                to {
+                    transform: scale(1) rotate(0deg);
+                }
+            }
+        }
+    }
 }
 
 .profile-sidenav-trigger {

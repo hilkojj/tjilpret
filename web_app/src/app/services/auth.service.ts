@@ -23,6 +23,8 @@ export interface PartialToken {
 })
 export class AuthService implements CanActivate {
 
+    public onAuthenticatedListeners: (() => void)[] = [];
+
     private _session: Session;
     get session(): Session { return this._session }
 
@@ -103,6 +105,7 @@ export class AuthService implements CanActivate {
             replaceUrl: true
         });
         setInterval(() => this.updateUser(null), 5000);
+        this.onAuthenticatedListeners.forEach(l => l());
     }
 
     login(username: string, password: string) {
