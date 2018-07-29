@@ -23,6 +23,8 @@ FROM (
         entities.user_id = tokens.user_id
         AND
         tokens.token = ?
+        AND
+        entity_votes.user_id != tokens.user_id      # exclude own votes from notifications
     )
     
     JOIN users AS voter ON (
