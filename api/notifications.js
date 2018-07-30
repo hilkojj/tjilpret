@@ -18,15 +18,32 @@ module.exports = {
             WHERE users.user_id = tokens.user_id
             AND tokens.token = ?
         `, [token], (err, rows, fields) => {
-            if (err) {
-                console.log(err);
-                resolve(0);
+                if (err) {
+                    console.log(err);
+                    resolve(0);
+                }
+                resolve(rows.length > 0 ? parseInt(rows[0].checked_notifications_time) : 0);
             }
-            resolve(rows.length > 0 ? parseInt(rows[0].checked_notifications_time) : 0);
-        });
+        );
     }),
 
     apiFunctions: (api) => {
+
+        api.post("/notificationsRead", (req, res) => {
+            db.connection.query(`
+                UPDATE users
+                SET checked_notifications_time = ?
+                WHERE users.user_id = (SELECT user_id FROM tokens WHERE token = ?)
+            `, [Date.now() / 1000 | 0, parseInt(req.body.token) || 0], (err, rows, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "Er ging iets vreselijk mis");
+                    }
+                    res.send({ success: true });
+                }
+            );
+        });
 
         api.post("/notifications", async (req, res) => {
 

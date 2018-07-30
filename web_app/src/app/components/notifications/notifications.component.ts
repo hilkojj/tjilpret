@@ -35,6 +35,7 @@ export class NotificationsComponent implements OnInit {
             this.active = true;
             this.notifications = this.service.notifications as AllTypesNotification[] || [];
             this.unreadSince = this.service.checkedNotificationsTime;
+            this.service.read();
 
         } else if (!this.modal.active)
             this.active = false;

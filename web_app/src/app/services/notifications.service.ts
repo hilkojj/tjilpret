@@ -91,4 +91,10 @@ export class NotificationsService {
         });
     }
 
+    read() {
+        this.http.post(API_URL + "notificationsRead", {
+            token: this.auth.session.token
+        }).subscribe(res => {});
+    }
+
 }
