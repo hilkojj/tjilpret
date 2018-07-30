@@ -1,11 +1,20 @@
 <div class="row">
 
     <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
-        <div class="col s6">
 
-            <app-profile-card [user]="auth.session.user"></app-profile-card>
+        <app-search [placeholder]="'Zoeken naar vriends van ' + profile.user.username"
+            filtersModalName="vriends-filters" (onSearch)="onSearch($event)">
 
-        </div>
+            <div class="row">
 
+                <div class="col s12 m6" *ngFor="let friend of foundFriends">
+                    <app-profile-card [user]="friend"></app-profile-card>
+                </div>
+
+            </div>
+
+        </app-search>
+
+        <div style="min-height: 500px" *ngIf="foundFriends == null"></div>
     </div>
 </div>

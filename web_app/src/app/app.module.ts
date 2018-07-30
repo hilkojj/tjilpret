@@ -47,6 +47,7 @@ import { InViewportDirective } from './directives/in-viewport.directive';
 import { GifPlayerComponent } from './components/gif-player/gif-player.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
     InViewportDirective,
     GifPlayerComponent,
     NotificationsComponent,
-    ProfileCardComponent
+    ProfileCardComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

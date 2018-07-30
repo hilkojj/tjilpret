@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '../../../node_modules/@angular/common/http';
 import { API_URL } from '../constants';
 import { User } from '../models/user';
+import { Observable } from '../../../node_modules/rxjs';
 
 export enum FriendStatus {
     Friends,
@@ -61,7 +62,7 @@ export class FriendsService {
 
     update() {
         if (!this.auth.session) return this.stopInterval();
-        
+
         this.http.post<FriendsAndInvites>(API_URL + "myFriendsAndInvites", {
             token: this.auth.session.token
         }).subscribe(res => this.friendsAndInvites = res);
@@ -71,7 +72,7 @@ export class FriendsService {
 
         if (!this.friendsAndInvites) return null;
 
-        if (id in this.friendsAndInvites.friends) 
+        if (id in this.friendsAndInvites.friends)
             return FriendStatus.Friends;
         else if (id in this.friendsAndInvites.receivedInvites)
             return FriendStatus.InviteRecieved;
@@ -115,6 +116,14 @@ export class FriendsService {
             token: this.auth.session.token
         }).subscribe(res => {
             if (res["success"]) this.update();
+        });
+    }
+
+    getFriendsOf(userId: number, query: string, page: number): Observable<User[]> {
+        return this.http.post<User[]>(API_URL + "friendsOf/" + userId, { q: query, page }).map(friends => {
+            for (var i in friends)
+                friends[i] = Object.assign(new User(), friends[i]);
+            return friends
         });
     }
 

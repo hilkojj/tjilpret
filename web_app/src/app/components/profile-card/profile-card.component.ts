@@ -21,7 +21,7 @@ export class ProfileCardComponent implements OnInit {
     get bannerStyle() {
         if (this.user && this.user.header) {
             return {
-                'backgroundImage': `url('${this.user.headerUrl('large')}')`
+                'backgroundImage': `url('${this.user.headerUrl('small')}')`
             }
         } else return {};
     }

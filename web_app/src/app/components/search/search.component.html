@@ -1,0 +1,27 @@
+<div class="search row">
+
+    <div class="col s12">
+
+        <input class="white-input white-text no-margin" [placeholder]="placeholder"
+            [(ngModel)]="query" (keyup.enter)="search($event)">
+
+        <button class="btn-flat btn-floating waves-effect waves-light"
+            (click)="search()">
+            <i class="material-icons">search</i>
+        </button>
+
+        <button class="btn not-default not-fav-bg transparent btn-flat waves-effect white-text"
+            (click)="modals.showModal(filtersModalName)">
+            <i class="material-icons left">filter_list</i>
+            filters
+        </button>
+    </div>
+
+</div>
+
+<ng-content></ng-content>
+<div class="load-more" inViewport (ifInViewport)="loadMore()" [intervalTimeout]="100"></div>
+
+<app-modal [name]="filtersModalName" type="bottom" [hash]="filtersModalName">
+    filters? je doet het nog maar ff zonder filters
+</app-modal>
