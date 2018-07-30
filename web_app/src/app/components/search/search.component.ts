@@ -32,7 +32,7 @@ export class SearchComponent implements OnInit {
     ngOnInit() {
     }
 
-    search(event) {
+    search(event?) {
 
         if (event) this.renderer.invokeElementMethod(event.target, 'blur');
 
