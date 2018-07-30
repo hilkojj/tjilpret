@@ -3,6 +3,15 @@
 
 <div class="scroll" *ngIf="checkActive()">
 
+    <div class="noNotifications" *ngIf="noNotifications" >
+
+        <div class="no-notifications-img" [inlineSVG]="'/assets/img/no-notifications-img.svg'"></div>
+        <h4 class="center">
+            Er is geen kut gebeurt.
+        </h4>
+        <div class="divider bw-on-bw10"></div>
+    </div>
+
     <div class="notification" *ngFor="let n of notifications" [ngSwitch]="n.type"
         [ngClass]="n.time > unreadSince ? 'fav30' : ''">
 

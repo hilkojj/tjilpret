@@ -15,6 +15,49 @@
     display: block;
 }
 
+.noNotifications {
+
+    h4 {
+
+        font-weight: 300;
+        font-size: 18px;
+        opacity: 0.9;
+    }
+        
+    .no-notifications-img {
+        text-align: center;
+        height: 200px;
+        padding: 10px;
+        
+        ::ng-deep svg {
+            transform-origin: 55% 12%;
+
+            animation: no-notifications-anim 1s;
+
+            @keyframes no-notifications-anim {
+                from {
+                    transform: rotate(0deg);
+                }
+                20% {
+                    transform: rotate(20deg);
+                }
+                40% {
+                    transform: rotate(-20deg);
+                }
+                60% {
+                    transform: rotate(15deg);
+                }
+                80% {
+                    transform: rotate(-8deg);
+                }
+                to {
+                    transform: rotate(0deg);
+                }
+            }
+        }
+    }
+}
+
 .notification {
     .inner {
         $padding: 12px;

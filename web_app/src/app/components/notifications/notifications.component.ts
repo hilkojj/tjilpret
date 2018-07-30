@@ -16,6 +16,7 @@ export class NotificationsComponent implements OnInit {
 
     notifications: AllTypesNotification[] = [];
     unreadSince: number;
+    noNotifications: boolean;
     active = false;
 
     constructor(
@@ -35,6 +36,7 @@ export class NotificationsComponent implements OnInit {
             this.active = true;
             this.notifications = this.service.notifications as AllTypesNotification[] || [];
             this.unreadSince = this.service.checkedNotificationsTime;
+            this.noNotifications = this.service.newNotifications == 0;
             this.service.read();
 
         } else if (!this.modal.active)
