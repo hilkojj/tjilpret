@@ -57,6 +57,44 @@ module.exports = {
         });
     },
 
+    getCommentPage: (commentId) => new Promise(resolve => {
+        db.connection.query(`
+        SELECT
+            post.post_id,
+            profile.user_id
+        FROM entity_comments AS comment
+        
+        LEFT JOIN entity_comments AS parent_comment ON (
+            comment.comment_on_entity_id = parent_comment.entity_id
+        )
+        
+        LEFT JOIN posts AS post ON (
+            post.post_id = comment.comment_on_entity_id
+            OR
+            post.post_id = parent_comment.comment_on_entity_id
+        )
+        
+        LEFT JOIN users AS profile ON (
+            profile.user_id = comment.comment_on_entity_id
+            OR
+            profile.user_id = parent_comment.comment_on_entity_id
+        )
+        
+        WHERE comment.entity_id = ?
+        `, [commentId], (err, rows, fields) => {
+                if (err) {
+                    console.log(err);
+                    return resolve({});
+                }
+                var row = rows[0];
+                resolve(row ? {
+                    profileId: row.user_id,
+                    postId: row.post_id
+                } : {});
+            }
+        );
+    }),
+
     getVotes: function (entityIds, token, callback) {
 
         db.connection.query(`
@@ -242,6 +280,10 @@ module.exports = {
                     }
                     res.send({ success: results.affectedRows == 1 });
                 });
+        });
+
+        api.post("/commentPage", async (req, res) => {
+            res.send(await this.getCommentPage(parseInt(req.body.commentId)));
         });
 
         api.post("/vote", (req, res) => {

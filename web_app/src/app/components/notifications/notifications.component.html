@@ -132,7 +132,7 @@
 </ng-template>
 
 <ng-template #comment let-comment="comment">
-    <div class="item waves-effect bw-on-bw10">
+    <div class="item waves-effect bw-on-bw10" (click)="commentsAndVotes.goToComment(comment.id); modals.hideModal()">
         <b>Jou reakti:</b>
 
         <br>

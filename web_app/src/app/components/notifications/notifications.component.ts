@@ -4,6 +4,7 @@ import { ModalComponent } from '../modal/modal.component';
 import { Router } from '../../../../node_modules/@angular/router';
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
+import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 
 interface AllTypesNotification extends VotesNotification, CommentsNotification, FriendAcceptanceNotification {}
 
@@ -23,9 +24,10 @@ export class NotificationsComponent implements OnInit {
         @Host() private modal: ModalComponent,
         public service: NotificationsService,
         public auth: AuthService,
+        public commentsAndVotes: CommentsAndVotesService,
+        public modals: ModalService,
 
-        private router: Router,
-        private modals: ModalService
+        private router: Router
     ) { }
 
     ngOnInit() {

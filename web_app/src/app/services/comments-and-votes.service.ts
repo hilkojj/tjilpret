@@ -6,6 +6,7 @@ import { Comment } from '../models/comment';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
 import { Votes } from '../models/votes';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -14,13 +15,14 @@ export class CommentsAndVotesService {
 
     constructor(
         private http: HttpClient,
-        private auth: AuthService
+        private auth: AuthService,
+        private router: Router
     ) { }
 
     getComments(entityId: number): Observable<Comment[]> {
         var token = this.auth.session.token;
         return this.http.post<Comment[]>(API_URL + "comments", { entityId, token }).map(comments => {
-            
+
             const loop = comments => {
                 for (var i in comments) {
                     var comment: Comment = comments[i];
@@ -54,6 +56,17 @@ export class CommentsAndVotesService {
             token: this.auth.session.token,
             entityId,
             vote
+        });
+    }
+
+    goToComment(commentId: number) {
+        this.http.post<{
+            postId: number, profileId: number
+        }>(API_URL + "commentPage", { commentId }).subscribe(res => {
+
+            if (res.postId) this.router.navigateByUrl("/uplood/" + res.postId);
+            else if (res.profileId) this.router.navigateByUrl("/tjiller/" + res.profileId);
+
         });
     }
 
