@@ -15,6 +15,7 @@ export class ProfilePicComponent implements OnInit {
     @Input() size: string;
     @Input() dim: string = "med";
     @Input() borderWidth: string = "0";
+    @Input() soundIconRight: string = "0px";
     @Input() playSoundFragOnHover = false;
     @Input() cursor: string = "default";
 

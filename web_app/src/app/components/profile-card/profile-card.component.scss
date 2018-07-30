@@ -1,0 +1,47 @@
+$height: 300px;
+
+.card {
+    height: $height;
+    overflow: hidden;
+
+    .padding {
+        padding: .75rem;
+
+        app-username {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .bio {
+            margin: 0;
+            opacity: .8;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            height: 36px;
+        }
+
+        app-friend-button {
+            margin-bottom: 50px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+    }
+}
+
+.banner {
+    padding-top: 110px;
+    position: relative;
+
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 35px;
+
+    app-profile-pic {
+        position: absolute;
+        left: .75rem;
+        bottom: -50px;
+    }
+}

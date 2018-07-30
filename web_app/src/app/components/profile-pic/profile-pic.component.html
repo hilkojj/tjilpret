@@ -11,7 +11,8 @@
 
     </div>
 
-    <i class="material-icons sound-icon bw-on-bw-text" *ngIf="playSoundFragOnHover && user.soundFragment">
+    <i class="material-icons sound-icon bw-on-bw-text" *ngIf="playSoundFragOnHover && user.soundFragment"
+        [style.right]="soundIconRight">
         volume_up
     </i>
 

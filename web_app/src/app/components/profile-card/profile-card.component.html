@@ -1,0 +1,34 @@
+<div class="card bw">
+
+    <div class="banner" [style.backgroundColor]="user.rgbString"
+        [ngStyle]="bannerStyle">
+
+        <a [routerLink]="'/tjiller/' + user.id">
+            <app-profile-pic [user]="user" [playSoundFragOnHover]="true"
+                size="100px" dim="med" borderWidth="4px" cursor="pointer"
+                soundIconRight="-24px"></app-profile-pic>
+        </a>
+
+    </div>
+
+    <div class="padding">
+
+        <a [routerLink]="'/tjiller/' + user.id">
+            <app-username [user]="user" fontSize="18px"></app-username>
+        </a>
+
+        <p class="bio">
+            {{user.bio}}
+        </p>
+
+        <span *ngIf="user.id != auth.session?.user.id">
+
+            <app-friend-button [user]="user"></app-friend-button>
+
+            <button class="btn btn-flat btn-floating waves-effect" [title]="'Tjetten met ' + user.username">
+                <i class="material-icons" [style.color]="user.rgbString">chat_bubble</i>
+            </button>
+        </span>
+    </div>
+
+</div>

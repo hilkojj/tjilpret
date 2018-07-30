@@ -46,6 +46,7 @@ import { CircularPreloaderComponent } from './components/circular-preloader/circ
 import { InViewportDirective } from './directives/in-viewport.directive';
 import { GifPlayerComponent } from './components/gif-player/gif-player.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     CircularPreloaderComponent,
     InViewportDirective,
     GifPlayerComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ProfileCardComponent
   ],
   imports: [
     BrowserModule,
