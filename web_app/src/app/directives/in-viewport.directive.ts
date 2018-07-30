@@ -18,7 +18,7 @@ export class InViewportDirective implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        
+
         this.interval = setInterval(() => this.check(), this.intervalTimeout);
         this.check();
     }
@@ -32,12 +32,21 @@ export class InViewportDirective implements OnInit, OnDestroy {
 
         var rect = this.el.nativeElement.getBoundingClientRect();
 
-        this.inViewport = (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
+        var windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+        var windowWidth = (window.innerWidth || document.documentElement.clientWidth);
+
+        this.inViewport =
+            (
+                (rect.top >= 0 && rect.top <= windowHeight)
+                ||
+                (rect.bottom >= 0 && rect.bottom <= windowHeight)
+            )
+            &&
+            (
+                (rect.left >= 0 && rect.left <= windowWidth)
+                ||
+                (rect.right >= 0 && rect.right <= windowWidth)
+            )
 
         if (prevInViewport != this.inViewport)
             (this.inViewport ? this.ifInViewport : this.ifNotInViewport).emit();
