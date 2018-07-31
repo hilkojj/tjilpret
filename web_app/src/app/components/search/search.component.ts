@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
     @Input() placeholder = "Zoeken...";
     @Input() filtersModalName = "" + (Math.random() * 10000 | 0);
     @Input() canLoadMore = true;
+    @Input() noResultsText = "";
 
     @Output("onSearch") emitter = new EventEmitter<Search>();
 

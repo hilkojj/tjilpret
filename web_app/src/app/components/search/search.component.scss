@@ -14,6 +14,19 @@
 
 }
 
+.no-results {
+
+    h5 {
+        font-size: 21px;
+        font-weight: 300;
+        margin: 30px;
+    }
+
+    .sad-img {
+        margin-bottom: -6px;
+    }
+}
+
 app-circular-preloader {
 
     display: block;

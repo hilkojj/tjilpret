@@ -15,11 +15,12 @@ export class ProfileFriendsComponent implements OnInit {
 
     foundFriends: User[];
     canLoadMore = true;
+    noResultsText = "";
 
     constructor(
         @Host() public profile: ProfileComponent,
         public auth: AuthService,
-        
+
         private friends: FriendsService,
         private title: Title
     ) { }
@@ -35,6 +36,9 @@ export class ProfileFriendsComponent implements OnInit {
             this.foundFriends = search.page == 0 ? users : this.foundFriends.concat(users);
 
             this.canLoadMore = users.length > 0;
+
+            if (this.foundFriends.length == 0 && search.query != "")
+                this.noResultsText = `Geen vrienden gevonden voor '${search.query}'`;
         });
     }
 

@@ -19,6 +19,16 @@
 
 </div>
 
+<div class="row no-results" *ngIf="noResultsText">
+    <div class="col s12 m8 l6 offset-m2 offset-l3 card no-border-radius-on-small bw bw-on-bw-text center">
+        <h5>{{noResultsText}}</h5>
+        Probir beter te zoeken
+        <br><br>
+        <div class="sad-img" inlineSVG="/assets/img/no-search-results-sad.svg">
+        </div>
+    </div>
+</div>
+
 <ng-content></ng-content>
 
 <app-circular-preloader inViewport (ifInViewport)="loadMore()"

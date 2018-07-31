@@ -1,10 +1,21 @@
 <div class="row">
 
-    <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
+    <div class="row no-friends" *ngIf="profile.user.friends == 0">
+        <div class="col s12 m6 l4 offset-m3 offset-l4 card no-border-radius-on-small bw bw-on-bw-text center">
+            <h5>{{profile.user.username}} is vriendloos</h5>
+            Overweeg vriends te worden.
+            <br>
+            <br>
+            <div class="sad-img" inlineSVG="/assets/img/no-friends-sad.svg">
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="profile.user.friends > 0" class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
 
         <app-search [placeholder]="'Zoeken naar vriends van ' + profile.user.username"
             filtersModalName="vriends-filters" (onSearch)="onSearch($event)"
-            [(canLoadMore)]="canLoadMore">
+            [canLoadMore]="canLoadMore" [noResultsText]="noResultsText">
 
             <div class="row">
 
