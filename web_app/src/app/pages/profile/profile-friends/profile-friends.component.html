@@ -3,7 +3,8 @@
     <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
 
         <app-search [placeholder]="'Zoeken naar vriends van ' + profile.user.username"
-            filtersModalName="vriends-filters" (onSearch)="onSearch($event)">
+            filtersModalName="vriends-filters" (onSearch)="onSearch($event)"
+            [(canLoadMore)]="canLoadMore">
 
             <div class="row">
 

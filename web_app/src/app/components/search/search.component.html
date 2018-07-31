@@ -20,7 +20,10 @@
 </div>
 
 <ng-content></ng-content>
-<div class="load-more" inViewport (ifInViewport)="loadMore()" [intervalTimeout]="100"></div>
+
+<app-circular-preloader inViewport (ifInViewport)="loadMore()"
+    [intervalTimeout]="100" [style.opacity]="canLoadMore ? 1 : 0"
+    class="center"></app-circular-preloader>
 
 <app-modal [name]="filtersModalName" type="bottom" [hash]="filtersModalName">
     filters? je doet het nog maar ff zonder filters

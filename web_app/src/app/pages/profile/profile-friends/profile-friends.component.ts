@@ -14,6 +14,7 @@ import { FriendsService } from '../../../services/friends.service';
 export class ProfileFriendsComponent implements OnInit {
 
     foundFriends: User[];
+    canLoadMore = true;
 
     constructor(
         @Host() public profile: ProfileComponent,
@@ -28,8 +29,12 @@ export class ProfileFriendsComponent implements OnInit {
     }
 
     onSearch(search: Search) {
+        if (search.page == 0) this.canLoadMore = true;
+
         this.friends.getFriendsOf(this.profile.user.id, search.query, search.page).subscribe(users => {
             this.foundFriends = search.page == 0 ? users : this.foundFriends.concat(users);
+
+            this.canLoadMore = users.length > 0;
         });
     }
 
