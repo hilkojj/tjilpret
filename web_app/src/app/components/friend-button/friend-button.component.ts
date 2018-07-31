@@ -18,7 +18,6 @@ export class FriendButtonComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.friends.startInterval();
     }
 
     confirm() {

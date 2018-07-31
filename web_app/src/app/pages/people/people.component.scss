@@ -1,0 +1,27 @@
+@import "../../../styles.scss";
+
+h5 {
+    font-size: 18px;
+}
+
+.invite {
+    padding: .75rem;
+    padding-left: 0;
+
+    app-username {
+        white-space: nowrap;
+        margin-left: .75rem;
+        width: calc(100% - 163px);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: inline-flex;
+
+        @media only screen and (max-width: $break-small) {
+            overflow: unset;
+        }
+    }
+
+    button {
+        margin-left: .75rem;
+    }
+}

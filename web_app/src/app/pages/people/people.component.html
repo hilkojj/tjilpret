@@ -1,1 +1,54 @@
-hier is ook nog helemaal niks te zien.
+<div class="row">
+
+    <div class="invites card bw no-border-radius-on-small bw-on-bw-text col s12 m10 l8 offset-m1 offset-l2"
+        *ngIf="invites.length > 0">
+
+        <h5>
+            <span class="fav-text">
+                {{invites.length}}
+            </span>
+            vrientsverzoek{{invites.length == 1 ? "" : "en"}}
+        </h5>
+
+        <div *ngFor="let invite of invites">
+
+            <div class="invite">
+                <app-profile-pic [user]="invite.userInfo" dim="small" size="48px"></app-profile-pic>
+
+                <app-username [user]="invite.userInfo"></app-username>
+
+                <button class="btn btn-flat btn-floating waves-effect hide-on-small-only"
+                    (click)="friends.confirm(invite.userInfo.id, true)">
+                    <i class="material-icons fav-text">done</i>
+                </button>
+                <button class="btn btn-flat btn-floating waves-effect hide-on-small-only"
+                    (click)="friends.confirm(invite.userInfo.id, false)">
+                    <i class="material-icons red-text">close</i>
+                </button>
+
+                <br>
+                <br>
+
+                <div class="center">
+
+                    <button class="btn btn-flat waves-effect hide-on-med-and-up"
+                        (click)="friends.confirm(invite.userInfo.id, true)">
+                        <i class="material-icons left">done</i>
+                        akseptir
+                    </button>
+                    <button class="btn btn-flat waves-effect hide-on-med-and-up"
+                        (click)="friends.confirm(invite.userInfo.id, false)">
+                        <i class="material-icons left red-text">close</i>
+                        neen!
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="divider bw-on-bw10"></div>
+        </div>
+    </div>
+
+</div>

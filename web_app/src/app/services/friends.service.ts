@@ -12,6 +12,11 @@ export enum FriendStatus {
     None
 }
 
+export interface Invite {
+    time: number,
+    userInfo: User
+}
+
 interface FriendsAndInvites {
     friends: {
         [id: number]: {
@@ -21,17 +26,11 @@ interface FriendsAndInvites {
     },
 
     receivedInvites: {
-        [id: number]: {
-            time: number,
-            userInfo: User
-        }
+        [id: number]: Invite
     }
 
     sentInvites: {
-        [id: number]: {
-            time: number,
-            userInfo: User
-        }
+        [id: number]: Invite
     }
 }
 
@@ -40,18 +39,23 @@ interface FriendsAndInvites {
 })
 export class FriendsService {
 
-    private interval;
+    public receivedInvites: Invite[] = [];
+    public sentInvites: Invite[] = [];
 
     private friendsAndInvites: FriendsAndInvites;
+    private interval;
+    private users: {[id: number]: User} = {};
 
     constructor(
         private auth: AuthService,
         private http: HttpClient
-    ) { }
+    ) {
+        this.startInterval();
+    }
 
     startInterval() {
         if (!this.interval) {
-            this.interval = setInterval(() => this.update(), 5000);
+            this.interval = setInterval(() => this.update(), 8000);
             this.update();
         }
     }
@@ -65,7 +69,33 @@ export class FriendsService {
 
         this.http.post<FriendsAndInvites>(API_URL + "myFriendsAndInvites", {
             token: this.auth.session.token
-        }).subscribe(res => this.friendsAndInvites = res);
+        }).subscribe(res => {
+            
+            var loop = invitesObj => {
+                for (var userId in invitesObj) {
+
+                    var obj = invitesObj[userId];
+
+                    if (userId in this.users) {
+                        var user = this.users[userId];
+                        this.users[userId] = obj.userInfo = Object.assign(user, obj.userInfo);
+                    } else {
+
+                        this.users[userId] = obj.userInfo = Object.assign(new User(), obj.userInfo);
+                    }
+                }
+
+                return invitesObj;
+            };
+
+            res.receivedInvites = loop(res.receivedInvites);
+            res.sentInvites = loop(res.sentInvites);
+
+            this.receivedInvites = Object.values(res.receivedInvites).sort((a, b) => b.time - a.time);
+            this.sentInvites = Object.values(res.sentInvites).sort((a, b) => b.time - a.time);
+
+            this.friendsAndInvites = res;
+        });
     }
 
     friendStatus(id: number): FriendStatus {
