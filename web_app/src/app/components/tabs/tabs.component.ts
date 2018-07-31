@@ -7,7 +7,8 @@ export class Tab {
         public title: string,
         public icon: string,
         public routerLink: any[] | string,
-        public number?: number
+        public number?: number,
+        public badgeNumber?: () => number
     ) { }
 
 }

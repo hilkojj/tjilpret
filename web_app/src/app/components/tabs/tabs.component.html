@@ -1,5 +1,6 @@
 <div *ngFor="let tab of tabs" class="tab bw-on-bw-text" [ngClass]="{'waves-effect': wavesEffect}"
-    [routerLink]="tab.routerLink" [replaceUrl]="replaceUrl" routerLinkActive="active fav-text" [routerLinkActiveOptions]="{exact: true}">
+    [routerLink]="tab.routerLink" [replaceUrl]="replaceUrl" routerLinkActive="active fav-text"
+    [routerLinkActiveOptions]="{exact: true}">
 
     <span class="number" *ngIf="tab.number != null || numbersInTabs">
         <span>{{tab.number}}</span>
@@ -9,9 +10,11 @@
     <i class="material-icons" *ngIf="tab.icon">
         {{tab.icon}}
     </i>
-    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed}"
-        class="title">
+    <span [ngClass]="{'hide-on-med-and-down': hideLabelOnMed}" class="title">
         {{tab.title}}
+    </span>
+    <span class="tab-badge fav-bg bw-text" *ngIf="tab.badgeNumber && tab.badgeNumber() > 0">
+        {{tab.badgeNumber() > 99 ? "99+" : tab.badgeNumber()}}
     </span>
     <div class="indicator fav-bg"></div>
 </div>

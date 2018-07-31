@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
 import { Router } from '@angular/router';
 import { NotificationsService } from '../../services/notifications.service';
+import { FriendsService } from '../../services/friends.service';
 
 @Component({
     selector: 'app-navbar',
@@ -20,6 +21,7 @@ export class NavbarComponent implements OnInit {
         public modals: ModalService,
         public notifications: NotificationsService,
 
+        private friends: FriendsService,
         private router: Router
     ) { }
 
@@ -30,7 +32,7 @@ export class NavbarComponent implements OnInit {
         new Tab("Hoom", "home", "/hoom"),
         new Tab("Amusement", "subscriptions", "/amusement"),
         new Tab("Tjets", "chat_bubble", "/tjets"),
-        new Tab("Mesnen & vriends", "group", "/tjillers")
+        new Tab("Mesnen & vriends", "group", "/tjillers", null, () => this.friends.receivedInvites.length)
     ];
 
     ngOnInit() {

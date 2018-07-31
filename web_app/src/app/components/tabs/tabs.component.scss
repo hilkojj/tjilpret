@@ -1,3 +1,5 @@
+@import "../../../styles.scss";
+
 :host {
     text-align: center;
 }
@@ -8,6 +10,9 @@
     cursor: pointer;
     transition: none;
     padding: 0 12px;
+    @media only screen and (max-width: $break-small) {
+        padding: 0 !important;
+    }
     outline: none;
     font-size: 14px !important;
 
@@ -40,6 +45,18 @@
     .title, .number, i {
         opacity: .7;
         transition: none !important;
+    }
+
+    .tab-badge {
+        width: 20px;
+        height: 20px;
+        border-radius: 100px;
+        line-height: 20px;
+        font-size: 10px;
+        font-weight: bold;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 8px;
     }
 
 }

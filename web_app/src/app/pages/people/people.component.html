@@ -13,31 +13,35 @@
         <div *ngFor="let invite of invites">
 
             <div class="invite">
-                <app-profile-pic [user]="invite.userInfo" dim="small" size="48px"></app-profile-pic>
 
-                <app-username [user]="invite.userInfo"></app-username>
+                <a [routerLink]="'/tjiller/' + invite.userInfo.id">
+
+                    <app-profile-pic cursor="pointer" [user]="invite.userInfo" dim="small"
+                        size="48px"></app-profile-pic>
+
+                    <app-username [user]="invite.userInfo"></app-username>
+                </a>
 
                 <button class="btn btn-flat btn-floating waves-effect hide-on-small-only"
-                    (click)="friends.confirm(invite.userInfo.id, true)">
+                    (click)="friends.confirm(invite.userInfo.id, true)"
+                    [title]="'accsepteer ' + invite.userInfo.username">
                     <i class="material-icons fav-text">done</i>
                 </button>
                 <button class="btn btn-flat btn-floating waves-effect hide-on-small-only"
-                    (click)="friends.confirm(invite.userInfo.id, false)">
+                    (click)="friends.confirm(invite.userInfo.id, false)"
+                    [title]="'wijs verzoek van ' + invite.userInfo.username + ' af'">
                     <i class="material-icons red-text">close</i>
                 </button>
 
-                <br>
-                <br>
 
-                <div class="center">
+                <div class="center hide-on-med-and-up">
+                    <br>
 
-                    <button class="btn btn-flat waves-effect hide-on-med-and-up"
-                        (click)="friends.confirm(invite.userInfo.id, true)">
+                    <button class="btn btn-flat waves-effect" (click)="friends.confirm(invite.userInfo.id, true)">
                         <i class="material-icons left">done</i>
                         akseptir
                     </button>
-                    <button class="btn btn-flat waves-effect hide-on-med-and-up"
-                        (click)="friends.confirm(invite.userInfo.id, false)">
+                    <button class="btn btn-flat waves-effect" (click)="friends.confirm(invite.userInfo.id, false)">
                         <i class="material-icons left red-text">close</i>
                         neen!
                     </button>

@@ -51,6 +51,7 @@ export class FriendsService {
         private http: HttpClient
     ) {
         this.startInterval();
+        auth.onAuthenticatedListeners.push(() => this.update());
     }
 
     startInterval() {
@@ -65,7 +66,7 @@ export class FriendsService {
     }
 
     update() {
-        if (!this.auth.session) return this.stopInterval();
+        if (!this.auth.session) return;
 
         this.http.post<FriendsAndInvites>(API_URL + "myFriendsAndInvites", {
             token: this.auth.session.token
