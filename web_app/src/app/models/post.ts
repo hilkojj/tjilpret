@@ -11,4 +11,5 @@ export interface Post {
     time: number;
     views: number;
     path: string;
+    thumbnailPath: string;
 }

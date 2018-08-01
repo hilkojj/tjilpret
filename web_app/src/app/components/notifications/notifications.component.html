@@ -145,7 +145,7 @@
 
 <ng-template #post let-post="post">
     <div class="item with-thumbnail waves-effect bw-on-bw10">
-        <div class="thumbnail fav-bg"></div>
+        <div class="thumbnail" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'"></div>
         <b>{{post.title}}</b>
         <br>
         <span class="item-text">

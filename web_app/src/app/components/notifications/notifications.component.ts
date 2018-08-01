@@ -5,6 +5,7 @@ import { Router } from '../../../../node_modules/@angular/router';
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
+import { PostsService } from '../../services/posts.service';
 
 interface AllTypesNotification extends VotesNotification, CommentsNotification, FriendAcceptanceNotification {}
 
@@ -26,6 +27,7 @@ export class NotificationsComponent implements OnInit {
         public auth: AuthService,
         public commentsAndVotes: CommentsAndVotesService,
         public modals: ModalService,
+        public posts: PostsService,
 
         private router: Router
     ) { }
