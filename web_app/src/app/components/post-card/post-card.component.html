@@ -1,0 +1,36 @@
+<div class="row card bw bw-on-bw-text waves-effect no-border-radius-on-small hoverable">
+    <div class="thumbnail col s5" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'">
+
+        <i class="material-icons white-text" [ngClass]="typeColor">
+            {{typeIcon}}
+        </i>
+
+    </div>
+    
+    <p class="col s7">
+
+        <b>
+            {{post.title}}
+        </b>
+
+        <span class="time">
+            {{post.time | timestamp}}
+        </span>
+
+    </p>
+
+    <div class="stats fav-text">
+        
+        <i class="material-icons">{{post.score < 0 ? "thumb_down" : "thumb_up"}}</i>
+        <span [ngClass]="post.score < 0 ? 'red-text' : ''">
+            {{post.score}}
+        </span>
+
+        <i class="material-icons">{{post.comments == 0 ? "chat_bubble_outline" : "chat_bubble"}}</i>
+        {{post.comments}}
+
+        <i class="material-icons">remove_red_eye</i>
+        {{post.views}}
+
+    </div>
+</div>

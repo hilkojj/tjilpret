@@ -48,6 +48,7 @@ import { GifPlayerComponent } from './components/gif-player/gif-player.component
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { SearchComponent } from './components/search/search.component';
+import { PostCardComponent } from './components/post-card/post-card.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,8 @@ import { SearchComponent } from './components/search/search.component';
     GifPlayerComponent,
     NotificationsComponent,
     ProfileCardComponent,
-    SearchComponent
+    SearchComponent,
+    PostCardComponent
   ],
   imports: [
     BrowserModule,

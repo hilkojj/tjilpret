@@ -10,6 +10,7 @@ module.exports = {
             title: row.title,
             description: row.description,
             views: row.views,
+            duration: row.duration,
             time: row.uploaded_on,
             path: row.path,
             thumbnailPath: row.thumbnail_path,

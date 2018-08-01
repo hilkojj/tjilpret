@@ -1,3 +1,21 @@
-<p>
-  profile-uploads works!
-</p>
+<div class="row">
+
+    <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
+
+        <app-search [placeholder]="'Zoeken naar uploods van ' + profile.user.username"
+            filtersModalName="uploods-filters" (onSearch)="onSearch($event)"
+            [canLoadMore]="canLoadMore" [noResultsText]="noResultsText" [filters]="filters">
+
+            <div class="row">
+
+                <div class="col s12 m6 post-col" *ngFor="let post of foundPosts">
+                    <app-post-card [post]="post"></app-post-card>
+                </div>
+
+            </div>
+
+        </app-search>
+
+        <div style="min-height: 500px" *ngIf="foundPosts.length == 0"></div>
+    </div>
+</div>
