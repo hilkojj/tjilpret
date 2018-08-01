@@ -1,7 +1,7 @@
 <div class="toolbar valign-wrapper z-depth-1" [style.width]="width" [ngClass]="bw ? 'bw' : 'fav-bg'">
 
     <a (click)="back()" class="back-btn btn-flat btn-floating waves-effect waves-light">
-        <i class="material-icons" [ngClass]="{'fav-text': bw}">arrow_back</i>
+        <i class="material-icons" [ngClass]="{'fav-text': bw}">{{backIcon}}</i>
     </a>
 
     <p class="title" [ngClass]="bw ? 'bw-on-bw-text' : 'white-text'">{{titleText}}</p>

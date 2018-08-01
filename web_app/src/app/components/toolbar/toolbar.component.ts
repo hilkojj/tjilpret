@@ -13,6 +13,7 @@ export class ToolbarComponent implements AfterViewInit {
     @Input() titleText: string = "";
     @Input() width: string = "100%";
     @Input() bw: boolean = false;
+    @Input() backIcon = "arrow_back";
 
     private navigated: boolean;
 
