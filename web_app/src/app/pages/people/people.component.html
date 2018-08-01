@@ -55,8 +55,10 @@
         </div>
     </div>
 
-    <div class="col s12 m10 l8 offset-m1 offset-l2">
-        <app-search placeholderText="Zoek naar tjillers">
+    <div class="col s12 m10 l8 offset-m1 offset-l2 search no-padding">
+        <app-search placeholderText="Zoek naar tjillers" [filters]="filters" filtersModalName="mesnen-filters">
+
+            
 
         </app-search>
     </div>

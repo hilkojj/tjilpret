@@ -1,6 +1,18 @@
 import { Component, OnInit, Input, Renderer, Output, EventEmitter } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 
+export interface FilterOption {
+    value: string | number | boolean;
+    text: string;
+}
+
+export interface Filter {
+    name: string;
+    text: string;
+    options: FilterOption[];
+    selectedOption?: FilterOption;
+}
+
 export interface Search {
     query: string;
     page: number;
@@ -17,6 +29,7 @@ export class SearchComponent implements OnInit {
     @Input() filtersModalName = "" + (Math.random() * 10000 | 0);
     @Input() canLoadMore = true;
     @Input() noResultsText = "";
+    @Input() filters: Filter[];
 
     @Output("onSearch") emitter = new EventEmitter<Search>();
 
@@ -32,6 +45,8 @@ export class SearchComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        for (var filter of this.filters) 
+            if (!filter.selectedOption) filter.selectedOption = filter.options[0];
     }
 
     search(event?) {

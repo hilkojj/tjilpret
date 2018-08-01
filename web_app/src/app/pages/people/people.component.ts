@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { FriendsService, Invite } from '../../services/friends.service';
+import { Filter } from '../../components/search/search.component';
 
 @Component({
     selector: 'app-people',
@@ -9,6 +10,62 @@ import { FriendsService, Invite } from '../../services/friends.service';
 export class PeopleComponent implements OnInit, AfterContentChecked {
 
     invites: Invite[];
+    filters: Filter[] = [
+        {
+            name: "colorClass",
+            text: "Lieflingskleur",
+            options: [
+                {
+                    value: "all",
+                    text: "De hele regenboog"
+                }
+            ]
+        },
+        {
+            name: "sortBy",
+            text: "Sorteer op",
+            options: [
+                {
+                    value: "joined",
+                    text: "Nieuwste account"
+                },
+                {
+                    value: "activity",
+                    text: "Laatst actief"
+                },
+                {
+                    value: "friends",
+                    text: "Aantal vriends"
+                },
+                {
+                    value: "rep",
+                    text: "Reputatie"
+                },
+                {
+                    value: "messages",
+                    text: "Aantal tjetberichten"
+                },
+                {
+                    value: "uploads",
+                    text: "Aantal uploods"
+                }
+            ]
+        },
+        {
+            name: "desc",
+            text: "Volgorde",
+            options: [
+                {
+                    value: 1,
+                    text: "Aflopend"
+                },
+                {
+                    value: 0,
+                    text: "Oplopend"
+                }
+            ]
+        }
+    ];
 
     constructor(
         public friends: FriendsService

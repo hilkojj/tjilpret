@@ -12,6 +12,33 @@
         }
     }
 
+    .chip {
+        user-select: none;
+        .close-btn {
+            line-height: 32px;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 10px;
+            margin-right: -10px;
+            float: right;
+        }
+    }
+
+}
+
+.masonry.filter-list {
+    column-count: 2;
+
+    @media only screen and (max-width: $break-small) {
+        column-count: 1;
+    }
+
+    .filter {
+        padding: .75rem;
+        display: inline-block;
+        width: 100%;
+    }
+
 }
 
 .no-results {

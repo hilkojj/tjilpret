@@ -15,6 +15,20 @@
             <i class="material-icons left">filter_list</i>
             filters
         </button>
+
+        <br>
+        <br>
+
+        <span *ngFor="let filter of filters">
+            <div class="chip" *ngIf="filter.selectedOption && filter.selectedOption != filter.options[0]">
+                {{filter.text}}:
+                <b>{{filter.selectedOption.text}}</b>
+                <i class="material-icons close-btn" (click)="filter.selectedOption = filter.options[0]">
+                    close
+                </i>
+            </div>
+        </span>
+
     </div>
 
 </div>
@@ -23,7 +37,8 @@
     <div class="col s12 m8 l6 offset-m2 offset-l3 card no-border-radius-on-small bw bw-on-bw-text center">
         <h5>{{noResultsText}}</h5>
         Probir beter te zoeken
-        <br><br>
+        <br>
+        <br>
         <div class="sad-img" inlineSVG="/assets/img/no-search-results-sad.svg">
         </div>
     </div>
@@ -36,5 +51,24 @@
     class="center"></app-circular-preloader>
 
 <app-modal [name]="filtersModalName" type="bottom" [hash]="filtersModalName">
-    filters? je doet het nog maar ff zonder filters
+
+    <app-toolbar titleText="Filters" backIcon="keyboard_arrow_down"></app-toolbar>
+
+    <div class="masonry filter-list">
+
+        <div *ngFor="let filter of filters" class="filter">
+
+            <h6>{{filter.text}}</h6>
+            <p *ngFor="let option of filter.options; let i = index">
+
+                <input [id]="option.value + '-input'" [name]="filter.name" type="radio"
+                    [value]="option" class="with-gap" [(ngModel)]="filter.selectedOption"
+                />
+                <label [for]="option.value + '-input'">{{option.text}}</label>
+            </p>
+
+
+        </div>
+    </div>
+
 </app-modal>

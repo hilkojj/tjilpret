@@ -116,6 +116,13 @@ textarea.materialize-textarea:focus:not([readonly]) {
     box-shadow: 0 1px 0 0 ?rgb? !important;
 }
 
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+    border: 2px solid ?rgb?;
+}
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+    background-color: ?rgb?;
+}
+
 .switch label input[type=checkbox]:checked + .lever:after {
     background-color: ?rgb?;
 }
