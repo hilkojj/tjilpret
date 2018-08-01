@@ -31,4 +31,16 @@ export class UserService {
         ).map(res => res["exists"] == true);
     }
 
+    searchUsers(q: string, page?: number, colorClass?: number | string, sortBy?: string, desc?: boolean): Observable<User[]> {
+        return this.http.post<User[]>(API_URL + "searchPeople", {
+            q, colorClass, sortBy, page, desc
+        }).map(users => {
+
+            for (var i in users)
+                users[i] = Object.assign(new User(), users[i]);
+
+            return users;
+        });
+    }
+
 }

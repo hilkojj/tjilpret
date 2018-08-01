@@ -56,9 +56,13 @@
     </div>
 
     <div class="col s12 m10 l8 offset-m1 offset-l2 search no-padding">
-        <app-search placeholderText="Zoek naar tjillers" [filters]="filters" filtersModalName="mesnen-filters">
+        <app-search placeholderText="Zoek naar tjillers" [filters]="filters"
+            filtersModalName="mesnen-filters" (onSearch)="onSearch($event)"
+            [canLoadMore]="canLoadMore" [noResultsText]="noResultsText">
 
-            
+            <div class="col s12 m6" *ngFor="let user of foundUsers">
+                <app-profile-card [user]="user"></app-profile-card>
+            </div>
 
         </app-search>
     </div>

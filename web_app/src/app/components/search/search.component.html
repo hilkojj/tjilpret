@@ -3,15 +3,15 @@
     <div class="col s12">
 
         <input class="white-input white-text no-margin" [placeholder]="placeholder"
-            [(ngModel)]="query" (keyup.enter)="search($event)">
+            [(ngModel)]="query" (keyup.enter)="search($event)" [ngClass]="filters ? '' : 'no-filters'">
 
         <button class="btn-flat btn-floating waves-effect waves-light"
             (click)="search()">
             <i class="material-icons">search</i>
         </button>
 
-        <button class="btn not-default not-fav-bg transparent btn-flat waves-effect white-text"
-            (click)="modals.showModal(filtersModalName)">
+        <button class="btn not-default filter-button not-fav-bg transparent btn-flat waves-effect white-text"
+            (click)="modals.showModal(filtersModalName)" *ngIf="filters">
             <i class="material-icons left">filter_list</i>
             filters
         </button>
@@ -23,7 +23,7 @@
             <div class="chip" *ngIf="filter.selectedOption && filter.selectedOption != filter.options[0]">
                 {{filter.text}}:
                 <b>{{filter.selectedOption.text}}</b>
-                <i class="material-icons close-btn" (click)="filter.selectedOption = filter.options[0]">
+                <i class="material-icons close-btn" (click)="filter.selectedOption = filter.options[0]; search()">
                     close
                 </i>
             </div>
@@ -46,28 +46,33 @@
 
 <ng-content></ng-content>
 
-<app-circular-preloader inViewport (ifInViewport)="loadMore()"
-    [intervalTimeout]="100" [style.opacity]="canLoadMore ? 1 : 0"
-    class="center"></app-circular-preloader>
+<div class="col s12">
+    <app-circular-preloader inViewport (ifInViewport)="loadMore()"
+        [intervalTimeout]="100" [style.opacity]="canLoadMore ? 1 : 0"
+        class="center"></app-circular-preloader>
+</div>
 
 <app-modal [name]="filtersModalName" type="bottom" [hash]="filtersModalName">
 
     <app-toolbar titleText="Filters" backIcon="keyboard_arrow_down"></app-toolbar>
 
-    <div class="masonry filter-list">
+    <div class="scroll">
 
-        <div *ngFor="let filter of filters" class="filter">
-
-            <h6>{{filter.text}}</h6>
-            <p *ngFor="let option of filter.options; let i = index">
-
-                <input [id]="option.value + '-input'" [name]="filter.name" type="radio"
+        <div class="masonry filter-list">
+            
+            <div *ngFor="let filter of filters" class="filter">
+                
+                <h6>{{filter.text}}</h6>
+                <p *ngFor="let option of filter.options; let i = index">
+                    
+                    <input [id]="option.value + '-input'" [name]="filter.name" type="radio"
                     [value]="option" class="with-gap" [(ngModel)]="filter.selectedOption"
-                />
-                <label [for]="option.value + '-input'">{{option.text}}</label>
-            </p>
-
-
+                    (ngModelChange)="search()" />
+                    <label [for]="option.value + '-input'">{{option.text}}</label>
+                </p>
+                
+                
+            </div>
         </div>
     </div>
 

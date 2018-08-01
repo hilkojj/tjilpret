@@ -45,7 +45,7 @@ export class SearchComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        for (var filter of this.filters) 
+        if (this.filters) for (var filter of this.filters)
             if (!filter.selectedOption) filter.selectedOption = filter.options[0];
     }
 

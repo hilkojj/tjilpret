@@ -7,10 +7,21 @@
         width: calc(100% - 200px);
         margin-bottom: 8px !important;
 
-        @media only screen and (max-width: $break-small) {
+        &.no-filters {
             width: calc(100% - 40px);
         }
     }
+
+    @media only screen and (max-width: $break-small) {
+        input {
+            width: calc(100% - 40px);
+        }
+        .filter-button {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
 
     .chip {
         user-select: none;
@@ -24,6 +35,17 @@
         }
     }
 
+}
+
+.scroll {
+    height: 60vh;
+    overflow: auto;
+}
+
+::ng-deep app-modal {
+    .modal-card.card {
+        overflow-y: hidden !important;
+    }
 }
 
 .masonry.filter-list {
