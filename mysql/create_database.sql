@@ -278,6 +278,7 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`posts` (
   `uploaded_on` INT(11) NOT NULL,
   `type` ENUM('img', 'vid', 'gif') NOT NULL,
   `path` VARCHAR(45) NOT NULL,
+  `thumbnail_path` VARCHAR(45) NOT NULL,
   `views` INT(11) NOT NULL DEFAULT '0',
   `duration` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`post_id`, `category_id`),
