@@ -35,7 +35,7 @@ export class ProfileFriendsComponent implements OnInit {
         this.friends.getFriendsOf(this.profile.user.id, search.query, search.page).subscribe(users => {
             this.foundFriends = search.page == 0 ? users : this.foundFriends.concat(users);
 
-            this.canLoadMore = users.length > 0;
+            this.canLoadMore = users.length > 2;
 
             if (this.foundFriends.length == 0 && search.query != "")
                 this.noResultsText = `Geen vrienden gevonden voor '${search.query}'`;

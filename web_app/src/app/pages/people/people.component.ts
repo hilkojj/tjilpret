@@ -122,7 +122,7 @@ export class PeopleComponent implements OnInit, AfterContentChecked {
             if (search.page != 0) this.foundUsers = this.foundUsers.concat(users);
             else this.foundUsers = users;
 
-            this.canLoadMore = users.length > 0;
+            this.canLoadMore = users.length > 2;
             this.noResultsText = this.foundUsers.length == 0 ? "Geen tjillers voldoen aan deze criteria." : "";
         });
     }

@@ -45,7 +45,7 @@ module.exports = {
         api.post("/friendsOf/:userID", (req, res) => {
             var userID = parseInt(req.params.userID);
 
-            var pageLimit = 8;
+            var pageLimit = 16;
             var page = parseInt(req.body.page) || 0;
             db.connection.query(`
                 SELECT * FROM users AS u
