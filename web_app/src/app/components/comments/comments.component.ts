@@ -46,6 +46,9 @@ export class CommentsComponent implements OnInit {
         ).subscribe(success => {
             this.loadComments();
         });
+
+        this.commentInput = {};
+        this.commentGiphy = {};
     }
 
     deleteComment(commentId: number) {
