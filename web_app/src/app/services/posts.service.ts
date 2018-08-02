@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Post } from '../models/post';
 import { CONTENT_URL, API_URL } from '../constants';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 const POST_UPLOADS_URL = CONTENT_URL + "post_uploads/";
 
@@ -11,8 +12,11 @@ const POST_UPLOADS_URL = CONTENT_URL + "post_uploads/";
 })
 export class PostsService {
 
+    preLoadedPost: Post;
+
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private router: Router
     ) { }
 
     getThumbnailPath(post: Post): string {
@@ -23,6 +27,15 @@ export class PostsService {
         return this.http.post<Post[]>(API_URL + "postsOfUser/" + userId, {
             q, page, orderBy
         });
+    }
+
+    getPostById(id: number): Observable<Post> {
+        return null;
+    }
+
+    showPost(post: Post) {
+        this.preLoadedPost = post;
+        this.router.navigateByUrl("/uplood/" + post.id);
     }
 
 }

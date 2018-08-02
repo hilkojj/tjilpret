@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-profile-card',
@@ -12,7 +13,8 @@ export class ProfileCardComponent implements OnInit {
     @Input() user: User;
 
     constructor(
-        public auth: AuthService
+        public auth: AuthService,
+        public service: UserService
     ) { }
 
     ngOnInit() {

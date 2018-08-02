@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 import { Comment } from '../../models/comment';
 import { GiphyService, Giphy } from '../../services/giphy.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-comments',
@@ -21,6 +22,7 @@ export class CommentsComponent implements OnInit {
     constructor(
         public auth: AuthService,
         public service: CommentsAndVotesService,
+        public users: UserService,
         private giphy: GiphyService
     ) { }
 

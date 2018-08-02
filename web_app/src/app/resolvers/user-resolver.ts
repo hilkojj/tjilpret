@@ -9,10 +9,14 @@ export class UserResolver implements Resolve<Observable<User>> {
 
     constructor(
         private users: UserService
-    ) {}
+    ) { }
 
     resolve(route: ActivatedRouteSnapshot): Observable<User> {
-        return this.users.userById(+route.paramMap.get("id"));
+        var id = +route.paramMap.get("id");
+        return this.users.preLoadedProfileUser && this.users.preLoadedProfileUser.id == id ?
+            Observable.of(this.users.preLoadedProfileUser)
+            :
+            this.users.userById(id);
     }
 
 }

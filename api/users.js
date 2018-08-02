@@ -48,7 +48,7 @@ module.exports = {
             var pageLimit = 16;
             var page = parseInt(req.body.page) || 0;
             db.connection.query(`
-                SELECT * FROM users AS u
+                SELECT * FROM user_info AS u
                 JOIN friendships AS fs ON (
                     (u.user_id = fs.inviter_id AND NOT u.user_id = ?)
                     OR 

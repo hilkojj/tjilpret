@@ -17,6 +17,8 @@ import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile
 import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
 import { UserResolver } from './resolvers/user-resolver';
 import { ColorClassResolver } from './pages/profile/profile-first-tab/color-class-resolver';
+import { PostComponent } from './pages/post/post.component';
+import { PostResolver } from './resolvers/post-resolver';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -82,6 +84,17 @@ const routes: Routes = [
         ]
     },
     {
+        path: "uplood/:id", component: PostComponent,
+        canActivate: [AuthService], data: {
+            showNavbar: true,
+            dontReuse: ["id"],
+            favColorTheme: true
+        },
+        resolve: {
+            post: PostResolver
+        }
+    },
+    {
         path: "instellingun", component: SettingsComponent,
         canActivate: [AuthService], data: {
             title: "Instellingun",
@@ -128,6 +141,7 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
     providers: [
+        PostResolver,
         UserResolver,
         ColorClassResolver
     ]

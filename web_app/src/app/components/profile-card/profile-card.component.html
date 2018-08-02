@@ -3,7 +3,7 @@
     <div class="banner" [style.backgroundColor]="user.rgbString"
         [ngStyle]="bannerStyle">
 
-        <a [routerLink]="'/tjiller/' + user.id">
+        <a (click)="service.showProfile(user)">
             <app-profile-pic [user]="user" [playSoundFragOnHover]="true"
                 size="100px" dim="med" borderWidth="4px" cursor="pointer"
                 soundIconRight="-24px"></app-profile-pic>
@@ -13,7 +13,7 @@
 
     <div class="padding">
 
-        <a [routerLink]="'/tjiller/' + user.id">
+        <a (click)="service.showProfile(user)">
             <app-username [user]="user" fontSize="18px"></app-username>
         </a>
 

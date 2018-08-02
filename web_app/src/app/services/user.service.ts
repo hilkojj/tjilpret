@@ -3,15 +3,24 @@ import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../constants';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
+    preLoadedProfileUser: User;
+
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private router: Router
     ) { }
+
+    showProfile(user: User) {
+        this.preLoadedProfileUser = user;
+        this.router.navigateByUrl("/tjiller/" + user.id);
+    }
 
     userByUsername(username: string): Observable<User> {
         return this.http.post(

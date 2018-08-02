@@ -50,6 +50,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
 import { SearchComponent } from './components/search/search.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { TimePipe } from './pipes/time.pipe';
+import { PostComponent } from './pages/post/post.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { TimePipe } from './pipes/time.pipe';
     ProfileCardComponent,
     SearchComponent,
     PostCardComponent,
-    TimePipe
+    TimePipe,
+    PostComponent
   ],
   imports: [
     BrowserModule,
