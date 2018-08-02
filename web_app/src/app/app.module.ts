@@ -49,6 +49,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { SearchComponent } from './components/search/search.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
+import { TimePipe } from './pipes/time.pipe';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { PostCardComponent } from './components/post-card/post-card.component';
     NotificationsComponent,
     ProfileCardComponent,
     SearchComponent,
-    PostCardComponent
+    PostCardComponent,
+    TimePipe
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,10 @@
 <div class="row card bw bw-on-bw-text waves-effect no-border-radius-on-small hoverable">
     <div class="thumbnail col s5" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'">
 
+        <span class="duration" *ngIf="post.type == 'vid'">
+            {{post.duration | time}}
+        </span>
+
         <i class="material-icons white-text" [ngClass]="typeColor">
             {{typeIcon}}
         </i>
