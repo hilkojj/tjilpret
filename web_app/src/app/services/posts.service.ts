@@ -23,6 +23,10 @@ export class PostsService {
         return POST_UPLOADS_URL + post.thumbnailPath;
     }
 
+    getFilePath(post: Post): string {
+        return POST_UPLOADS_URL + post.path;
+    }
+
     getPostsOfUser(userId: number, q: string, page: number, orderBy: string): Observable<Post[]> {
         return this.http.post<Post[]>(API_URL + "postsOfUser/" + userId, {
             q, page, orderBy
@@ -30,7 +34,9 @@ export class PostsService {
     }
 
     getPostById(id: number): Observable<Post> {
-        return null;
+        return this.http.post(API_URL + "post/" + id, {}).map(res =>
+            res["found"] ? res["post"] as Post : null
+        );
     }
 
     showPost(post: Post) {

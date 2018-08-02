@@ -1,3 +1,84 @@
-{{
-    post?.title
-}}
+<app-toolbar class="hide-on-med-and-up" titleText="Uplood" width="100vw"
+    [bw]="true">
+</app-toolbar>
+
+<div class="row">
+
+    <div class="col s12 m10 l6 offset-m1 offset-l1 bw-on-bw-text no-padding-on-small">
+
+        <div class="col s12 item card bw no-border-radius-on-small no-padding">
+
+            <div class="item-view">
+
+                <img *ngIf="post.type == 'img' || post.type == 'gif'" [src]="service.getFilePath(post)">
+
+                <video *ngIf="post.type == 'vid'" loop preload="auto" controls
+                    autoplay [src]="service.getFilePath(post)">
+                </video>
+
+            </div>
+
+            <div class="padding">
+                <h5>{{post.title}}</h5>
+
+                <p class="stats">
+                    <i class="material-icons">remove_red_eye</i>
+                    {{post.views}} weergaven
+                    <br>
+                    <i class="material-icons">event</i>
+                    {{post.time | timestamp}}
+                </p>
+            </div>
+        </div>
+
+        <div class="hide-on-large-only">
+            <ng-container [ngTemplateOutlet]="extraInfo"></ng-container>
+        </div>
+
+        <div class="col s12 card bw no-border-radius-on-small comments-card">
+
+            <p class="fav-text title">54 reakties</p>
+
+            <app-comments [entityId]="post.id"></app-comments>
+
+        </div>
+
+    </div>
+
+
+    <div class="col l4 hide-on-med-and-down bw-on-bw-text no-padding-on-small">
+        <ng-container [ngTemplateOutlet]="extraInfo"></ng-container>
+    </div>
+
+</div>
+
+<ng-template #extraInfo>
+
+    <div class="extra-info">
+
+        <div class="pic-and-name col s12 card bw no-border-radius-on-small waves-effect"
+            (click)="users.showProfile(poster)">
+            <span>Geüplood door:</span>
+            <app-profile-pic *ngIf="poster" [user]="poster" size="48px" dim="small"
+                cursor="pointer"></app-profile-pic>
+
+            <app-username *ngIf="poster" [user]="poster" [color]="poster.rgbString"></app-username>
+        </div>
+
+        <div class="col s12 card bw no-border-radius-on-small">
+            <p class="title fav-text">Descriptie</p>
+
+            <p class="pre-wrap">{{post.description}}</p>
+
+            <div class="divider bw-on-bw10"></div>
+    
+            <button class="btn btn-flat waves-effect">
+                <i class="material-icons left">volume_up</i>
+                Voorlezen ⠧⠕⠕⠗⠇⠑⠵⠑⠝
+            </button>
+        </div>
+
+
+    </div>
+
+</ng-template>

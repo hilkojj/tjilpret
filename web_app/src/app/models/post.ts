@@ -1,6 +1,7 @@
 export enum PostType {
     Img = "img",
-    Vid = "vid"
+    Vid = "vid",
+    Gif = "gif"
 }
 
 export interface Post {
@@ -12,6 +13,7 @@ export interface Post {
     time: number;
     views: number;
     path: string;
+    uploadedBy: number;
     thumbnailPath: string;
     score: number;
     comments: number;

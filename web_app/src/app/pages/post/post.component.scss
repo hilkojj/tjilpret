@@ -1,0 +1,110 @@
+@import "../../../styles.scss";
+
+.stats {
+    i {
+        vertical-align: bottom;
+    }
+    opacity: .6;
+    text-transform: uppercase;
+}
+
+.no-padding-on-small {
+    @media only screen and (max-width: $break-small) {
+
+        padding: 0;
+
+    }
+}
+
+.item {
+
+    overflow: hidden;
+
+    @media only screen and (max-width: $break-small) {
+        margin-top: 0;
+    }
+
+    h5 {
+        font-size: 20px;
+    }
+    
+    .item-view {
+        
+        $max-height: 70vh;
+
+        text-align: center;
+        
+        video {
+            background: black;
+            width: 100%;
+            max-height: $max-height;
+        }
+
+        img {
+            max-height: $max-height;
+            max-width: 100%;
+        }
+    }
+}
+
+.card {
+
+    .title {
+        display: block;
+        margin: 12px 0;
+    }
+    
+    .padding {
+        padding: 0 .75rem;
+    }
+}
+
+.comments-card {
+    padding-bottom: .75rem;
+}
+
+.extra-info {
+
+    .pic-and-name {
+        position: relative;
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+        min-height: calc(1.5rem + 48px);
+        padding-left: 70px;
+
+        app-profile-pic {
+            position: absolute;
+            top: .75rem;
+            left: .75rem;
+            animation: pic-and-name-fade-in .5s;
+        }
+
+        app-username {
+            ::ng-deep p {
+                margin: 0;
+            }
+            animation: pic-and-name-fade-in .5s;
+        }
+
+        @keyframes pic-and-name-fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        span {
+            opacity: .6;
+            text-transform: uppercase;
+            display: inline-block;
+            font-size: 12px;
+        }
+    }
+
+    button {
+        margin: .75rem 0;
+    }
+
+}

@@ -8,6 +8,7 @@ module.exports = {
         return {
             id: row.post_id,
             title: row.title,
+            uploadedBy: row.user_id,
             description: row.description,
             views: row.views,
             duration: row.duration,
@@ -55,6 +56,30 @@ module.exports = {
                 }
             );
 
+        });
+
+        api.post("/post/:id", (req, res) => {
+
+            var id = parseInt(req.params.id);
+            db.connection.query(`
+                SELECT posts.*, entity_view.* FROM posts
+                JOIN entity_view ON posts.post_id = entity_view.entity_id
+                WHERE posts.post_id = ?
+            `, [id], (err, rows, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "POTVERDIKKEME foutje");
+                    }
+
+                    var row = rows[0];
+
+                    if (!row) {
+                        res.send({ found: false });
+                    }
+                    res.send({ found: true, post: module.exports.post(row) });
+                }
+            );
         });
 
     }
