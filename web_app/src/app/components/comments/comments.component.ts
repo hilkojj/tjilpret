@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 import { Comment } from '../../models/comment';
@@ -14,6 +14,7 @@ export class CommentsComponent implements OnInit {
 
     @Input() entityId: number;
     @Input() canDelete: number;
+    @Output() numberOfCommentsChanged = new EventEmitter<number>();
 
     commentInput: { [entityId: number]: string } = {};
     commentGiphy: { [entityId: number]: Giphy } = {};
@@ -33,6 +34,10 @@ export class CommentsComponent implements OnInit {
     loadComments() {
         this.service.getComments(this.entityId).subscribe(comments => {
             this.comments = comments;
+            var number = 0;
+            for (var comment of comments) 
+                number += 1 + (comment.subComments ? comment.subComments.length : 0);
+            this.numberOfCommentsChanged.emit(number);
             this.commentInput = {};
             this.commentGiphy = {};
         });
