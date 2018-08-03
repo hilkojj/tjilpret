@@ -16,11 +16,13 @@ export class PostComponent implements OnInit {
 
     post: Post;
     poster: User;
+    numberOfComments = 0;
 
     constructor(
         public auth: AuthService,
         public service: PostsService,
         public users: UserService,
+        public posts: PostsService,
 
         private route: ActivatedRoute,
         private router: Router,
@@ -37,6 +39,8 @@ export class PostComponent implements OnInit {
         this.title.setTitle(this.post.title);
 
         this.users.userById(this.post.uploadedBy).subscribe(user => this.poster = user);
+
+        this.posts.registerView(this.post.id);
     }
 
 }

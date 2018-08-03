@@ -4,6 +4,7 @@ import { CONTENT_URL, API_URL } from '../constants';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 const POST_UPLOADS_URL = CONTENT_URL + "post_uploads/";
 
@@ -16,7 +17,8 @@ export class PostsService {
 
     constructor(
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private auth: AuthService
     ) { }
 
     getThumbnailPath(post: Post): string {
@@ -42,6 +44,13 @@ export class PostsService {
     showPost(post: Post) {
         this.preLoadedPost = post;
         this.router.navigateByUrl("/uplood/" + post.id);
+    }
+
+    registerView(id: number) {
+        this.http.post(API_URL + "registerPostView", {
+            token: this.auth.session.token,
+            postId: id
+        }).subscribe();
     }
 
 }

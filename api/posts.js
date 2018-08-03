@@ -82,6 +82,43 @@ module.exports = {
             );
         });
 
+        api.post("/registerPostView", (req, res) => {
+
+            var token = parseInt(req.body.token) || 0;
+            var postId = parseInt(req.body.postId) || 0;
+            var time = Date.now() / 1000 | 0;
+
+            db.connection.query(`
+            
+                UPDATE posts SET views = views + IF((
+                    SELECT COUNT(*) FROM post_views AS pv
+                    WHERE pv.user_id = (SELECT user_id FROM tokens WHERE token = ?) 
+                    AND pv.post_id = ?
+                    AND pv.time > ?
+                ) > 0, 0, 1)
+                WHERE post_id = ?;
+
+                INSERT INTO post_views (post_id, user_id, time) VALUES (?, (
+                    SELECT user_id FROM tokens WHERE token = ?
+                ), ?);
+
+            `,
+                [
+                    token, postId, time - 10, postId,
+                    
+                    postId, token, time
+                ], (err, r, fields) => {
+
+                    if (err) {
+                        console.log(err);
+                        return utils.sendError(res, "foutje moet kunnen");
+                    }
+
+                    res.send({ success: true });
+                }
+            );
+        });
+
     }
 
 }
