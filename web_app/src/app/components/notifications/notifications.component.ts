@@ -43,6 +43,8 @@ export class NotificationsComponent implements OnInit {
             this.noNotifications = this.service.newNotifications == 0;
             this.service.read();
 
+            this.service.newNotifications = 0;
+
         } else if (!this.modal.active)
             this.active = false;
 

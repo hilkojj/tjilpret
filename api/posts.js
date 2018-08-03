@@ -204,6 +204,21 @@ module.exports = {
             res.send(response);
         });
 
+        api.post("/randomPosts", (req, res) => {
+
+            db.connection.query(`
+                SELECT * FROM posts, entity_view WHERE entity_view.entity_id = posts.post_id ORDER BY RAND() LIMIT ?
+            `, [parseInt(req.body.number) || 8], (err, rows, fields) => {
+
+                    if (err) console.log(err);
+
+                    var posts = [];
+                    for (var row of rows) posts.push(module.exports.post(row));
+                    res.send(posts);
+                }
+            );
+        });
+
     }
 
 }

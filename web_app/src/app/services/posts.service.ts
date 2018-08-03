@@ -75,4 +75,8 @@ export class PostsService {
         });
     }
 
+    randomPosts(number: number): Observable<Post[]> {
+        return this.http.post<Post[]>(API_URL + "randomPosts", { number });
+    }
+
 }

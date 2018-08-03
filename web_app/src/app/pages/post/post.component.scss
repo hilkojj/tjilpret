@@ -134,3 +134,31 @@
     }
 
 }
+
+.random-posts {
+    @media only screen and (min-width: $break-med + 1px) {
+        animation: delayed-random-posts-fade .5s;
+        transform-origin: 50% 0%;
+    }
+
+    @keyframes delayed-random-posts-fade {
+        0% {
+            opacity: 0;
+            transform: scaleY(.8);
+        }
+        100% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+    }
+
+    p {
+        i {
+            vertical-align: middle;
+        }
+
+        @media only screen and (max-width: $break-small) {
+            padding-left: .75rem;
+        }
+    }
+}

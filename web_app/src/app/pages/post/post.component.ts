@@ -20,6 +20,8 @@ export class PostComponent implements OnInit {
     poster: User;
     numberOfComments = 0;
 
+    randomPosts: Post[];
+
     // Edit post:
     newTitle;
     newDescription;
@@ -50,15 +52,23 @@ export class PostComponent implements OnInit {
 
         this.newTitle = this.post.title;
         this.newDescription = this.post.description;
+
+        this.service.randomPosts(10).subscribe(
+            posts => this.randomPosts = posts.filter(post => post.id != this.post.id)
+        );
     }
 
     edit() {
         this.service.editPost(this.post.id, this.newTitle, this.newDescription).subscribe(done => {
-            
+
             this.service.getPostById(this.post.id).subscribe(post => this.post = post);
 
         });
         this.modals.hideModal();
+    }
+
+    randomPost() {
+        this.service.randomPosts(1).subscribe(posts => this.service.showPost(posts[0]));
     }
 
 }
