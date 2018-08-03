@@ -74,6 +74,28 @@ app.get("/tjiller/:id*", (req, res) => {
     });
 });
 
+app.get("/uplood/:id*", (req, res) => {
+    db.connection.query("SELECT * FROM posts WHERE post_id = ?", [parseInt(req.params.id) || -100], (err, rows, fields) => {
+        if (err || rows.length == 0) {
+            console.log(err);
+            webapp.show(`
+				<meta name="og:url" content="https://tjilpret.tk"/>
+				<meta name="og:image" content="https://tjilpret.tk/static_content/img/login_logo.png"/>
+				<meta name="og:title" content="Uplood niet gevonden?!!?"/>
+			`, res);
+        } else {
+            var post = rows[0];
+            var thumbnail = "https://tjilpret.tk/static_content/post_uploads/" + post.thumbnail_path;
+            webapp.show(`
+				<meta name="og:description" content="`+ post.description.replace(/"/g, '&quot;') + `"/>
+				<meta name="og:url" content="https://tjilpret.tk"/>\
+				<meta name="og:image" content="` + thumbnail + `"/>
+				<meta name="og:title" content="`+ post.title + `"/>
+			`, res);
+        }
+    });
+});
+
 app.get("*", (req, res) => {
     webapp.show(null, res);
 });
