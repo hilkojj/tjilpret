@@ -7,6 +7,7 @@ import { PostsService } from '../../services/posts.service';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { SpeechService } from '../../services/speech.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-post',
@@ -19,12 +20,17 @@ export class PostComponent implements OnInit {
     poster: User;
     numberOfComments = 0;
 
+    // Edit post:
+    newTitle;
+    newDescription;
+
     constructor(
         public auth: AuthService,
         public service: PostsService,
         public users: UserService,
         public posts: PostsService,
         public speech: SpeechService,
+        public modals: ModalService,
 
         private route: ActivatedRoute,
         private router: Router,
@@ -39,10 +45,20 @@ export class PostComponent implements OnInit {
             return this.router.navigateByUrl("/uplood-niet-gevonden", { replaceUrl: true });
 
         this.title.setTitle(this.post.title);
-
         this.users.userById(this.post.uploadedBy).subscribe(user => this.poster = user);
-
         this.posts.registerView(this.post.id);
+
+        this.newTitle = this.post.title;
+        this.newDescription = this.post.description;
+    }
+
+    edit() {
+        this.service.editPost(this.post.id, this.newTitle, this.newDescription).subscribe(done => {
+            
+            this.service.getPostById(this.post.id).subscribe(post => this.post = post);
+
+        });
+        this.modals.hideModal();
     }
 
 }

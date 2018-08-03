@@ -21,6 +21,72 @@ module.exports = {
         }
     },
 
+    editPostTitle: (token, postId, title) => new Promise(resolve => {
+
+        db.connection.query(`
+            UPDATE posts AS post
+            
+            JOIN entities AS entity ON (
+                entity.entity_id = post.post_id
+                AND
+                entity.entity_id = ?
+            )
+
+            JOIN tokens AS token ON token.token = ?
+
+            JOIN users AS user ON (
+                user.user_id = token.user_id
+                AND
+                (
+                    user.is_admin
+                    OR
+                    user.user_id = entity.user_id
+                )
+            )
+
+            SET 
+                post.title = ?,
+                post.last_edited_by = user.user_id,
+                post.last_edited_time = ?
+        `, [postId, token, title, Date.now() / 1000 | 0], (err, r, f) => {
+                if (err) console.log(err);
+                resolve(!err && r.affectedRows == 1);
+            });
+    }),
+
+    editPostDescription: (token, postId, description) => new Promise(resolve => {
+
+        db.connection.query(`
+            UPDATE posts AS post
+            
+            JOIN entities AS entity ON (
+                entity.entity_id = post.post_id
+                AND
+                entity.entity_id = ?
+            )
+
+            JOIN tokens AS token ON token.token = ?
+
+            JOIN users AS user ON (
+                user.user_id = token.user_id
+                AND
+                (
+                    user.is_admin
+                    OR
+                    user.user_id = entity.user_id
+                )
+            )
+
+            SET 
+                post.description = ?,
+                post.last_edited_by = user.user_id,
+                post.last_edited_time = ?
+        `, [postId, token, description, Date.now() / 1000 | 0], (err, r, f) => {
+                if (err) console.log(err);
+                resolve(!err && r.affectedRows == 1);
+            });
+    }),
+
     apiFunctions: api => {
 
         api.post("/postsOfUser/:userId", (req, res) => {
@@ -105,7 +171,7 @@ module.exports = {
             `,
                 [
                     token, postId, time - 10, postId,
-                    
+
                     postId, token, time
                 ], (err, r, fields) => {
 
@@ -117,6 +183,25 @@ module.exports = {
                     res.send({ success: true });
                 }
             );
+        });
+
+        api.post("/editPost", async (req, res) => {
+
+            var token = parseInt(req.body.token) || 0;
+            var postId = parseInt(req.body.postId) || 0;
+
+            var title = req.body.title;
+            var description = req.body.description;
+
+            var response = {};
+
+            if (title)
+                response.titleUpdated = await module.exports.editPostTitle(token, postId, title);
+
+            if (description)
+                response.descriptionUpdated = await module.exports.editPostDescription(token, postId, description);
+
+            res.send(response);
         });
 
     }

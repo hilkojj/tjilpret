@@ -29,6 +29,23 @@
                     {{post.time | timestamp}}
                 </p>
             </div>
+
+            <div class="divider bw-on-bw10"></div>
+
+            <div class="buttons">
+                <button class="btn btn-flat waves-effect" title="Willekurige uplood bekijken">
+                    <i class="material-icons left">shuffle</i>
+                    shuffle
+                </button>
+
+                <button *ngIf="auth.session.user.admin || auth.session.user.id == post.uploadedBy"
+                    (click)="modals.showModal('editPost')" class="btn btn-flat waves-effect"
+                    title="Bwerken of verwydren">
+                    <i class="material-icons left">edit</i>
+                    bwerken
+                </button>
+            </div>
+
         </div>
 
         <div class="hide-on-large-only">
@@ -82,3 +99,31 @@
     </div>
 
 </ng-template>
+
+<app-modal name="editPost" hash="uplood-bwerken" class="edit-profile">
+
+    <div class="edit-post">
+
+        <app-toolbar>
+            <button class="btn btn-flat waves-effect not-default not-fav-bg transparent white-text" (click)="edit()">
+                <i class="material-icons left">done</i>
+                oopslaan
+            </button>
+        </app-toolbar>
+
+        <div class="row">
+
+            <div class="col s12">
+
+                <span class="input-title fav-text">Tietel:</span>
+                <input id="new-title" type="text" [(ngModel)]="newTitle">
+
+                <span class="input-title fav-text">Descriptie:</span>
+                <textarea class="materialize-textarea" maxlength="2048" [(ngModel)]="newDescription"></textarea>
+                {{newDescription.length}} / 2048
+
+            </div>
+        </div>
+    </div>
+
+</app-modal>

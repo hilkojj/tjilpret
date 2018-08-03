@@ -45,6 +45,11 @@
             max-width: 100%;
         }
     }
+
+    .buttons {
+        padding: .75rem;
+    }
+    
 }
 
 .card {
@@ -105,6 +110,27 @@
 
     button {
         margin: .75rem 0;
+    }
+
+}
+
+.edit-post {
+
+    app-toolbar {
+        button {
+            position: absolute;
+            right: .75rem;
+        }
+    }
+
+    .input-title {
+        display: block;
+        margin-top: .75rem;
+        font-weight: bold;
+    }
+
+    textarea {
+        min-height: 160px;
     }
 
 }
