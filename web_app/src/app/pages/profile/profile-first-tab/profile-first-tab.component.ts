@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ColorClass } from '../../../models/colors';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../../services/profile.service';
+import { SpeechService } from '../../../services/speech.service';
 
 interface Stat {
     icon: string,
@@ -22,6 +23,8 @@ export class ProfileFirstTabComponent implements OnInit {
     constructor(
         @Host() public profile: ProfileComponent,
         public service: ProfileService,
+        public speech: SpeechService,
+
         private title: Title,
         private route: ActivatedRoute
     ) { }

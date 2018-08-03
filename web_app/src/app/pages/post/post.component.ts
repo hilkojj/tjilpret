@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { PostsService } from '../../services/posts.service';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import { SpeechService } from '../../services/speech.service';
 
 @Component({
     selector: 'app-post',
@@ -23,6 +24,7 @@ export class PostComponent implements OnInit {
         public service: PostsService,
         public users: UserService,
         public posts: PostsService,
+        public speech: SpeechService,
 
         private route: ActivatedRoute,
         private router: Router,

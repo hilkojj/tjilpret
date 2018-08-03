@@ -25,6 +25,14 @@
             <span class="fav-text title">Status</span>
 
             <span class="pre-wrap">{{profile.user.bio}}</span>
+            
+            <div class="divider bw-on-bw10"></div>
+
+            <button class="btn btn-flat waves-effect" (click)="speech.speak(profile.user.bio)">
+                <i class="material-icons left">volume_up</i>
+                
+                Voorlezen ⠧⠕⠕⠗⠇⠑⠵⠑⠝
+            </button>
         </div>
 
         <div class="card bw no-border-radius-on-small">
