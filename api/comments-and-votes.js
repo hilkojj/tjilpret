@@ -23,7 +23,9 @@ module.exports = {
                 
             ORDER BY time DESC
                 
-            LIMIT ? OFFSET ?`, [entityId, -up, limit, offset], (err, rows, fields) => {
+            LIMIT ? OFFSET ?`, [entityId, -up, limit, offset || 0], (err, rows, fields) => {
+
+                if (err) console.log(err);
 
                 var voters = [];
 
@@ -95,7 +97,7 @@ module.exports = {
         );
     }),
 
-    getVotes: function (entityIds, token, callback) {
+    getVotes: (entityIds, token) => new Promise(resolve => {
 
         db.connection.query(`
             SELECT
@@ -134,10 +136,10 @@ module.exports = {
                     }
                 }
 
-                callback(votes);
+                resolve(votes);
             }
         );
-    },
+    }),
 
     apiFunctions: function (api) {
 
@@ -196,7 +198,7 @@ module.exports = {
                 JOIN entities ON (entities.entity_id = comments.entity_id)
                 JOIN user_info ON (user_info.user_id = entities.user_id)
                 ORDER BY comment_on_entity_id ASC
-                `, [entityId, entityId], (err, rows, fields) => {
+                `, [entityId, entityId], async (err, rows, fields) => {
                     if (err) {
                         console.log(err);
                         return res.send({ success: false });
@@ -228,12 +230,12 @@ module.exports = {
 
                         commentsAndSubComments[comment.id] = comment;
                     }
-                    this.getVotes(Object.keys(commentsAndSubComments), parseInt(req.body.token) || 0, votes => {
-                        for (var i in votes) {
-                            commentsAndSubComments[i].votes = votes[i];
-                        }
-                        res.send(Object.values(comments));
-                    });
+                    var votes = await this.getVotes(Object.keys(commentsAndSubComments), parseInt(req.body.token) || 0);
+                    
+                    for (var i in votes) {
+                        commentsAndSubComments[i].votes = votes[i];
+                    }
+                    res.send(Object.values(comments));
                 }
             );
         });
@@ -294,8 +296,6 @@ module.exports = {
             var values = [entityId, token];
             if (vote != 0) values = [...values, token, entityId, vote == 1, Date.now() / 1000 | 0];
 
-            console.log(values);
-
             db.connection.query(`
                 DELETE FROM entity_votes
                 WHERE entity_id = ? AND user_id = (SELECT user_id FROM tokens WHERE token = ?);
@@ -306,18 +306,36 @@ module.exports = {
                 VALUES
                 ((SELECT user_id FROM tokens WHERE token = ?), ?, ?, ?)
 
-            `: ""), values, (err, rows, fields) => {
+            `: ""), values, async (err, rows, fields) => {
 
                     if (err) {
                         console.log(err);
                         return utils.sendError(res, "Er is iets vreselijk mis gegaan");
                     }
 
-                    this.getVotes([entityId], token, votes => {
-                        res.send(votes[entityId]);
-                    });
+                    var votes = await this.getVotes([entityId], token);
+
+                    res.send(votes[entityId]);
                 }
             );
+        });
+
+        api.post("/getVotes", async (req, res) => {
+
+            var token = parseInt(req.body.token) || 0;
+            var entityId = parseInt(req.body.entityId) || -1;
+
+            var obj = {
+                votes: (await this.getVotes([entityId], token))[entityId],
+            }
+            if (req.body.getVoters) {
+
+                var votersLimit = parseInt(req.body.votersLimit) || 10;
+                console.log(votersLimit);
+                obj.upVoters = await this.getVoters(entityId, 1, votersLimit);
+                obj.downVoters = await this.getVoters(entityId, -1, votersLimit);
+            }
+            res.send(obj);
         });
 
     }
