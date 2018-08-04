@@ -99,6 +99,8 @@ module.exports = {
 
     getVotes: (entityIds, token) => new Promise(resolve => {
 
+        if (!entityIds || entityIds.length == 0) return resolve({});
+
         db.connection.query(`
             SELECT
                 entities.entity_id,
@@ -121,7 +123,7 @@ module.exports = {
 
                 if (err) {
                     console.log(err);
-                    return callback({});
+                    return resolve({});
                 }
 
                 var votes = {};
