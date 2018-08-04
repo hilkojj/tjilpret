@@ -73,7 +73,7 @@
             <i class="material-icons">
                 playlist_play
             </i>
-            MISSCHIEN OOK LEUK:
+            MISSCHIEN {{post.score < 0 ? "WÈL" : "OOK"}} LEUK:
         </p>
         <app-post-card *ngFor="let p of randomPosts" [post]="p"></app-post-card>
     </div>
