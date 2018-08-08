@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Votes } from '../../models/votes';
+import { Votes, Voter } from '../../models/votes';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
-import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-votes',
@@ -16,10 +16,16 @@ export class VotesComponent implements OnInit {
 
     @Input() extended: boolean;
 
-    upVoters: User[];
-    downVoters: User[];
+    upVoters: Voter[];
+    downVoters: Voter[];
+
+    modalHash: string;
+    modalUpVoters: boolean = true; // show the upvoters or the downvoters in the modal?
+    modalVoters: Voter[];
 
     constructor(
+        public modals: ModalService,
+
         private service: CommentsAndVotesService,
         private auth: AuthService
     ) { }
@@ -30,13 +36,15 @@ export class VotesComponent implements OnInit {
             var ob = !this.extended ?
                 this.service.getVotesAndVoters(this.entityId)
                 :
-                this.service.getVotesAndVoters(this.entityId, 10);
+                this.service.getVotesAndVoters(this.entityId, 7);
 
             ob.subscribe(votesAndVoters => {
                 this.votes = votesAndVoters.votes;
-                this.upVoters = votesAndVoters.upVoters.filter(voter => voter.id != this.auth.session.user.id);
-                this.downVoters = votesAndVoters.downVoters.filter(voter => voter.id != this.auth.session.user.id);
+                this.upVoters = votesAndVoters.upVoters.filter(voter => voter.user.id != this.auth.session.user.id);
+                this.downVoters = votesAndVoters.downVoters.filter(voter => voter.user.id != this.auth.session.user.id);
             });
+
+            this.modalHash = "waardering-" + this.entityId;
         }
     }
 
@@ -51,7 +59,22 @@ export class VotesComponent implements OnInit {
     }
 
     percentage(numberOfVotes: number) {
-        return (numberOfVotes / (this.votes.upVotes + this.votes.downVotes) * 100 | 0) + "%";
+        return numberOfVotes / (this.votes.upVotes + this.votes.downVotes) * 100;
+    }
+
+    get modalTitle(): string {
+        if (this.modalUpVoters)
+
+            return this.votes.upVotes + ' ' + (this.votes.upVotes == 1 ? 'waardering' : 'waarderingen');
+
+        else
+
+            return this.votes.downVotes + ' ' + (this.votes.downVotes == 1 ? 'minachting' : 'minachtingen');
+    }
+
+    showVotersModal(showUpVoters: boolean) {
+        this.modalVoters = null;
+        this.modalUpVoters = showUpVoters;
     }
 
 }

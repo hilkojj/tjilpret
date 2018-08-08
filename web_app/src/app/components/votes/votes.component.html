@@ -25,19 +25,50 @@
     </span>
 
     <div class="sentiment" *ngIf="extended">
-        <div class="up" [style.width]="!votes ? '50%' : percentage(votes.upVotes)">
+        <div class="up" [style.width]="!votes ? '50%' : percentage(votes.upVotes) + '%'">
             <span class="number" *ngIf="votes">
                 +{{votes.upVotes}}
             </span>
             <div class="bar" [ngClass]="votes && votes.upVotes > 0 ? 'green' : ''"></div>
+
+            <span *ngIf="upVoters && upVoters.length > 0">
+                <ng-container *ngTemplateOutlet="voters; context: {voters: upVoters, percentage: percentage(votes.upVotes), up: true}">
+                </ng-container>
+            </span>
         </div>
 
-        <div class="down" [style.width]="!votes ? '50%' : percentage(votes.downVotes)">
+        <div class="down" [style.width]="!votes ? '50%' : percentage(votes.downVotes) + '%'">
             <span class="number" *ngIf="votes">
                 -{{votes.downVotes}}
             </span>
             <div class="bar" [ngClass]="votes && votes.downVotes > 0 ? 'red' : ''"></div>
+
+            <span *ngIf="downVoters && downVoters.length > 0">
+                <ng-container *ngTemplateOutlet="voters; context: {voters: downVoters, percentage: percentage(votes.downVotes), up: false}">
+                </ng-container>
+            </span>
         </div>
+
+        <ng-template #voters let-voters="voters" let-percentage="percentage" let-up="up">
+            <div class="voters" [ngClass]="percentage > 20 ? 'profile-pics' : 'no-profile-pics'">
+
+                <span *ngIf="percentage > 20">
+                    <span class="voter" *ngFor="let voter of voters" [title]="voter.user.username">
+                        <app-profile-pic [user]="voter.user" dim="small" size="20px"
+                            cursor="pointer"></app-profile-pic>
+                    </span>
+                </span>
+
+                <i class="more-btn material-icons fav-text waves-effect" (click)="showVotersModal(up)">more_horiz</i>
+
+            </div>
+        </ng-template>
     </div>
 
 </span>
+
+<app-modal [hash]="modalHash" [name]="modalHash" *ngIf="extended && votes">
+
+    <app-toolbar [titleText]="modalTitle"></app-toolbar>
+
+</app-modal>

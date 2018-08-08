@@ -5,7 +5,7 @@ import { API_URL } from '../constants';
 import { Comment } from '../models/comment';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
-import { Votes, VotesAndVoters } from '../models/votes';
+import { Votes, VotesAndVoters, Voter } from '../models/votes';
 import { Router } from '../../../node_modules/@angular/router';
 
 @Injectable({
@@ -32,8 +32,27 @@ export class CommentsAndVotesService {
             token: this.auth.session.token,
             entityId,
             getVoters: getVoters ? true : false,
-            getVotersLimit: getVoters
+            votersLimit: getVoters
+        }).map(votesAndVoters => {
+            
+            var mapper = (voter: Voter) => {
+                voter.user = Object.assign(new User(), voter.user);
+                return voter;
+            };
+
+            votesAndVoters.upVoters.map(mapper);
+            votesAndVoters.downVoters.map(mapper);
+            return votesAndVoters;
         });
+    }
+
+    getVoters(entityId: number, up: boolean, limit: number, offset: number): Observable<Voter[]> {
+        return this.http.post<Voter[]>(API_URL + "getVoters", {
+            entityId, up, limit, offset
+        }).map(voters => voters.map(voter => {
+            voter.user = Object.assign(new User(), voter.user);
+            return voter;
+        }));
     }
 
     getComments(entityId: number): Observable<Comment[]> {

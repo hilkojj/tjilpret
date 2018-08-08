@@ -19,11 +19,11 @@ module.exports = {
             WHERE
                 entity_id = ?
             AND
-                up != ?
+                up = ?
                 
             ORDER BY time DESC
                 
-            LIMIT ? OFFSET ?`, [entityId, -up, limit, offset || 0], (err, rows, fields) => {
+            LIMIT ? OFFSET ?`, [entityId, up, limit, offset || 0], (err, rows, fields) => {
 
                 if (err) console.log(err);
 
@@ -333,11 +333,21 @@ module.exports = {
             if (req.body.getVoters) {
 
                 var votersLimit = parseInt(req.body.votersLimit) || 10;
-                console.log(votersLimit);
-                obj.upVoters = await this.getVoters(entityId, 1, votersLimit);
-                obj.downVoters = await this.getVoters(entityId, -1, votersLimit);
+                obj.upVoters = await this.getVoters(entityId, true, votersLimit);
+                obj.downVoters = await this.getVoters(entityId, false, votersLimit);
             }
             res.send(obj);
+        });
+
+        api.post("/getVoters", async (req, res) => {
+            res.send(
+                await this.getVoters(
+                    parseInt(req.body.entityId) || -1, 
+                    req.body.up ? true : false, 
+                    parseInt(req.body.limit) || 16,
+                    parseInt(req.body.offset) || 0
+                )
+            );
         });
 
     }

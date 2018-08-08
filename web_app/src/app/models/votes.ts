@@ -8,10 +8,16 @@ export interface Votes {
 
 }
 
+export interface Voter {
+    time: number;
+    up: boolean;
+    user: User;
+}
+
 export interface VotesAndVoters {
 
     votes: Votes;
-    upVoters: User[];
-    downVoters: User[];
+    upVoters: Voter[];
+    downVoters: Voter[];
     
 }
