@@ -21,6 +21,8 @@
             <div class="padding">
                 <h5>{{post.title}}</h5>
 
+                <app-votes [entityId]="post.id" [extended]="true"></app-votes>
+
                 <p class="stats">
                     <i class="material-icons">remove_red_eye</i>
                     {{post.views}} weergaven
@@ -55,7 +57,7 @@
 
         <div class="col s12 card bw no-border-radius-on-small comments-card">
 
-            <p class="fav-text title">{{numberOfComments}} reakties</p>
+            <p class="fav-text title">{{numberOfComments}} {{numberOfComments == 1 ? 'reaktie' : 'reakties'}}</p>
 
             <app-comments [entityId]="post.id" (numberOfCommentsChanged)="numberOfComments = $event"></app-comments>
 

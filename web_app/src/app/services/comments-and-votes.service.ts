@@ -5,7 +5,7 @@ import { API_URL } from '../constants';
 import { Comment } from '../models/comment';
 import { User } from '../models/user';
 import { AuthService } from './auth.service';
-import { Votes } from '../models/votes';
+import { Votes, VotesAndVoters } from '../models/votes';
 import { Router } from '../../../node_modules/@angular/router';
 
 @Injectable({
@@ -18,6 +18,23 @@ export class CommentsAndVotesService {
         private auth: AuthService,
         private router: Router
     ) { }
+
+    vote(entityId: number, vote: number): Observable<Votes> {
+        return this.http.post<Votes>(API_URL + "vote", {
+            token: this.auth.session.token,
+            entityId,
+            vote
+        });
+    }
+
+    getVotesAndVoters(entityId: number, getVoters?: number): Observable<VotesAndVoters> {
+        return this.http.post<VotesAndVoters>(API_URL + "getVotes", {
+            token: this.auth.session.token,
+            entityId,
+            getVoters: getVoters ? true : false,
+            getVotersLimit: getVoters
+        });
+    }
 
     getComments(entityId: number): Observable<Comment[]> {
         var token = this.auth.session.token;
@@ -49,14 +66,6 @@ export class CommentsAndVotesService {
             token: this.auth.session.token,
             commentId
         }).map(res => res["success"]);
-    }
-
-    vote(entityId: number, vote: number): Observable<Votes> {
-        return this.http.post<Votes>(API_URL + "vote", {
-            token: this.auth.session.token,
-            entityId,
-            vote
-        });
     }
 
     goToComment(commentId: number) {

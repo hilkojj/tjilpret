@@ -1,23 +1,43 @@
-<span class="container">
+<span class="container" [ngClass]="extended ? 'extended' : ''">
 
-    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes.myVote == 1 ? 'fav-bg not-default' : ''"
-        title="Dit waardeer ik" (click)="vote(votes.myVote == 1 ? 0 : 1)">
+    <span *ngIf="extended" class="your-vote-label">
+        UW WAARDERING:
+    </span>
 
-        <i class="material-icons" [ngClass]="votes.myVote == 1 ? 'bw-text' : 'fav-text'">
+    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes?.myVote == 1 ? 'fav-bg not-default' : ''"
+        title="Dit waardeer ik" (click)="vote(votes?.myVote == 1 ? 0 : 1)">
+
+        <i class="material-icons" [ngClass]="votes?.myVote == 1 ? 'bw-text' : 'fav-text'">
             exposure_plus_1
         </i>
 
     </button>
 
-    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes.myVote == -1 ? 'red not-default not-fav-bg' : ''"
-        title="Dit is pretbedervend" (click)="vote(votes.myVote == -1 ? 0 : -1)">
-        <i class="material-icons" [ngClass]="votes.myVote == -1 ? 'bw-text' : 'red-text'">
+    <button class="btn btn-flat btn-floating waves-effect" [ngClass]="votes?.myVote == -1 ? 'red not-default not-fav-bg' : ''"
+        title="Dit is pretbedervend" (click)="vote(votes?.myVote == -1 ? 0 : -1)">
+        <i class="material-icons" [ngClass]="votes?.myVote == -1 ? 'bw-text' : 'red-text'">
             exposure_neg_1
         </i>
     </button>
 
-    <span class="counter">
+    <span class="counter" *ngIf="!extended">
         {{ score }}
     </span>
+
+    <div class="sentiment" *ngIf="extended">
+        <div class="up" [style.width]="!votes ? '50%' : percentage(votes.upVotes)">
+            <span class="number" *ngIf="votes">
+                +{{votes.upVotes}}
+            </span>
+            <div class="bar" [ngClass]="votes && votes.upVotes > 0 ? 'green' : ''"></div>
+        </div>
+
+        <div class="down" [style.width]="!votes ? '50%' : percentage(votes.downVotes)">
+            <span class="number" *ngIf="votes">
+                -{{votes.downVotes}}
+            </span>
+            <div class="bar" [ngClass]="votes && votes.downVotes > 0 ? 'red' : ''"></div>
+        </div>
+    </div>
 
 </span>
