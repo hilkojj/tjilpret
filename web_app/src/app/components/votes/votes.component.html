@@ -54,10 +54,11 @@
             <div class="voters" [ngClass]="percentage > 20 ? 'profile-pics' : 'no-profile-pics'">
 
                 <span *ngIf="percentage > 20">
-                    <span class="voter" *ngFor="let voter of voters" [title]="voter.user.username">
+                    <a [profileLink]="voter.user" class="voter" *ngFor="let voter of voters"
+                        [title]="voter.user.username">
                         <app-profile-pic [user]="voter.user" dim="small" size="20px"
                             cursor="pointer"></app-profile-pic>
-                    </span>
+                    </a>
                 </span>
 
                 <i class="more-btn material-icons fav-text waves-effect" (click)="showVotersModal(up)">more_horiz</i>

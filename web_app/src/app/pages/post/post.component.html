@@ -86,14 +86,14 @@
 
     <div class="extra-info">
 
-        <div class="pic-and-name col s12 card bw no-border-radius-on-small waves-effect"
-            (click)="users.showProfile(poster)">
-            <span>Geüplood door:</span>
+        <a class="pic-and-name col s12 card bw no-border-radius-on-small waves-effect"
+            [profileLink]="poster">
+            <span class="bw-on-bw-text">Geüplood door:</span>
             <app-profile-pic *ngIf="poster" [user]="poster" size="48px" dim="small"
                 cursor="pointer"></app-profile-pic>
 
             <app-username *ngIf="poster" [user]="poster" [color]="poster.rgbString"></app-username>
-        </div>
+        </a>
 
         <div class="col s12 card bw no-border-radius-on-small">
             <p class="title fav-text">Descriptie</p>

@@ -52,6 +52,7 @@ import { PostCardComponent } from './components/post-card/post-card.component';
 import { TimePipe } from './pipes/time.pipe';
 import { PostComponent } from './pages/post/post.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { ProfileLinkDirective } from './directives/profile-link.directive';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     PostCardComponent,
     TimePipe,
     PostComponent,
-    UserListComponent
+    UserListComponent,
+    ProfileLinkDirective
   ],
   imports: [
     BrowserModule,

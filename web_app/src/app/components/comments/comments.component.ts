@@ -23,7 +23,6 @@ export class CommentsComponent implements OnInit {
     constructor(
         public auth: AuthService,
         public service: CommentsAndVotesService,
-        public users: UserService,
         private giphy: GiphyService
     ) { }
 

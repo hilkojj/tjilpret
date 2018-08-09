@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { Router } from '@angular/router';
@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
         )
     ]
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
 
     @Input() name: string;
     @Input() hash: string;
@@ -54,6 +54,10 @@ export class ModalComponent implements OnInit {
 
     close() {
         history.back();
+    }
+
+    ngOnDestroy() {
+        this.modals.hideModal();
     }
 
     navigate(url: string) {

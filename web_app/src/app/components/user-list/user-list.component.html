@@ -1,9 +1,9 @@
-<div class="user waves-effect" *ngFor="let user of users">
+<a class="user waves-effect" *ngFor="let user of users" [profileLink]="user">
     
     <app-profile-pic [user]="user" dim="small" size="40px" cursor="pointer"></app-profile-pic>
     <app-username [user]="user"></app-username>
 
-</div>
+</a>
 
 <div class="center" *ngIf="canLoadMoreUsers" inViewport (ifInViewport)="canLoadMoreUsers && loadMoreUsers.emit()">
     <br>

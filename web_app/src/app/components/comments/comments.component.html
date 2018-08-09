@@ -50,7 +50,7 @@
 
         <div *ngIf="threadLine" class="fav-bg thread-line"></div>
 
-        <a (click)="users.showProfile(comment.user)">
+        <a [profileLink]="comment.user">
 
             <app-profile-pic [ngClass]="parent ? 'small-ppic' : ''" [user]="comment.user"
                 [size]="parent ? '40px' : '48px'" cursor="pointer"
