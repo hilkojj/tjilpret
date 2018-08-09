@@ -127,6 +127,8 @@ const headerUpload = multer({
 
 module.exports = {
 
+    imgFilter: imgFilter,
+
     apiFunctions: function (api) {
 
         api.post("/uploadProfilePic", (req, res) => {

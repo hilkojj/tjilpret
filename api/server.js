@@ -38,7 +38,8 @@ const apiFiles = [
     "sound-fragments",
     "comments-and-votes",
     "notifications",
-    "posts"
+    "posts",
+    "emoticons"
 ];
 for (var i in apiFiles)
     require("./" + apiFiles[i] + ".js").apiFunctions(api);
