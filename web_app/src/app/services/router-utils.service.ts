@@ -41,6 +41,10 @@ export class RouterUtilsService {
             .filter((route) => route.outlet === 'primary')
             .mergeMap((route) => route.data)
             .subscribe(data => {
+
+                // stop scroll restoration:
+                history.scrollRestoration = "manual";
+
                 if ("title" in data)
                     this.title.setTitle(data["title"]);
 
