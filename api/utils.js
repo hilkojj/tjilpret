@@ -61,7 +61,7 @@ module.exports = {
             soundFragment: row.sound_fragment,
             friends: row.friends,
             uploads: row.uploads,
-            groups: row.groups,
+            emoticons: row.emoticons,
             messages: row.messages,
             rep: row.rep,
             views: row.views,

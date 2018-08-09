@@ -36,7 +36,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
 import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
-import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
+import { ProfileEmoticonsComponent } from './pages/profile/profile-emoticons/profile-emoticons.component';
 import { FriendButtonComponent } from './components/friend-button/friend-button.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { AuthService } from './services/auth.service';
@@ -54,6 +54,7 @@ import { PostComponent } from './pages/post/post.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ProfileLinkDirective } from './directives/profile-link.directive';
 import { PostLinkDirective } from './directives/post-link.directive';
+import { EmoticonUploadComponent } from './components/emoticon-upload/emoticon-upload.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,7 @@ import { PostLinkDirective } from './directives/post-link.directive';
     ProfileFirstTabComponent,
     ProfileFriendsComponent,
     ProfileUploadsComponent,
-    ProfileGroupsComponent,
+    ProfileEmoticonsComponent,
     FriendButtonComponent,
     CommentsComponent,
     VotesComponent,
@@ -101,7 +102,8 @@ import { PostLinkDirective } from './directives/post-link.directive';
     PostComponent,
     UserListComponent,
     ProfileLinkDirective,
-    PostLinkDirective
+    PostLinkDirective,
+    EmoticonUploadComponent
   ],
   imports: [
     BrowserModule,

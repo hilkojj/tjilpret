@@ -14,7 +14,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
 import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
 import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile-uploads.component';
-import { ProfileGroupsComponent } from './pages/profile/profile-groups/profile-groups.component';
+import { ProfileEmoticonsComponent } from './pages/profile/profile-emoticons/profile-emoticons.component';
 import { UserResolver } from './resolvers/user-resolver';
 import { ColorClassResolver } from './pages/profile/profile-first-tab/color-class-resolver';
 import { PostComponent } from './pages/post/post.component';
@@ -80,7 +80,7 @@ const routes: Routes = [
             },
             { path: 'vriends', component: ProfileFriendsComponent, data: { showNavbar: true } },
             { path: 'uploods', component: ProfileUploadsComponent, data: { showNavbar: true } },
-            { path: 'groeps', component: ProfileGroupsComponent, data: { showNavbar: true } },
+            { path: 'emotikons', component: ProfileEmoticonsComponent, data: { showNavbar: true } },
         ]
     },
     {

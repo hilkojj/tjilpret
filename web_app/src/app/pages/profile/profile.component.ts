@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
             new Tab("Profiel", null, "./"),
             new Tab("Vriends", null, "./vriends", user.friends),
             new Tab("Uploods", null, "./uploods", user.uploads),
-            new Tab("Groeps", null, "./groeps", user.groups)
+            new Tab("Emotikons", null, "./emotikons", user.emoticons)
         ];
 
 

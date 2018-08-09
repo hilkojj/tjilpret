@@ -23,7 +23,7 @@ export class User {
     views: number;
     groupsStarted: number;
     uploads: number;
-    groups: number;
+    emoticons: number;
 
     profilePicUrl(dim: string): string {
         var profilePic = this.profilePic == null ? "default.png" : this.profilePic;

@@ -46,13 +46,10 @@ VIEW `user_info` AS
                 ((`entities`.`user_id` = `users`.`user_id`)
                     AND (`posts`.`post_id` = `entities`.`entity_id`))) AS `uploads`,
         (SELECT 
-                COUNT(0)
-            FROM
-                (`chat_members`
-                JOIN `chats` ON (((`chats`.`chat_id` = `chat_members`.`chat_id`)
-                    AND (`chats`.`is_group` = 1))))
-            WHERE
-                (`chat_members`.`user_id` = `users`.`user_id`)) AS `groups`,
+                COUNT(*)
+			FROM
+				emoticons
+			WHERE emoticons.user_id = users.user_id) AS `emoticons`,
         (SELECT 
                 COUNT(0)
             FROM
