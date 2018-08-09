@@ -1,0 +1,13 @@
+.user {
+    display: block;
+
+    app-profile-pic {
+        float: left;
+        margin: .75rem;
+    }
+
+    ::ng-deep app-username p {
+        margin-top: 18px;
+    }
+
+}

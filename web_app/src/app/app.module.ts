@@ -51,6 +51,7 @@ import { SearchComponent } from './components/search/search.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { TimePipe } from './pipes/time.pipe';
 import { PostComponent } from './pages/post/post.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { PostComponent } from './pages/post/post.component';
     SearchComponent,
     PostCardComponent,
     TimePipe,
-    PostComponent
+    PostComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,

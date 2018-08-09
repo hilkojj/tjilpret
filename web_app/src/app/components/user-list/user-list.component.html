@@ -1,0 +1,15 @@
+<div class="user waves-effect" *ngFor="let user of users">
+    
+    <app-profile-pic [user]="user" dim="small" size="40px" cursor="pointer"></app-profile-pic>
+    <app-username [user]="user"></app-username>
+
+</div>
+
+<div class="center" *ngIf="canLoadMoreUsers" inViewport (ifInViewport)="canLoadMoreUsers && loadMoreUsers.emit()">
+    <br>
+    <br>
+    <app-circular-preloader>
+    </app-circular-preloader>
+    <br>
+    <br>
+</div>

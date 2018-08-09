@@ -3,6 +3,7 @@ import { Votes, Voter } from '../../models/votes';
 import { CommentsAndVotesService } from '../../services/comments-and-votes.service';
 import { AuthService } from '../../services/auth.service';
 import { ModalService } from '../../services/modal.service';
+import { User } from '../../models/user';
 
 @Component({
     selector: 'app-votes',
@@ -21,7 +22,9 @@ export class VotesComponent implements OnInit {
 
     modalHash: string;
     modalUpVoters: boolean = true; // show the upvoters or the downvoters in the modal?
-    modalVoters: Voter[];
+    modalVoters: User[] = [];
+    modalPage = 0;
+    canLoadMoreVoters = true;
 
     constructor(
         public modals: ModalService,
@@ -73,8 +76,21 @@ export class VotesComponent implements OnInit {
     }
 
     showVotersModal(showUpVoters: boolean) {
-        this.modalVoters = null;
+        this.modalVoters = [];
         this.modalUpVoters = showUpVoters;
+        this.modalPage = 0;
+        this.canLoadMoreVoters = true;
+        this.modals.showModal(this.modalHash);
+        this.loadMoreVoters();
+    }
+
+    loadMoreVoters() {
+        var limit = 16;
+        this.service.getVoters(this.entityId, this.modalUpVoters, limit, limit * this.modalPage++).subscribe(voters => {
+            var users = voters.map(voter => voter.user);
+            this.modalVoters = this.modalVoters.concat(users);
+            this.canLoadMoreVoters = users.length == limit;
+        });
     }
 
 }

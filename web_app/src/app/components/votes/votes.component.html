@@ -49,7 +49,8 @@
             </span>
         </div>
 
-        <ng-template #voters let-voters="voters" let-percentage="percentage" let-up="up">
+        <ng-template #voters let-voters="voters" let-percentage="percentage"
+            let-up="up">
             <div class="voters" [ngClass]="percentage > 20 ? 'profile-pics' : 'no-profile-pics'">
 
                 <span *ngIf="percentage > 20">
@@ -70,5 +71,11 @@
 <app-modal [hash]="modalHash" [name]="modalHash" *ngIf="extended && votes">
 
     <app-toolbar [titleText]="modalTitle"></app-toolbar>
+
+    <div class="voters-modal-scroll">
+        <app-user-list [users]="modalVoters" (loadMoreUsers)="loadMoreVoters()"
+            [canLoadMoreUsers]="canLoadMoreVoters">
+        </app-user-list>
+    </div>
 
 </app-modal>
