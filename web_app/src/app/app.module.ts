@@ -53,6 +53,7 @@ import { TimePipe } from './pipes/time.pipe';
 import { PostComponent } from './pages/post/post.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ProfileLinkDirective } from './directives/profile-link.directive';
+import { PostLinkDirective } from './directives/post-link.directive';
 
 @NgModule({
   declarations: [
@@ -99,7 +100,8 @@ import { ProfileLinkDirective } from './directives/profile-link.directive';
     TimePipe,
     PostComponent,
     UserListComponent,
-    ProfileLinkDirective
+    ProfileLinkDirective,
+    PostLinkDirective
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<div (click)="posts.showPost(post)" class="row card bw bw-on-bw-text waves-effect no-border-radius-on-small hoverable">
+<a [postLink]="post" class="row card bw bw-on-bw-text waves-effect no-border-radius-on-small hoverable">
     <div class="thumbnail col s5" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'">
 
         <span class="duration" *ngIf="post.type == 'vid'">
@@ -37,4 +37,4 @@
         {{post.views}}
 
     </div>
-</div>
+</a>
