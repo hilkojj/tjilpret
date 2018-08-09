@@ -1,7 +1,76 @@
-<input hidden type="file" accept="image/*" (change)="$event.target.files[0] && fileChosen($event.target.files[0])">
+<input #input id="emoticon-file-input" hidden type="file" accept="image/*"
+    (change)="$event.target.files[0] && fileChosen($event.target.files[0])">
 
 <app-modal hash="emoticoooooooooon-uploaden" name="newEmoticon">
 
-    <app-toolbar titleText="Niwe emoticon"></app-toolbar>
+    <app-toolbar titleText="Niwe emoticon">
+        <button *ngIf="!error && name && categoryId != -1 && previewSrc"
+            (click)="upload()" class="btn waves-effect btn-flat not-default not-fav-bg transparent white-text">
+            <i class="material-icons left">done</i>
+            Klaar
+        </button>
+    </app-toolbar>
+
+    <div class="row">
+        <div class="col s12">
+
+            <div class="preview-wrapper">
+
+                <a class="preview bw-on-bw10" (click)="input.click()">
+                    <div class="emoticon" *ngIf="previewSrc" [style.backgroundImage]="'url(' + previewSrc + ')'"></div>
+                </a>
+
+                <div class="input-field">
+                    <input id="new-emoticon-name" type="text" [(ngModel)]="name"
+                        (keyup)="checkName()">
+                    <label for="new-emoticon-name">Emotikon-naam</label>
+                </div>
+
+                <select [(ngModel)]="categoryId" class="browser-default black-text"
+                    materialize="material_select">
+                    <option [value]="-1" selected disabled>Kies een categorie</option>
+                    <option *ngFor="let c of service.emoticons" [value]="c.id">
+                        {{c.name}}
+                    </option>
+                </select>
+
+            </div>
+
+
+            <a class="fav-text" (click)="input.click()">
+                <i class="material-icons">file_upload</i>
+                TOG ANDERE
+            </a>
+
+            <br>
+            <p class="red-text error" *ngIf="error">
+                <i class="material-icons">error</i>
+                {{error}}
+            </p>
+
+
+            <ul>
+
+                <li>
+                    Zorg ervoor dat je emoticon zichtbaar is op verschillende achtergrondkleuren
+                    (wit, zwart, blauw etc.)
+                </li>
+
+                <li>
+                    Maak de achtergrond van je emoticon transparant
+                </li>
+
+                <li>
+                    Stop niet te kleine details in de emoticon
+                </li>
+
+                <li>
+                    Oke ik stop met zeiken nu
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
 
 </app-modal>

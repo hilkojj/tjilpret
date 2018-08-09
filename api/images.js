@@ -137,7 +137,8 @@ module.exports = {
                     console.log(err);
                     return utils.sendError(res, "AAAAAAAAAAAAAAA er is iets misgegaan");
                 }
-                console.log(req.body);
+                if (!req.file) return utils.sendError(res, "Er is niks geuplood");
+                
                 var newFileName = req.file.filename;
                 saveMultipleImageSizes(newFileName, req.file.destination, profilePicDim, function (success) {
                     if (success) {
@@ -162,7 +163,8 @@ module.exports = {
                     console.log(err);
                     return utils.sendError(res, "AAAAAAAAAAAAAAA er is iets misgegaan");
                 }
-                console.log(req.body);
+                if (!req.file) return utils.sendError(res, "Er is niks geuplood");
+                
                 var newFileName = req.file.filename;
                 saveMultipleImageSizes(newFileName, req.file.destination, headerDim, function (success) {
                     if (success) {

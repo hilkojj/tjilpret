@@ -5,13 +5,34 @@ const db = require("./database.js");
 const fs = require("fs");
 const im = require('imagemagick');
 const sizeOf = require('image-size');
+const utils = require('./utils.js');
+
+const getCategories = () => new Promise(resolve => {
+
+    db.connection.query(`SELECT * FROM emoticon_categories`, [], (err, rows, fields) => {
+        if (err) console.log(err);
+
+        var categories = {};
+
+        for (var row of rows) categories[row.id] = {
+            id: row.id,
+            name: row.name,
+            exampleEmoticon: row.example_emoticon
+        }
+        resolve(categories);
+    });
+
+});
 
 const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
 
     // CHECK IMAGE SIZE:
     var validSize = await (() => new Promise(resolve => {
         sizeOf(tempFilePath, (err, dim) => {
-            if (err) return resolve(false);
+            if (err) {
+                console.log(err);
+                return resolve(false);
+            }
 
             resolve(dim.width >= 100 && dim.width <= 600 && dim.height >= 100 && dim.height <= 600);
         });
@@ -68,7 +89,7 @@ const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
 
             im.crop({
                 srcPath: tempFilePath,
-                dstPath: `/emoticons/${name}.png`,
+                dstPath: __dirname + `/static_content/emoticons/${name}.png`,
                 width: 100,
                 height: 100,
                 format: "png"
@@ -89,7 +110,7 @@ const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
                 (?, (SELECT user_id FROM tokens WHERE token = ?), ?, ?)
             `, [name, token, categoryId, Date.now() / 1000 | 0], err => {
 
-                    resolve(!error);
+                    resolve(!err);
                     if (err)
                         console.log(err);
                 });
@@ -123,14 +144,53 @@ function apiFunctions(api) {
                 console.log(err);
                 return res.send({ error: "Er ging iets mis." });
             }
+            if (!req.file) return res.send({ error: "Er is niks geuplood" });
 
             res.send(await saveEmoticon(
-                req.file.filename,
+                __dirname + "/temp/emoticons/" + req.file.filename,
                 req.body.name,
                 parseInt(req.body.token) || 0,
                 parseInt(req.body.categoryId) || -1
             ));
         });
+    });
+
+    api.post("/emoticons", async (req, res) => {
+
+        var categories = await getCategories();
+        for (var id in categories) categories[id].emoticons = [];
+
+        db.connection.query(`
+            SELECT
+                emoticons.*
+            FROM 
+                emoticons
+            
+            JOIN tokens ON token = ?
+            
+            LEFT JOIN friendships ON (
+                (inviter_id = tokens.user_id AND accepter_id = emoticons.user_id)
+                OR
+                (accepter_id = tokens.user_id AND inviter_id = emoticons.user_id)
+            )
+            
+            WHERE emoticons.user_id = tokens.user_id OR emoticons.user_id = friendships.inviter_id OR emoticons.user_id = friendships.accepter_id
+            `, [parseInt(req.body.token) || 0], (err, rows, fields) => {
+
+                if (err) console.log(err);
+
+                for (var row of rows) {
+                    categories[row.category_id].emoticons.push({
+                        name: row.name,
+                        timesUsed: row.times_used,
+                        uploaderId: row.user_id,
+                        uploadedOn: row.time
+                    });
+                }
+                res.send(Object.values(categories));
+            }
+        );
+
     });
 
 }

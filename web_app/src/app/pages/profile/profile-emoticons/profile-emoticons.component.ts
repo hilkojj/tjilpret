@@ -1,6 +1,7 @@
 import { Component, OnInit, Host } from '@angular/core';
 import { ProfileComponent } from '../profile.component';
 import { Title } from '@angular/platform-browser';
+import { EmoticonsService } from '../../../services/emoticons.service';
 
 @Component({
     selector: 'app-profile-emoticons',
@@ -10,12 +11,14 @@ import { Title } from '@angular/platform-browser';
 export class ProfileEmoticonsComponent implements OnInit {
 
     constructor(
+        public emoticons: EmoticonsService,
+
         @Host() private profile: ProfileComponent,
         private title: Title
     ) { }
 
     ngOnInit() {
-        this.title.setTitle("Groeps van " + this.profile.user.username);
+        this.title.setTitle("Emotikons van " + this.profile.user.username);
     }
 
 }

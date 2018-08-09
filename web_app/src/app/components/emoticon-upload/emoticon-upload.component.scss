@@ -1,0 +1,98 @@
+@import "../../../styles.scss";
+
+app-toolbar {
+    button {
+        position: absolute;
+        right: .75rem;
+    }
+}
+
+.preview-wrapper {
+
+    $preview-size: 120px;
+    
+    padding-top: .75rem;
+    padding-left: $preview-size + 8px;
+    position: relative;
+    min-height: 148px;
+    
+    .preview {
+        $padding: 10px;
+        
+        width: $preview-size;
+        height: $preview-size;
+        padding: $padding;
+        border-radius: 8px;
+
+        position: absolute;
+        left: 0;
+        
+        .emoticon {
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            animation: emoticon-preview-anim .5s;
+            
+            @keyframes emoticon-preview-anim {
+                0% {
+                    opacity: 0;
+                    transform: rotate(-250deg) scale(0);
+                }
+            }
+        }
+    }
+
+    input {
+        margin-bottom: 13px;
+    }
+
+}
+
+.error {
+    display: inline-block;
+    animation: emoticon-error-anim .5s;
+
+    @keyframes emoticon-error-anim {
+        0% {
+            opacity: 0;
+            transform: scale(0);
+        }
+        20% {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+        40% {
+            opacity: .8;
+            transform: scale(.8);
+        }
+        60% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        80% {
+            opacity: .9;
+            transform: scale(.9);
+        }
+    }
+
+    i {
+        margin-bottom: 8px;
+    }
+}
+
+a i, p i {
+    padding-right: 8px;
+    line-height: 20px;
+    float: left;
+}
+
+ul {
+    opacity: .6;
+    list-style-type: disc;
+    li {
+        list-style-type: disc;
+        padding: .75rem;
+    }
+    padding-left: 24px;
+}
