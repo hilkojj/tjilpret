@@ -1,5 +1,5 @@
 <input #input id="emoticon-file-input" hidden type="file" accept="image/*"
-    (change)="$event.target.files[0] && fileChosen($event.target.files[0])">
+    (change)="$event.target.files[0] && fileChosen($event.target.files[0]); $event.target.value = ''">
 
 <app-modal hash="emoticoooooooooon-uploaden" name="newEmoticon">
 
