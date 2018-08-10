@@ -136,7 +136,7 @@
         <b>Jou reakti:</b>
 
         <br>
-        <span class="item-text" *ngIf="comment.text.length > 0" [innerHTML]="comment.text | emoticons"></span>
+        <span class="item-text" *ngIf="comment.text.length > 0" [innerHTML]="comment.text | escape | emoticons"></span>
         <b *ngIf="comment.giphy" class="fav-text">(GIF)</b>
     </div>
 </ng-template>
@@ -147,6 +147,6 @@
         <div class="thumbnail" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'"></div>
         <b>{{post.title}}</b>
         <br>
-        <span class="item-text" [innerHTML]="post.description | emoticons"></span>
+        <span class="item-text" [innerHTML]="post.description | escape | emoticons"></span>
     </div>
 </ng-template>

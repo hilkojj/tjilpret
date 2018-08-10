@@ -14,7 +14,7 @@
             <app-username [user]="auth.session.user" fontSize="20px"></app-username>
         </a>
 
-        <span class="pre-wrap" [innerHTML]="auth.session.user.bio | emoticons | links"></span>
+        <span class="pre-wrap" [innerHTML]="auth.session.user.bio | escape | emoticons | links"></span>
 
         <div class="row stats bw-on-bw10">
             <a class="col s4">

@@ -21,7 +21,7 @@ export class ColorSliderComponent implements OnChanges {
     perc = 50;
 
     constructor(
-        private sanitizer: DomSanitizer
+        private escaper: DomSanitizer
     ) { }
 
     ngOnChanges() {
@@ -79,7 +79,7 @@ export class ColorSliderComponent implements OnChanges {
     }
 
     get background() {
-        return this.sanitizer.bypassSecurityTrustStyle(this.type == 'hue' ? 'inherit' : (
+        return this.escaper.bypassSecurityTrustStyle(this.type == 'hue' ? 'inherit' : (
             this.type == 'sat' ? `linear-gradient(
                     to right, hsl(${this.hsl.h}, 0%, 50%), hsl(${this.hsl.h}, 100%, 50%)
                 )`

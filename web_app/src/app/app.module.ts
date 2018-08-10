@@ -57,6 +57,7 @@ import { PostLinkDirective } from './directives/post-link.directive';
 import { EmoticonUploadComponent } from './components/emoticon-upload/emoticon-upload.component';
 import { EmoticonsPipe } from './pipes/emoticons.pipe';
 import { LinksPipe } from './pipes/links.pipe';
+import { EscapePipe } from './pipes/escape.pipe';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { LinksPipe } from './pipes/links.pipe';
     PostLinkDirective,
     EmoticonUploadComponent,
     EmoticonsPipe,
-    LinksPipe
+    LinksPipe,
+    EscapePipe
   ],
   imports: [
     BrowserModule,
