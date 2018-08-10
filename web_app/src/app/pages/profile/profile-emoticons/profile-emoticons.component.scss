@@ -1,0 +1,27 @@
+.row {
+    min-height: 500px;
+}
+
+.emoticon-card {
+
+    padding: .75rem;
+
+    p {
+        margin: 0;
+    }
+
+    img {
+        height: 75px;
+        margin: 0 0 .75rem 0;
+    }
+}
+
+app-circular-preloader {
+
+    display: block;
+    margin: 16px;
+
+    ::ng-deep .spinner-layer {
+        border-color: white !important;
+    }
+}

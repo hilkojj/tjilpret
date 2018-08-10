@@ -7,6 +7,13 @@ const im = require('imagemagick');
 const sizeOf = require('image-size');
 const utils = require('./utils.js');
 
+const emoticon = row => ({
+    name: row.name,
+    timesUsed: row.times_used,
+    uploaderId: row.user_id,
+    uploadedOn: row.time
+});
+
 const getCategories = () => new Promise(resolve => {
 
     db.connection.query(`SELECT * FROM emoticon_categories`, [], (err, rows, fields) => {
@@ -180,16 +187,27 @@ function apiFunctions(api) {
                 if (err) console.log(err);
 
                 for (var row of rows) {
-                    categories[row.category_id].emoticons.push({
-                        name: row.name,
-                        timesUsed: row.times_used,
-                        uploaderId: row.user_id,
-                        uploadedOn: row.time
-                    });
+                    categories[row.category_id].emoticons.push(emoticon(row));
                 }
                 res.send(Object.values(categories));
             }
         );
+
+    });
+
+    api.post("/emoticonsOfUser/:id", (req, res) => {
+
+        var id = parseInt(req.params.id) || 0;
+
+        db.connection.query(`SELECT * FROM emoticons WHERE user_id = ?`, [id], (err, rows, fields) => {
+
+            if (err) console.log(err);
+            var emoticons = [];
+
+            for (var row of rows) emoticons.push(emoticon(row));
+            res.send(emoticons)
+
+        });
 
     });
 

@@ -2,13 +2,33 @@
 
     <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding bw-on-bw-text">
 
-        <div class="center">
-            <div (click)="emoticons.chooseFile()" class="btn btn-flat waves-effect white-text not-default not-fav-bg transparent">
+        <div class="center" *ngIf="profile.user.id == profile.auth.session.user.id">
+            <div (click)="service.chooseFile()" class="btn btn-flat waves-effect white-text not-default not-fav-bg transparent">
                 <i class="material-icons left">
                     add
                 </i>
                 Niwe emoticon toevoegn!
             </div>
+        </div>
+
+        <div class="center" *ngIf="emoticons == null">
+            <app-circular-preloader></app-circular-preloader>
+        </div>
+
+        <div class="row">
+
+            <div class="col s6 m4 l3" *ngFor="let emoticon of emoticons">
+                <div class="card bw center emoticon-card">
+
+                    <img [src]="service.emoticonUrl(emoticon.name)">
+
+                    <p class="name fav-text">:{{emoticon.name}}:</p>
+                    <p>
+                        {{emoticon.timesUsed}}x gebruikt.
+                    </p>
+                </div>
+            </div>
+
         </div>
 
     </div>

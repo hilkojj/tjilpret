@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EmoticonCategory } from '../models/emoticons';
+import { EmoticonCategory, Emoticon } from '../models/emoticons';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '../constants';
+import { API_URL, CONTENT_URL } from '../constants';
 import { AuthService } from './auth.service';
 import { Observable } from '../../../node_modules/rxjs';
 import { UtilsService } from './utils.service';
@@ -48,6 +48,14 @@ export class EmoticonsService {
             if (res.error) this.utils.errorToast(res.error, 6000);
             return false;
         });
+    }
+
+    emoticonsOfUser(userId: number): Observable<Emoticon[]> {
+        return this.http.post<Emoticon[]>(API_URL + "emoticonsOfUser/" + userId, {});
+    }
+
+    emoticonUrl(name: string) {
+        return `${CONTENT_URL}emoticons/${name}.png`;
     }
 
 }
