@@ -57,22 +57,22 @@ VIEW `user_info` AS
             WHERE
                 (`messages`.`sent_by` = `users`.`user_id`)) AS `messages`,
         ((SELECT 
-                COUNT(0)
-            FROM
-                (`entity_votes`
-                JOIN `entities`)
-            WHERE
-                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
-                    AND (`entities`.`user_id` = `users`.`user_id`)
-                    AND (`entity_votes`.`up` = 1))) - (SELECT 
-                COUNT(0)
-            FROM
-                (`entity_votes`
-                JOIN `entities`)
-            WHERE
-                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
-                    AND (`entities`.`user_id` = `users`.`user_id`)
-                    AND (`entity_votes`.`up` = 0)))) AS `rep`,
+					COUNT(0)
+			FROM
+					(`entity_votes`
+					JOIN `entities`)
+			WHERE
+					((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+							AND (`entities`.`user_id` = `users`.`user_id`)
+							AND (`entity_votes`.`up` = 1) AND (entity_votes.user_id != users.user_id))) - (SELECT 
+					COUNT(0)
+			FROM
+					(`entity_votes`
+					JOIN `entities`)
+			WHERE
+					((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+							AND (`entities`.`user_id` = `users`.`user_id`)
+							AND (`entity_votes`.`up` = 0) AND (entity_votes.user_id != users.user_id)))) AS `rep`,
         (SELECT 
                 SUM(`posts`.`views`)
             FROM
