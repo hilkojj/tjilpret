@@ -27,6 +27,12 @@ body.modal-open {
 
     $border-radius: 8px;
 
+    .inline-emoticon {
+        height: 1.6em;
+        margin: -1em .1em;
+        vertical-align: middle;
+    }
+
     .card {
         border-radius: $border-radius;
     }

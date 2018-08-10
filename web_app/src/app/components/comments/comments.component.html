@@ -64,7 +64,7 @@
 
         <br>
 
-        <p class="pre-wrap comment-text">{{comment.text}}</p>
+        <p class="pre-wrap comment-text" [innerHTML]="comment.text | emoticons"></p>
 
         <div class="giphy" *ngIf="comment.giphy">
             <app-gif-player [giphyId]="comment.giphy" [showGiphyLogo]="true"

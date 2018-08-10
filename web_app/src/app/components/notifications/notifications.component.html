@@ -3,7 +3,7 @@
 
 <div class="scroll" *ngIf="checkActive()">
 
-    <div class="noNotifications" *ngIf="noNotifications" >
+    <div class="noNotifications" *ngIf="noNotifications">
 
         <div class="no-notifications-img" [inlineSVG]="'/assets/img/no-notifications-img.svg'"></div>
         <h4 class="center">
@@ -78,8 +78,8 @@
         </div>
 
         <!-- FRIEND ACCEPTANCE NOTIFICATION -->
-        <div *ngSwitchCase="'FRIEND_ACCEPTANCE'" class="inner waves-effect" [style.cursor]="'pointer'"
-            (click)="goTo('/tjiller/' + n.accepterId)">
+        <div *ngSwitchCase="'FRIEND_ACCEPTANCE'" class="inner waves-effect"
+            [style.cursor]="'pointer'" (click)="goTo('/tjiller/' + n.accepterId)">
 
             <i class="material-icons notification-icon fav-text">
                 person_add
@@ -136,20 +136,17 @@
         <b>Jou reakti:</b>
 
         <br>
-        <span class="item-text" *ngIf="comment.text.length > 0">
-            {{comment.text}}
-        </span>
+        <span class="item-text" *ngIf="comment.text.length > 0" [innerHTML]="comment.text | emoticons"></span>
         <b *ngIf="comment.giphy" class="fav-text">(GIF)</b>
     </div>
 </ng-template>
 
 <ng-template #post let-post="post">
-    <div class="item with-thumbnail waves-effect bw-on-bw10" [routerLink]="'/uplood/' + post.id" (click)="modals.hideModal()">
+    <div class="item with-thumbnail waves-effect bw-on-bw10" [routerLink]="'/uplood/' + post.id"
+        (click)="modals.hideModal()">
         <div class="thumbnail" [style.backgroundImage]="'url(' + posts.getThumbnailPath(post) + ')'"></div>
         <b>{{post.title}}</b>
         <br>
-        <span class="item-text">
-            {{post.description}}
-        </span>
+        <span class="item-text" [innerHTML]="post.description | emoticons"></span>
     </div>
 </ng-template>
