@@ -26,6 +26,12 @@
                     <p>
                         {{emoticon.timesUsed}}x gebruikt.
                     </p>
+
+                    <button class="btn btn-flat btn-floating waves-effect remove-btn"
+                        (click)="delete(emoticon.name)">
+                        <i class="material-icons red-text">close</i>
+                    </button>
+
                 </div>
             </div>
 

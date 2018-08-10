@@ -58,4 +58,11 @@ export class EmoticonsService {
         return `${CONTENT_URL}emoticons/${name}.png`;
     }
 
+    deleteEmoticon(name: string): Observable<boolean> {
+        return this.http.post(API_URL + "deleteEmoticon", {
+            token: this.auth.session.token,
+            emoticonName: name
+        }).map((res: any) => res.success);
+    }
+
 }

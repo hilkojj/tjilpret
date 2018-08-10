@@ -211,6 +211,30 @@ function apiFunctions(api) {
 
     });
 
+    api.post("/deleteEmoticon", (req, res) => {
+
+        var token = parseInt(req.body.token) || 0;
+        var emoticonName = String(req.body.emoticonName);
+
+        db.connection.query(`
+            DELETE FROM emoticons 
+            WHERE name = ? AND user_id = (SELECT user_id FROM tokens WHERE token = ?)
+        `, [emoticonName, token], (err, results, fields) => {
+
+                if (err) {
+                    console.log(err);
+                    return res.send({ success: false });
+                }
+
+                var deleted = results.affectedRows == 1;
+                if (deleted)
+                    fs.unlink(__dirname + "/static_content/emoticons/" + emoticonName + ".png", () => { });
+
+                res.send({ success: deleted });
+            }
+        );
+    });
+
 }
 
 module.exports = { apiFunctions: apiFunctions };

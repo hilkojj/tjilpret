@@ -37,4 +37,9 @@ export class ProfileEmoticonsComponent implements OnInit, OnDestroy {
         );
     }
 
+    delete(name: string) {
+        if (confirm(`Wil je egt :${name}: verwydren?`))
+            this.service.deleteEmoticon(name).subscribe(success => success && this.update());
+    }
+
 }
