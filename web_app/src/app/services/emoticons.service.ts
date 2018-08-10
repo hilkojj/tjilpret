@@ -55,7 +55,7 @@ export class EmoticonsService {
     }
 
     emoticonUrl(name: string) {
-        return `${CONTENT_URL}emoticons/${name}.png`;
+        return `${CONTENT_URL}emoticons/${name.toLowerCase()}.png`;
     }
 
     deleteEmoticon(name: string): Observable<boolean> {
