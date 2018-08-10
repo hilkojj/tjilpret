@@ -132,6 +132,42 @@ body.modal-open {
         }
     }
 
+    @keyframes circular-reveal-top-left {
+        0% {
+            clip-path: inset(0% 100% 100% 0% round 0 0 100% 0);
+        }
+        100% {
+            clip-path: inset(0% 0% 0% 0% round 0 0 0% 0);
+        }
+    }
+
+    @keyframes circular-reveal-top-right {
+        0% {
+            clip-path: inset(0% 0% 100% 100% round 0 0 0 100%);
+        }
+        100% {
+            clip-path: inset(0% 0% 0% 0% round 0 0 0 0%);
+        }
+    }
+
+    @keyframes circular-reveal-bottom-right {
+        0% {
+            clip-path: inset(100% 0% 0% 100% round 100% 0 0 0);
+        }
+        100% {
+            clip-path: inset(0% 0% 0% 0% round 0% 0 0 0);
+        }
+    }
+
+    @keyframes circular-reveal-bottom-left {
+        0% {
+            clip-path: inset(100% 100% 0% 0% round 0 100% 0 0);
+        }
+        100% {
+            clip-path: inset(0% 0% 0% 0% round 0 0% 0 0);
+        }
+    }
+
 }
 
 body {
