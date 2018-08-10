@@ -7,6 +7,21 @@ const im = require('imagemagick');
 const sizeOf = require('image-size');
 const utils = require('./utils.js');
 
+const createFriendshipWithEmoticonCollectionUser = userId => {
+
+    var emoticonCollectionUser = 1020;
+
+    db.connection.query(`
+        INSERT INTO friendships SET ?
+    `, {
+        accepter_id: userId,
+        inviter_id: emoticonCollectionUser,
+        since: Date.now() / 1000 | 0
+    }, (err, results, fields) => {
+        if (err) console.log(err);
+    });
+};
+
 const emoticon = row => ({
     name: row.name,
     timesUsed: row.times_used,
@@ -278,4 +293,8 @@ function apiFunctions(api) {
 
 }
 
-module.exports = { apiFunctions: apiFunctions, registerEmoticonUses: registerEmoticonUses };
+module.exports = { 
+    apiFunctions: apiFunctions, 
+    registerEmoticonUses: registerEmoticonUses,
+    createFriendshipWithEmoticonCollectionUser: createFriendshipWithEmoticonCollectionUser
+};

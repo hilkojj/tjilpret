@@ -3,6 +3,7 @@ const db = require("./database.js");
 const utils = require("./utils.js");
 const bcrypt = require("bcrypt");
 const useragent = require('useragent');
+const emoticons = require("./emoticons.js");
 
 var minPasswordLength = 4;
 
@@ -113,6 +114,7 @@ module.exports = {
                                     console.log(err);
                                     return utils.sendError(res, "Probeer nu es in te loggen");
                                 }
+                                emoticons.createFriendshipWithEmoticonCollectionUser(id);
                                 createSession(rows[0], req, res);
                             });
                         });
