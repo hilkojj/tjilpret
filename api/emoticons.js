@@ -31,6 +31,42 @@ const getCategories = () => new Promise(resolve => {
 
 });
 
+const registerEmoticonUses = text => {
+
+    var matches = text.match(/:(\w*?):/g);
+    var occurrencesPerName = {};
+    for (var match of matches) {
+        var name = match.substr(1, match.length - 2);
+
+        if (name in occurrencesPerName)
+            occurrencesPerName[name]++;
+        else
+            occurrencesPerName[name] = 1;
+    }
+
+    var namesPerOccurences = {};
+    for (var name in occurrencesPerName) {
+        var o = occurrencesPerName[name];
+
+        var list = namesPerOccurences[o];
+        if (list) list.push(name);
+        else namesPerOccurences[o] = [name];
+    }
+
+    for (var occurences in namesPerOccurences) {
+        names = namesPerOccurences[occurences];
+        db.connection.query(`
+            UPDATE emoticons SET times_used = times_used + ?
+            WHERE name IN (?)
+        `, [occurences, names], (err, results, fields) => {
+                if (err) console.log(err);
+            }
+        );
+    }
+
+    console.log("emoticons used:", Object.keys(occurrencesPerName));
+};
+
 const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
 
     // CHECK IMAGE SIZE:
@@ -237,4 +273,4 @@ function apiFunctions(api) {
 
 }
 
-module.exports = { apiFunctions: apiFunctions };
+module.exports = { apiFunctions: apiFunctions, registerEmoticonUses: registerEmoticonUses };

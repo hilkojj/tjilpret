@@ -1,6 +1,7 @@
 
 const utils = require("./utils.js");
 const db = require("./database.js");
+const emoticons = require("./emoticons.js");
 
 module.exports = {
 
@@ -83,6 +84,7 @@ module.exports = {
                 post.last_edited_time = ?
         `, [postId, token, description, Date.now() / 1000 | 0], (err, r, f) => {
                 if (err) console.log(err);
+                else emoticons.registerEmoticonUses(description);
                 resolve(!err && r.affectedRows == 1);
             });
     }),

@@ -1,6 +1,7 @@
 
 const db = require("./database.js");
 const utils = require("./utils.js");
+const emoticons = require("./emoticons.js");
 
 module.exports = {
 
@@ -281,8 +282,10 @@ module.exports = {
                         console.log(err);
                         return utils.sendError(res, "huuuuu er ging iets mis");
                     }
-                    if (results.affectedRows == 1)
+                    if (results.affectedRows == 1) {
                         res.send({ success: true });
+                        emoticons.registerEmoticonUses(status);
+                    }
                     else utils.sendError(res, "Probeer es opnieuw in te loggen");
                 });
         });

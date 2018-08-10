@@ -1,6 +1,7 @@
 
 const db = require("./database.js");
 const utils = require("./utils.js");
+const emoticons = require("./emoticons.js");
 
 module.exports = {
 
@@ -180,6 +181,7 @@ module.exports = {
                                 console.log(err);
                                 return utils.sendError(res, "huuuuu er ging iets mis");
                             }
+                            emoticons.registerEmoticonUses(comment);
                             res.send({ success: true });
                         }
                     );
