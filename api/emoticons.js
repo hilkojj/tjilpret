@@ -34,6 +34,9 @@ const getCategories = () => new Promise(resolve => {
 const registerEmoticonUses = text => {
 
     var matches = text.match(/:(\w*?):/g);
+
+    if (!matches) return;
+
     var occurrencesPerName = {};
     for (var match of matches) {
         var name = match.substr(1, match.length - 2);
@@ -69,6 +72,8 @@ const registerEmoticonUses = text => {
 
 const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
 
+    var maxSize = 2000;
+
     // CHECK IMAGE SIZE:
     var validSize = await (() => new Promise(resolve => {
         sizeOf(tempFilePath, (err, dim) => {
@@ -77,13 +82,13 @@ const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
                 return resolve(false);
             }
 
-            resolve(dim.width >= 100 && dim.width <= 600 && dim.height >= 100 && dim.height <= 600);
+            resolve(dim.width >= 100 && dim.width <= maxSize && dim.height >= 100 && dim.height <= maxSize);
         });
     }))();
 
     if (!validSize) {
         fs.unlink(tempFilePath, err => { });
-        return { error: "Plaatje moet minimaal 100x100 pixels zijn en maximaal 600x600!!!!" };
+        return { error: `Plaatje moet minimaal 100x100 pixels zijn en maximaal ${maxSize}x${maxSize}!!!!` };
     }
 
     name = String(name);
@@ -132,7 +137,7 @@ const saveEmoticon = async (tempFilePath, name, token, categoryId) => {
 
             im.crop({
                 srcPath: tempFilePath,
-                dstPath: __dirname + `/static_content/emoticons/${name}.png`,
+                dstPath: __dirname + `/static_content/emoticons/${name.toLowerCase()}.png`,
                 width: 100,
                 height: 100,
                 format: "png"
@@ -264,7 +269,7 @@ function apiFunctions(api) {
 
                 var deleted = results.affectedRows == 1;
                 if (deleted)
-                    fs.unlink(__dirname + "/static_content/emoticons/" + emoticonName + ".png", () => { });
+                    fs.unlink(__dirname + "/static_content/emoticons/" + emoticonName.toLowerCase() + ".png", () => { });
 
                 res.send({ success: deleted });
             }

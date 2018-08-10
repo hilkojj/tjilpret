@@ -17,7 +17,7 @@ export class EmoticonsPipe implements PipeTransform {
             var name = match.substr(1, match.length - 2);
             value = value.replace(
                 match, 
-                `<img class="inline-emoticon" src="${url}${name}.png" title="${name}">`
+                `<img class="inline-emoticon" src="${url}${name.toLowerCase()}.png" title="${name}">`
             );
         }
 

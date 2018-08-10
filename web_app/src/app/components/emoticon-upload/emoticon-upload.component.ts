@@ -46,8 +46,8 @@ export class EmoticonUploadComponent implements OnInit {
             img.onload = () => {
                 if (img.width < 100 || img.height < 100)
                     this.error = "Platje mot minimaal 100x100 pixels zijn";
-                else if (img.width > 600 || img.height > 600)
-                    this.error = "Platje mag maximaal 600x600 pixels zijn";
+                else if (img.width > 2000 || img.height > 2000)
+                    this.error = "Platje mag maximaal 2000x2000 pixels zijn";
                 else if (file.size > 1000000)
                     this.error = "Platje mag nit groter dan 1MB";
                 
