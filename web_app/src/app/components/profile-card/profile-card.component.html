@@ -17,7 +17,7 @@
             <app-username [user]="user" fontSize="18px"></app-username>
         </a>
 
-        <p class="bio" [innerHTML]="user.bio | emoticons">
+        <p class="bio" [innerHTML]="user.bio | emoticons | links">
         </p>
 
         <span *ngIf="user.id != auth.session?.user.id">
