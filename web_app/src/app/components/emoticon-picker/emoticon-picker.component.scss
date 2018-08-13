@@ -1,0 +1,19 @@
+:host {
+
+    position: relative;
+
+    .picker {
+        position: absolute;
+        left: 0;
+        top: 40px;
+        margin: 0;
+        animation: circular-reveal-top-left .3s;
+
+        height: 300px;
+        max-height: 80vh;
+
+        width: 300px;
+        max-width: 90vw;
+    }
+
+}

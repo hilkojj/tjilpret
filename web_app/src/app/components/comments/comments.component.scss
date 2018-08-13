@@ -26,7 +26,13 @@ $profile-pic-size: 48px;
     &.write {
 
         .buttons {
-            text-align: right;
+
+            position: relative;
+
+            .send-btn {
+                position: absolute;
+                right: 0;
+            }
 
             button {
                 margin-left: .75rem;

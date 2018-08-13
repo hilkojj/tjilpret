@@ -8,8 +8,9 @@
         </app-profile-pic>
 
         <div class="input-field">
-            <textarea id="textarea1" class="materialize-textarea" [(ngModel)]="commentInput[commentOn]"
-                maxlength="512" [id]="'comment-input-' + commentOn"></textarea>
+            <textarea #textarea id="textarea1" class="materialize-textarea"
+                [(ngModel)]="commentInput[commentOn]" maxlength="512"
+                [id]="'comment-input-' + commentOn"></textarea>
             <label for="textarea1">
                 {{label ? label : 'Laat een reacti achter'}}
             </label>
@@ -23,6 +24,8 @@
 
         <div class="buttons">
 
+            <app-emoticon-picker [input]="textarea"></app-emoticon-picker>
+
             <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij"
                 (click)="includeGiphy(commentOn)">
 
@@ -31,12 +34,19 @@
                 </i>
             </button>
 
-            <button class="btn waves-effect" (click)="postComment(commentOn)"
-                [disabled]="(commentInput[commentOn] == null || commentInput[commentOn].length == 0) && commentGiphy[commentOn] == null">
+            <button class="btn waves-effect send-btn hide-on-small-only"
+                (click)="postComment(commentOn)" [disabled]="(commentInput[commentOn] == null || commentInput[commentOn].length == 0) && commentGiphy[commentOn] == null">
                 <i class="material-icons left">
                     send
                 </i>
                 plaatsun
+            </button>
+
+            <button class="btn btn-floating btn-flat waves-effect send-btn hide-on-med-and-up"
+                (click)="postComment(commentOn)" [disabled]="(commentInput[commentOn] == null || commentInput[commentOn].length == 0) && commentGiphy[commentOn] == null">
+                <i class="material-icons fav-text">
+                    send
+                </i>
             </button>
 
         </div>
@@ -85,7 +95,8 @@
             </button>
 
             <button *ngIf="!comment.deleted && (canDelete || auth.session.user.admin || auth.session.user.id == comment.user.id)"
-                class="btn btn-flat btn-floating waves-effect" title="Verwydren" (click)="deleteComment(comment.id)">
+                class="btn btn-flat btn-floating waves-effect" title="Verwydren"
+                (click)="deleteComment(comment.id)">
 
                 <i class="material-icons red-text">
                     delete_forever

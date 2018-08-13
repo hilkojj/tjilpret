@@ -96,6 +96,9 @@ nav .random-words, nav a, nav a i {
 .btn:not(.not-fav-bg) {
     background-color: ?rgb? !important;
 }
+.btn:disabled {
+    opacity: .5;
+}
 
 .btn-flat:not(.not-default) {
     background-color: transparent !important;

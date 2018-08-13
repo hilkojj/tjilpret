@@ -58,6 +58,7 @@ import { EmoticonUploadComponent } from './components/emoticon-upload/emoticon-u
 import { EmoticonsPipe } from './pipes/emoticons.pipe';
 import { LinksPipe } from './pipes/links.pipe';
 import { EscapePipe } from './pipes/escape.pipe';
+import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-picker.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import { EscapePipe } from './pipes/escape.pipe';
     EmoticonUploadComponent,
     EmoticonsPipe,
     LinksPipe,
-    EscapePipe
+    EscapePipe,
+    EmoticonPickerComponent
   ],
   imports: [
     BrowserModule,

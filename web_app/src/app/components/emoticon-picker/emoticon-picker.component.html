@@ -1,0 +1,11 @@
+<div class="picker white card" *ngIf="showPicker" #picker [style.left]="getPickerLeft(picker)">
+
+
+
+</div>
+
+<button class="btn btn-flat btn-floating waves-effect" (click)="showPicker = !showPicker">
+    <i class="material-icons left fav-text">
+        insert_emoticon
+    </i>
+</button>
