@@ -24,7 +24,7 @@
 
         <div class="buttons">
 
-            <app-emoticon-picker [input]="textarea"></app-emoticon-picker>
+            <app-emoticon-picker [input]="textarea" (inputChange)="commentInput[commentOn] = $event"></app-emoticon-picker>
 
             <button class="btn btn-flat btn-floating waves-effect" title="doe er een leuk gifje bij"
                 (click)="includeGiphy(commentOn)">

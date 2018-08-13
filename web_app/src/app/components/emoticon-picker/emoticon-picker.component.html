@@ -1,11 +1,59 @@
-<div class="picker white card" *ngIf="showPicker" #picker [style.left]="getPickerLeft(picker)">
+<div class="picker white card z-depth-2" *ngIf="showPicker" #picker
+    [style.left]="getPickerLeft(picker)">
 
+    <div class="top-bar">
 
+        <input placeholder="Soeken" #searchInput [(ngModel)]="searchQuery">
+
+        <button class="btn btn-flat btn-floating waves-effect">
+            <i class="material-icons fav-text">
+                search
+            </i>
+        </button>
+
+        <button class="btn btn-flat btn-floating waves-effect" (click)="service.chooseFile(); showPicker = false"
+            title="UPLOOD EEN EIGEN EMOTICON!?!">
+            <i class="material-icons fav-text">
+                file_upload
+            </i>
+        </button>
+
+    </div>
+
+    <div class="scroll" (load)="onScroll($event.target)" (scroll)="onScroll($event.target)">
+
+        <div class="category" *ngFor="let cat of emoticons; let i = index"
+            [id]="'emoticon-picker-cat-' + cat.id" [style.minHeight]="i + 1 == emoticons.length ? '200px' : ''">
+
+            <p class="title fav-text" *ngIf="!searchQuery">
+                {{cat.name}}
+            </p>
+
+            <div class="emoticon" *ngFor="let e of cat.emoticons" (mouseenter)="searchInput.placeholder = ':' + e.name + ':'"
+                [style.display]="e.name.toLowerCase().indexOf(searchInput.value.toLowerCase()) != -1 ? '' : 'none'"
+                (click)="insert(e.name)">
+
+                <img [src]="service.emoticonUrl(e.name)" alt="">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-bar" *ngIf="!searchQuery">
+
+        <div class="tab waves-effect" *ngFor="let cat of emoticons" [title]="cat.name"
+            (click)="showCategory(cat.id)" [ngClass]="activeCatId == cat.id ? 'active' : ''">
+            <img [src]="service.emoticonUrl(cat.exampleEmoticon || '')" alt="">
+
+            <div class="indicator fav-bg"></div>
+        </div>
+
+    </div>
 
 </div>
 
-<button class="btn btn-flat btn-floating waves-effect" (click)="showPicker = !showPicker">
-    <i class="material-icons left fav-text">
+<button class="btn btn-flat btn-floating waves-effect" (click)="toggle()" title="Custom emoticons">
+    <i class="material-icons fav-text">
         insert_emoticon
     </i>
 </button>

@@ -5,15 +5,108 @@
     .picker {
         position: absolute;
         left: 0;
-        top: 40px;
+        top: 32px;
         margin: 0;
         animation: circular-reveal-top-left .3s;
 
-        height: 300px;
+        display: flex;
+        flex-flow: column;
+
+        height: 330px;
         max-height: 80vh;
 
-        width: 300px;
+        width: 330px;
         max-width: 90vw;
+
+        $border: solid 1px rgba(0, 0, 0, 0.1);
+
+        .top-bar {
+            padding: 8px;
+            border-bottom: $border;
+
+            input {
+                width: calc(100% - 80px);
+                margin: 0;
+            }
+        }
+
+        .scroll {
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0 8px;
+
+            .title {
+                opacity: .5;
+                font-size: 14px;
+                text-transform: uppercase;
+                margin-bottom: 3px;
+            }
+
+            .emoticon {
+                height: 36px;
+                width: 36px;
+                display: inline-block;
+                margin: 2px;
+                padding: 2px;
+                border-radius: 2px;
+                cursor: pointer;
+
+                &:hover {
+                    background: rgb(240, 240, 240);
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+        }
+
+        .bottom-bar {
+            border-top: $border;
+            padding: 0 8px;
+            display: table;
+            height: 52px;
+            margin-bottom: -1px;
+            
+            .tab {
+                display: table-cell;
+                text-align: center;
+                position: relative;
+
+                img {
+                    transition: .1s;
+                    opacity: .5;
+                    margin: 10px 0 0 0;
+                    height: 24px;
+                    width: 24px;
+                    min-width: 24px;
+                }
+
+                &.active, &:hover {
+                    img {
+                        opacity: 1;
+                    }
+
+                    .indicator {
+                        height: 4px;
+                    }
+                }
+
+                .indicator {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 0px;
+                    transition: .1s;
+                    border-top-left-radius: 10px;
+                    border-top-right-radius: 10px;
+                }
+            }
+        }
+
     }
 
 }
