@@ -30,7 +30,6 @@ import { ColorSliderComponent } from './components/color-slider/color-slider.com
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { TimestampPipe } from './pipes/timestamp.pipe';
-import { UploadsComponent } from './pages/uploads/uploads.component';
 import { PeopleComponent } from './pages/people/people.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileFirstTabComponent } from './pages/profile/profile-first-tab/profile-first-tab.component';
@@ -39,7 +38,6 @@ import { ProfileUploadsComponent } from './pages/profile/profile-uploads/profile
 import { ProfileEmoticonsComponent } from './pages/profile/profile-emoticons/profile-emoticons.component';
 import { FriendButtonComponent } from './components/friend-button/friend-button.component';
 import { CommentsComponent } from './components/comments/comments.component';
-import { AuthService } from './services/auth.service';
 import { VotesComponent } from './components/votes/votes.component';
 import { GiphySearchComponent } from './components/giphy-search/giphy-search.component';
 import { CircularPreloaderComponent } from './components/circular-preloader/circular-preloader.component';
@@ -59,6 +57,7 @@ import { EmoticonsPipe } from './pipes/emoticons.pipe';
 import { LinksPipe } from './pipes/links.pipe';
 import { EscapePipe } from './pipes/escape.pipe';
 import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-picker.component';
+import { PostsComponent } from './pages/posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +83,6 @@ import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-p
     ImageCropperModalComponent,
     SettingsComponent,
     TimestampPipe,
-    UploadsComponent,
     PeopleComponent,
     ProfileComponent,
     ProfileFirstTabComponent,
@@ -111,7 +109,8 @@ import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-p
     EmoticonsPipe,
     LinksPipe,
     EscapePipe,
-    EmoticonPickerComponent
+    EmoticonPickerComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,

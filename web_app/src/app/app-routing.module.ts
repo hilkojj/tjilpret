@@ -8,7 +8,6 @@ import { ChooseRecentUserComponent } from './pages/choose-recent-user/choose-rec
 import { RegisterComponent } from './pages/register/register.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { UploadsComponent } from './pages/uploads/uploads.component';
 import { PeopleComponent } from './pages/people/people.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileFriendsComponent } from './pages/profile/profile-friends/profile-friends.component';
@@ -19,6 +18,7 @@ import { UserResolver } from './resolvers/user-resolver';
 import { ColorClassResolver } from './pages/profile/profile-first-tab/color-class-resolver';
 import { PostComponent } from './pages/post/post.component';
 import { PostResolver } from './resolvers/post-resolver';
+import { PostsComponent } from './pages/posts/posts.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -48,9 +48,9 @@ const routes: Routes = [
         }
     },
     {
-        path: "amusement", component: UploadsComponent,
+        path: "dollepret", component: PostsComponent,
         canActivate: [AuthService], data: {
-            title: "Genieten van topcontent",
+            title: "Dolle pret",
             favColorTheme: true,
             showNavbar: true
         }

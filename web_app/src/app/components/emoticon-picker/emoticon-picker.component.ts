@@ -2,7 +2,6 @@ import { Component, Input, HostListener, ElementRef, Output, EventEmitter } from
 import { EmoticonsService } from '../../services/emoticons.service';
 import { EmoticonCategory } from '../../models/emoticons';
 import { UtilsService } from '../../services/utils.service';
-import { DomEventsPlugin } from '../../../../node_modules/@angular/platform-browser/src/dom/events/dom_events';
 
 @Component({
     selector: 'app-emoticon-picker',

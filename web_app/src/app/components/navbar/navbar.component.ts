@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
     tabs: Tab[] = [
         new Tab("Hoom", "home", "/hoom"),
-        new Tab("Amusement", "subscriptions", "/amusement"),
+        new Tab("Amusement", "subscriptions", "/dollepret"),
         new Tab("Tjets", "chat_bubble", "/tjets"),
         new Tab("Mesnen & vriends", "group", "/tjillers", null, () => this.friends.receivedInvites.length)
     ];
