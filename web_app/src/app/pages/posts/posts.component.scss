@@ -1,0 +1,12 @@
+.carousel {
+
+    $carousel-height: 300px;
+
+    height: $carousel-height;
+
+    .carousel-item {
+
+        min-height: $carousel-height;
+    }
+
+}

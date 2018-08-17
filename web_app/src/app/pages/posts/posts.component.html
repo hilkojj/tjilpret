@@ -1,7 +1,8 @@
-<div materialize="carousel" id="toppie-uploads" class="carousel carousel-slider center"
+<div materialize="carousel" class="carousel carousel-slider center"
     data-indicators="true" [materializeParams]="[{
         fullWidth: true
-    }]">
+    }]" [materializeActions]="carouselActions" (pointerdown)="stopCarouselInterval()"
+    (pointerup)="startCarouselInterval()">
 
     <a class="carousel-item white-text black" href="view.php?id=148">
 
