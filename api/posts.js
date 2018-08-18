@@ -221,6 +221,56 @@ module.exports = {
             );
         });
 
+        api.post("/searchPosts", (req, res) => {
+
+            var q = db.connection.escape(String(req.body.q || ""));
+            var query = `
+                SELECT * FROM posts
+                JOIN entity_view ON posts.post_id = entity_view.entity_id
+                WHERE title LIKE CONCAT("%", ` + q + `, "%")
+            `;
+
+            // post type
+            if ("type" in req.body && req.body.type != "any")
+                query += `
+                    AND type = "${{
+                        "img": "img", "vid": "vid", "gif": "gif"
+                    }[req.body.type] || "img"}"`;
+
+            // category
+            if ("categoryId" in req.body && req.body.categoryId != "any")
+                query += `
+                    AND category_id = "${parseInt(req.body.categoryId) || 0}"`;
+
+            // order by (desc?)
+            if ("sortBy" in req.body) {
+                var col = {
+                    "score": "score",
+                    "comments": "comments",
+                    "time": "uploaded_on"
+                }[req.body.sortBy];
+                if (col != undefined)
+                    query += `
+                        ORDER BY ` + col + (req.body.desc == true ? ` DESC` : ``);
+            }
+
+            var pageLimit = 16;
+            var page = parseInt(req.body.page) || 0;
+            query += `
+                LIMIT ` + pageLimit + ` OFFSET ` + (page * pageLimit);
+
+            console.log(query);
+
+            db.connection.query(query, [], (err, rows, fields) => {
+
+                if (err) console.log(err);
+
+                var posts = [];
+                for (var row of rows) posts.push(module.exports.post(row));
+                res.send(posts);
+            });
+        });
+
     }
 
 }
