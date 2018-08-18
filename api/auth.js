@@ -9,12 +9,13 @@ var minPasswordLength = 4;
 
 var createSession = function (user, req, res) {
     const token = utils.randomInt(10000000, 99999999);
+    const userAgent = req.headers["user-agent"] || "unkown";
     db.connection.query("INSERT INTO tokens SET ?", {
         token: token,
         user_id: user.user_id,
         created: Date.now() / 1000 | 0,
         expires: 0,
-        user_agent: req.headers["user-agent"] || "unkown",
+        user_agent: userAgent,
         ip: req.headers["x-real-ip"] || "unkown"
     }, (err, rows, fields) => {
         if (err) {
@@ -22,12 +23,26 @@ var createSession = function (user, req, res) {
             utils.sendError(res, "Inlogsessie aanmaken mislukt........ neeee");
             return;
         }
-        console.log("Nieuwe token voor " + user.username + "   " + Date());
+        var apple = userAgent.indexOf("Mac OS X") != -1 || userAgent.indexOf("iPhone") != -1;
+        var userInfo = utils.userInfo(user);
+        if (apple) userInfo.appleUser = true;
+
+        console.log("Nieuwe token voor: " + user.username + "   " + Date());
+        if (apple) console.log("(apple)");
+        
         res.send({
             success: true,
             token: token,
-            userInfo: utils.userInfo(user)
+            userInfo: userInfo
         });
+
+        if (apple) {
+            db.connection.query(`
+                UPDATE users SET apple_user = 1 WHERE user_id = ?
+            `, [user.user_id], (err, r, f) => {
+                if (err) console.log(err);
+            })
+        }
     });
 }
 
