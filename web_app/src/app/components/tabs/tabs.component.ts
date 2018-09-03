@@ -7,6 +7,7 @@ export class Tab {
         public title: string,
         public icon: string,
         public routerLink: any[] | string,
+        public activeClassExact: boolean,
         public number?: number,
         public badgeNumber?: () => number
     ) { }

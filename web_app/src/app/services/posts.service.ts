@@ -79,4 +79,16 @@ export class PostsService {
         return this.http.post<Post[]>(API_URL + "randomPosts", { number });
     }
 
+    // q: query
+    // type: img, vid, gif or any
+    // sortBy: score, time or comments
+    searchPosts(
+        q: string, type: string, sortBy: string, desc: boolean, categoryId?: number
+    ): Observable<Post[]> {
+
+        return this.http.post<Post[]>(API_URL + "searchPosts", {
+            q, type, sortBy, desc, categoryId: categoryId || "any"
+        });
+    }
+
 }

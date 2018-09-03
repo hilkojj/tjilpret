@@ -48,12 +48,15 @@ const routes: Routes = [
         }
     },
     {
-        path: "dollepret", component: PostsComponent,
+        path: "dollepret/:tab", component: PostsComponent,
         canActivate: [AuthService], data: {
             title: "Dolle pret",
             favColorTheme: true,
             showNavbar: true
         }
+    },
+    {
+        path: "dollepret", redirectTo: "dollepret/"
     },
     {
         path: "tjillers", component: PeopleComponent,

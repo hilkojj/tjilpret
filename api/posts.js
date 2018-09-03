@@ -247,7 +247,8 @@ module.exports = {
                 var col = {
                     "score": "score",
                     "comments": "comments",
-                    "time": "uploaded_on"
+                    "time": "uploaded_on",
+                    "views": "views"
                 }[req.body.sortBy];
                 if (col != undefined)
                     query += `
@@ -258,8 +259,6 @@ module.exports = {
             var page = parseInt(req.body.page) || 0;
             query += `
                 LIMIT ` + pageLimit + ` OFFSET ` + (page * pageLimit);
-
-            console.log(query);
 
             db.connection.query(query, [], (err, rows, fields) => {
 

@@ -1,6 +1,6 @@
 <div *ngFor="let tab of tabs" class="tab bw-on-bw-text" [ngClass]="{'waves-effect': wavesEffect}"
     [routerLink]="tab.routerLink" [replaceUrl]="replaceUrl" routerLinkActive="active fav-text"
-    [routerLinkActiveOptions]="{exact: true}">
+    [routerLinkActiveOptions]="{exact: tab.activeClassExact}">
 
     <span class="number" *ngIf="tab.number != null || numbersInTabs">
         <span>{{tab.number}}</span>

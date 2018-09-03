@@ -29,10 +29,10 @@ export class NavbarComponent implements OnInit {
     randomWordsTimeout;
 
     tabs: Tab[] = [
-        new Tab("Hoom", "home", "/hoom"),
-        new Tab("Amusement", "subscriptions", "/dollepret"),
-        new Tab("Tjets", "chat_bubble", "/tjets"),
-        new Tab("Mesnen & vriends", "group", "/tjillers", null, () => this.friends.receivedInvites.length)
+        new Tab("Hoom", "home", "/hoom", true),
+        new Tab("Amusement", "subscriptions", "/dollepret", false),
+        new Tab("Tjets", "chat_bubble", "/tjets", false),
+        new Tab("Mesnen & vriends", "group", "/tjillers", true, null, () => this.friends.receivedInvites.length)
     ];
 
     ngOnInit() {
@@ -76,11 +76,11 @@ export class NavbarComponent implements OnInit {
 
     get noTabSelected(): boolean {
 
-        var url = this.router.url.split(";")[0].split("#")[0];
+        var url = this.router.url.split(";")[0].split("#")[0].split("?")[0];
 
         for (var i in this.tabs) {
             var tab = this.tabs[i];
-            if (tab.routerLink == url) return false;
+            if (url.startsWith(tab.routerLink + "")) return false;
         }
 
         return true;

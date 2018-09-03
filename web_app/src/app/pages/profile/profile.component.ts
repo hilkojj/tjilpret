@@ -48,10 +48,10 @@ export class ProfileComponent implements OnInit {
         this.theme.applyFavColor(user);
 
         this.tabs = [
-            new Tab("Profiel", null, "./"),
-            new Tab("Vriends", null, "./vriends", user.friends),
-            new Tab("Uploods", null, "./uploods", user.uploads),
-            new Tab("Emotikons", null, "./emotikons", user.emoticons)
+            new Tab("Profiel", null, "./", true),
+            new Tab("Vriends", null, "./vriends", true, user.friends),
+            new Tab("Uploods", null, "./uploods", true, user.uploads),
+            new Tab("Emotikons", null, "./emotikons", true, user.emoticons)
         ];
 
 
