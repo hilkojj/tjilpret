@@ -56,7 +56,7 @@ const routes: Routes = [
         }
     },
     {
-        path: "dollepret", redirectTo: "dollepret/"
+        path: "dollepret", redirectTo: "dollepret/top"
     },
     {
         path: "tjillers", component: PeopleComponent,

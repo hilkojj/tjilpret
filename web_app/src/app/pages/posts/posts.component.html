@@ -38,13 +38,20 @@
     </div>
 </div>
 
+<div class="row">
 
-<div class="bottom-tabs">
+    <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding">
 
-    <div class="tab">
-        <i class="material-icons">
+        <div class="col s12 m6 post-col" *ngFor="let post of tab.posts">
+            <app-post-card [post]="post"></app-post-card>
+        </div>
 
-        </i>
     </div>
 
+</div>
+
+<div class="bottom-tabs bw hide-on-large-only">
+
+    <app-tabs [tabs]="tabs" [replaceUrl]="true" [hideLabelOnMed]="true"></app-tabs>
+    
 </div>

@@ -1,15 +1,13 @@
 import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
 import { Post } from '../../models/post';
+import { Tab } from '../../components/tabs/tabs.component';
 
-interface PostsTab {
-    path: string;
-    name: string;
+interface PostsTab extends Tab {
     numberPrefix: string;
-    icon: string;
     postsResolver: () => Observable<Post[]>,
     posts?: Post[];
 }
@@ -19,46 +17,51 @@ interface PostsTab {
     templateUrl: './posts.component.html',
     styleUrls: ['./posts.component.scss']
 })
-export class PostsComponent implements OnInit {
-
+export class PostsComponent implements OnInit, OnDestroy {
+    
     tabs: PostsTab[] = [
         {
-            path: "top",
-            name: "Toppie uploods",
+            routerLink: "../top",
+            title: "Toppie uploods",
             numberPrefix: "Toppie",
             icon: "trending_up",
+            activeClassExact: true,
             postsResolver: () => this.service.searchPosts("", "any", "score", true)
         },
 
         {
-            path: "niew",
-            name: "Niwe uploods",
+            routerLink: "../niew",
+            title: "Niwe uploods",
             numberPrefix: "Nieuw",
             icon: "new_releases",
+            activeClassExact: true,
             postsResolver: () => this.service.searchPosts("", "any", "time", true)
         },
 
         {
-            path: "niewsberichten",
-            name: "Nieuwsberichten",
+            routerLink: "../niewsberichten",
+            title: "Nieuwsberichten",
             numberPrefix: "Breaking news",
             icon: "import_contacts",
+            activeClassExact: true,
             postsResolver: () => this.service.searchPosts("", "any", "time", true, 3)
         },
 
         {
-            path: "meest-bekeken",
-            name: "Meest bekeken",
+            routerLink: "../meest-bekeken",
+            title: "Meest bekeken",
             numberPrefix: "Meest bekeken",
             icon: "remove_red_eye",
+            activeClassExact: true,
             postsResolver: () => this.service.searchPosts("", "any", "views", true)
         },
 
         {
-            path: "pretbedervers",
-            name: "Pretbedervers",
+            routerLink: "../pretbedervers",
+            title: "Pretbedervers",
             numberPrefix: "Pretbedervend",
             icon: "trending_down",
+            activeClassExact: true,
             postsResolver: () => this.service.searchPosts("", "any", "score", false)
         }
     ];
@@ -87,6 +90,34 @@ export class PostsComponent implements OnInit {
                 this.startCarouselInterval();
             }, 20);
         });
+
+        this.setTab(this.route.snapshot.paramMap.get("tab"));
+        this.route.paramMap.map(paramMap => paramMap.get("tab")).subscribe(tab => {
+            this.setTab(tab);
+        });
+
+    }
+
+    ngOnDestroy(): void {
+        this.stopCarouselInterval();
+    }
+
+    private setTab(tabName: string) {
+        var newTabI = 0;
+        for (let tab of this.tabs) {
+            if ("../" + tabName == tab.routerLink) {
+
+                if (this.currentTabI != newTabI) {
+                    this.featuredPostI = 0;
+                    this.stopCarouselInterval();
+                    this.startCarouselInterval();
+                }
+
+                this.currentTabI = newTabI;
+                return;
+
+            } else newTabI++;
+        }
     }
 
     get tab(): PostsTab {
@@ -136,7 +167,8 @@ export class PostsComponent implements OnInit {
     }
 
     startCarouselInterval() {
-        this.carouselInterval = setInterval(() => this.nextFeaturedPost(), 4000);
+        if (this.carouselInterval == null)
+            this.carouselInterval = setInterval(() => this.nextFeaturedPost(), 4000);
     }
 
     stopCarouselInterval() {

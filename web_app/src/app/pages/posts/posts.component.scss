@@ -1,3 +1,4 @@
+@import "../../../styles.scss";
 
 .carousel {
 
@@ -36,7 +37,7 @@
         border-radius: 100px;
 
         i {
-            vertical-align: middle;
+            vertical-align: bottom;
             margin-right: 8px;
         }
     }
@@ -98,4 +99,34 @@
         }
     }
     
+}
+
+.bottom-tabs {
+
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px 3px rgba(0, 0, 0, 0.3);
+
+    $bottom-tabs-height: 52px;
+    height: $bottom-tabs-height;
+
+    ::ng-deep {
+        .tab {
+            height: $bottom-tabs-height;
+            line-height: $bottom-tabs-height;
+            width: 20%;
+        }
+    }
+
+}
+
+@media only screen and (max-width: $break-small) {
+
+    .post-col {
+        padding: 0;
+    }
+
 }
