@@ -1,111 +1,50 @@
-<div materialize="carousel" class="carousel carousel-slider center"
-    data-indicators="true" [materializeParams]="[{
-        fullWidth: true
-    }]" [materializeActions]="carouselActions" (pointerdown)="stopCarouselInterval()"
-    (pointerup)="startCarouselInterval()">
+<div class="carousel black">
 
-    <a class="carousel-item white-text black" href="view.php?id=148">
+    <div class="carousel-nav-btn previous" (click)="prevFeaturedPost()">
+        <i class="material-icons">
+            arrow_back_ios
+        </i>
+    </div>
 
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/148/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 30
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 374 </p>
-            </div>
+    <div class="carousel-nav-btn forward" (click)="nextFeaturedPost()">
+        <i class="material-icons">
+            arrow_forward_ios
+        </i>
+    </div>
+    
+    <div *ngIf="postsLoaded" class="post" [ngClass]="{'show': showCarouselPost}">
+        
+        <div class="blurred-background" [style.backgroundImage]="'url(' + service.getThumbnailPath(featuredPost) + ')'"></div>
+        
+        <div class="indicator bw fav-text z-depth-2">
+            <i class="material-icons">
+                {{tab.icon}}
+            </i>
+            {{tab.numberPrefix}}
+            <b>#{{featuredPostI + 1}}</b>
         </div>
-        <h2>Cyborg aanval in Europa</h2>
-        <p class="white-text">de aanval dreigt ook over te lopen naar Nederland. dit
-            komt waarschijnlijk door lage druk gebieden in het
-            oosten.
-        </p>
+        <br>
 
-        <div class="carousel-background" style="background-image: url(uploads/148/thumbnail.png);"></div>
+        <a [postLink]="featuredPost">
 
-    </a>
-    <a class="carousel-item white-text black" href="view.php?id=151">
-
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/151/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 30
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 161 </p>
+            <div class="thumbnail z-depth-2" [style.backgroundImage]="'url(' + service.getThumbnailPath(featuredPost) + ')'">
             </div>
-        </div>
-        <h2>LETS PLAI GOOR RATTEN SPEL! - EPISODE 2</h2>
-        <p class="white-text">Dit is de echte part 2 excuses voor het ongemak Danke
-            schön Roelof voor de oplettendheid Bij een like komt
-            er geen ...</p>
-
-        <div class="carousel-background" style="background-image: url(uploads/151/thumbnail.png);"></div>
-
-    </a>
-    <a class="carousel-item white-text black" href="view.php?id=104">
-
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/104/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 28
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 363 </p>
+            <br>
+            <div class="text">
+                <h2>{{featuredPost.title}}</h2>
+                <p [innerHTML]="shortFeaturedPostDescription | escape | emoticons"></p>
             </div>
-        </div>
-        <h2>trailer van de film: roelof is grapig</h2>
-        <p class="white-text">speksteen is codenaam voor Roelof btw. en kaasflip is
-            hilko
-        </p>
+        </a>
+    </div>
+</div>
 
-        <div class="carousel-background" style="background-image: url(uploads/104/thumbnail.png);"></div>
 
-    </a>
-    <a class="carousel-item white-text black" href="view.php?id=135">
+<div class="bottom-tabs">
 
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/135/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 22
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 169 </p>
-            </div>
-        </div>
-        <h2>VLIEGEN GAAT FOUT</h2>
-        <p class="white-text">Vogel leeft zijn leven voluit. Dit stond gisteren op
-            de voorpagina van de Telegraaf. Verder wordt het
-            nog overwegend zon...</p>
+    <div class="tab">
+        <i class="material-icons">
 
-        <div class="carousel-background" style="background-image: url(uploads/135/thumbnail.png);"></div>
+        </i>
+    </div>
 
-    </a>
-    <a class="carousel-item white-text black" href="view.php?id=53">
-
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/53/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 20
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 343 </p>
-            </div>
-        </div>
-        <h2>HEFTIGE OORLOGSFILM OPGEDOKEN OP STOFFIGE ZOLDER. 18+
-        </h2>
-        <p class="white-text">Deze film is geproduceerd door de firma Wiersema en co.
-            geproduceerd in de oorlogswinter van '43 -en heeft
-            daarmee 5 osc...</p>
-
-        <div class="carousel-background" style="background-image: url(uploads/53/thumbnail.png);"></div>
-
-    </a>
-    <a class="carousel-item white-text black" href="view.php?id=74">
-
-        <div>
-            <div class="carousel-thumbnail z-depth-2" style="background-image: url(uploads/74/thumbnail.png);">
-                <p>
-                    <i class="material-icons" style="vertical-align: bottom;">thumb_up</i> 20
-                    <i class="material-icons" style="vertical-align: bottom;">remove_red_eye</i> 394 </p>
-            </div>
-        </div>
-        <h2>Gérard de kat wordt eerste op de 200m schaatsen </h2>
-        <p class="white-text">Drenthe 11 februari 2017 Het zat er natuurlijk ook aan
-            te komen, Gérard werd eerste op de 200 meter in Zuid
-            Korea. G...</p>
-
-        <div class="carousel-background" style="background-image: url(uploads/74/thumbnail.png);"></div>
-
-    </a>
 </div>
