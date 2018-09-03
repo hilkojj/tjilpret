@@ -84,6 +84,7 @@ export class PostsComponent implements OnInit {
             this.postsLoaded = true;
             setTimeout(() => {
                 this.showCarouselPost = true;
+                this.startCarouselInterval();
             }, 20);
         });
     }
@@ -114,7 +115,6 @@ export class PostsComponent implements OnInit {
             if (this.featuredPostI < 0) this.featuredPostI = Math.min(7, this.tab.posts.length - 1);
             this.showCarouselPost = true;
         }, 400);
-
     }
 
     nextFeaturedPost() {
@@ -126,6 +126,23 @@ export class PostsComponent implements OnInit {
             if (this.featuredPostI > Math.min(7, this.tab.posts.length - 1)) this.featuredPostI = 0;
             this.showCarouselPost = true;
         }, 400);
+    }
+
+    startCarouselIntervalTimeout;
+    carouselInterval;
+
+    startCarouselIntervalAfterTimeout() {
+        this.startCarouselIntervalTimeout = setTimeout(() => this.startCarouselInterval(), 2000);
+    }
+
+    startCarouselInterval() {
+        this.carouselInterval = setInterval(() => this.nextFeaturedPost(), 4000);
+    }
+
+    stopCarouselInterval() {
+        clearInterval(this.carouselInterval);
+        clearTimeout(this.startCarouselIntervalTimeout);
+        this.carouselInterval = null;
     }
 
 }

@@ -1,21 +1,21 @@
 <div class="carousel black">
 
-    <div class="carousel-nav-btn previous" (click)="prevFeaturedPost()">
+    <div class="carousel-nav-btn previous" (click)="prevFeaturedPost(); stopCarouselInterval(); startCarouselIntervalAfterTimeout()">
         <i class="material-icons">
             arrow_back_ios
         </i>
     </div>
 
-    <div class="carousel-nav-btn forward" (click)="nextFeaturedPost()">
+    <div class="carousel-nav-btn forward" (click)="nextFeaturedPost(); stopCarouselInterval(); startCarouselIntervalAfterTimeout()">
         <i class="material-icons">
             arrow_forward_ios
         </i>
     </div>
-    
+
     <div *ngIf="postsLoaded" class="post" [ngClass]="{'show': showCarouselPost}">
-        
+
         <div class="blurred-background" [style.backgroundImage]="'url(' + service.getThumbnailPath(featuredPost) + ')'"></div>
-        
+
         <div class="indicator bw fav-text z-depth-2">
             <i class="material-icons">
                 {{tab.icon}}
