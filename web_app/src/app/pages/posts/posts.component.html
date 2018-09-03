@@ -40,18 +40,45 @@
 
 <div class="row">
 
-    <div class="col s12 m10 l8 offset-m1 offset-l2 no-padding">
+    <div class="col l3 tab-links-on-large hide-on-med-and-down">
+        <a class="fav-text fav-bg" *ngFor="let tab of tabs" routerLinkActive="active"
+            [routerLink]="tab.routerLink">
+
+            <i class="material-icons">
+                {{tab.icon}}
+            </i>
+            {{tab.title}}
+        </a>
+    </div>
+
+    <div class="col s12 m10 l7 offset-m1 no-padding">
+
+        <p class="white-text hide-on-large-only tab-title">
+            <i class="material-icons">
+                {{tab.icon}}
+            </i>
+            {{tab.title.toUpperCase()}}
+        </p>
 
         <div class="col s12 m6 post-col" *ngFor="let post of tab.posts">
             <app-post-card [post]="post"></app-post-card>
         </div>
 
+        <button class="btn btn-flat waves-effect show-more-btn">
+            <i class="material-icons right">arrow_forward</i>
+            Alles weergeven
+        </button>
+
     </div>
 
 </div>
 
-<div class="bottom-tabs bw hide-on-large-only">
+<br>
+<br>
+<br>
+
+<div class="bottom-tabs bw hide-on-large-only" *ngIf="postsLoaded">
 
     <app-tabs [tabs]="tabs" [replaceUrl]="true" [hideLabelOnMed]="true"></app-tabs>
-    
+
 </div>
