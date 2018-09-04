@@ -39,6 +39,7 @@ export class ProfileFriendsComponent implements OnInit {
 
             if (this.foundFriends.length == 0 && search.query != "")
                 this.noResultsText = `Geen vrienden gevonden voor '${search.query}'`;
+            else this.noResultsText = "";
         });
     }
 
