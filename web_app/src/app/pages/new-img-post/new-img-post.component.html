@@ -56,7 +56,7 @@
 
                 <br><br>
 
-                <button class="btn waves-effect" [ngClass]="{'disabled': categoryId == -1}" (click)="upload()">
+                <button class="btn waves-effect" [ngClass]="{'disabled': categoryId == -1 || uploading}" (click)="upload()">
                     <i class="material-icons left">done</i>
                     uplooden
                 </button>

@@ -15,6 +15,8 @@ export class NewImgPostComponent implements OnInit {
     categories: Category[];
     file: File;
 
+    uploading = false;
+
     title = "";
     description = "";
     categoryId = -1;
@@ -60,12 +62,13 @@ export class NewImgPostComponent implements OnInit {
     }
 
     upload() {
+        var toast = this.utils.loadingToast("Platje uplooden....");
+        this.uploading = true;
         this.service.uploadImgPost(this.file, this.title, this.description, this.categoryId, this.rotate).subscribe(res => {
+            this.utils.endLoadingToast(res.error, res.error ? res.error : "Gelukt", toast);
+
+            this.uploading = false;
             console.log(res);
-            if (res.error) this.utils.errorToast(res.error, 5000);
-            else {
-                this.router.navigateByUrl("/uplood/" + res.id);
-            }
         })
     }
 
