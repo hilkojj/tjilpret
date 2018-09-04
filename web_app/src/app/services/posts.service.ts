@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Post } from '../models/post';
+import { Post, Category } from '../models/post';
 import { CONTENT_URL, API_URL } from '../constants';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -89,6 +89,38 @@ export class PostsService {
         return this.http.post<Post[]>(API_URL + "searchPosts", {
             q, type, sortBy, desc, categoryId: categoryId || "any"
         });
+    }
+
+    newVideoPost(vid: File) {
+        if (!vid) return;
+
+
+    }
+
+    imgToBeUploaded: File;
+
+    newImgPost(img: File) {
+        if (!img) return;
+
+        this.imgToBeUploaded = img;
+        this.router.navigateByUrl("/niwe-plaatje");
+    }
+
+    getCategories(): Observable<Category[]> {
+        return this.http.post<Category[]>(API_URL + "/postCategories", {});
+    }
+
+    uploadImgPost(file: File, title: string, description: string, categoryId: number, rotate: number): Observable<any> {
+
+        var fd = new FormData();
+        fd.append("file", file, "file");
+        
+        var data = {
+            token: this.auth.session.token, title, description, categoryId, rotate
+        }
+        for (var key in data) fd.append(key, data[key]);
+
+        return this.http.post(API_URL + "/uploadImagePost", fd);
     }
 
 }

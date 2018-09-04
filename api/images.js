@@ -6,7 +6,6 @@ const imageminGiflossy = require('imagemin-giflossy');
 const sizeOf = require('image-size');
 const gifFrames = require('gif-frames');
 const multer = require("multer");
-const path = require('path');
 const utils = require("./utils.js");
 const db = require("./database.js");
 
@@ -125,9 +124,64 @@ const headerUpload = multer({
     fileFilter: imgFilter
 }).single("header");
 
+const rotateImg = (filePath, degrees) => new Promise(resolve => {
+
+    im.convert(["-rotate", degrees, filePath, filePath], err => {
+        if (err) console.log(err);
+        resolve(err ? false : true);
+    });
+});
+
+const compressImg = (filePath, maxWidth, maxHeight) => new Promise(resolve => {
+    im.resize({
+        srcPath: filePath,
+        dstPath: filePath,
+        width: maxWidth,
+        height: maxHeight
+    }, err => {
+        if (err) console.log(err);
+        resolve(err ? false : true);
+    });
+});
+
+const createThumbnail = (isGif, filePath, destPath, maxWidth, maxHeight) => new Promise(resolve => {
+
+    if (isGif) {
+
+        // extract first frame to jpg
+        gifFrames({ url: filePath, frames: 0 }, (err, frameData) => {
+
+            if (err) {
+                console.log(err);
+                return resolve(null);
+            }
+
+            destPath += ".jpg";
+            var streamThing = frameData[0].getImage().pipe(fs.createWriteStream(destPath));
+            streamThing.on("finish", () => resolve(destPath));
+        });
+    } else {
+
+        destPath += filePath.split(".")[1];
+
+        fs.copyFile(filePath, destPath, async err => {
+            if (err) {
+                console.log(err);
+                return resolve(false);
+            }
+
+            resolve(await compressImg(destPath, maxWidth, maxHeight) ? destPath : null);
+        });
+    }
+
+});
+
 module.exports = {
 
-    imgFilter: imgFilter,
+    imgFilter,
+    rotateImg,
+    compressImg,
+    createThumbnail,
 
     apiFunctions: function (api) {
 
@@ -138,7 +192,7 @@ module.exports = {
                     return utils.sendError(res, "AAAAAAAAAAAAAAA er is iets misgegaan");
                 }
                 if (!req.file) return utils.sendError(res, "Er is niks geuplood");
-                
+
                 var newFileName = req.file.filename;
                 saveMultipleImageSizes(newFileName, req.file.destination, profilePicDim, function (success) {
                     if (success) {
@@ -164,7 +218,7 @@ module.exports = {
                     return utils.sendError(res, "AAAAAAAAAAAAAAA er is iets misgegaan");
                 }
                 if (!req.file) return utils.sendError(res, "Er is niks geuplood");
-                
+
                 var newFileName = req.file.filename;
                 saveMultipleImageSizes(newFileName, req.file.destination, headerDim, function (success) {
                     if (success) {

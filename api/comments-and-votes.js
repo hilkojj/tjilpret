@@ -160,32 +160,31 @@ module.exports = {
             if (!token || !entityId)
                 return utils.sendError(res, !token ? "Geen token gegeven" : "Geen entityId gegeven");
 
-            this.isCommentOnComment(entityId, cantPost => {
+            this.isCommentOnComment(entityId, async cantPost => {
 
                 if (cantPost)
                     return utils.sendError(res, "Kan geen reactie op een reactie op een reactie plaatsen. Wat denk je wel niet.");
 
-                utils.createEntity(null, token, id => {
+                var id = await utils.createEntity(null, token);
 
-                    db.connection.query(`INSERT INTO entity_comments SET ?`,
-                        {
-                            entity_id: id,
-                            comment_on_entity_id: entityId,
-                            time: Date.now() / 1000 | 0,
-                            text: comment,
-                            giphy: req.body.giphy
+                db.connection.query(`INSERT INTO entity_comments SET ?`,
+                    {
+                        entity_id: id,
+                        comment_on_entity_id: entityId,
+                        time: Date.now() / 1000 | 0,
+                        text: comment,
+                        giphy: req.body.giphy
 
-                        }, (err, results, fields) => {
+                    }, (err, results, fields) => {
 
-                            if (err) {
-                                console.log(err);
-                                return utils.sendError(res, "huuuuu er ging iets mis");
-                            }
-                            emoticons.registerEmoticonUses(comment);
-                            res.send({ success: true });
+                        if (err) {
+                            console.log(err);
+                            return utils.sendError(res, "huuuuu er ging iets mis");
                         }
-                    );
-                });
+                        emoticons.registerEmoticonUses(comment);
+                        res.send({ success: true });
+                    }
+                );
             });
         });
 
@@ -235,7 +234,7 @@ module.exports = {
                         commentsAndSubComments[comment.id] = comment;
                     }
                     var votes = await this.getVotes(Object.keys(commentsAndSubComments), parseInt(req.body.token) || 0);
-                    
+
                     for (var i in votes) {
                         commentsAndSubComments[i].votes = votes[i];
                     }
@@ -344,8 +343,8 @@ module.exports = {
         api.post("/getVoters", async (req, res) => {
             res.send(
                 await this.getVoters(
-                    parseInt(req.body.entityId) || -1, 
-                    req.body.up ? true : false, 
+                    parseInt(req.body.entityId) || -1,
+                    req.body.up ? true : false,
                     parseInt(req.body.limit) || 16,
                     parseInt(req.body.offset) || 0
                 )

@@ -64,11 +64,6 @@
             <app-post-card [post]="post"></app-post-card>
         </div>
 
-        <button class="btn btn-flat waves-effect show-more-btn" *ngIf="postsLoaded">
-            <i class="material-icons right">arrow_forward</i>
-            Alles weergeven
-        </button>
-
     </div>
 
 </div>
@@ -83,8 +78,45 @@
 
 </div>
 
-<div class="upload-btn white z-depth-3 waves-effect">
+<div class="upload-btn white z-depth-3 waves-effect" (click)="modals.showModal('new-post')">
     <i class="material-icons fav-text">
         file_upload
     </i>
 </div>
+
+<app-modal name="new-post" type="bottom" hash="niwe-uplood">
+
+    <ul class="collection row new-post-ul">
+        <li class="collection-item avatar waves-effect bw-on-bw10" (click)="vidInput.click()">
+    
+            <i class="material-icons circle indigo accent-4">movie</i>
+            <span class="title">Vido</span>
+            <p>Uplood een vermakelijk filmpje</p>
+
+            <input #vidInput accept="video/*" hidden type="file" (change)="service.newVideoPost($event.target.files[0])">   
+
+        </li>
+
+        <li class="collection-item avatar waves-effect bw-on-bw10" (click)="imgInput.click()">
+    
+            <i class="material-icons circle green accent-3">image</i>
+            <span class="title">Platje</span>
+            <p>Uplood een wonderbaarlijk plaatje</p>
+
+            <input #imgInput accept="image/*" hidden type="file" (change)="service.newImgPost($event.target.files[0])">   
+
+        </li>
+
+        <li class="collection-item avatar waves-effect bw-on-bw10" (click)="gifInput.click()">
+    
+            <i class="material-icons circle deep-orange accent-3" [style.fontSize]="'26px'">gif</i>
+            <span class="title">Gif</span>
+            <p>Gifjes zijn zo leuk</p>
+
+            <input #gifInput accept="image/gif" hidden type="file" (change)="service.newImgPost($event.target.files[0])">   
+
+        </li>
+
+    </ul>
+
+</app-modal>

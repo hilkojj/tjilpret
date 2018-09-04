@@ -39,6 +39,7 @@ const apiFiles = [
     "comments-and-votes",
     "notifications",
     "posts",
+    "post-upload",
     "emoticons"
 ];
 for (var i in apiFiles)

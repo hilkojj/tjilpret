@@ -22,6 +22,24 @@ module.exports = {
         }
     },
 
+    categories: () => new Promise(resolve => {
+
+        db.connection.query(`SELECT * FROM categories`, [], (err, rows, fields) => {
+
+            if (err) console.log(err);
+
+            var c = [];
+            for (var row of rows) c.push({
+                id: row.category_id,
+                title: row.title,
+                description: row.description
+            });
+            resolve(c);
+
+        });
+
+    }),
+
     editPostTitle: (token, postId, title) => new Promise(resolve => {
 
         db.connection.query(`
@@ -268,6 +286,10 @@ module.exports = {
                 for (var row of rows) posts.push(module.exports.post(row));
                 res.send(posts);
             });
+        });
+
+        api.post("/postCategories", async (req, res) => {
+            res.send(await module.exports.categories());
         });
 
     }

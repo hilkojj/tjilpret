@@ -5,6 +5,7 @@ import { forkJoin, Observable } from 'rxjs';
 import { PostsService } from '../../services/posts.service';
 import { Post } from '../../models/post';
 import { Tab } from '../../components/tabs/tabs.component';
+import { ModalService } from '../../services/modal.service';
 
 interface PostsTab extends Tab {
     numberPrefix: string;
@@ -72,6 +73,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
     constructor(
         public service: PostsService,
+        public modals: ModalService,
 
         private route: ActivatedRoute
     ) { }

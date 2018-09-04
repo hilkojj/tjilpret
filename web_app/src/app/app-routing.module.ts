@@ -19,6 +19,7 @@ import { ColorClassResolver } from './pages/profile/profile-first-tab/color-clas
 import { PostComponent } from './pages/post/post.component';
 import { PostResolver } from './resolvers/post-resolver';
 import { PostsComponent } from './pages/posts/posts.component';
+import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -57,6 +58,14 @@ const routes: Routes = [
     },
     {
         path: "dollepret", redirectTo: "dollepret/top"
+    },
+    {
+        path: "niwe-plaatje", component: NewImgPostComponent,
+        canActivate: [AuthService], data: {
+            title: "Uplood een niw plaatje!",
+            favColorTheme: true,
+            showNavbar: true
+        }
     },
     {
         path: "tjillers", component: PeopleComponent,

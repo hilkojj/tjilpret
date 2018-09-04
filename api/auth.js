@@ -105,33 +105,33 @@ module.exports = {
                 if (exists)
                     return utils.sendError(res, "'" + username + "' bestaat al. Ik wil je vriendelijk vragen om orgineler te zijn.");
 
-                bcrypt.hash(password, 2, (err, encryptedPassword) => {
+                bcrypt.hash(password, 2, async (err, encryptedPassword) => {
 
-                    utils.createEntity(null, null, id => {
-                        db.connection.query("INSERT INTO users SET ?", {
-                            user_id: id,
-                            username: username,
-                            password: encryptedPassword,
-                            joined_on: Date.now() / 1000 | 0,
-                            email: email,
-                            bio: "nieuweling",
-                            r: 94, g: 94, b: 255,
-                            color_class_id: 14
-                        }, (err, results, fields) => {
+                    var id = await utils.createEntity(null, null);
+
+                    db.connection.query("INSERT INTO users SET ?", {
+                        user_id: id,
+                        username: username,
+                        password: encryptedPassword,
+                        joined_on: Date.now() / 1000 | 0,
+                        email: email,
+                        bio: "nieuweling",
+                        r: 94, g: 94, b: 255,
+                        color_class_id: 14
+                    }, (err, results, fields) => {
+                        if (err) {
+                            console.log(err);
+                            return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
+                        }
+                        console.log(username + " heeft de verstandige keuze gemaakt om lid te worden van tjilpret");
+                        
+                        db.connection.query("SELECT * FROM user_info WHERE user_id = ?", [id], (err, rows, fields) => {
                             if (err) {
                                 console.log(err);
-                                return utils.sendError(res, "Potver dat ging helemaal mis. Probeer nog es?!?!");
+                                return utils.sendError(res, "Probeer nu es in te loggen");
                             }
-                            console.log(username + " heeft de verstandige keuze gemaakt om lid te worden van tjilpret");
-                            
-                            db.connection.query("SELECT * FROM user_info WHERE user_id = ?", [id], (err, rows, fields) => {
-                                if (err) {
-                                    console.log(err);
-                                    return utils.sendError(res, "Probeer nu es in te loggen");
-                                }
-                                emoticons.createFriendshipWithEmoticonCollectionUser(id);
-                                createSession(rows[0], req, res);
-                            });
+                            emoticons.createFriendshipWithEmoticonCollectionUser(id);
+                            createSession(rows[0], req, res);
                         });
                     });
 

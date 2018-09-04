@@ -4,8 +4,14 @@ export enum PostType {
     Gif = "gif"
 }
 
+export interface Category {
+    id: number;
+    title: string;
+    description: string;
+}
+
 export interface Post {
-    id: number
+    id: number;
     title: string;
     description: string;
     duration?: number;

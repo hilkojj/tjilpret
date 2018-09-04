@@ -3,14 +3,14 @@ const db = require("./database.js");
 
 module.exports = {
 
-    createEntity: function (userId, token, callback) {
+    createEntity: (userId, token) => new Promise(resolve => {
 
         const sqlCallback = (err, results, fields) => {
             if (err) {
                 console.log("error while creating entity", err);
-                return callback(null);
+                return resolve(null);
             }
-            callback(results.insertId);
+            resolve(results.insertId);
         };
 
         if (token)
@@ -22,7 +22,7 @@ module.exports = {
         else
             db.connection.query("INSERT INTO entities () VALUES ()", {}, sqlCallback);
 
-    },
+    }),
 
     removeExtraNewlines: function (text) {
         return text.replace(/\n\s*\n\s*\n/g, '\n\n');
