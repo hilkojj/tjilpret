@@ -72,13 +72,13 @@
 <br>
 <br>
 
-<div class="bottom-tabs bw hide-on-large-only">
+<div class="bottom-tabs bw hide-on-large-only" *ngIf="postsLoaded">
 
     <app-tabs [tabs]="tabs" [replaceUrl]="true" [hideLabelOnMed]="true"></app-tabs>
 
 </div>
 
-<div class="upload-btn white z-depth-3 waves-effect" (click)="modals.showModal('new-post')">
+<div class="upload-btn white z-depth-3 waves-effect" (click)="modals.showModal('new-post')" *ngIf="postsLoaded">
     <i class="material-icons fav-text">
         file_upload
     </i>
