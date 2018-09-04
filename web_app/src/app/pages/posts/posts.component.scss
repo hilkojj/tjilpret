@@ -173,9 +173,31 @@
 
 .show-more-btn {
     color: white !important;
-    width: calc(100% - 16px);
-    margin: 0 8px;
+    margin-left: .75rem;
     i {
         color: white;
+    }
+}
+
+.upload-btn {
+    width: 52px;
+    height: 52px;
+    line-height: 52px;
+    text-align: center;
+
+    z-index: 100;
+
+    position: fixed;
+    bottom: 24px;
+    right: 16px;
+    border-radius: 100px;
+
+    @media only screen and (max-width: $break-med) {
+        bottom: 64px;
+        right: 8px;
+    }
+
+    i {
+        vertical-align: middle;
     }
 }

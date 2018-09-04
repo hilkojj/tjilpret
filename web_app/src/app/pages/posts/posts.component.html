@@ -64,7 +64,7 @@
             <app-post-card [post]="post"></app-post-card>
         </div>
 
-        <button class="btn btn-flat waves-effect show-more-btn">
+        <button class="btn btn-flat waves-effect show-more-btn" *ngIf="postsLoaded">
             <i class="material-icons right">arrow_forward</i>
             Alles weergeven
         </button>
@@ -77,8 +77,14 @@
 <br>
 <br>
 
-<div class="bottom-tabs bw hide-on-large-only" *ngIf="postsLoaded">
+<div class="bottom-tabs bw hide-on-large-only">
 
     <app-tabs [tabs]="tabs" [replaceUrl]="true" [hideLabelOnMed]="true"></app-tabs>
 
+</div>
+
+<div class="upload-btn white z-depth-3 waves-effect">
+    <i class="material-icons fav-text">
+        file_upload
+    </i>
 </div>
