@@ -4,6 +4,7 @@ const fs = require("fs");
 const utils = require("./utils.js");
 const db = require("./database.js");
 const images = require("./images.js");
+const videos = require("./videos.js");
 const multer = require("multer");
 const emoticons = require("./emoticons.js");
 
@@ -14,11 +15,20 @@ const tempStorage = multer.diskStorage({
     }
 });
 
-//mp4|webm|ogg
+const vidUpload = multer({
+    storage: tempStorage,
+    limits: { fileSize: 1000000000 },
+    fileFilter: (req, file, cb) => {
+        const filetypes = /mp4|webm|ogg/;
+
+        if (filetypes.test(file.mimetype)) return cb(null, true);
+        else cb(file.mimetype + ' wordt nit ondersteund');
+    }
+}).single("file");
 
 const imgUpload = multer({
     storage: tempStorage,
-    limits: { fileSize: 1000000000 },
+    limits: { fileSize: 64000000 },
     fileFilter: (req, file, cb) => {
         const filetypes = /jpeg|jpg|png|gif/;
 
@@ -100,6 +110,40 @@ module.exports = {
 
     apiFunctions: api => {
 
+        api.post("/uploadVideoPost", (req, res) => {
+
+            vidUpload(req, res, async err => {
+
+                if (err) {
+                    console.log(err);
+                    return res.send({ error: "Er ging iets mis." });
+                }
+                if (!req.file) return res.send({ error: "Er is niks geuplood" });
+
+                // CREATE THUMBNAIL OF VIDEO
+                var thumbnailPath = await videos.createThumbnail(
+                    req.file.path,
+                    __dirname + "/temp/post_thumbnails/",
+                    300, 280,
+                    Math.min(1, Math.max(0, parseFloat(req.body.thumbnailPercentage)))
+                );
+
+                var duration = await videos.getDuration(req.file.path);
+
+                res.send(await createPost(
+                    parseInt(req.body.token),
+                    req.body.title,
+                    req.body.description,
+                    parseInt(req.body.categoryId),
+                    "vid",
+                    req.file.path, thumbnailPath, 
+                    duration
+                ));
+
+            });
+
+        });
+
         api.post("/uploadImagePost", (req, res) => {
 
             imgUpload(req, res, async err => {
@@ -123,8 +167,8 @@ module.exports = {
                 // SAVE THUMBNAIL:
                 var thumbnailPath = await images.createThumbnail(
                     isGif, req.file.path, 
-                    __dirname + "/temp/post_thumbnails/" + req.file.filename, 
-                    280, 300
+                    __dirname + "/temp/post_thumbnails/" + req.file.filename.split(".")[0], 
+                    300, 280
                 );
 
                 res.send(await createPost(

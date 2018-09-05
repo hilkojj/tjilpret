@@ -59,6 +59,7 @@ import { EscapePipe } from './pipes/escape.pipe';
 import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-picker.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component';
+import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component
     EscapePipe,
     EmoticonPickerComponent,
     PostsComponent,
-    NewImgPostComponent
+    NewImgPostComponent,
+    NewVidPostComponent
   ],
   imports: [
     BrowserModule,

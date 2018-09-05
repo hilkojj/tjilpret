@@ -69,6 +69,8 @@ export class NewImgPostComponent implements OnInit {
 
             this.uploading = false;
             console.log(res);
+
+            this.router.navigateByUrl("/uplood/" + res.id);
         })
     }
 

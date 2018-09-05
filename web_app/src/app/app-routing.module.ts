@@ -20,6 +20,7 @@ import { PostComponent } from './pages/post/post.component';
 import { PostResolver } from './resolvers/post-resolver';
 import { PostsComponent } from './pages/posts/posts.component';
 import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component';
+import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -63,6 +64,14 @@ const routes: Routes = [
         path: "niwe-plaatje", component: NewImgPostComponent,
         canActivate: [AuthService], data: {
             title: "Uplood een niw plaatje!",
+            favColorTheme: true,
+            showNavbar: true
+        }
+    },
+    {
+        path: "niwe-vido", component: NewVidPostComponent,
+        canActivate: [AuthService], data: {
+            title: "Uplood een niwe vido!",
             favColorTheme: true,
             showNavbar: true
         }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Post, Category } from '../models/post';
 import { CONTENT_URL, API_URL } from '../constants';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -91,10 +91,13 @@ export class PostsService {
         });
     }
 
+    vidToBeUploaded: File;
+
     newVideoPost(vid: File) {
         if (!vid) return;
 
-
+        this.vidToBeUploaded = vid;
+        this.router.navigateByUrl("/niwe-vido");
     }
 
     imgToBeUploaded: File;
@@ -121,6 +124,25 @@ export class PostsService {
         for (var key in data) fd.append(key, data[key]);
 
         return this.http.post(API_URL + "/uploadImagePost", fd);
+    }
+
+    uploadVidPost(
+        file: File, title: string, description: string, categoryId: number, thumbnailPercentage: number
+    ): Observable<HttpEvent<any>> {
+
+        var fd = new FormData();
+        fd.append("file", file, "file");
+        
+        var data = {
+            token: this.auth.session.token, title, description, categoryId, thumbnailPercentage
+        }
+        for (var key in data) fd.append(key, data[key]);
+
+        return this.http.request(
+            new HttpRequest("POST", API_URL + "/uploadVideoPost", fd, {
+                reportProgress: true
+            })
+        );
     }
 
 }
