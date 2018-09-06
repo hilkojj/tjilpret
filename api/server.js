@@ -3,6 +3,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 const db = require("./database.js");
 const webapp = require("./webapp.js");
 
@@ -102,4 +104,6 @@ app.get("*", (req, res) => {
     webapp.show(null, res);
 });
 
-app.listen(8080, () => console.log("Tjillepret listening on port 8080"));
+require("./chat/very-realtime.js")(io);
+
+http.listen(8080, () => console.log("Tjillepret (Express app & Socket.io) listening on port 8080"));
