@@ -1,12 +1,6 @@
 $break-small: 600px;
 $break-med: 992px;
 
-router-outlet ~ * {
-    position: absolute;
-    width: 100vw;
-    transform-origin: 50% 50px;
-}
-
 @media (pointer: fine) {
     // custom scrollbar only on desktops
     ::-webkit-scrollbar {
@@ -21,6 +15,11 @@ router-outlet ~ * {
 
 body.modal-open {
     overflow: hidden;
+}
+
+router-outlet ~ * {
+    width: 100vw;
+    transform-origin: 50% 50px;
 }
 
 ::ng-deep {
@@ -170,9 +169,16 @@ body.modal-open {
 
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    width: 100vw;
+    opacity: 1 !important;
+    transition: opacity 3s 1s;
 }
 
 .masterpiece-left {

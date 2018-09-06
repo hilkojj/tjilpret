@@ -42,12 +42,15 @@ const routes: Routes = [
         }
     },
     {
-        path: "tjets", component: ChatComponent,
+        path: "tjets/:chatId", component: ChatComponent,
         canActivate: [AuthService], data: {
             title: "Tjets",
             favColorTheme: true,
             showNavbar: true
         }
+    },
+    {
+        path: "tjets", redirectTo: "tjets/overzicht"
     },
     {
         path: "dollepret/:tab", component: PostsComponent,

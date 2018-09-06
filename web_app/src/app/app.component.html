@@ -3,7 +3,7 @@
 </header>
 
 <main>
-    <div *ngIf="!utils.mobile" [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
+    <div class="router-outlet-wrapper" *ngIf="!utils.mobile" [@routerAnimation]="o.isActivated ? o.activatedRoute : ''">
         <router-outlet #o="outlet" (activate)="onActivate()"></router-outlet>
     </div>
     <router-outlet *ngIf="utils.mobile" (activate)="onActivate()"></router-outlet>
