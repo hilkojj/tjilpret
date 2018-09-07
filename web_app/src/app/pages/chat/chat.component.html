@@ -1,4 +1,27 @@
+<div class="flex only-conversations">
 
+    <div class="conversations bw bw-on-bw-text">
 
+        <div #searchBar class="search-bar bw-on-bw10" (click)="searchBar == $event.target && convSearchQuery = ''">
+            
+            <div class="field z-depth-1 bw" (click)="convSearchInput.focus()">
+                <i class="material-icons bw-on-bw-text search">search</i>
+                <i class="material-icons fav-text back">arrow_back</i>
+                <input #convSearchInput [(ngModel)]="convSearchQuery" class="browser-default" type="text" placeholder="Zoek naar tjets/mensen">
+            </div>
 
+        </div>
 
+        <ul>
+            <li>
+                
+            </li>
+        </ul>
+
+    </div>
+
+    <div class="chat"></div>
+
+    <div class="chat-info bw bw-on-bw-text"></div>
+
+</div>

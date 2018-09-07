@@ -1,3 +1,135 @@
+@import "../../../styles.scss";
+
 :host {
+    display: contents;
+}
+
+.flex {
     height: 100%;
+    display: flex;
+    flex-flow: row;
+
+    .conversations {
+        flex: 0 1 auto;
+        width: 320px;
+    }
+
+    .chat {
+        flex: 1 1 auto;
+    }
+
+    .chat-info {
+        flex: 0 1 auto;
+        width: 300px;
+    }
+
+    @media only screen and (max-width: $break-med) {
+
+        &.only-conversations {
+            .conversations {
+                flex: 1 1 auto;
+            }
+
+            .chat {
+                display: none;
+            }
+        }
+
+        &:not(.only-conversations) {
+            .conversations {
+                display: none;
+            }
+        }
+
+        .chat-info {
+            display: none;
+        }
+
+    }
+
+}
+
+.conversations {
+
+    .search-bar {
+
+        height: 56px;
+        padding: .75rem;
+        transition: .1s;
+        pointer-events: none;
+
+        &:focus-within {
+            padding: 0;
+            cursor: pointer;
+            pointer-events: all;
+            
+            .field {
+                pointer-events: none;
+                border-radius: 0;
+                background: white;
+
+                input {
+                    color: black;
+                    pointer-events: all;
+                    width: calc(100% - 45px - .75rem);
+                }
+
+                i {
+                    margin: .75rem .75rem;
+                    &.search {
+                        transform: rotate(180deg) scale(.5);
+                        opacity: 0;
+                    }
+                    &.back {
+                        transform: rotate(0) scale(1);
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        .field {
+
+            height: 100%;
+            width: 100%;
+            border-radius: 100px;
+            transition: .1s;
+            padding: 0 0 0 .75rem;
+            cursor: text;
+            pointer-events: all;
+
+            i {
+                transition: .2s transform, .2s opacity, .1s margin;
+                line-height: inherit;
+                user-select: none;
+                position: absolute;
+                will-change: opacity, transform;
+
+                &.back {
+                    transform: rotate(-180deg) scale(.5);
+                    opacity: 0;
+                }
+                &.search {
+                    transform: rotate(0) scale(1);
+                    opacity: .5;
+                }
+            }
+            
+            input {
+                height: 100%;
+                background: transparent;
+                border: none !important;
+                outline: none;
+                box-shadow: none !important;
+                transition: .1s;
+
+                float: right;
+                width: calc(100% - 45px);
+            }
+        }
+
+
+    }
+
+
 }
