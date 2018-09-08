@@ -14,7 +14,7 @@
         {{tab.title}}
     </span>
     <span class="tab-badge fav-bg bw-text" *ngIf="tab.badgeNumber && tab.badgeNumber() > 0">
-        {{tab.badgeNumber() > 99 ? "99+" : tab.badgeNumber()}}
+        {{tab.badgeNumber() > 999 ? "∞" : tab.badgeNumber()}}
     </span>
     <div class="indicator fav-bg"></div>
 </div>

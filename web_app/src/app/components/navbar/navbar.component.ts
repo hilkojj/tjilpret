@@ -7,6 +7,7 @@ import { ModalService } from '../../services/modal.service';
 import { Router } from '@angular/router';
 import { NotificationsService } from '../../services/notifications.service';
 import { FriendsService } from '../../services/friends.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
     selector: 'app-navbar',
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit {
         public notifications: NotificationsService,
 
         private friends: FriendsService,
+        private chat: ChatService,
         private router: Router
     ) { }
 
@@ -31,7 +33,7 @@ export class NavbarComponent implements OnInit {
     tabs: Tab[] = [
         new Tab("Hoom", "home", "/hoom", true),
         new Tab("Amusement", "subscriptions", "/dollepret", false),
-        new Tab("Tjets", "chat_bubble", "/tjets/overzicht", true),
+        new Tab("Tjets", "chat_bubble", "/tjets/overzicht", true, null, () => this.chat.unreadMessages),
         new Tab("Mesnen & vriends", "group", "/tjillers", true, null, () => this.friends.receivedInvites.length)
     ];
 

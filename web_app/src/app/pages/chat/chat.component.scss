@@ -51,8 +51,12 @@
 
 .conversations {
 
+    display: flex;
+    flex-flow: column;
+
     .search-bar {
 
+        flex: 0 1 auto;
         height: 56px;
         padding: .75rem;
         transition: .1s;
@@ -71,7 +75,7 @@
                 input {
                     color: black;
                     pointer-events: all;
-                    width: calc(100% - 45px - .75rem);
+                    width: calc(100% - 49px - .75rem);
                 }
 
                 i {
@@ -124,12 +128,53 @@
                 transition: .1s;
 
                 float: right;
-                width: calc(100% - 45px);
+                width: calc(100% - 49px);
             }
         }
 
 
     }
 
+    ul {
+        flex: 1 1 auto;
+        margin: 0;
+        overflow-y: auto;
+
+        li {
+
+            display: flex;
+            flex-flow: row;
+            user-select: none;
+
+            .avatar {
+
+                $avatar-size: 48px;
+                $padding: .75rem;
+
+                flex: 0 1 auto;
+                $size: calc(#{2 * $padding} + #{$avatar-size});
+                width: $size;
+                height: $size;
+                padding: $padding;
+                
+                .new-btn {
+                    height: 100%;
+                    width: 100%;
+                    text-align: center;
+                    border: solid 1px rgba(131, 131, 131, 0.23);    
+
+                    i {
+                        line-height: $avatar-size;
+                    }
+                }
+            }
+            .info {
+                .title {
+                    font-size: 16px;
+                }
+                flex: 1 1 auto;
+            }
+        }
+    }
 
 }

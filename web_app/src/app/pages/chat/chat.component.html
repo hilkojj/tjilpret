@@ -2,19 +2,55 @@
 
     <div class="conversations bw bw-on-bw-text">
 
-        <div #searchBar class="search-bar bw-on-bw10" (click)="searchBar == $event.target && convSearchQuery = ''">
-            
+        <div #searchBar class="search-bar bw-on-bw10"
+            (click)="searchBar == $event.target && convSearchQuery = ''">
+
             <div class="field z-depth-1 bw" (click)="convSearchInput.focus()">
                 <i class="material-icons bw-on-bw-text search">search</i>
                 <i class="material-icons fav-text back">arrow_back</i>
-                <input #convSearchInput [(ngModel)]="convSearchQuery" class="browser-default" type="text" placeholder="Zoek naar tjets/mensen">
+                <input #convSearchInput [(ngModel)]="convSearchQuery"
+                    class="browser-default" type="text"
+                    placeholder="Zoek naar tjets/mensen">
             </div>
 
         </div>
 
         <ul>
-            <li>
-                
+            <li class="waves-effect">
+                <div class="avatar">
+                    <div class="new-btn z-depth-1 circle bw">
+                        <i class="material-icons fav-text">add</i>
+                    </div>
+                </div>
+                <div class="info valign-wrapper">
+                    <span class="title">
+                        Niwe groep creëren
+                    </span>
+                </div>
+            </li>
+
+            <li *ngFor="let conv of service.conversations"
+                class="waves-effect" [style.display]="convTitle(conv).toLowerCase().indexOf(convSearchQuery.toLowerCase()) == -1 ? 'none' : ''">
+
+                <div class="avatar">
+
+                    <app-profile-pic *ngIf="!conv.isGroup"
+                        [user]="conv.otherUser" size="48px"
+                        cursor="pointer"></app-profile-pic>
+
+                </div>
+                <div class="info">
+
+                    <!-- group title with emoticons -->
+                    <span class="title" *ngIf="conv.isGroup"
+                        [innerHTML]="conv.groupTitle | escape | emoticons"></span>
+
+                    <!-- username without emoticons -->
+                    <span class="title" *ngIf="!conv.isGroup">
+                        {{conv.otherUser.username}}
+                    </span>
+
+                </div>
             </li>
         </ul>
 

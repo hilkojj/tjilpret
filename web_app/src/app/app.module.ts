@@ -60,6 +60,7 @@ import { EmoticonPickerComponent } from './components/emoticon-picker/emoticon-p
 import { PostsComponent } from './pages/posts/posts.component';
 import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component';
 import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component';
+import { GroupPicComponent } from './components/group-pic/group-pic.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component
     EmoticonPickerComponent,
     PostsComponent,
     NewImgPostComponent,
-    NewVidPostComponent
+    NewVidPostComponent,
+    GroupPicComponent
   ],
   imports: [
     BrowserModule,
