@@ -42,7 +42,8 @@ const apiFiles = [
     "notifications",
     "posts",
     "post-upload",
-    "emoticons"
+    "emoticons",
+    "chat/api"
 ];
 for (var i in apiFiles)
     require("./" + apiFiles[i] + ".js").apiFunctions(api);
