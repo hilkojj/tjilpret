@@ -50,6 +50,18 @@ for (var i in apiFiles)
 
 ////////////////////////////////////////////  
 //                                        //
+// Private Content                        //
+// (eg. /chat_wallpapers/8490484904.png)  //
+//                                        //
+////////////////////////////////////////////
+const privateContent = express.Router();
+var cookieParser = require('cookie-parser');
+app.use("/private_content", privateContent);
+privateContent.use(cookieParser());
+require("./chat/private-content")(privateContent);
+
+////////////////////////////////////////////  
+//                                        //
 // Webapp                                 //
 //                                        //
 ////////////////////////////////////////////
