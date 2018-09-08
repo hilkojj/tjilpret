@@ -49,6 +49,9 @@
 .fav-bg {
     background: ?rgb? !important;
 }
+.fav-bg-but-not-so-important {
+    background: ?rgb?;
+}
 
 .fav-fill {
     fill: ?rgb? !important;

@@ -30,13 +30,15 @@
             </li>
 
             <li *ngFor="let conv of service.conversations"
-                class="waves-effect" [style.display]="convTitle(conv).toLowerCase().indexOf(convSearchQuery.toLowerCase()) == -1 ? 'none' : ''">
+                class="waves-effect hover-bg" [style.display]="convTitle(conv).toLowerCase().indexOf(convSearchQuery.toLowerCase()) == -1 ? 'none' : ''">
 
                 <div class="avatar">
 
                     <app-profile-pic *ngIf="!conv.isGroup"
                         [user]="conv.otherUser" size="48px"
                         cursor="pointer"></app-profile-pic>
+
+                    <app-group-pic *ngIf="conv.isGroup" [conv]="conv" size="48px"></app-group-pic>
 
                 </div>
                 <div class="info">

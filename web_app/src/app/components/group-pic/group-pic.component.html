@@ -1,3 +1,11 @@
-<p>
-  group-pic works!
-</p>
+<div class="group-pic-container" *ngIf="conv">
+
+    <div class="group-pic fav-bg-but-not-so-important circle bw-border" [ngStyle]="{
+            backgroundImage: 'url(' + url + ')',
+            height: size, width: size,
+            borderWidth: borderWidth
+        }">
+
+    </div>
+
+</div>
