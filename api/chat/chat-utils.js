@@ -16,7 +16,7 @@ const conversation = row => {
         groupTitle: row.group_title,
         groupPic: row.group_pic,
         groupDescription: row.group_description,
-        latestMessage: message(row),
+        latestMessage: row.id == null ? null : message(row),
         latestSenderUsername: row.latest_sender_username,
         otherUser: row.user_id == null ? null : utils.userInfo(row)
     }

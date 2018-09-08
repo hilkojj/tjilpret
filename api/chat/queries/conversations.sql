@@ -17,7 +17,7 @@ SELECT
     ) AS unread,
 	member.chat_id, member.joined_chat_on, member.left_chat_on, member.is_chat_admin, member.muted, member.read_time,
     chat.*, 
-    mes.*, 
+    mes.id, mes.sent_by, mes.sent_on, mes.text, mes.attachment_id, mes.old_time,
     
     #get username of sender of latest message:
     (
