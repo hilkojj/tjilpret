@@ -14,7 +14,7 @@ const conversation = row => {
         startedOn: row.started_on,
         isGroup: row.is_group,
         groupTitle: row.group_title,
-        groupPic: row.group_pic,
+        groupPic: row.left_chat_on != null ? null : row.group_pic, // user is not allowed to see group_pic when user has left the group
         groupDescription: row.group_description,
         latestMessage: row.id == null ? null : message(row),
         latestSenderUsername: row.latest_sender_username,

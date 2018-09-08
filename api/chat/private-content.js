@@ -53,7 +53,7 @@ module.exports = privateContent => {
         // check if user is allowed to download this image:
         db.connection.query(
             `SELECT group_pic FROM chats chat
-            JOIN chat_members member ON chat.chat_id = member.chat_id
+            JOIN chat_members member ON chat.chat_id = member.chat_id AND member.left_chat_on IS NULL
             JOIN tokens ON tokens.token = ? AND tokens.user_id = member.user_id
             WHERE group_pic = ?`, [token, filename], (err, rows, fields) => {
 
