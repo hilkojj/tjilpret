@@ -18,6 +18,7 @@ body.modal-open {
 }
 
 router-outlet ~ * {
+    position: absolute;
     width: 100vw;
     transform-origin: 50% 50px;
 }
