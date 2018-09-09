@@ -22,6 +22,27 @@ const apiFunctions = api => {
         });
     });
 
+    const messagesQuery = fs.readFileSync(__dirname + "/queries/messages.sql").toString();
+    api.post("/messages", (req, res) => {
+
+        db.connection.query(messagesQuery, [
+            parseInt(req.body.chatId) || 0,
+            parseInt(req.body.until) || Date.now(),
+            parseInt(req.body.token) || 0,
+            parseInt(req.body.limit) || 64
+        ], (err, rows, fields) => {
+
+            if (err) {
+                console.log(err);
+                return utils.sendError(res, "Er ging iets mis.");
+            }
+
+            const messages = [];
+            for (var row of rows) messages.push(chatUtils.message(row));
+            res.send(messages);
+        });
+    });
+
 }
 
 module.exports = {
