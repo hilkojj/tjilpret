@@ -33,7 +33,7 @@ const createThumbnail = (filePath, destPath, maxWidth, maxHeight, percentage) =>
             thumbnailPath: destPath
         });
 
-        var filename = await tg.generateOneByPercent(percentage * 100, { size });
+        var filename = await tg.generateOneByPercent(Math.max(1, Math.min(percentage * 100, 99)), { size });
 
         var newPath = destPath + "/" + filename;
 
