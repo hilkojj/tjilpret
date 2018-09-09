@@ -53,7 +53,7 @@
                     </div>
                     <span class="message">
                         <i class="material-icons" *ngIf="conv.latestMessage?.attachment">
-                            attach_file
+                            {{service.attachmentIcon(conv.latestMessage.attachment)}}
                         </i>
                         <span *ngIf="conv.latestMessage">
                             {{conv.latestMessage?.sentBy == auth.session.user.id ? "Jij: " : (conv.isGroup ? conv.latestSenderUsername + ":" : "")}}
