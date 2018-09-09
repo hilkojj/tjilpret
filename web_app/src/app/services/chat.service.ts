@@ -1,23 +1,41 @@
 import { Injectable } from '@angular/core';
-import { Conversation } from '../models/chat';
+import { Conversation, Attachment, AttachmentType } from '../models/chat';
 import { HttpClient } from '@angular/common/http';
-import { API_URL } from '../constants';
+import { API_URL, SITE_URL } from '../constants';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
+import * as io from 'socket.io-client';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
 
-    private _unreadMessages = 0;
     conversations: Conversation[];
+    socket;
+
+    private _unreadMessages = 0;
     private requestingConversations = false;
 
     constructor(
         private http: HttpClient,
         private auth: AuthService
-    ) { }
+    ) {
+        this.socket = io(SITE_URL);
+        auth.onAuthenticatedListeners.push(() => {
+            this.socket.emit("auth", { token: auth.session.token });
+        });
+    }
+
+    attachmentIcon(att: Attachment): string {
+        if (att.type == AttachmentType.Giphy || /.png|.jpg|.jpeg|.gif/.test(att.path)) return "image";
+
+        if (/.mp4|.ogg|.webm/.test(att.path)) return "movie";
+
+        if (/.mp3|.wav/.test(att.path)) return "music_note";
+
+        return "attach_file";
+    }
 
     get unreadMessages(): number {
         if (this.conversations == null) this.getConversations();
