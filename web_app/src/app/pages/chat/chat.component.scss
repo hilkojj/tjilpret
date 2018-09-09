@@ -1,4 +1,17 @@
 @import "../../../styles.scss";
+@import "../../components/navbar/navbar.component.scss";
+
+:host {
+    height: calc(100% - #{$header-height});
+
+    @media only screen and (max-width: $break-med) {
+        height: calc(100% - #{$header-on-med-height});
+
+        @media only screen and (max-width: $break-small) {
+            height: calc(100% - #{$header-on-small-height});
+        }
+    }
+}
 
 .flex {
     height: 100%;
@@ -58,6 +71,7 @@
         padding: .75rem;
         transition: .1s;
         pointer-events: none;
+        z-index: 2;
 
         &:focus-within {
             padding: 0;

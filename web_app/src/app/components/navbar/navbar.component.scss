@@ -5,6 +5,11 @@ $navbar-height: 64px;
 $navbar-small-height: 56px;
 $full-width-tabs-height: 44px;
 
+// to use in other files:
+$header-height: $navbar-height;
+$header-on-med-height: $navbar-height + $full-width-tabs-height;
+$header-on-small-height: $navbar-small-height + $full-width-tabs-height;
+
 .navbar-fixed {
 
     @mixin translateUp() {
