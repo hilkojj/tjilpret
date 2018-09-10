@@ -44,7 +44,19 @@ const attachment = row => {
     }
 }
 
+const event = row => {
+    return {
+        id: row.id,
+        chatId: row.chat_id,
+        type: row.type,
+        timestamp: row.timestamp,
+        by: row.by, who: row.who
+    }
+}
+
 module.exports = {
     conversation,
-    message
+    message,
+    attachment,
+    event
 }
