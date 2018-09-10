@@ -9,6 +9,10 @@
 
         @media only screen and (max-width: $break-small) {
             height: calc(100% - #{$header-on-small-height});
+
+            &:not(.only-conversations) {
+                height: 100%;
+            }
         }
     }
 }
@@ -26,6 +30,7 @@
 
     .chat {
         flex: 1 1 auto;
+        overflow: hidden;
     }
 
     .chat-info {
@@ -156,6 +161,8 @@
             display: flex;
             flex-flow: row;
             user-select: none;
+            outline: none;
+            transition: .03s;
 
             .avatar {
 
@@ -189,7 +196,7 @@
                 flex: 1 1 auto;
                 min-width: 0;
                 padding: .75rem 0;
-                border-bottom: .8px solid rgba(131, 131, 131, 0.23);
+                border-bottom: .8px solid rgba(131, 131, 131, 0.1);
 
                 .message {
                     opacity: .7;
@@ -208,7 +215,7 @@
                 flex: 0 0 auto;
                 width: 78px;
                 text-align: right;
-                border-bottom: .8px solid rgba(131, 131, 131, 0.23);
+                border-bottom: .8px solid rgba(131, 131, 131, 0.1);
 
                 .time {
                     font-size: 12px;
@@ -235,4 +242,36 @@
         }
     }
 
+}
+
+.welcome {
+    height: 100%;
+
+    .wrapper {
+
+        transform: translateX(-50%);
+        margin-left: 50%;
+        text-align: center;
+
+        .cat-anim {
+
+            animation: chat-cat-anim .5s ease-out;
+            
+            .cat {
+                filter: brightness(80%);
+                height: 285px;
+            }
+            
+            h4 {
+                font-weight: 300;
+            }
+            
+            @keyframes chat-cat-anim {
+                0%, 40% {
+                    transform: scale(.7);
+                    opacity: 0;
+                }
+            }
+        }
+    }
 }

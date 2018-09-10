@@ -21,6 +21,7 @@ import { PostResolver } from './resolvers/post-resolver';
 import { PostsComponent } from './pages/posts/posts.component';
 import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component';
 import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component';
+import { ConversationsResolver } from './resolvers/conversations-resolver';
 
 export const enum RouterPath {
     Home = "hoom",
@@ -45,8 +46,11 @@ const routes: Routes = [
         path: "tjets/:chatId", component: ChatComponent,
         canActivate: [AuthService], data: {
             title: "Tjets",
-            favColorTheme: true,
+            favColorTheme: false,
             showNavbar: true
+        },
+        resolve: {
+            convsLoaded: ConversationsResolver
         }
     },
     {
@@ -167,7 +171,8 @@ const routes: Routes = [
     providers: [
         PostResolver,
         UserResolver,
-        ColorClassResolver
+        ColorClassResolver,
+        ConversationsResolver
     ]
 })
 export class AppRoutingModule { }

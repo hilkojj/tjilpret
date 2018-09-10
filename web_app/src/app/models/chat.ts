@@ -16,7 +16,9 @@ export interface Conversation {
     groupDescription: string,
     latestMessage: Message,
     latestSenderUsername: string,
-    otherUser: User
+    otherUser: User,
+
+    messages?: Message[]
 }
 
 export interface Message {

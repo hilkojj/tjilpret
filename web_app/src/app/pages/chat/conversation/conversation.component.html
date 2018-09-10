@@ -1,0 +1,32 @@
+<div class="toolbar fav-bg z-depth-1 white-text">
+
+    <div class="back-and-pic hide-on-large-only valign-wrapper">
+
+        <button class="btn btn-flat btn-floating" onclick="history.back()">
+            <i class="material-icons white-text">arrow_back</i>
+        </button>
+
+        <app-profile-pic *ngIf="!conv.isGroup" [user]="conv.otherUser"
+            size="40px"></app-profile-pic>
+
+        <app-group-pic *ngIf="conv.isGroup" [conv]="conv"
+            size="40px"></app-group-pic>
+
+    </div>
+
+    <div class="info valign-wrapper">
+
+        <div>
+            <!-- group title with emoticons -->
+            <div class="title" *ngIf="conv.isGroup"
+                [innerHTML]="conv.groupTitle | escape | emoticons"></div>
+
+            <!-- username without emoticons -->
+            <div class="title" *ngIf="!conv.isGroup">
+                {{conv.otherUser.username}}
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -5,6 +5,7 @@ import { API_URL, SITE_URL } from '../constants';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import * as io from 'socket.io-client';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -42,12 +43,21 @@ export class ChatService {
         return this._unreadMessages;
     }
 
+    private convsObs: Observable<Conversation[]>;
+
+    get conversationsLoaded(): Observable<boolean> {
+        this.getConversations();
+        return this.convsObs.map(_ => true);
+    }
+
     private getConversations() {
         if (!this.auth.session || this.requestingConversations) return;
         this.requestingConversations = true;
-        this.http.post<Conversation[]>(API_URL + "conversations", {
+        this.convsObs = this.http.post<Conversation[]>(API_URL + "conversations", {
             token: this.auth.session.token
-        }).subscribe(c => {
+        });
+        
+        this.convsObs.subscribe(c => {
             this.requestingConversations = false;
             c.map(conv => {
                 conv.otherUser = conv.otherUser == null ? null : Object.assign(new User(), conv.otherUser);
@@ -60,7 +70,6 @@ export class ChatService {
             this.conversations = c.filter(conv => conv.isGroup || conv.otherUser);
             this._unreadMessages = 0;
             for (var conv of c) this._unreadMessages += conv.unread;
-            console.log(c);
         });
     }
 
