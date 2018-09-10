@@ -12,6 +12,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class ChatService {
 
+    wallpaperUrl: string;
     conversations: Conversation[];
     socket;
 
@@ -25,6 +26,12 @@ export class ChatService {
         this.socket = io(SITE_URL);
         auth.onAuthenticatedListeners.push(() => {
             this.socket.emit("auth", { token: auth.session.token });
+
+            http.post(API_URL + "chatWallpaperUrl", {
+                token: auth.session.token
+            }).subscribe((res: any) => {
+                if (res.url) this.wallpaperUrl = res.url;
+            });
         });
     }
 

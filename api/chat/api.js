@@ -43,6 +43,23 @@ const apiFunctions = api => {
         });
     });
 
+    api.post("/chatWallpaperUrl", (req, res) => {
+
+        db.connection.query(`
+            SELECT wallpaper FROM users
+            JOIN tokens ON users.user_id = tokens.user_id AND token = ?
+        `, [parseInt(req.body.token) || 0], (err, rows, fields) => {
+                if (err) {
+                    console.log(err);
+                    return utils.sendError(res, "Er ging iets mis.");
+                }
+                if (rows.length == 0) return utils.sendError(res, "Wrong token");
+                var row = rows[0];
+                res.send({url: (row.wallpaper ? "https://tjilpret.tk/private_content/chat_wallpaper/" + row.wallpaper : null)});
+            }
+        );
+    });
+
 }
 
 module.exports = {

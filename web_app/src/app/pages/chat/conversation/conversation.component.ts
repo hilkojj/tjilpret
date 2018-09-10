@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Conversation } from '../../../models/chat';
 import { ThemeService } from '../../../services/theme.service';
+import { ChatService } from '../../../services/chat.service';
 
 @Component({
     selector: 'app-conversation',
@@ -11,7 +12,9 @@ export class ConversationComponent implements OnInit {
 
     @Input() conv: Conversation;
 
-    constructor() { }
+    constructor(
+        public service: ChatService
+    ) { }
 
     ngOnInit() {
     }
