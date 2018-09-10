@@ -24,7 +24,7 @@ $header-on-small-height: $navbar-small-height + $full-width-tabs-height;
         }
     }
 
-    transition: height .4s ease-in-out;
+    // transition: height .4s ease-in-out;
 
     @media only screen and (max-width: $break-med) {
         height: $navbar-height + $full-width-tabs-height;
