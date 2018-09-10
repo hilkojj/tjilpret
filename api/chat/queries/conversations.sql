@@ -3,21 +3,21 @@ SELECT
     (
 		SELECT COUNT(*) FROM messages mes1 
         WHERE mes1.chat_id = member.chat_id
-        AND mes1.sent_on >= member.joined_chat_on
+        AND mes1.sent_timestamp >= member.joined_timestamp
         AND (
-			member.read_time IS NULL
+			member.read_timestamp IS NULL
             OR
-			mes1.sent_on >= member.read_time
+			mes1.sent_timestamp >= member.read_timestamp
 		)
         AND (
-			member.left_chat_on IS NULL
+			member.left_timestamp IS NULL
             OR
-            mes1.sent_on <= member.left_chat_on
+            mes1.sent_timestamp <= member.left_timestamp
 		)
     ) AS unread,
-	member.chat_id, member.joined_chat_on, member.left_chat_on, member.is_chat_admin, member.muted, member.read_time,
+	member.chat_id, member.joined_timestamp, member.left_timestamp, member.is_chat_admin, member.muted, member.read_timestamp,
     chat.*, 
-    mes.id, mes.sent_by, mes.sent_on, mes.text, mes.attachment_id, mes.old_time,
+    mes.id, mes.sent_by, mes.sent_timestamp, mes.text, mes.attachment_id, mes.old_time,
     
     #get username of sender of latest message:
     (
@@ -39,13 +39,13 @@ LEFT JOIN messages mes ON (
 	mes.id = (
 		SELECT id FROM messages mes1 
         WHERE mes1.chat_id = member.chat_id
-        AND mes1.sent_on >= member.joined_chat_on
+        AND mes1.sent_timestamp >= member.joined_timestamp
         AND (
-			member.left_chat_on IS NULL
+			member.left_timestamp IS NULL
             OR
-            mes1.sent_on <= member.left_chat_on
+            mes1.sent_timestamp <= member.left_timestamp
 		)
-        ORDER BY mes1.sent_on DESC, mes1.id DESC
+        ORDER BY mes1.sent_timestamp DESC, mes1.id DESC
         LIMIT 1
     )
 )

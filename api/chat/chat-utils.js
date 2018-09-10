@@ -5,13 +5,13 @@ const conversation = row => {
     return {
         chatId: row.chat_id,
         unread: row.unread,
-        joinedChatOn: row.joined_chat_on,
-        leftChatOn: row.left_chat_on,
+        joinedTimestamp: row.joined_timestamp,
+        leftTimestamp: row.left_timestamp,
         isChatAdmin: row.is_chat_admin,
         muted: row.muted,
-        readTime: row.read_time,
+        readTimestamp: row.read_timestamp,
         startedBy: row.started_by,
-        startedOn: row.started_on,
+        startedTimestamp: row.started_timestamp,
         isGroup: row.is_group,
         groupTitle: row.group_title,
         groupPic: row.left_chat_on != null ? null : row.group_pic, // user is not allowed to see group_pic when user has left the group
@@ -27,7 +27,7 @@ const message = row => {
         chatId: row.chat_id,
         id: row.id,
         sentBy: row.sent_by,
-        sentOn: row.sent_on,
+        sentTimestamp: row.sent_timestamp,
         text: row.text,
         attachment: attachment(row),
         oldTimeString: row.old_time  // only for old messages

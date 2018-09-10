@@ -107,7 +107,7 @@ COLLATE = utf8mb4_unicode_520_ci;
 CREATE TABLE IF NOT EXISTS `tjille_database`.`chats` (
   `chat_id` INT(11) NOT NULL AUTO_INCREMENT,
   `started_by` INT(11) NOT NULL,
-  `started_on` INT(11) NOT NULL,
+  `started_timestamp` INT(11) NOT NULL,
   `is_group` TINYINT(4) NOT NULL,
   `group_title` VARCHAR(64) NULL DEFAULT NULL,
   `group_pic` VARCHAR(45) NULL DEFAULT NULL,
@@ -129,19 +129,23 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `tjille_database`.`chat_members`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tjille_database`.`chat_members` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `chat_id` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
-  `joined_chat_on` INT(11) NOT NULL,
+  `joined_timestamp` INT(11) NOT NULL,
+  `left_timestamp` INT NULL,
   `is_chat_admin` TINYINT(4) NULL DEFAULT NULL,
   `muted` TINYINT(4) NULL DEFAULT NULL,
-  PRIMARY KEY (`chat_id`, `user_id`),
-  INDEX `fk_chat_member_users1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_chat_member_chat1`
+  `read_timestamp` INT NULL,
+  PRIMARY KEY (`id`, `chat_id`, `user_id`),
+  INDEX `fk_chat_members_chats1_idx` (`chat_id` ASC),
+  INDEX `fk_chat_members_users1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_chat_members_chats1`
     FOREIGN KEY (`chat_id`)
     REFERENCES `tjille_database`.`chats` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_chat_member_users1`
+  CONSTRAINT `fk_chat_members_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `tjille_database`.`users` (`user_id`)
     ON DELETE NO ACTION
@@ -197,13 +201,14 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `tjille_database`.`message_media`
+-- Table `tjille_database`.`message_attachment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjille_database`.`message_media` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `tjille_database`.`message_attachment` (
+  `attachment_id` INT(11) NOT NULL,
   `type` ENUM('giphy', 'upload') NOT NULL DEFAULT 'upload',
   `path` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`))
+  `thumbnail` VARCHAR(45) NULL,
+  PRIMARY KEY (`attachment_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 9977998
 DEFAULT CHARACTER SET = utf8;
@@ -216,22 +221,22 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`messages` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `chat_id` INT(11) NOT NULL,
   `sent_by` INT(11) NOT NULL,
-  `sent_on` INT(11) NOT NULL,
+  `sent_timestamp` INT(11) NOT NULL,
   `text` VARCHAR(512) NOT NULL,
-  `message_media_id` INT(11) NULL DEFAULT NULL,
+  `attachment_id` INT(11) NULL DEFAULT NULL,
   `old_time` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`, `chat_id`, `sent_by`),
   INDEX `fk_message_chat1_idx` (`chat_id` ASC),
   INDEX `fk_message_users1_idx` (`sent_by` ASC),
-  INDEX `fk_message_message_media1_idx` (`message_media_id` ASC),
+  INDEX `fk_message_message_media1_idx` (`attachment_id` ASC),
   CONSTRAINT `fk_message_chat1`
     FOREIGN KEY (`chat_id`)
     REFERENCES `tjille_database`.`chats` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_message_media1`
-    FOREIGN KEY (`message_media_id`)
-    REFERENCES `tjille_database`.`message_media` (`id`)
+    FOREIGN KEY (`attachment_id`)
+    REFERENCES `tjille_database`.`message_attachment` (`attachment_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_users1`
@@ -241,29 +246,6 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`messages` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 11010
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `tjille_database`.`message_readers`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjille_database`.`message_readers` (
-  `message_id` INT(11) NOT NULL,
-  `read_by` INT(11) NOT NULL,
-  `read_on` INT(11) NOT NULL,
-  PRIMARY KEY (`message_id`, `read_by`),
-  INDEX `fk_message_reader_users1_idx` (`read_by` ASC),
-  CONSTRAINT `fk_message_reader_message1`
-    FOREIGN KEY (`message_id`)
-    REFERENCES `tjille_database`.`messages` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_message_reader_users1`
-    FOREIGN KEY (`read_by`)
-    REFERENCES `tjille_database`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -281,6 +263,8 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`posts` (
   `thumbnail_path` VARCHAR(45) NOT NULL,
   `views` INT(11) NOT NULL DEFAULT '0',
   `duration` INT(11) NULL DEFAULT NULL,
+  `last_edited_by` INT NULL,
+  `last_edited_time` INT NULL,
   PRIMARY KEY (`post_id`, `category_id`),
   INDEX `fk_uploads_categories1_idx` (`category_id` ASC),
   INDEX `fk_posts_entities1_idx` (`post_id` ASC),
@@ -369,12 +353,148 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`entity_votes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`post_views`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`post_views` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `post_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `time` INT NOT NULL,
+  PRIMARY KEY (`id`, `post_id`, `user_id`),
+  INDEX `fk_post_view_users1_idx` (`user_id` ASC),
+  INDEX `fk_post_view_posts1` (`post_id` ASC),
+  CONSTRAINT `fk_post_view_posts1`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `tjille_database`.`posts` (`post_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_post_view_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`tags`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`tags` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `string` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`post_has_tag`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`post_has_tag` (
+  `post_id` INT(11) NOT NULL,
+  `tag_id` INT NOT NULL,
+  PRIMARY KEY (`post_id`, `tag_id`),
+  INDEX `fk_posts_has_tag_tag1_idx` (`tag_id` ASC),
+  INDEX `fk_posts_has_tag_posts1_idx` (`post_id` ASC),
+  CONSTRAINT `fk_posts_has_tag_posts1`
+    FOREIGN KEY (`post_id`)
+    REFERENCES `tjille_database`.`posts` (`post_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_posts_has_tag_tag1`
+    FOREIGN KEY (`tag_id`)
+    REFERENCES `tjille_database`.`tags` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`emoticon_categories`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`emoticon_categories` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(128) NOT NULL,
+  `example_emoticon` VARCHAR(40) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_emoticon_categories_emoticons1_idx` (`example_emoticon` ASC),
+  CONSTRAINT `fk_emoticon_categories_emoticons1`
+    FOREIGN KEY (`example_emoticon`)
+    REFERENCES `tjille_database`.`emoticons` (`name`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`emoticons`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`emoticons` (
+  `name` VARCHAR(40) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `category_id` INT NOT NULL,
+  `time` INT NOT NULL,
+  `times_used` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`name`, `user_id`, `category_id`),
+  INDEX `fk_emoticons_users1_idx` (`user_id` ASC),
+  INDEX `fk_emoticons_emoticon_categories1_idx` (`category_id` ASC),
+  CONSTRAINT `fk_emoticons_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_emoticons_emoticon_categories1`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `tjille_database`.`emoticon_categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`chat_events`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`chat_events` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `chat_id` INT(11) NOT NULL,
+  `type` ENUM('TITLE_CHANGED', 'DESCRIPTION_CHANGED', 'PICTURE_CHANGED', 'USER_ADDED', 'USER_REMOVED', 'USER_LEFT', 'OPPED', 'DEOPPED') NOT NULL,
+  `timestamp` INT NOT NULL,
+  `by` INT NULL,
+  `who` INT NULL,
+  PRIMARY KEY (`id`, `chat_id`),
+  INDEX `fk_chat_events_users1_idx` (`by` ASC),
+  INDEX `fk_chat_events_users2_idx` (`who` ASC),
+  INDEX `fk_chat_events_chats1_idx` (`chat_id` ASC),
+  CONSTRAINT `fk_chat_events_users1`
+    FOREIGN KEY (`by`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_chat_events_users2`
+    FOREIGN KEY (`who`)
+    REFERENCES `tjille_database`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_chat_events_chats1`
+    FOREIGN KEY (`chat_id`)
+    REFERENCES `tjille_database`.`chats` (`chat_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `tjille_database` ;
 
 -- -----------------------------------------------------
 -- Placeholder table for view `tjille_database`.`user_info`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tjille_database`.`user_info` (`user_id` INT, `username` INT, `password` INT, `joined_on` INT, `email` INT, `bio` INT, `is_admin` INT, `last_activity` INT, `online` INT, `checked_notifications_time` INT, `apple_user` INT, `r` INT, `g` INT, `b` INT, `profile_pic` INT, `header` INT, `sound_fragment` INT, `wallpaper` INT, `color_class_id` INT, `groups_started` INT, `friends` INT, `uploads` INT, `groups` INT, `messages` INT, `rep` INT, `views` INT, `comments` INT);
+CREATE TABLE IF NOT EXISTS `tjille_database`.`user_info` (`user_id` INT, `username` INT, `password` INT, `joined_on` INT, `email` INT, `bio` INT, `is_admin` INT, `last_activity` INT, `online` INT, `checked_notifications_time` INT, `apple_user` INT, `r` INT, `g` INT, `b` INT, `profile_pic` INT, `header` INT, `sound_fragment` INT, `wallpaper` INT, `color_class_id` INT, `groups_started` INT, `friends` INT, `uploads` INT, `emoticons` INT, `messages` INT, `rep` INT, `views` INT, `comments` INT);
+
+-- -----------------------------------------------------
+-- Placeholder table for view `tjille_database`.`entity_view`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`entity_view` (`entity_id` INT, `user_id` INT, `score` INT, `comments` INT);
 
 -- -----------------------------------------------------
 -- View `tjille_database`.`user_info`
@@ -429,13 +549,10 @@ VIEW `user_info` AS
                 ((`entities`.`user_id` = `users`.`user_id`)
                     AND (`posts`.`post_id` = `entities`.`entity_id`))) AS `uploads`,
         (SELECT 
-                COUNT(0)
-            FROM
-                (`chat_members`
-                JOIN `chats` ON (((`chats`.`chat_id` = `chat_members`.`chat_id`)
-                    AND (`chats`.`is_group` = 1))))
-            WHERE
-                (`chat_members`.`user_id` = `users`.`user_id`)) AS `groups`,
+                COUNT(*)
+			FROM
+				emoticons
+			WHERE emoticons.user_id = users.user_id) AS `emoticons`,
         (SELECT 
                 COUNT(0)
             FROM
@@ -443,22 +560,22 @@ VIEW `user_info` AS
             WHERE
                 (`messages`.`sent_by` = `users`.`user_id`)) AS `messages`,
         ((SELECT 
-                COUNT(0)
-            FROM
-                (`entity_votes`
-                JOIN `entities`)
-            WHERE
-                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
-                    AND (`entities`.`user_id` = `users`.`user_id`)
-                    AND (`entity_votes`.`up` = 1))) - (SELECT 
-                COUNT(0)
-            FROM
-                (`entity_votes`
-                JOIN `entities`)
-            WHERE
-                ((`entity_votes`.`entity_id` = `entities`.`entity_id`)
-                    AND (`entities`.`user_id` = `users`.`user_id`)
-                    AND (`entity_votes`.`up` = 0)))) AS `rep`,
+					COUNT(0)
+			FROM
+					(`entity_votes`
+					JOIN `entities`)
+			WHERE
+					((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+							AND (`entities`.`user_id` = `users`.`user_id`)
+							AND (`entity_votes`.`up` = 1) AND (entity_votes.user_id != users.user_id))) - (SELECT 
+					COUNT(0)
+			FROM
+					(`entity_votes`
+					JOIN `entities`)
+			WHERE
+					((`entity_votes`.`entity_id` = `entities`.`entity_id`)
+							AND (`entities`.`user_id` = `users`.`user_id`)
+							AND (`entity_votes`.`up` = 0) AND (entity_votes.user_id != users.user_id)))) AS `rep`,
         (SELECT 
                 SUM(`posts`.`views`)
             FROM
@@ -477,6 +594,33 @@ VIEW `user_info` AS
                     AND (`entities`.`user_id` = `users`.`user_id`))) AS `comments`
     FROM
         `users`;
+
+-- -----------------------------------------------------
+-- View `tjille_database`.`entity_view`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `tjille_database`.`entity_view`;
+USE `tjille_database`;
+CREATE  OR REPLACE VIEW entity_view AS
+    SELECT 
+        entities.entity_id AS entity_id,
+        entities.user_id AS user_id,
+        (SELECT 
+                COALESCE((SUM(entity_votes.up) - (COUNT(0) - SUM(entity_votes.up))), 0)
+            FROM
+                entity_votes
+            WHERE
+                (entity_votes.entity_id = entities.entity_id)) AS score,
+        (
+			SELECT COUNT(*) FROM entity_comments
+			LEFT JOIN entity_comments AS sub ON (
+				sub.comment_on_entity_id = entity_comments.entity_id
+				OR
+				sub.entity_id = entity_comments.entity_id
+			)
+			WHERE entity_comments.comment_on_entity_id = entities.entity_id
+        ) AS comments
+    FROM
+        entities;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

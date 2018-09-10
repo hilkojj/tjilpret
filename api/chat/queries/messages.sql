@@ -6,14 +6,14 @@ JOIN messages mes ON (
 
 	mes.chat_id = member.chat_id
     AND
-	mes.sent_on >= member.joined_chat_on
+	mes.sent_timestamp >= member.joined_timestamp
     AND (
-		member.left_chat_on IS NULL
+		member.left_timestamp IS NULL
         OR
-        mes.sent_on <= member.left_chat_on
+        mes.sent_timestamp <= member.left_timestamp
     )
     AND
-    mes.sent_on <= ?
+    mes.sent_timestamp <= ?
 
 )
 
@@ -21,5 +21,5 @@ JOIN messages mes ON (
 LEFT JOIN message_attachment att ON mes.attachment_id = att.attachment_id
 
 WHERE token = ?
-ORDER BY sent_on DESC, id DESC
+ORDER BY sent_timestamp DESC, id DESC
 LIMIT ?
