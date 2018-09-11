@@ -1,4 +1,5 @@
 import { User } from "./user";
+import { RGB } from "./colors";
 
 export interface Conversation {
     chatId: number,
@@ -15,16 +16,18 @@ export interface Conversation {
     groupPic: string,
     groupDescription: string,
     latestMessage: Message,
-    latestSenderUsername: string,
     otherUser: User,
 
-    messages?: Message[]
+    messagesAndEvents?: MessageOrEvent[]
 }
 
 export interface Message {
     chatId: number,
     id: number,
     sentBy: number,
+    senderUsername: string,
+    senderProfilePic: string,
+    senderFavColor: RGB,
     sentTimestamp: number,
     text: string,
     attachment: Attachment,
@@ -41,4 +44,20 @@ export interface Attachment {
     type: AttachmentType,
     path: string,
     thumbnail?: string
+}
+
+export interface Event {
+    id: number,
+    chatId: number,
+    type: string,
+    timestamp: number,
+    by: number, 
+    who: number,
+    byUsername: string,
+    whoUsername: string
+}
+
+export interface MessageOrEvent {
+    message?: Message,
+    event?: Event
 }

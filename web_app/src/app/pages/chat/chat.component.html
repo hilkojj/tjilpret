@@ -63,7 +63,7 @@
                             {{conv.latestMessage?.sentBy ==
                             auth.session.user.id ? "Jij: "
                             : (conv.isGroup ?
-                            conv.latestSenderUsername + ":"
+                            conv.latestMessage.senderUsername + ":"
                             : "")}}
                         </span>
                         <span [innerHTML]="conv.latestMessage?.text | escape | emoticons"></span>
@@ -73,8 +73,8 @@
 
                 <div class="time-and-more">
                     <div class="time" *ngIf="conv.latestMessage">
-                        {{conv.latestMessage.sentOn ?
-                        (conv.latestMessage.sentOn |
+                        {{conv.latestMessage.sentTimestamp ?
+                        (conv.latestMessage.sentTimestamp |
                         timestamp:"short") : "Vroeger"}}
                     </div>
                     <div class="unread fav-bg circle" *ngIf="conv.unread">

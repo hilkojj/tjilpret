@@ -35,4 +35,18 @@
     background-size: cover;
     background-position: center;
     flex: 1 1 auto;
+
+    display: flex;
+    flex-flow: column;
+
+    .scroll {
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+
+    .new-message {
+        flex: 0 0 auto;
+        height: 64px;
+    }
+
 }

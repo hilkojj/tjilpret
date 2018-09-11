@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Conversation, Attachment, AttachmentType } from '../models/chat';
+import { Conversation, Attachment, AttachmentType, MessageOrEvent } from '../models/chat';
 import { HttpClient } from '@angular/common/http';
 import { API_URL, SITE_URL } from '../constants';
 import { AuthService } from './auth.service';
@@ -33,6 +33,37 @@ export class ChatService {
                 if (res.url) this.wallpaperUrl = res.url;
             });
         });
+    }
+
+    getMessagesAndEvents(chatId: number, limit: number, until?: number): Observable<MessageOrEvent[]> {
+        var p = this.http.post<MessageOrEvent[]>(API_URL + "messagesAndEvents", {
+            token: this.auth.session.token,
+            chatId, limit, until
+        });
+
+        p.subscribe(m => {
+
+            var conv = this.conversations.filter(conv => conv.chatId == chatId)[0];
+            if (conv) {
+
+                if (conv.messagesAndEvents) m = conv.messagesAndEvents.concat(m);
+                
+                m.sort((a, b) => {
+
+                    var aTime = a.event ? a.event.timestamp : a.message.sentTimestamp;
+                    var bTime = b.event ? b.event.timestamp : b.message.sentTimestamp;
+
+                    // very old messages dont have a timestamp, so then use ID to sort
+                    if (aTime == bTime && a.message && b.message) return a.message.id - b.message.id;
+
+                    return aTime - bTime;
+                });
+
+                conv.messagesAndEvents = m;
+            }
+        });
+
+        return p;
     }
 
     attachmentIcon(att: Attachment): string {

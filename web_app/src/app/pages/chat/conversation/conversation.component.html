@@ -33,4 +33,15 @@
 
 <div class="messages" [style.backgroundImage]="service.wallpaperUrl ? 'url(' + service.wallpaperUrl + ')' : ''">
 
+    <ul class="scroll">
+
+        <li *ngFor="let mesOrEvent of conv.messagesAndEvents">
+            {{mesOrEvent.message?.text}}
+            {{mesOrEvent.event?.type}}
+        </li>
+
+    </ul>
+
+    <div class="new-message"></div>
+
 </div>
