@@ -4,6 +4,7 @@ const utils = require("./utils.js");
 const bcrypt = require("bcrypt");
 const useragent = require('useragent');
 const emoticons = require("./emoticons.js");
+const chat = require("./chat/very-realtime");
 
 var minPasswordLength = 4;
 
@@ -131,6 +132,7 @@ module.exports = {
                                 return utils.sendError(res, "Probeer nu es in te loggen");
                             }
                             emoticons.createFriendshipWithEmoticonCollectionUser(id);
+                            chat.addUserToPublicGroup(id, username);
                             createSession(rows[0], req, res);
                         });
                     });

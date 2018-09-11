@@ -1,5 +1,6 @@
 
 const utils = require("../utils");
+const db = require("../database");
 
 const conversation = row => {
     return {
@@ -54,16 +55,56 @@ const event = row => {
         chatId: row.chat_id,
         type: row.type,
         timestamp: row.timestamp,
-        by: row.by, 
+        by: row.by,
         who: row.who,
         byUsername: row.by_username,
         whoUsername: row.who_username
     }
 }
 
+const getMemberIds = chatId => new Promise(resolve => {
+
+    db.connection.query(`SELECT user_id FROM chat_members WHERE chat_id = ? AND left_timestamp IS NULL`, [chatId], (err, rows, fields) => {
+
+        if (err) {
+            console.log(err);
+            return resolve([]);
+        }
+
+        resolve(rows.map(row => row.user_id));
+    });
+
+});
+
+const getMessage = messageId => new Promise(resolve => {
+
+    db.connection.query(`
+        SELECT
+            mes.*, att.*, sender.username AS sender_username, sender.profile_pic AS sender_profile_pic, 
+            r AS sender_r, g AS sender_g, b AS sender_b
+        FROM messages mes
+
+        LEFT JOIN message_attachment att ON att.attachment_id = mes.attachment_id
+
+        JOIN users sender ON mes.sent_by = sender.user_id
+
+        WHERE mes.id = ?`, [messageId], (err, rows, fields) => {
+
+            if (err) {
+                console.log(err);
+                return resolve(null);
+            }
+            var row = rows[0];
+            resolve(row ? message(row) : null);
+        }
+    );
+});
+
 module.exports = {
     conversation,
     message,
     attachment,
-    event
+    event,
+    getMemberIds,
+    getMessage
 }

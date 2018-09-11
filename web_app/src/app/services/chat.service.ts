@@ -25,9 +25,9 @@ export class ChatService {
         private http: HttpClient,
         private auth: AuthService
     ) {
-        this.socket = io(SITE_URL);
+        this.socket = (window as any).socket = io(SITE_URL);
         auth.onAuthenticatedListeners.push(() => {
-            this.socket.emit("auth", { token: auth.session.token });
+            this.socketAuth();
 
             http.post(API_URL + "chatWallpaperUrl", {
                 token: auth.session.token
@@ -35,6 +35,14 @@ export class ChatService {
                 if (res.url) this.wallpaperUrl = res.url;
             });
         });
+
+        this.socket.on("reconnect", () => { 
+            if (auth.session) this.socketAuth();
+        });
+    }
+
+    socketAuth() {
+        this.socket.emit("auth", { token: this.auth.session.token });
     }
 
     getMessagesAndEvents(conv: Conversation, limit: number, until?: number): Observable<MessageOrEvent[]> {

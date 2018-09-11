@@ -117,6 +117,6 @@ app.get("*", (req, res) => {
     webapp.show(null, res);
 });
 
-require("./chat/very-realtime.js")(io);
+require("./chat/very-realtime.js").socketIO(io);
 
 http.listen(8080, () => console.log("Tjillepret (Express app & Socket.io) listening on port 8080"));
