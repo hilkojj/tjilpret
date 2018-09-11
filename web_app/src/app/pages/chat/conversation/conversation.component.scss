@@ -27,8 +27,18 @@
             padding: 0 .75rem;
         }
 
+        div {
+            max-width: 100%;
+
+            * {
+                white-space: nowrap;
+            }
+        }
+
         .title {
-            font-size: 19px;
+            font-size: 17px;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 

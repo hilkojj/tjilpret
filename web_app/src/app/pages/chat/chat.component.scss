@@ -26,6 +26,10 @@
         flex: 0 0 auto;
         width: 400px;
         max-width: 100%;
+
+        @media only screen and (max-width: 1234px) {
+            width: 300px;
+        }
     }
 
     .chat {

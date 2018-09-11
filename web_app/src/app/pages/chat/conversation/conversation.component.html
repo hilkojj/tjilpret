@@ -90,9 +90,9 @@
                         </div>
 
 
-                        <div class="username" *ngIf="conv.isGroup && me.message.sentBy != auth.session.user.id">
+                        <a [routerLink]="'/tjiller/' + me.message.sentBy" class="username" *ngIf="conv.isGroup && me.message.sentBy != auth.session.user.id">
                             {{me.message.sender.username}}
-                        </div>
+                        </a>
                     </div>
 
                 </div>
