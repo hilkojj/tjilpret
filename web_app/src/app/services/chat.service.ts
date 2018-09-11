@@ -73,7 +73,7 @@ export class ChatService {
             c.sort((a, b) => {
                 if (!a.latestMessage) return -1;
                 if (!b.latestMessage) return 1;
-                return a.latestMessage.sentOn < b.latestMessage.sentOn ? -1 : 1;
+                return a.latestMessage.sentTimestamp < b.latestMessage.sentTimestamp ? -1 : 1;
             });
             this.conversations = c.filter(conv => conv.isGroup || conv.otherUser);
             this._unreadMessages = 0;

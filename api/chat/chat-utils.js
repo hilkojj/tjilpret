@@ -14,10 +14,9 @@ const conversation = row => {
         startedTimestamp: row.started_timestamp,
         isGroup: row.is_group,
         groupTitle: row.group_title,
-        groupPic: row.left_chat_on != null ? null : row.group_pic, // user is not allowed to see group_pic when user has left the group
+        groupPic: row.left_timestamp != null ? null : row.group_pic, // user is not allowed to see group_pic when user has left the group
         groupDescription: row.group_description,
         latestMessage: row.id == null ? null : message(row),
-        latestSenderUsername: row.latest_sender_username,
         otherUser: row.user_id == null ? null : utils.userInfo(row)
     }
 }
@@ -27,6 +26,11 @@ const message = row => {
         chatId: row.chat_id,
         id: row.id,
         sentBy: row.sent_by,
+        senderUsername: row.sender_username,
+        senderProfilePic: row.sender_profile_pic,
+        senderFavColor: {
+            r: row.sender_r, g: row.sender_g, b: row.sender_b
+        },
         sentTimestamp: row.sent_timestamp,
         text: row.text,
         attachment: attachment(row),
@@ -50,7 +54,10 @@ const event = row => {
         chatId: row.chat_id,
         type: row.type,
         timestamp: row.timestamp,
-        by: row.by, who: row.who
+        by: row.by, 
+        who: row.who,
+        byUsername: row.by_username,
+        whoUsername: row.who_username
     }
 }
 

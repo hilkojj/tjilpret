@@ -23,12 +23,19 @@ const apiFunctions = api => {
     });
 
     const messagesQuery = fs.readFileSync(__dirname + "/queries/messages.sql").toString();
-    api.post("/messages", (req, res) => {
+    const eventsQuery = fs.readFileSync(__dirname + "/queries/events.sql").toString();
+    api.post("/messagesAndEvents", (req, res) => {
+
+        var chatId = parseInt(req.body.chatId) || 0;
+        var until = parseInt(req.body.until) || Date.now();
+        var token = parseInt(req.body.token) || 0;
+
+        if (!token) return utils.sendError(res, "No token given");
 
         db.connection.query(messagesQuery, [
-            parseInt(req.body.chatId) || 0,
-            parseInt(req.body.until) || Date.now(),
-            parseInt(req.body.token) || 0,
+            chatId,
+            until,
+            token,
             parseInt(req.body.limit) || 64
         ], (err, rows, fields) => {
 
@@ -37,9 +44,25 @@ const apiFunctions = api => {
                 return utils.sendError(res, "Er ging iets mis.");
             }
 
-            const messages = [];
-            for (var row of rows) messages.push(chatUtils.message(row));
-            res.send(messages);
+            const messagesAndEvents = [];
+            for (var row of rows) messagesAndEvents.push({
+                message: chatUtils.message(row)
+            });
+
+            if (messagesAndEvents[0]) db.connection.query(eventsQuery, [
+                chatId,
+                messagesAndEvents[0].message.sentTimestamp,
+                until,
+                token
+            ], (err, rows, fields) => {
+
+                if (err) console.log(err);
+
+                if (rows) for (var row of rows) messagesAndEvents.push({
+                    event: chatUtils.event(row)
+                });
+                res.send(messagesAndEvents);
+            });
         });
     });
 
@@ -55,7 +78,7 @@ const apiFunctions = api => {
                 }
                 if (rows.length == 0) return utils.sendError(res, "Wrong token");
                 var row = rows[0];
-                res.send({url: (row.wallpaper ? "https://tjilpret.tk/private_content/chat_wallpaper/" + row.wallpaper : null)});
+                res.send({ url: (row.wallpaper ? "https://tjilpret.tk/private_content/chat_wallpaper/" + row.wallpaper : null) });
             }
         );
     });

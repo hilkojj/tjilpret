@@ -19,10 +19,9 @@ SELECT
     chat.*, 
     mes.id, mes.sent_by, mes.sent_timestamp, mes.text, mes.attachment_id, mes.old_time,
     
-    #get username of sender of latest message:
-    (
-		SELECT username FROM users latest_sender WHERE latest_sender.user_id = mes.sent_by
-    ) AS latest_sender_username,
+    sender.username AS sender_username,
+    sender.profile_pic AS sender_profile_pic,
+    sender.r AS sender_r, sender.g AS sender_g, sender.b AS sender_b,
     
     att.*, 
     other_user.*
@@ -52,6 +51,9 @@ LEFT JOIN messages mes ON (
 
 #get attachment info:
 LEFT JOIN message_attachment att ON att.attachment_id = mes.attachment_id
+
+#get sender of latest message:
+LEFT JOIN users sender ON sender.user_id = mes.sent_by
 
 #chat info:
 JOIN chats chat ON chat.chat_id = member.chat_id

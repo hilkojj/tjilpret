@@ -1,4 +1,8 @@
-SELECT mes.*, att.* FROM tokens
+SELECT 
+    mes.*, att.*, sender.username AS sender_username, sender.profile_pic AS sender_profile_pic, 
+    r AS sender_r, g AS sender_g, b AS sender_b
+
+FROM tokens
 
 JOIN chat_members member ON member.user_id = tokens.user_id AND member.chat_id = ?
 
@@ -16,6 +20,9 @@ JOIN messages mes ON (
     mes.sent_timestamp <= ?
 
 )
+
+#sender
+JOIN users sender ON sender.user_id = mes.sent_by
 
 # attachment (optional)
 LEFT JOIN message_attachment att ON mes.attachment_id = att.attachment_id
