@@ -7,10 +7,10 @@
         </button>
 
         <app-profile-pic *ngIf="!conv.isGroup" [user]="conv.otherUser"
-            size="40px"></app-profile-pic>
+            size="40px" dim="small"></app-profile-pic>
 
         <app-group-pic *ngIf="conv.isGroup" [conv]="conv"
-            size="40px"></app-group-pic>
+            size="40px" dim="small"></app-group-pic>
 
     </div>
 
@@ -29,18 +29,78 @@
 
     </div>
 
+    <div class="buttons valign-wrapper">
+
+        <button class="btn btn-flat btn-floating waves-effect dropdown-button"
+            materialize="dropdown" data-activates="chat-conversation-toolbar-dropdown">
+            <i class="material-icons">
+                more_vert
+            </i>
+        </button>
+
+        <ul id="chat-conversation-toolbar-dropdown" class="dropdown-content">
+            <li><a>one</a></li>
+            <li><a>two</a></li>
+            <li class="divider"></li>
+            <li><a>three</a></li>
+        </ul>
+
+    </div>
+
 </div>
 
 <div class="messages" [style.backgroundImage]="service.wallpaperUrl ? 'url(' + service.wallpaperUrl + ')' : ''">
 
-    <ul class="scroll">
+    <div class="scroll">
 
-        <li *ngFor="let mesOrEvent of conv.messagesAndEvents">
-            {{mesOrEvent.message?.text}}
-            {{mesOrEvent.event?.type}}
-        </li>
+        <ul>
 
-    </ul>
+            <li *ngFor="let me of conv.messagesAndEvents; let i = index">
+
+                <!-- MESSAGE -->
+                <div class="message" *ngIf="me.message"
+                    [ngClass]="{'first-of-user': firstOfUser(me.message, i), 'last-of-user': lastOfUser(me.message, i), 'my-message': me.message.sentBy == auth.session.user.id}">
+
+                    <a class="profile-pic" [routerLink]="'/tjiller/' + me.message.sentBy">
+                        <app-profile-pic class="circle" cursor="pointer"
+                            size="34px" dim="small" [user]="me.message.sender"></app-profile-pic>
+                    </a>
+
+                    <div class="bubble-wrapper">
+
+                        <div class="flex">
+                            <div class="bubble"
+                                [style.background]="me.message.sender.rgbString">
+                                <p class="pre" [ngClass]="me.message.sender.r * me.message.sender.g * me.message.sender.b > 3500000 ? 'black-text' : 'white-text'">
+                                    {{me.message.text}}
+                                </p>
+                            </div>
+
+                            <div class="time valign-wrapper">
+                                <div>
+                                    {{me.message.oldTimeString
+                                    ?
+                                    me.message.oldTimeString
+                                    :
+                                    (me.message.sentTimestamp
+                                    |
+                                    timestamp:"onlyTime")}}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="username" *ngIf="conv.isGroup && me.message.sentBy != auth.session.user.id">
+                            {{me.message.sender.username}}
+                        </div>
+                    </div>
+
+                </div>
+
+            </li>
+        </ul>
+
+    </div>
 
     <div class="new-message"></div>
 

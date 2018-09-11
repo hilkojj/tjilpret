@@ -19,6 +19,9 @@
 
     .info {
 
+        flex: 1 1 auto;
+        min-width: 0;
+
         padding: 0 1.5rem;
         @media only screen and (max-width: $break-med) {
             padding: 0 .75rem;
@@ -27,6 +30,11 @@
         .title {
             font-size: 19px;
         }
+    }
+
+    .buttons {
+        flex: 0 0 auto;
+        padding-right: .75rem;
     }
 
 }
@@ -42,11 +50,132 @@
     .scroll {
         flex: 1 1 auto;
         overflow-y: auto;
+        padding-top: 1.5rem;
+
+        display: flex;
+        flex-flow: column;
+
+        ul {
+            margin-top: auto;
+        }
     }
 
     .new-message {
         flex: 0 0 auto;
         height: 64px;
+    }
+
+}
+
+.message {
+    display: flex;
+    flex-flow: row;
+
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+    @media only screen and (max-width: $break-med) {
+        padding-left: .75rem;
+        padding-right: .75rem;
+    }
+
+    .bubble, .profile-pic app-profile-pic {
+        box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .profile-pic {
+        flex: 0 0 auto;
+        width: calc(34px + .75rem);
+        height: 34px;
+    }
+
+    .bubble-wrapper {
+        flex: 1 1 auto;
+        min-width: 0;
+        line-height: 0;
+
+        .flex {
+
+            display: flex;
+            flex-flow: row;
+            
+            .bubble {
+                flex: 0 1 auto;
+                display: inline-block;
+                border-radius: 18px;
+                overflow: hidden;
+                min-height: 34px;
+                
+                p {
+                    line-height: 1.5;
+                    margin: 0;
+                    padding: 6px 13px;
+                }
+            }
+            
+            .time {
+                flex: 0 0 auto;
+                margin: 0 .75rem;
+                opacity: .8;
+            }
+        }
+
+        .time, .username {
+            color: white;
+            font-size: 12px;
+            font-weight: 400;
+            text-shadow: 0 0px 1px black;
+        }
+        .username, .time div {
+            padding: 5px 8px;
+            background: #00000082;
+            border-radius: 100px;
+            line-height: 1;
+        }
+
+        .username {
+            line-height: 1;
+            margin: 6px 0 2px;
+            display: inline-block;
+        }
+    }
+
+    &:not(.first-of-user) {
+        
+        &:not(.my-message) .bubble {
+            border-top-left-radius: 5px !important;
+        }
+        &.my-message .bubble {
+            border-top-right-radius: 5px !important;
+        }
+    }
+
+    &:not(.last-of-user) {
+
+        &:not(.my-message) .bubble {
+            border-bottom-left-radius: 5px !important;
+        }
+        &.my-message .bubble {
+            border-bottom-right-radius: 5px !important;
+        }
+        .profile-pic *, .time, .username {
+            display: none !important;
+        }
+        padding-bottom: 3px;
+    }
+
+    &.my-message {
+        flex-flow: row-reverse;
+
+        .profile-pic {
+            display: none;
+        }
+
+        .bubble-wrapper {
+            .flex {
+                flex-flow: row-reverse;
+            }
+        }
     }
 
 }

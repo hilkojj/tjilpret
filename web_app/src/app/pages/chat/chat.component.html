@@ -38,10 +38,10 @@
                 <div class="avatar">
 
                     <app-profile-pic *ngIf="!conv.isGroup"
-                        [user]="conv.otherUser" size="48px"
+                        [user]="conv.otherUser" size="48px" dim="small"
                         cursor="pointer"></app-profile-pic>
 
-                    <app-group-pic *ngIf="conv.isGroup"
+                    <app-group-pic *ngIf="conv.isGroup" dim="small"
                         [conv]="conv" size="48px"></app-group-pic>
 
                 </div>

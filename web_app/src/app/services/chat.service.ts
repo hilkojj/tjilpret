@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Conversation, Attachment, AttachmentType, MessageOrEvent } from '../models/chat';
+import { Conversation, Attachment, AttachmentType, MessageOrEvent, Message } from '../models/chat';
 import { HttpClient } from '@angular/common/http';
 import { API_URL, SITE_URL } from '../constants';
 import { AuthService } from './auth.service';
@@ -15,6 +15,8 @@ export class ChatService {
     wallpaperUrl: string;
     conversations: Conversation[];
     socket;
+
+    users: {[userId: number]: User} = {};
 
     private _unreadMessages = 0;
     private requestingConversations = false;
@@ -35,32 +37,35 @@ export class ChatService {
         });
     }
 
-    getMessagesAndEvents(chatId: number, limit: number, until?: number): Observable<MessageOrEvent[]> {
+    getMessagesAndEvents(conv: Conversation, limit: number, until?: number): Observable<MessageOrEvent[]> {
+        
+        conv.loadingMore = true;
+
         var p = this.http.post<MessageOrEvent[]>(API_URL + "messagesAndEvents", {
             token: this.auth.session.token,
-            chatId, limit, until
+            chatId: conv.chatId, limit, until
         });
-
         p.subscribe(m => {
 
-            var conv = this.conversations.filter(conv => conv.chatId == chatId)[0];
-            if (conv) {
+            m.forEach(mOrE => {
+                if (mOrE.message) this.synchronizeUser(mOrE.message);
+            });
 
-                if (conv.messagesAndEvents) m = conv.messagesAndEvents.concat(m);
-                
-                m.sort((a, b) => {
+            if (conv.messagesAndEvents) m = conv.messagesAndEvents.concat(m);
 
-                    var aTime = a.event ? a.event.timestamp : a.message.sentTimestamp;
-                    var bTime = b.event ? b.event.timestamp : b.message.sentTimestamp;
+            m.sort((a, b) => {
 
-                    // very old messages dont have a timestamp, so then use ID to sort
-                    if (aTime == bTime && a.message && b.message) return a.message.id - b.message.id;
+                var aTime = a.event ? a.event.timestamp : a.message.sentTimestamp;
+                var bTime = b.event ? b.event.timestamp : b.message.sentTimestamp;
 
-                    return aTime - bTime;
-                });
+                // very old messages dont have a timestamp, so then use ID to sort
+                if (aTime == bTime && a.message && b.message) return a.message.id - b.message.id;
 
-                conv.messagesAndEvents = m;
-            }
+                return aTime - bTime;
+            });
+
+            conv.messagesAndEvents = m;
+            conv.loadingMore = false;   
         });
 
         return p;
@@ -113,6 +118,26 @@ export class ChatService {
             this.convsLoadedSub.next(true);
             this.convsLoadedSub.complete();
         });
+    }
+
+    private synchronizeUser(message: Message) {
+
+        if (message.sentBy == this.auth.session.user.id) {
+            message.sender = this.auth.session.user;
+            return;
+        }
+
+        var user = this.users[message.sentBy];
+
+        if (!user) user = this.users[message.sentBy] = new User();
+
+        user.username = message.senderUsername;
+        user.profilePic = message.senderProfilePic;
+        user.r = message.senderFavColor.r;
+        user.g = message.senderFavColor.g;
+        user.b = message.senderFavColor.b;
+
+        message.sender = user;
     }
 
 }

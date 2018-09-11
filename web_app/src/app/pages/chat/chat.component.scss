@@ -23,18 +23,19 @@
     flex-flow: row;
 
     .conversations {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         width: 400px;
         max-width: 100%;
     }
 
     .chat {
         flex: 1 1 auto;
+        min-width: 0;
         overflow: hidden;
     }
 
     .chat-info {
-        flex: 0 1 auto;
+        flex: 0 0 auto;
         width: 300px;
     }
 

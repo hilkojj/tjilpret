@@ -19,6 +19,7 @@ export interface Conversation {
     otherUser: User,
 
     messagesAndEvents?: MessageOrEvent[]
+    loadingMore?: boolean
 }
 
 export interface Message {
@@ -31,7 +32,9 @@ export interface Message {
     sentTimestamp: number,
     text: string,
     attachment: Attachment,
-    oldTimeString?: string  // only for old messages
+    oldTimeString?: string,  // only for old messages
+
+    sender?: User
 }
 
 export enum AttachmentType {
