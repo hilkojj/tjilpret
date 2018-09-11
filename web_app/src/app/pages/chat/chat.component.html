@@ -77,9 +77,8 @@
                         (conv.latestMessage.sentTimestamp |
                         timestamp:"short") : "Vroeger"}}
                     </div>
-                    <div class="unread fav-bg circle" *ngIf="conv.unread">
-                        {{conv.unread > 999 ? "∞" :
-                        conv.unread}}
+                    <div class="unread fav-bg" *ngIf="conv.unread">
+                        {{conv.unread}}
                     </div>
                     <i class="material-icons muted" *ngIf="conv.muted"
                         title="Geen meldingen">

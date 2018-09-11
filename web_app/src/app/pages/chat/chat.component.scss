@@ -228,13 +228,15 @@
                 }
                 .unread {
                     height: 21px;
-                    width: 21px;
+                    min-width: 21px;
                     color: white;
                     text-align: center;
                     line-height: 21px;
                     font-size: 10px;
                     display: inline-block;
                     font-weight: bold;
+                    padding: 0 6px;
+                    border-radius: 100px;
                 }
                 .muted {
                     line-height: 25px;
