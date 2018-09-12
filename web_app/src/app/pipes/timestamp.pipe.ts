@@ -7,7 +7,7 @@ export class TimestampPipe implements PipeTransform {
 
     transform(timestamp: number, option?: string): string {
 
-        var a = new Date(timestamp * 1000);
+        var a = new Date(timestamp > 1000000000000 ? timestamp : timestamp * 1000);
         var b = new Date();
 
         var year = a.getFullYear();
@@ -16,6 +16,8 @@ export class TimestampPipe implements PipeTransform {
         var hour = a.getHours();
         var min: any = a.getMinutes();
         var string = '';
+
+        if (option == "onlyTime") return hour + ":" + min; 
 
         if (option == "short") {
 
