@@ -3,7 +3,7 @@ const chatUtils = require("./chat-utils");
 
 const connections = {};
 
-class ChatConnection {
+class AuthConnection {
 
     constructor(socket, token, userId, username) {
         this.socket = socket;
@@ -11,30 +11,42 @@ class ChatConnection {
         this.userId = userId;
 
         socket.emit("authenticated");
+        this.addToConnections();
 
-        if (userId in connections) connections[userId].push(this);
-        else connections[userId] = [this];
+        socket.on("send message", async data => {
 
-        socket.on("send message", data => {
-
-            console.log(data);
-            sendMessage(data.chatId, userId, data.text);
+            var chatId = parseInt(data.chatId) || -1;
+            var text = String(data.text);
+            if (text && await chatUtils.isMember(userId, chatId))
+                sendMessage(chatId, userId, text);
+            else socket.emit("exception", text ? "you are not a member of this chat" : "no text");
 
         });
 
         socket.on("disconnect", () => {
 
-            if (!(userId in connections)) return;
-
-            var userConnections = connections[userId];
-            if (userConnections.length == 1) delete connections[userId]
-            else {
-                var index = userConnections.indexOf(this);
-                if (index > -1) connections[userId] = userConnections.splice(index, 1);
-            }
-
+            this.removeFromConnections();
             console.log(`Tjet verbinding met ${username} verbroken`);
         });
+
+        socket.removeAllListeners("auth");
+        socket.on("auth", () => socket.emit("already authenticated"));
+    }
+
+    addToConnections() {
+        if (this.userId in connections) connections[this.userId].push(this);
+        else connections[this.userId] = [this];
+    }
+
+    removeFromConnections() {
+        if (!(this.userId in connections)) return;
+
+        var userConnections = connections[this.userId];
+        if (userConnections.length == 1) delete connections[this.userId]
+        else {
+            var index = userConnections.indexOf(this);
+            if (index > -1) connections[this.userId] = userConnections.splice(index, 1);
+        }
     }
 
 }
@@ -145,8 +157,6 @@ module.exports = {
 
             socket.on("auth", data => {
 
-                if (socket.auth) return socket.emit("already authenticated");
-
                 var token = String(data.token);
 
                 db.connection.query(`
@@ -162,8 +172,7 @@ module.exports = {
                         var user = rows[0];
                         console.log(`De ongeïdentificeerde tjiller was ${user.username} maar`)
 
-                        socket.auth = true;
-                        new ChatConnection(socket, token, user.user_id | 0, user.username);
+                        new AuthConnection(socket, token, user.user_id | 0, user.username);
                     });
 
             });

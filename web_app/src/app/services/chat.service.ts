@@ -37,7 +37,7 @@ export class ChatService {
         });
 
         this.socket.on("reconnect", () => { 
-            if (auth.session) this.socketAuth();
+            this.socketAuth();
         });
     }
 

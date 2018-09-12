@@ -76,6 +76,13 @@ const getMemberIds = chatId => new Promise(resolve => {
 
 });
 
+const isMember = (userId, chatId) => new Promise(resolve => {
+    db.connection.query(
+        `SELECT user_id FROM chat_members WHERE chat_id = ? AND user_id = ? AND left_timestamp IS NULL`,
+        [chatId, userId], (err, rows, fields) => resolve(rows.length > 0)
+    )
+})
+
 const getMessage = messageId => new Promise(resolve => {
 
     db.connection.query(`
@@ -106,5 +113,6 @@ module.exports = {
     attachment,
     event,
     getMemberIds,
+    isMember,
     getMessage
 }
