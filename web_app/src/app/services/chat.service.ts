@@ -16,7 +16,7 @@ export class ChatService {
     conversations: Conversation[];
     socket;
 
-    users: {[userId: number]: User} = {};
+    users: { [userId: number]: User } = {};
 
     private _unreadMessages = 0;
     private requestingConversations = false;
@@ -36,17 +36,50 @@ export class ChatService {
             });
         });
 
-        this.socket.on("reconnect", () => { 
-            this.socketAuth();
-        });
+        this.socket.on("reconnect", () => this.socketAuth());
+        this.socket.on("message", message => this.addMessageToConv(message));
     }
 
     socketAuth() {
         this.socket.emit("auth", { token: this.auth.session.token });
     }
 
-    getMessagesAndEvents(conv: Conversation, limit: number, until?: number): Observable<MessageOrEvent[]> {
+    lostMessagesAndEvents: MessageOrEvent[] = [];
+
+    addMessageToConv(mess: Message) {
+        var conv = this.getConv(mess.chatId);
         
+        this.synchronizeUser(mess);
+        var add: MessageOrEvent = {
+            message: mess
+        };
+        var timestamp = this.timeOfMessageOrEvent(add);
+
+        if (!conv) return this.lostMessagesAndEvents.push(add);
+
+        if (!conv.messagesAndEvents) conv.messagesAndEvents = [add];
+
+        else for (var i in conv.messagesAndEvents) {
+
+            if (this.timeOfMessageOrEvent(conv.messagesAndEvents[i]) > timestamp) {
+
+                var arr = conv.messagesAndEvents.slice(0, parseInt(i));
+                arr.push(add);
+                conv.messagesAndEvents = arr.concat(arr, conv.messagesAndEvents.slice(parseInt(i), conv.messagesAndEvents.length));
+                return;
+            }
+        }
+
+        conv.messagesAndEvents.push(add);
+    }
+
+    getConv(id: number) {
+        for (var conv of this.conversations) if (conv.chatId == id) return conv;
+        return null;
+    }
+
+    getMessagesAndEvents(conv: Conversation, limit: number, until?: number): Observable<MessageOrEvent[]> {
+
         conv.loadingMore = true;
 
         var p = this.http.post<MessageOrEvent[]>(API_URL + "messagesAndEvents", {
@@ -73,7 +106,7 @@ export class ChatService {
             });
 
             conv.messagesAndEvents = m;
-            conv.loadingMore = false;   
+            conv.loadingMore = false;
         });
 
         return p;
@@ -87,6 +120,10 @@ export class ChatService {
         if (/.mp3|.wav/.test(att.path)) return "music_note";
 
         return "attach_file";
+    }
+
+    timeOfMessageOrEvent(mOrE: MessageOrEvent) {
+        return mOrE.message ? mOrE.message.sentTimestamp : (mOrE.event ? mOrE.event.timestamp : 0);
     }
 
     get unreadMessages(): number {
@@ -117,7 +154,7 @@ export class ChatService {
             c.sort((a, b) => {
                 if (!a.latestMessage) return -1;
                 if (!b.latestMessage) return 1;
-                return a.latestMessage.sentTimestamp < b.latestMessage.sentTimestamp ? -1 : 1;
+                return a.latestMessage.sentTimestamp > b.latestMessage.sentTimestamp ? -1 : 1;
             });
             this.conversations = c.filter(conv => conv.isGroup || conv.otherUser);
             this._unreadMessages = 0;
