@@ -25,7 +25,7 @@ export class ChatService {
         private http: HttpClient,
         private auth: AuthService
     ) {
-        this.socket = (window as any).socket = io(SITE_URL);
+        this.socket = (window as any).socket = io(SITE_URL || "http://localhost:8080");
         auth.onAuthenticatedListeners.push(() => {
             this.socketAuth();
 
@@ -38,10 +38,18 @@ export class ChatService {
 
         this.socket.on("reconnect", () => this.socketAuth());
         this.socket.on("message", message => this.addMessageToConv(message));
+        this.socket.on("logged out", () => {
+            if (auth.loggingOut) return; // logout was expected.
+
+            //logout was unexpected, notify user and reload webapp:
+            alert("Je bent uitgelogd.");
+            window.location.href = "/";
+        })
     }
 
     socketAuth() {
-        this.socket.emit("auth", { token: this.auth.session.token });
+        if (this.auth.session)
+            this.socket.emit("auth", { token: this.auth.session.token });
     }
 
     lostMessagesAndEvents: MessageOrEvent[] = [];

@@ -1,7 +1,7 @@
 const db = require("../database");
 const chatUtils = require("./chat-utils");
 
-const connections = {};
+const connections = global.connections = {};
 
 class AuthConnection {
 
@@ -146,14 +146,26 @@ const addUserToPublicGroup = (userId, username) => {
     }, 1000);
 }
 
+const disconnectUser = (userId, token) => {
+    var userConnections = connections[userId];
+    if (!userConnections) return;
+
+    for (var conn of userConnections) {
+        if (token && conn.token + "" != token + "") continue;
+
+        conn.socket.emit("logged out");
+        conn.removeFromConnections();
+        conn.socket.disconnect();
+    }
+}
+
 module.exports = {
 
     addMember, createEvent, sendMessage, addUserToPublicGroup,
+    disconnectUser,
 
     socketIO: io => {
         io.on("connection", socket => {
-
-            console.log("Een ongeïdentificeerde tjiller is verbonden met de tjilpret tjet");
 
             socket.on("auth", data => {
 
@@ -170,11 +182,11 @@ module.exports = {
                         if (!rows || !(0 in rows)) return socket.emit("invalid token");
 
                         var user = rows[0];
-                        console.log(`De ongeïdentificeerde tjiller was ${user.username} maar`)
+                        console.log(`Tjetverbinding met ${user.username}`);
 
                         new AuthConnection(socket, token, user.user_id | 0, user.username);
-                    });
-
+                    }
+                );
             });
 
         });

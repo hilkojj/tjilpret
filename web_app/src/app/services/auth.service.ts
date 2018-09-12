@@ -25,6 +25,8 @@ export class AuthService implements CanActivate {
 
     public onAuthenticatedListeners: (() => void)[] = [];
 
+    public loggingOut = false;
+
     private _session: Session;
     get session(): Session { return this._session }
 
@@ -187,6 +189,7 @@ export class AuthService implements CanActivate {
     }
 
     logoutEverywhere() {
+        this.loggingOut = true;
         this.http.post(API_URL + "logoutEverywhere", {
             token: this.session.token
         }).subscribe(res => {
@@ -202,6 +205,7 @@ export class AuthService implements CanActivate {
     }
 
     logout(p: PartialToken): Observable<boolean> {
+        if ((this.session.token + "").startsWith(p.partialToken + "")) this.loggingOut = true;
         return this.http.post(
             API_URL + "logout", { token: this.session.token, partialToken: p.partialToken }
         ).map(res => res["success"]);

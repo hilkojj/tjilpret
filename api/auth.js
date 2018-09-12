@@ -199,16 +199,22 @@ module.exports = {
 
         api.post("/logout", (req, res) => {
             var token = parseInt(req.body.token) || 0;
+            var tokenToDelete = db.connection.escape(parseInt(req.body.partialToken) || token);
             db.connection.query(`
+                SELECT user_id, token FROM tokens WHERE token LIKE "${tokenToDelete}%";
+
                 DELETE FROM tokens 
                 WHERE user_id = (SELECT user_id FROM (SELECT * FROM tokens) AS t WHERE token = ?)
-                AND token LIKE "` + db.connection.escape(parseInt(req.body.partialToken) || token) + `%"`,
+                AND token LIKE "${tokenToDelete}%";`,
                 [token], (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         return res.send({ success: false });
                     }
-                    res.send({ success: results.affectedRows == 1 });
+                    res.send({ success: results[1].affectedRows == 1 });
+
+                    var row = results[0][0];
+                    if (row) chat.disconnectUser(row.user_id, row.token);
                 }
             );
         });
@@ -218,16 +224,18 @@ module.exports = {
                 SELECT user_id FROM tokens WHERE token = ?`,
                 [parseInt(req.body.token) || 0], (err, rows, fields) => {
                     if (err || !(0 in rows)) {
-                        console.log(err);
+                        if (err) console.log(err);
                         return res.send({ success: false });
                     }
+                    var userId = rows[0].user_id;
                     db.connection.query(`DELETE FROM tokens WHERE user_id = ?`,
-                        [rows[0].user_id], (err, results, fields) => {
+                        [userId], (err, results, fields) => {
                             if (err) {
                                 console.log(err);
                                 return res.send({ success: false });
                             }
                             res.send({ success: true });
+                            chat.disconnectUser(userId);
                         }
                     );
                 }
