@@ -10,6 +10,12 @@ import { AuthService } from './auth.service';
 export class ServiceWorkerService {
 
     registration: ServiceWorkerRegistration;
+    saved = false;
+    triedToSubscribe = false;
+
+    get notDenied(): boolean {
+        return (Notification as any).permission != "denied";
+    }
 
     constructor(
         private http: HttpClient,
@@ -19,13 +25,28 @@ export class ServiceWorkerService {
             // Service Worker isn't supported on this browser, disable or hide UI.
             return;
         }
+        var calledSubscribe = false;
         navigator.serviceWorker.register('/assets/tjille-service-worker.js')
             .then(reg => {
-                console.log("service worker registered"); this.registration = reg
+                console.log("service worker registered");
+                this.registration = reg;
+                if (auth.session && !calledSubscribe) {
+                    calledSubscribe = true;
+                    this.subscribeToPush(false);
+                }
             });
+
+        auth.onAuthenticatedListeners.push(() => {
+
+            if (this.registration) {
+                calledSubscribe = true;
+                this.subscribeToPush(false);
+            }
+
+        });
     }
 
-    async subscribeToPush() {
+    async subscribeToPush(ask: boolean) {
 
         if (!this.registration)
             return console.error("No serviceWorker registered");
@@ -33,11 +54,17 @@ export class ServiceWorkerService {
         if (!('PushManager' in window))
             return console.error("Push isn't supported on this browser");
 
-        var permission = await this.askPermission();
-        if (permission != "granted") return;
+        var permission = ask ? (await this.askPermission()) : (Notification as any).permission;
+        if (permission != "granted") {
+            this.triedToSubscribe = true;
+            return;
+        }
 
         var subscription = await this.registration.pushManager.getSubscription();
-        if (subscription) return console.error("already subscribed");
+        if (subscription) {
+            console.log("already subscribed");
+            return this.saveSubscriptionToServer(subscription);
+        }
 
         const subscribeOptions = {
             userVisibleOnly: true,
@@ -49,12 +76,16 @@ export class ServiceWorkerService {
         subscription = await this.registration.pushManager.subscribe(subscribeOptions);
 
         console.log("Gesubscribed voor push notificaties", subscription.toJSON());
-
+        this.saveSubscriptionToServer(subscription);
+    }
+    
+    private saveSubscriptionToServer(subscription: PushSubscription) {
         this.http.post(API_URL + "savePushSubscription", {
             token: this.auth.session.token,
             subscription: subscription.toJSON()
-        }).subscribe(res => {
-            console.log(res);
+        }).subscribe((res: any) => {
+            console.log("save subscription", res);
+            if (res.success) this.saved = true;
         });
     }
 
@@ -79,7 +110,7 @@ export class ServiceWorkerService {
     }
 
     /**
-     * used in pushManager.Subscribe to correctly encode the key to a Uint8Array
+     * used in pushManager.subscribe to correctly encode the key to an Uint8Array
      * 
      * https://gist.github.com/malko/ff77f0af005f684c44639e4061fa8019
      * 

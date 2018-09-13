@@ -18,7 +18,8 @@
         <ul>
 
 
-            <li class="light-blue lighten-4 black-text">
+            <li class="light-blue lighten-4 black-text"
+                *ngIf="serviceWorker.notDenied && !serviceWorker.saved && serviceWorker.triedToSubscribe">
                 <div class="avatar">
                     <i class="material-icons white light-blue-text text-lighten-4 circle">
                         notifications_off
@@ -27,12 +28,13 @@
                 <div class="info">
                     <div class="title">Tjet meldingun</div>
                     <div class="message">
-                        Ontvang <span class="hide-on-med-and-down">desktop</span>meldingen bij niwe berichten.
+                        Ontvang <span class="hide-on-med-and-down">desktop</span>meldingen
+                        bij niwe berichten.
                         <br>
                         (Meldingen per tjet uitschakelbaar)
                     </div>
 
-                    <a (click)="serviceWorker.subscribeToPush()">INSCHAKELEN</a>
+                    <a (click)="serviceWorker.subscribeToPush(true)">INSCHAKELEN</a>
 
                 </div>
             </li>
@@ -59,8 +61,8 @@
                 <div class="avatar">
 
                     <app-profile-pic *ngIf="!conv.isGroup"
-                        [user]="conv.otherUser" size="48px" dim="small"
-                        cursor="pointer"></app-profile-pic>
+                        [user]="conv.otherUser" size="48px"
+                        dim="small" cursor="pointer"></app-profile-pic>
 
                     <app-group-pic *ngIf="conv.isGroup" dim="small"
                         [conv]="conv" size="48px"></app-group-pic>
@@ -84,7 +86,8 @@
                             {{conv.latestMessage?.sentBy ==
                             auth.session.user.id ? "Jij: "
                             : (conv.isGroup ?
-                            conv.latestMessage.senderUsername + ":"
+                            conv.latestMessage.senderUsername
+                            + ":"
                             : "")}}
                         </span>
                         <span [innerHTML]="conv.latestMessage?.text | escape | emoticons"></span>
@@ -94,7 +97,8 @@
 
                 <div class="time-and-more">
                     <div class="time" *ngIf="conv.latestMessage">
-                        {{conv.latestMessage.sentTimestamp ?
+                        {{conv.latestMessage.sentTimestamp
+                        ?
                         (conv.latestMessage.sentTimestamp |
                         timestamp:"short") : "Vroeger"}}
                     </div>
@@ -109,10 +113,11 @@
             </li>
 
             <li class="hide-on-large-only">
-            
+
                 <div class="avatar"></div>
                 <div class="info valign-wrapper">
-                    <a class="fav-text" [routerLink]="'/tjillers'">Vriends zoeken</a>
+                    <a class="fav-text" [routerLink]="'/tjillers'">Vriends
+                        zoeken</a>
                 </div>
 
             </li>
@@ -126,17 +131,20 @@
         <app-conversation *ngIf="currentConv" [conv]="currentConv"></app-conversation>
 
         <div *ngIf="!currentConv" class="welcome bw-on-bw10 valign-wrapper bw-on-bw-text">
-            
+
             <div class="wrapper">
 
                 <div class="cat-anim">
-                    <div class="cat" [inlineSVG]="'/assets/img/very_chill_chat_cat.svg'" title="Tjille kaasflip kat"></div>
+                    <div class="cat" [inlineSVG]="'/assets/img/very_chill_chat_cat.svg'"
+                        title="Tjille kaasflip kat"></div>
                     <h4>Jo {{auth.session.user.username}}</h4>
-                    Dit is dé plek om te tjillen en tjetten.
+                    Dit is dé plek om te tjillen en
+                    tjetten.
                     <br>
-    
+
                     <br>
-                    <a class="fav-text" [routerLink]="'/tjillers'">Vriends zoeken</a>
+                    <a class="fav-text" [routerLink]="'/tjillers'">Vriends
+                        zoeken</a>
                 </div>
 
             </div>
