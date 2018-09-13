@@ -1,5 +1,40 @@
 const utils = require("../utils");
 const db = require("../database");
+const webpush = require("web-push");
+const fs = require("fs");
+
+/*
+vapid-details.json example:
+{
+    "mailto": "example@example.com",
+    "publicKey": "abc123",
+    "privateKey": "xyx789"
+}
+*/
+
+const vapidDetails = JSON.parse(fs.readFileSync(__dirname + "/vapid-details.json").toString());
+webpush.setVapidDetails(
+    vapidDetails.mailto,
+    vapidDetails.publicKey,
+    vapidDetails.privateKey
+);
+
+const triggerPushMsg = (subscription, data) => {
+    return webpush.sendNotification(subscription, data.toString())
+        .catch((err) => {
+            if (err.statusCode == 410 || err.statusCode == 404)
+                return deleteSub(subscription);
+
+            else console.log("webpush sendNotification error: ", err);
+        });
+}
+
+const deleteSub = sub => {
+    console.log("delete sub", sub);
+    db.connection.query(`DELETE FROM push_subscriptions WHERE endpoint = ?`, [sub.endpoint], (err, results) => {
+        if (err) console.log(err);
+    });
+}
 
 const apiFunctions = api => {
 
@@ -44,5 +79,6 @@ const apiFunctions = api => {
 }
 
 module.exports = {
-    apiFunctions
+    apiFunctions,
+    triggerPushMsg
 }

@@ -61,3 +61,4 @@ firebase/functions/dollepretKey.json
 server/web/database_password.txt
 web_app/.vscode/settings.json
 api/database-connection.json
+api/chat/vapid-details.json

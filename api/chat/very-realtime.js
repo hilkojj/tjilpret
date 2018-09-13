@@ -1,6 +1,7 @@
 const db = require("../database");
 const chatUtils = require("./chat-utils");
 const emoticons = require("../emoticons");
+const push = require("./push");
 
 const connections = global.connections = {};
 
@@ -88,14 +89,21 @@ const createEvent = (chatId, type, by, who) => {
                 else if (row.user_id == who) whoUsername = row.username;
             }
 
-            forEachConnectionOfMembers(chatId, conn => conn.socket.emit("event", {
+            var event = {
                 id: results[0].insertId,
                 chatId: chatId,
                 type, timestamp,
                 by, who,
                 byUsername,
                 whoUsername
-            }));
+            };
+
+            forConnectionOrSubscriptionOfMembers(
+                chatId,
+                conn => conn.socket.emit("event", event),
+
+                sub => push.triggerPushMsg(sub, { event })
+            );
         }
     );
 }
@@ -115,9 +123,13 @@ const sendMessage = (chatId, userId, text) => {
             if (results.affectedRows == 0) return;
 
             let message = await chatUtils.getMessage(results.insertId);
-            if (message) forEachConnectionOfMembers(chatId, conn => {
-                conn.socket.emit("message", message);
-            });
+            if (message) forConnectionOrSubscriptionOfMembers(
+                chatId,
+
+                conn => conn.socket.emit("message", message),
+
+                sub => !!sub.muted && push.triggerPushMsg(sub, { message })
+            );
             emoticons.registerEmoticonUses(message.text);
         }
     );
@@ -129,6 +141,18 @@ const forEachConnectionOfMembers = async (chatId, callback) => {
         var memberConnections = connections[memberId];
         if (memberConnections) memberConnections.forEach(callback);
     });
+}
+
+const forConnectionOrSubscriptionOfMembers = async (chatId, connectionCallback, subscriptionCallback) => {
+
+    var subs = await chatUtils.getMemberSubscriptions(chatId);
+    for (var memberId in subs) {
+        var memberConnections = connections[memberId];
+        if (memberConnections) memberConnections.forEach(connectionCallback);
+
+        var memberSubs = subs[memberId];
+        if (memberSubs) memberSubs.forEach(subscriptionCallback);
+    }
 }
 
 const publicGroupId = 305;

@@ -76,6 +76,39 @@ const getMemberIds = chatId => new Promise(resolve => {
 
 });
 
+const getMemberSubscriptions = chatId => new Promise(resolve => {
+
+    db.connection.query(`
+        SELECT 
+            chat_members.user_id, sub.endpoint, sub.auth_key, sub.p256dh_key, muted 
+        FROM chat_members
+        LEFT JOIN push_subscriptions sub ON sub.user_id = chat_members.user_id
+        WHERE chat_id = ? AND left_timestamp IS NULL
+    `, [chatId], (err, rows) => {
+        if (err) {
+            console.log(err);
+            return resolve({});
+        }
+        var subs = {};
+        for (var row of rows) {
+            var sub = row.endpoint ? {
+                endpoint: row.endpoint,
+                keys: {
+                    auth: row.auth_key,
+                    p256dh: row.p256dh_key
+                },
+                muted: row.muted
+            } : null;
+            var userSubs = subs[row.user_id];
+            if (userSubs) {
+                if (sub) userSubs.push(sub);
+            } else subs[row.user_id] = sub ? [sub] : [];
+        }
+        resolve(subs);
+    });
+
+});
+
 const isMember = (userId, chatId) => new Promise(resolve => {
     db.connection.query(
         `SELECT user_id FROM chat_members WHERE chat_id = ? AND user_id = ? AND left_timestamp IS NULL`,
@@ -113,6 +146,7 @@ module.exports = {
     attachment,
     event,
     getMemberIds,
+    getMemberSubscriptions,
     isMember,
     getMessage
 }
