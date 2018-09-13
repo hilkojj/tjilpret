@@ -4,6 +4,7 @@ import { Conversation } from '../../models/chat';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
+import { ServiceWorkerService } from '../../services/service-worker.service';
 
 @Component({
     selector: 'app-chat',
@@ -18,6 +19,7 @@ export class ChatComponent implements OnInit {
     constructor(
         public auth: AuthService,
         public service: ChatService,
+        public serviceWorker: ServiceWorkerService,
 
         private route: ActivatedRoute,
         private themes: ThemeService

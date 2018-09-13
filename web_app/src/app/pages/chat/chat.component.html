@@ -16,6 +16,27 @@
         </div>
 
         <ul>
+
+
+            <li class="light-blue lighten-4 black-text">
+                <div class="avatar">
+                    <i class="material-icons white light-blue-text text-lighten-4 circle">
+                        notifications_off
+                    </i>
+                </div>
+                <div class="info">
+                    <div class="title">Tjet meldingun</div>
+                    <div class="message">
+                        Ontvang <span class="hide-on-med-and-down">desktop</span>meldingen bij niwe berichten.
+                        <br>
+                        (Meldingen per tjet uitschakelbaar)
+                    </div>
+
+                    <a (click)="serviceWorker.register()">INSCHAKELEN</a>
+
+                </div>
+            </li>
+
             <li class="waves-effect">
                 <div class="avatar">
                     <div class="new-btn z-depth-1 circle bw">
