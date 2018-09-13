@@ -1,38 +1,41 @@
 import { Injectable } from '@angular/core';
 import { WEB_PUSH_PUBLIC_KEY } from '../constants';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ServiceWorkerService {
 
+    registration: ServiceWorkerRegistration;
+
     constructor(
         private http: HttpClient
     ) {
-
-    }
-
-    async register() {
-
         if (!('serviceWorker' in navigator)) {
             // Service Worker isn't supported on this browser, disable or hide UI.
             return;
         }
+        navigator.serviceWorker.register('/assets/tjille-service-worker.js')
+            .then(reg => {
+                console.log("service worker registered"); this.registration = reg
+            });
+    }
 
-        if (!('PushManager' in window)) {
-            // Push isn't supported on this browser, disable or hide UI.
-            return;
-        }
+    async subscribeToPush() {
+
+        if (!this.registration)
+            return console.error("No serviceWorker registered");
+
+        if (!('PushManager' in window))
+            return console.error("Push isn't supported on this browser");
 
         var permission = await this.askPermission();
         if (permission != "granted") return;
 
-        navigator.serviceWorker.register('/assets/tjille-service-worker.js')
-            .then(registration => this.subscribe(registration));
-    }
-
-    private subscribe(registration: ServiceWorkerRegistration) {
+        var subscription = await this.registration.pushManager.getSubscription();
+        if (subscription) return console.error("already subscribed");
 
         const subscribeOptions = {
             userVisibleOnly: true,
@@ -40,11 +43,11 @@ export class ServiceWorkerService {
                 WEB_PUSH_PUBLIC_KEY
             )
         };
-        registration.pushManager.subscribe(subscribeOptions).then(pushSub => {
 
-            console.log("Gesubscribed voor push notificaties", pushSub.toJSON());
-            
-        });
+        subscription = await this.registration.pushManager.subscribe(subscribeOptions);
+
+        console.log("Gesubscribed voor push notificaties", subscription.toJSON());
+
     }
 
     askPermission(): Promise<any> {
