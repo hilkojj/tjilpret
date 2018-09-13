@@ -51,7 +51,7 @@
 
 <div class="messages" [style.backgroundImage]="service.wallpaperUrl ? 'url(' + service.wallpaperUrl + ')' : ''">
 
-    <div class="scroll">
+    <div class="scroll" #scrollDiv>
 
         <ul>
 
@@ -59,11 +59,17 @@
 
                 <!-- MESSAGE -->
                 <div class="message" *ngIf="me.message"
-                    [ngClass]="{'first-of-user': firstOfUser(me.message, i), 'last-of-user': lastOfUser(me.message, i), 'my-message': me.message.sentBy == auth.session.user.id}">
+                    [ngClass]="{
+                        'first-of-user': firstOfUser(me.message, i), 
+                        'last-of-user': lastOfUser(me.message, i), 
+                        'my-message': me.message.sentBy == auth.session.user.id,
+                        'anim': me.message.justNew
+                    }">
 
                     <a class="profile-pic" [routerLink]="'/tjiller/' + me.message.sentBy">
-                        <app-profile-pic class="circle" cursor="pointer"
-                            size="34px" dim="small" [user]="me.message.sender"></app-profile-pic>
+                        <app-profile-pic class="circle"
+                            cursor="pointer" size="34px"
+                            dim="small" [user]="me.message.sender"></app-profile-pic>
                     </a>
 
                     <div class="bubble-wrapper">
@@ -71,8 +77,8 @@
                         <div class="flex">
                             <div class="bubble"
                                 [style.background]="me.message.sender.rgbString">
-                                <p class="pre" [ngClass]="me.message.sender.r * me.message.sender.g * me.message.sender.b > 3500000 ? 'black-text' : 'white-text'">
-                                    {{me.message.text}}
+                                <p [innerHTML]="me.message.text | escape | emoticons | links"
+                                    [ngClass]="me.message.sender.r * me.message.sender.g * me.message.sender.b > 3500000 ? 'black-text' : 'white-text'">
                                 </p>
                             </div>
 
@@ -90,7 +96,8 @@
                         </div>
 
 
-                        <a [routerLink]="'/tjiller/' + me.message.sentBy" class="username" *ngIf="conv.isGroup && me.message.sentBy != auth.session.user.id">
+                        <a [routerLink]="'/tjiller/' + me.message.sentBy"
+                            class="username" *ngIf="conv.isGroup && me.message.sentBy != auth.session.user.id">
                             {{me.message.sender.username}}
                         </a>
                     </div>
@@ -102,6 +109,46 @@
 
     </div>
 
-    <div class="new-message"></div>
+    <div class="new-message">
+
+        <div class="input-bubble">
+            <div class="button-container">
+                <app-emoticon-picker [input]="input" pos="top-right"
+                    (inputChange)="inputText = $event"></app-emoticon-picker>
+            </div>
+
+            <div class="textarea-wrapper valign-wrapper"
+                (click)="input.focus()">
+                <textarea #input [(ngModel)]="inputText"
+                    placeholder="Tiep een bericht"
+                    maxlength="512" (keydown.enter)="$event.preventDefault(); send()"></textarea>
+            </div>
+
+            <div class="button-container">
+                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg">
+                    <i class="material-icons">
+                        attach_file
+                    </i>
+                </button>
+            </div>
+
+            <div class="button-container">
+                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg">
+                    <i class="material-icons" style="font-size: 32px">
+                        gif
+                    </i>
+                </button>
+            </div>
+        </div>
+
+        <div class="send-btn waves-effect"
+            [style.background]="auth.session.user.rgbString"
+            (click)="send()">
+            <i class="material-icons">
+                send
+            </i>
+        </div>
+
+    </div>
 
 </div>

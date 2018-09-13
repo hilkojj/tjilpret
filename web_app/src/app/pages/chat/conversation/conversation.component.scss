@@ -72,14 +72,17 @@
 
     .new-message {
         flex: 0 0 auto;
-        height: 64px;
     }
 
 }
 
+$shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
+
 .message {
+
     display: flex;
     flex-flow: row;
+    overflow-x: hidden;
 
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -90,13 +93,32 @@
     }
 
     .bubble, .profile-pic app-profile-pic {
-        box-shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: $shadow;
     }
 
     .profile-pic {
         flex: 0 0 auto;
         width: calc(34px + .75rem);
         height: 34px;
+    }
+
+    &.anim .bubble-wrapper {
+        animation: message-anim .3s;
+    }
+    &.my-message.anim .bubble-wrapper {
+        animation: my-message-anim .3s;
+    }
+    @keyframes message-anim {
+        0% {
+            opacity: 0;
+            transform: translateX(-2%);
+        }
+    }
+    @keyframes my-message-anim {
+        0% {
+            opacity: 0;
+            transform: translateX(2%);
+        }
     }
 
     .bubble-wrapper {
@@ -120,6 +142,11 @@
                     line-height: 1.5;
                     margin: 0;
                     padding: 6px 13px;
+                    white-space: pre-line;
+
+                    &.only-emoticons {
+                        font-size: 25px;
+                    }
                 }
             }
             
@@ -185,6 +212,77 @@
             .flex {
                 flex-flow: row-reverse;
             }
+        }
+    }
+
+}
+
+.new-message {
+    padding: 0 1.5rem 2rem;
+
+    @media only screen and (max-width: $break-med) {
+        padding: 0 .75rem .75rem;
+    }
+
+    display: flex;
+    flex-flow: row;
+
+    $bubble-height: 44px;
+
+    .input-bubble {
+
+        flex: 1 1 auto;
+
+        background: white;
+        box-shadow: $shadow;
+        border-radius: $bubble-height * .5;
+        min-height: $bubble-height;
+        min-width: 0;
+
+        display: flex;
+        flex-flow: row;
+
+        .button-container {
+            flex: 0 0 auto;
+            height: 100%;
+
+            ::ng-deep .emoticon-btn, button {
+                margin: 2px;
+                i {
+                    color: black !important;
+                    opacity: .5 !important;
+                }
+            }
+        }
+
+        .textarea-wrapper {
+
+            flex: 1 1 auto;
+            min-width: 0;
+            cursor: text;
+
+            textarea {
+                background: transparent;
+                border: none !important;
+                outline: none;
+                box-shadow: none !important;
+                resize: none;
+            }
+        }
+    }
+
+    .send-btn {
+        border-radius: 100px;
+        height: $bubble-height;
+        width: $bubble-height;
+        box-shadow: $shadow;
+        text-align: center;
+        line-height: $bubble-height;
+        margin-left: 6px;
+        i {
+            vertical-align: middle;
+            font-size: 18px;
+            color: white;
         }
     }
 

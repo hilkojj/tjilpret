@@ -16,8 +16,9 @@ export class TimestampPipe implements PipeTransform {
         var hour = a.getHours();
         var min: any = a.getMinutes();
         var string = '';
+        var minStr = min < 10 ? "0" + min : min;
 
-        if (option == "onlyTime") return hour + ":" + min; 
+        if (option == "onlyTime") return hour + ":" + minStr;
 
         if (option == "short") {
 
@@ -27,7 +28,7 @@ export class TimestampPipe implements PipeTransform {
             if (thisYear && thisMonth) {
 
                 if (date == b.getDate() -1) return "Gisteren";
-                if (date == b.getDate()) return hour + ":" + min;
+                if (date == b.getDate()) return hour + ":" + minStr;
             }
 
             return `${date}-${month + 1}-${year}`;
@@ -46,10 +47,8 @@ export class TimestampPipe implements PipeTransform {
         } else {
             string += date + ' ' + months[month] + ' ' + year + ' ';
         }
-        if (min < 10) {
-            min = '0' + min;
-        }
-        string += 'om ' + hour + ':' + min;
+        
+        string += 'om ' + hour + ':' + minStr;
         return string;
 
     }

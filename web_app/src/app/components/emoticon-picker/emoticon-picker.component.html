@@ -1,5 +1,5 @@
 <div class="picker white card z-depth-2" *ngIf="showPicker" #picker
-    [style.left]="getPickerLeft(picker)">
+    [style.left]="getPickerLeft(picker)" [ngClass]="pos">
 
     <div class="top-bar">
 
@@ -52,7 +52,7 @@
 
 </div>
 
-<button class="btn btn-flat btn-floating waves-effect" (click)="toggle()" title="Custom emoticons">
+<button class="btn btn-flat btn-floating waves-effect emoticon-btn" (click)="toggle()" title="Custom emoticons">
     <i class="material-icons fav-text">
         insert_emoticon
     </i>

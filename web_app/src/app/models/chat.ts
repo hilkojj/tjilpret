@@ -34,7 +34,8 @@ export interface Message {
     attachment: Attachment,
     oldTimeString?: string,  // only for old messages
 
-    sender?: User
+    sender?: User,
+    justNew?: boolean
 }
 
 export enum AttachmentType {

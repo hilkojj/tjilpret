@@ -37,7 +37,10 @@ export class ChatService {
         });
 
         this.socket.on("reconnect", () => this.socketAuth());
-        this.socket.on("message", message => this.addMessageToConv(message));
+        this.socket.on("message", (message: Message) => {
+            message.justNew = true;
+            this.addMessageToConv(message);
+        });
         this.socket.on("logged out", () => {
             if (auth.loggingOut) return; // logout was expected.
 
@@ -81,6 +84,12 @@ export class ChatService {
         conv.messagesAndEvents.push(add);
     }
 
+    sendMessage(chatId, text) {
+        this.socket.emit("send message", {
+            chatId, text
+        });
+    }
+
     getConv(id: number) {
         for (var conv of this.conversations) if (conv.chatId == id) return conv;
         return null;
@@ -113,6 +122,7 @@ export class ChatService {
                 return aTime - bTime;
             });
 
+            console.log(conv);
             conv.messagesAndEvents = m;
             conv.loadingMore = false;
         });

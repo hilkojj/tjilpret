@@ -12,6 +12,7 @@ export class EmoticonPickerComponent {
 
     @Input() input: HTMLTextAreaElement;
     @Output() inputChange = new EventEmitter<string>();
+    @Input() pos = "bottom-right";
 
     showPicker = false;
     emoticons: EmoticonCategory[];
