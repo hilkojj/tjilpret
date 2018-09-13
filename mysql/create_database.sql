@@ -484,6 +484,26 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`chat_events` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `tjille_database`.`push_subscriptions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tjille_database`.`push_subscriptions` (
+  `endpoint` VARCHAR(500) NOT NULL,
+  `token` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `auth_key` VARCHAR(500) NOT NULL,
+  `p256dh_key` VARCHAR(500) NOT NULL,
+  `timestamp` INT NOT NULL,
+  `updated_timestamp` INT NULL,
+  PRIMARY KEY (`endpoint`, `token`, `user_id`),
+  CONSTRAINT `fk_push_subscriptions_tokens1`
+    FOREIGN KEY (`token` , `user_id`)
+    REFERENCES `tjille_database`.`tokens` (`token` , `user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `tjille_database` ;
 
 -- -----------------------------------------------------
