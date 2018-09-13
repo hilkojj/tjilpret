@@ -25,6 +25,7 @@ const conversation = row => {
 const message = row => {
     return {
         chatId: row.chat_id,
+        groupTitle: row.group_title,
         id: row.id,
         sentBy: row.sent_by,
         senderUsername: row.sender_username,
@@ -53,6 +54,7 @@ const event = row => {
     return {
         id: row.id,
         chatId: row.chat_id,
+        groupTitle: row.group_title,
         type: row.type,
         timestamp: row.timestamp,
         by: row.by,
@@ -121,12 +123,14 @@ const getMessage = messageId => new Promise(resolve => {
     db.connection.query(`
         SELECT
             mes.*, att.*, sender.username AS sender_username, sender.profile_pic AS sender_profile_pic, 
-            r AS sender_r, g AS sender_g, b AS sender_b
+            r AS sender_r, g AS sender_g, b AS sender_b, group_title
         FROM messages mes
 
         LEFT JOIN message_attachment att ON att.attachment_id = mes.attachment_id
 
         JOIN users sender ON mes.sent_by = sender.user_id
+
+        JOIN chats chat ON chat.chat_id = mes.chat_id
 
         WHERE mes.id = ?`, [messageId], (err, rows, fields) => {
 

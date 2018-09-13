@@ -73,7 +73,8 @@ const createEvent = (chatId, type, by, who) => {
     db.connection.query(`
         INSERT INTO chat_events SET ?;
         SELECT user_id, username FROM users WHERE user_id = ? OR user_id = ?;
-    `, [{ chat_id: chatId, type, timestamp, by, who }, by || -1, who || -1], (err, results) => {
+        SELECT group_title FROM chats WHERE chat_id = ?
+    `, [{ chat_id: chatId, type, timestamp, by, who }, by || -1, who || -1, chatId], (err, results) => {
 
             if (err) {
                 return console.log(err);
@@ -92,6 +93,7 @@ const createEvent = (chatId, type, by, who) => {
             var event = {
                 id: results[0].insertId,
                 chatId: chatId,
+                groupTitle: results[2][0].group_title,
                 type, timestamp,
                 by, who,
                 byUsername,
