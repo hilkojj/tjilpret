@@ -1,5 +1,6 @@
 const db = require("../database");
 const chatUtils = require("./chat-utils");
+const emoticons = require("../emoticons");
 
 const connections = global.connections = {};
 
@@ -117,6 +118,7 @@ const sendMessage = (chatId, userId, text) => {
             if (message) forEachConnectionOfMembers(chatId, conn => {
                 conn.socket.emit("message", message);
             });
+            emoticons.registerEmoticonUses(message.text);
         }
     );
 }

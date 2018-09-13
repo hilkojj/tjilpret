@@ -63,6 +63,7 @@ const apiFunctions = api => {
                 });
                 res.send(messagesAndEvents);
             });
+            else res.send(messagesAndEvents);
         });
     });
 
