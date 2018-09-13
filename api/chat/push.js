@@ -20,7 +20,7 @@ webpush.setVapidDetails(
 );
 
 const triggerPushMsg = (subscription, data) => {
-    return webpush.sendNotification(subscription, data.toString())
+    return webpush.sendNotification(subscription, JSON.stringify(data))
         .catch((err) => {
             if (err.statusCode == 410 || err.statusCode == 404)
                 return deleteSub(subscription);

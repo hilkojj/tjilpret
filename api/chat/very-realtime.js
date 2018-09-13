@@ -128,7 +128,7 @@ const sendMessage = (chatId, userId, text) => {
 
                 conn => conn.socket.emit("message", message),
 
-                sub => !!sub.muted && push.triggerPushMsg(sub, { message })
+                sub => !sub.muted && push.triggerPushMsg(sub, { message })
             );
             emoticons.registerEmoticonUses(message.text);
         }
