@@ -497,6 +497,7 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`push_subscriptions` (
   `timestamp` INT NOT NULL,
   `updated_timestamp` INT NULL,
   PRIMARY KEY (`endpoint`, `token`, `user_id`),
+  UNIQUE INDEX `endpoint_UNIQUE` (`endpoint` ASC),
   CONSTRAINT `fk_push_subscriptions_tokens1`
     FOREIGN KEY (`token` , `user_id`)
     REFERENCES `tjille_database`.`tokens` (`token` , `user_id`)
