@@ -84,6 +84,16 @@ module.exports = {
                 return callback(false);
             } else return callback(rows[0].existss);
         });
-    }
+    },
+
+    getUserIdByToken: token => new Promise(resolve => {
+        db.connection.query(`SELECT user_id FROM tokens WHERE token = ?`, [parseInt(token) || 0], (err, rows, fields) => {
+            if (err) {
+                console.log(err);
+                return resolve(null);
+            }
+            resolve(0 in rows ? rows[0].user_id : null);
+        });
+    })
 
 }

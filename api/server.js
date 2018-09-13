@@ -43,7 +43,8 @@ const apiFiles = [
     "posts",
     "post-upload",
     "emoticons",
-    "chat/api"
+    "chat/api",
+    "chat/push"
 ];
 for (var i in apiFiles)
     require("./" + apiFiles[i] + ".js").apiFunctions(api);

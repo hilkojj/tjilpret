@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { WEB_PUSH_PUBLIC_KEY } from '../constants';
+import { WEB_PUSH_PUBLIC_KEY, API_URL } from '../constants';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,8 @@ export class ServiceWorkerService {
     registration: ServiceWorkerRegistration;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private auth: AuthService
     ) {
         if (!('serviceWorker' in navigator)) {
             // Service Worker isn't supported on this browser, disable or hide UI.
@@ -48,6 +50,12 @@ export class ServiceWorkerService {
 
         console.log("Gesubscribed voor push notificaties", subscription.toJSON());
 
+        this.http.post(API_URL + "savePushSubscription", {
+            token: this.auth.session.token,
+            subscription: subscription.toJSON()
+        }).subscribe(res => {
+            console.log(res);
+        });
     }
 
     askPermission(): Promise<any> {
