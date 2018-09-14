@@ -3,6 +3,7 @@ import { WEB_PUSH_PUBLIC_KEY, API_URL } from '../constants';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +20,8 @@ export class ServiceWorkerService {
 
     constructor(
         private http: HttpClient,
-        private auth: AuthService
+        private auth: AuthService,
+        private router: Router
     ) {
         if (!('serviceWorker' in navigator)) {
             // Service Worker isn't supported on this browser, disable or hide UI.
@@ -34,6 +36,11 @@ export class ServiceWorkerService {
                     calledSubscribe = true;
                     this.subscribeToPush(false);
                 }
+
+                navigator.serviceWorker.addEventListener("message", event => {
+                    var data = event.data;
+                    if (data.goTo) router.navigateByUrl(data.goTo);
+                });
             });
 
         auth.onAuthenticatedListeners.push(() => {
@@ -78,7 +85,7 @@ export class ServiceWorkerService {
         console.log("Gesubscribed voor push notificaties", subscription.toJSON());
         this.saveSubscriptionToServer(subscription);
     }
-    
+
     private saveSubscriptionToServer(subscription: PushSubscription) {
         this.http.post(API_URL + "savePushSubscription", {
             token: this.auth.session.token,
