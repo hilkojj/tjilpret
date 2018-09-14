@@ -59,7 +59,7 @@ export class ChatService {
 
     addMessageToConv(mess: Message) {
         var conv = this.getConv(mess.chatId);
-        
+
         this.synchronizeUser(mess);
         var add: MessageOrEvent = {
             message: mess
@@ -88,6 +88,10 @@ export class ChatService {
         this.socket.emit("send message", {
             chatId, text
         });
+    }
+
+    dontPush(anything: boolean, chatIds: number[]) {
+        this.socket.emit("dont push", { anything, chatIds });
     }
 
     getConv(id: number) {
