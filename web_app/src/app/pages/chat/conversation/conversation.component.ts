@@ -1,14 +1,15 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked, OnDestroy } from '@angular/core';
 import { Conversation, Message } from '../../../models/chat';
 import { ChatService } from '../../../services/chat.service';
 import { AuthService } from '../../../services/auth.service';
+import { ServiceWorkerService } from '../../../services/service-worker.service';
 
 @Component({
     selector: 'app-conversation',
     templateUrl: './conversation.component.html',
     styleUrls: ['./conversation.component.scss']
 })
-export class ConversationComponent implements AfterViewChecked {
+export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     @ViewChild('input') input: ElementRef;
     inputText = "";
@@ -38,18 +39,35 @@ export class ConversationComponent implements AfterViewChecked {
 
             this.service.getMessagesAndEvents(
                 conv, 32,
-                latest ? (latest.message ? latest.message.sentTimestamp : latest.event.timestamp) -1 : null
+                latest ? (latest.message ? latest.message.sentTimestamp : latest.event.timestamp) - 1 : null
             );
         }
 
-        if (conv.messagesAndEvents) for (var mOrE of conv.messagesAndEvents) 
+        if (conv.messagesAndEvents) for (var mOrE of conv.messagesAndEvents)
             if (mOrE.message) mOrE.message.justNew = false;
     }
 
     constructor(
         public service: ChatService,
-        public auth: AuthService
+        public auth: AuthService,
+        public swService: ServiceWorkerService
     ) { }
+
+    focusListener = async () => {
+
+        var notifications: any = await this.swService.registration.getNotifications();
+        notifications
+            .filter(n => n.data && n.data.message && n.data.message.chatId == this.conv.chatId)
+            .forEach(n => n.close());
+    }
+
+    ngOnInit() {
+        window.addEventListener("focus", this.focusListener);
+    }
+
+    ngOnDestroy() {
+        window.removeEventListener("focus", this.focusListener);
+    }
 
     firstOfUser(message: Message, index: number) {
         var prev = this.conv.messagesAndEvents[index - 1];

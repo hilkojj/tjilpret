@@ -52,14 +52,14 @@ export class ChatService {
         })
 
         // when window is blurred receive all push messages:
-        window.onblur = () => this.socket.emit("dont push", {
+        window.addEventListener("blur", () => this.socket.emit("dont push", {
             anything: false, chatIds: []
-        });
+        }));
 
         // when focused dont receive push messages of chats defined in dontPush(.., ..)
-        window.onfocus = () => this.socket.emit("dont push", {
+        window.addEventListener("focus", () => this.socket.emit("dont push", {
             anything: this.dontPushAnything, chatIds: this.dontPushChatIds
-        });
+        }));
     }
 
     socketAuth() {
