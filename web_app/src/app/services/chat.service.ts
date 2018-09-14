@@ -20,6 +20,8 @@ export class ChatService {
 
     private _unreadMessages = 0;
     private requestingConversations = false;
+    private dontPushAnything = false;
+    private dontPushChatIds = [];
 
     constructor(
         private http: HttpClient,
@@ -48,6 +50,16 @@ export class ChatService {
             alert("Je bent uitgelogd.");
             window.location.href = "/";
         })
+
+        // when window is blurred receive all push messages:
+        window.onblur = () => this.socket.emit("dont push", {
+            anything: false, chatIds: []
+        });
+
+        // when focused dont receive push messages of chats defined in dontPush(.., ..)
+        window.onfocus = () => this.socket.emit("dont push", {
+            anything: this.dontPushAnything, chatIds: this.dontPushChatIds
+        });
     }
 
     socketAuth() {
@@ -91,6 +103,8 @@ export class ChatService {
     }
 
     dontPush(anything: boolean, chatIds: number[]) {
+        this.dontPushAnything = anything;
+        this.dontPushChatIds = chatIds;
         this.socket.emit("dont push", { anything, chatIds });
     }
 
