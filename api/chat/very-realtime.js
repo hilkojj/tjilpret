@@ -11,6 +11,8 @@ class AuthConnection {
         this.socket = socket;
         this.token = token;
         this.userId = userId;
+        this.dontPushAnything = false;
+        this.dontPushChatIds = [];
 
         socket.emit("authenticated");
         this.addToConnections();
@@ -23,6 +25,12 @@ class AuthConnection {
                 sendMessage(chatId, userId, text);
             else socket.emit("exception", text ? "you are not a member of this chat" : "no text");
 
+        });
+
+        socket.on("dont push", data => {
+            this.dontPushAnything = data.anything ? true : false;
+            if (Array.isArray(data.chatIds) && !data.chatIds.some(isNaN))
+                this.dontPushChatIds = data.chatIds;
         });
 
         socket.on("disconnect", () => {
@@ -147,10 +155,19 @@ const forConnectionOrSubscriptionOfMembers = async (chatId, ignoreSubsOf, connec
 
     var subs = await chatUtils.getMemberSubscriptions(chatId);
     for (var memberId in subs) {
-        var memberConnections = connections[memberId];
-        if (memberConnections) memberConnections.forEach(connectionCallback);
 
-        if (memberId == ignoreSubsOf) continue;
+        var memberConnections = connections[memberId];
+        var dontPush = memberId == ignoreSubsOf;
+
+        if (memberConnections) for (var conn of memberConnections) {
+
+            if (conn.dontPushAnything || conn.dontPushChatIds.includes(chatId))
+                dontPush = true;
+
+            connectionCallback(conn);
+        }
+
+        if (dontPush) continue;
         var memberSubs = subs[memberId];
         if (memberSubs) memberSubs.forEach(subscriptionCallback);
     }
