@@ -66,7 +66,7 @@ const addMember = (chatId, userId, addedByUserId) => {
         INSERT INTO chat_members (chat_id, user_id, joined_timestamp)
         SELECT chat_id, ?, ? FROM chat_members
         WHERE user_id = ? AND is_chat_admin AND chat_id = ?
-    `, [userId, Date.now() / 1000 | 0, addedByUserId, chatId], (err, results, fields) => {
+    `, [userId, Date.now(), addedByUserId, chatId], (err, results, fields) => {
 
             if (err) console.log(err);
 
