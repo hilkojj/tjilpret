@@ -100,11 +100,9 @@ const createEvent = (chatId, type, by, who) => {
                 whoUsername
             };
 
-            forConnectionOrSubscriptionOfMembers(
+            forEachConnectionOfMembers(
                 chatId,
-                conn => conn.socket.emit("event", event),
-
-                sub => push.triggerPushMsg(sub, { event })
+                conn => conn.socket.emit("event", event)
             );
         }
     );
@@ -126,7 +124,7 @@ const sendMessage = (chatId, userId, text) => {
 
             let message = await chatUtils.getMessage(results.insertId);
             if (message) forConnectionOrSubscriptionOfMembers(
-                chatId,
+                chatId, message.sentBy,
 
                 conn => conn.socket.emit("message", message),
 
@@ -145,13 +143,14 @@ const forEachConnectionOfMembers = async (chatId, callback) => {
     });
 }
 
-const forConnectionOrSubscriptionOfMembers = async (chatId, connectionCallback, subscriptionCallback) => {
+const forConnectionOrSubscriptionOfMembers = async (chatId, ignoreSubsOf, connectionCallback, subscriptionCallback) => {
 
     var subs = await chatUtils.getMemberSubscriptions(chatId);
     for (var memberId in subs) {
         var memberConnections = connections[memberId];
         if (memberConnections) memberConnections.forEach(connectionCallback);
 
+        if (memberId == ignoreSubsOf) continue;
         var memberSubs = subs[memberId];
         if (memberSubs) memberSubs.forEach(subscriptionCallback);
     }
