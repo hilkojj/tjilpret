@@ -57,7 +57,7 @@ export class ChatService {
         this.socket.on(
             "authenticated",
             () => {
-                if (this.blurred && utils.mobile) return;
+                if (this.isBlurred && utils.mobile) return;
                 this.socket.emit("online");
             } 
         );
