@@ -104,4 +104,9 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
         el.scrollTop = el.scrollHeight;
     }
 
+    onlyEmoticons(message: Message) {
+        if (!message.text) return false;
+        return message.text.replace(/:(\w*?):|\s/g, '').length == 0;
+    }
+
 }

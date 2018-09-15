@@ -19,8 +19,7 @@
         <ul class="bw-on-bw10">
 
 
-            <li class="green accent-2 black-text"
-                *ngIf="serviceWorker.notDenied && !serviceWorker.saved && serviceWorker.triedToSubscribe">
+            <li class="green accent-2 black-text" *ngIf="serviceWorker.notDenied && !serviceWorker.saved && serviceWorker.triedToSubscribe">
                 <div class="avatar">
                     <i class="material-icons white green-text text-accent-2 circle">
                         notifications_off
@@ -29,13 +28,14 @@
                 <div class="info">
                     <div class="title">Tjet meldingun</div>
                     <div class="message">
-                        Ontvang <span class="hide-on-med-and-down">desktop</span>meldingen
+                        Ontvang meldingen
                         bij niwe berichten.
                         <br>
                         (Meldingen per tjet uitschakelbaar)
                     </div>
 
-                    <a class="teal-text text-accent-4" (click)="serviceWorker.subscribeToPush(true)">INSCHAKELEN</a>
+                    <a class="teal-text text-accent-4"
+                        (click)="serviceWorker.subscribeToPush(true)">INSCHAKELEN</a>
 
                 </div>
             </li>
@@ -106,7 +106,8 @@
                         (conv.latestMessage.sentTimestamp |
                         timestamp:"short") : "Vroeger"}}
                     </div>
-                    <div class="unread" [style.background]="conv.otherUser ? conv.otherUser.rgbString : auth.session.user.rgbString" *ngIf="conv.unread && conv != currentConv">
+                    <div class="unread" [style.background]="conv.otherUser ? conv.otherUser.rgbString : auth.session.user.rgbString"
+                        *ngIf="conv.unread && conv != currentConv">
                         {{conv.unread}}
                     </div>
                     <i class="material-icons muted" *ngIf="conv.muted"

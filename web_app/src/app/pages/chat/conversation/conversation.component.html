@@ -79,7 +79,7 @@
                     <div class="bubble-wrapper">
 
                         <div class="flex">
-                            <div class="bubble"
+                            <div class="bubble" [ngClass]="onlyEmoticons(me.message) ? 'only-emoticons' : ''"
                                 [style.background]="me.message.sender.rgbString">
                                 <p [innerHTML]="me.message.text | escape | emoticons | links"
                                     [ngClass]="me.message.sender.r * me.message.sender.g * me.message.sender.b > 3500000 ? 'black-text' : 'white-text'">
@@ -129,7 +129,7 @@
             </div>
 
             <div class="button-container">
-                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg">
+                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg" title="Bestant toevoege">
                     <i class="material-icons">
                         attach_file
                     </i>
@@ -137,20 +137,20 @@
             </div>
 
             <div class="button-container">
-                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg">
+                <button class="btn btn-flat btn-floating waves-effect not-default transparent not-fav-bg" title="Doe er een leuk gifje bij!">
                     <i class="material-icons" style="font-size: 32px">
                         gif
                     </i>
                 </button>
             </div>
-        </div>
 
-        <div class="send-btn waves-effect"
-            [style.background]="auth.session.user.rgbString"
-            (click)="send()">
-            <i class="material-icons">
-                send
-            </i>
+            <div class="button-container">
+                <button class="btn btn-flat btn-floating waves-effect" (click)="send()">
+                    <i class="material-icons fav-text">
+                        send
+                    </i>
+                </button>
+            </div>
         </div>
 
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding, AfterViewChecked } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Conversation } from '../../models/chat';
 import { AuthService } from '../../services/auth.service';
@@ -6,23 +6,23 @@ import { ActivatedRoute } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
 import { ServiceWorkerService } from '../../services/service-worker.service';
 import { UtilsService } from '../../services/utils.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-chat',
     templateUrl: './chat.component.html',
     styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     convSearchQuery = "";
     currentConv: Conversation;
 
-    @HostBinding('class.only-conversations') 
+    @HostBinding('class.only-conversations')
     get onlyConversations(): boolean {
         return this.currentConv == null;
     }
-    
+
 
     show = true;
 
@@ -34,7 +34,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private themes: ThemeService,
         private utils: UtilsService,
-        private san: DomSanitizer
+        private san: DomSanitizer,
+        private title: Title
     ) { }
 
     ngOnInit() {
@@ -52,7 +53,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             else this.themes.applyFavColor(this.auth.session.user);
 
             // dont receive push notifications for current conversation
-            if (this.utils.mobile && this.currentConv) 
+            if (this.utils.mobile && this.currentConv)
                 this.service.dontPush(false, [this.currentConv.chatId])
 
             // if on desktop or in conversations overview dont receive push notifications at all.
@@ -64,6 +65,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         // re-enable all push notifications
         this.service.dontPush(false, []);
+    }
+
+    ngAfterViewChecked() {
+        this.title.setTitle(
+            (this.service.unreadMessages ? `(${this.service.unreadMessages}) ` : '') + "Tjets"
+        )
     }
 
     convTitle(conv: Conversation): string {

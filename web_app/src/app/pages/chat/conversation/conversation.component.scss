@@ -159,11 +159,10 @@ $shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
                     line-height: 1.5;
                     margin: 0;
                     padding: 6px 13px;
-                    white-space: pre-line;
-
-                    &.only-emoticons {
-                        font-size: 25px;
-                    }
+                    white-space: pre-line;   
+                }
+                &.only-emoticons p {
+                    font-size: 25px;
                 }
             }
             
@@ -265,7 +264,7 @@ $shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
 
             ::ng-deep .emoticon-btn, button {
                 margin: 2px;
-                i {
+                i:not(.fav-text) {
                     color: black !important;
                     opacity: .5 !important;
                 }
@@ -285,21 +284,6 @@ $shadow: 0 2px 0px 0 rgba(0, 0, 0, 0.15);
                 box-shadow: none !important;
                 resize: none;
             }
-        }
-    }
-
-    .send-btn {
-        border-radius: 100px;
-        height: $bubble-height;
-        width: $bubble-height;
-        box-shadow: $shadow;
-        text-align: center;
-        line-height: $bubble-height;
-        margin-left: 6px;
-        i {
-            vertical-align: middle;
-            font-size: 18px;
-            color: white;
         }
     }
 
