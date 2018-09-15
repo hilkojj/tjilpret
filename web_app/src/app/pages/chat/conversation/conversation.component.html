@@ -25,6 +25,10 @@
             <div class="title" *ngIf="!conv.isGroup">
                 {{conv.otherUser.username}}
             </div>
+
+            <div class="activity" *ngIf="conv.otherUser?.lastActivity">
+                {{conv.otherUser.online ? 'onlain' : 'laatst onlain: ' + (conv.otherUser.lastActivity | timestamp)}}
+            </div>
         </div>
 
     </div>

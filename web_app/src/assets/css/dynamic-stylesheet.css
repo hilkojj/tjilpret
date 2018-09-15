@@ -64,6 +64,9 @@
 .fav-text {
     color: ?rgb? !important;
 }
+.fav-border {
+    border-color: ?rgb? !important;
+}
 
 .nav-logo #logo-outer {
     fill: ?rgb.6?;

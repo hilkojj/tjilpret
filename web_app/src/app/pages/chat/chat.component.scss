@@ -163,9 +163,11 @@
 
         li {
 
+            $transition: .2s;
+
             margin: 1rem .75rem;
             border-radius: 16px;
-            transition: .2s;
+            transition: $transition;
 
             transform: translate(0, 0);
 
@@ -185,6 +187,7 @@
                 $avatar-size: 48px;
                 $padding: .75rem;
 
+                position: relative;
                 flex: 0 0 auto;
                 $size: calc(#{2 * $padding} + #{$avatar-size});
                 width: $size;
@@ -206,6 +209,34 @@
                     width: $avatar-size;
                     height: $avatar-size;
                     line-height: $avatar-size;
+                }
+
+                .online-dot {
+                    transition: $transition;
+                    position: absolute;
+                    bottom: .75rem;
+                    right: .75rem;
+                    border-radius: 100px;
+                    width: 15px;
+                    height: 15px;
+                    border: solid 2px white;
+                    z-index: 9;
+                    animation: online-dot-anim .4s;
+
+                    @keyframes online-dot-anim {
+                        0% {
+                            transform: scale(0);
+                        }
+                        50% {
+                            transform: scale(1.4);
+                        }
+                        70% {
+                            transform: scale(.8);
+                        }
+                        100% {
+                            transform: skewX(1);
+                        }
+                    }
                 }
             }
             a {
