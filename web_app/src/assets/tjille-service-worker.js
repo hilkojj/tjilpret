@@ -8,7 +8,7 @@ self.addEventListener("push", event => {
         var mess = data.message;
         var isGroup = mess.groupTitle ? true : false;
         var renotify = true;
-        
+
         promiseChain = self.registration.getNotifications().then(notifications => {
 
             var numberOfMessages = 1;
@@ -34,6 +34,8 @@ self.addEventListener("push", event => {
                     icon: "https://tjilpret.tk/static_content/profile_pics/med/" + mess.senderProfilePic,
 
                     data,
+
+                    badge: "/assets/img/notification_badge.png",
 
                     tag: mess.chatId,
                     renotify
