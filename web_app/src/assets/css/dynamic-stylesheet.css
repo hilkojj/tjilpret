@@ -139,7 +139,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 body {
     background: ?rgb?;
-    transition: background .15s;
     overflow-x: hidden !important;
 }
 /* END BACKGROUND */

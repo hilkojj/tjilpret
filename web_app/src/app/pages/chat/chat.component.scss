@@ -10,7 +10,7 @@
         @media only screen and (max-width: $break-small) {
             
             height: 100% !important;
-            &:has(.only-conversations) {
+            &.only-conversations {
                 height: calc(100% - #{$header-on-small-height}) !important;
             }
         }

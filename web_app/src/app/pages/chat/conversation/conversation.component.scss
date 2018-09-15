@@ -19,6 +19,11 @@ $toolbar-height: 78px;
     flex: 0 0 auto;
     z-index: 1;
 
+    pointer-events: none;
+    * {
+        pointer-events: all;
+    }
+
     .back-and-pic {
         flex: 0 0 auto;
 

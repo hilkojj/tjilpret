@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { Conversation } from '../../models/chat';
 import { AuthService } from '../../services/auth.service';
@@ -17,6 +17,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     convSearchQuery = "";
     currentConv: Conversation;
+
+    @HostBinding('class.only-conversations') 
+    get onlyConversations(): boolean {
+        return this.currentConv == null;
+    }
+    
 
     show = true;
 
