@@ -188,8 +188,8 @@ export class ChatService {
                 conv.otherUser = conv.otherUser == null ? null : Object.assign(new User(), conv.otherUser);
             });
             c.sort((a, b) => {
-                if (!a.latestMessage) return -1;
-                if (!b.latestMessage) return 1;
+                if (!a.latestMessage) return 1;
+                if (!b.latestMessage) return -1;
                 return a.latestMessage.sentTimestamp > b.latestMessage.sentTimestamp ? -1 : 1;
             });
             this.conversations = c.filter(conv => conv.isGroup || conv.otherUser);

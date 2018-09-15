@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ThemeService } from '../../services/theme.service';
 import { ServiceWorkerService } from '../../services/service-worker.service';
 import { UtilsService } from '../../services/utils.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-chat',
@@ -17,6 +18,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     convSearchQuery = "";
     currentConv: Conversation;
 
+    show = true;
+
     constructor(
         public auth: AuthService,
         public service: ChatService,
@@ -24,12 +27,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         private route: ActivatedRoute,
         private themes: ThemeService,
-        private utils: UtilsService
+        private utils: UtilsService,
+        private san: DomSanitizer
     ) { }
 
     ngOnInit() {
 
         this.route.params.subscribe(params => {
+
+            if (params.chatId == "geheim") this.show = true;
 
             var chatId = params.chatId | 0;
             this.currentConv = null;
@@ -56,6 +62,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     convTitle(conv: Conversation): string {
         return conv.isGroup ? conv.groupTitle : conv.otherUser.username;
+    }
+
+    boxShadow(conv: Conversation) {
+        var user = conv.otherUser ? conv.otherUser : this.auth.session.user;
+        var rgba = `rgba(${user.r}, ${user.g}, ${user.b}, .2)`;
+        return this.san.bypassSecurityTrustStyle(`0 5px 10px ${rgba}`);
     }
 
 }

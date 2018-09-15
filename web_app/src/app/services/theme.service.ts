@@ -77,8 +77,8 @@ export class ThemeService {
         }
 
         const darkColor = "rgb(36, 36, 43)";
-        const darkColorpoint3 = "rgba(36, 36, 43, .3)";
-        const darkColorpoint1 = "rgba(36, 36, 43, .1)";
+        const darkColorpoint3 = "rgba(58, 58, 138, 0.1)";
+        const darkColorpoint1 = "rgba(58, 58, 138, 0.1)";
         const darkTheme = localStorage.getItem("darkTheme") == "true";
         this._darkThemeEnabled = darkTheme;
 

@@ -10,7 +10,7 @@ $toolbar-height: 78px;
 .toolbar {
 
     margin-bottom: -$toolbar-height;
-    background: linear-gradient(rgba(0, 0, 0, .7), transparent);
+    background: linear-gradient(rgba(0, 0, 0, .5), transparent);
     padding-bottom: $toolbar-height - 56px;
 
     height: $toolbar-height;
@@ -63,6 +63,7 @@ $toolbar-height: 78px;
     background-size: cover;
     background-position: center;
     flex: 1 1 auto;
+    min-height: 0;
 
     display: flex;
     flex-flow: column;

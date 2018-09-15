@@ -33,12 +33,12 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
         if (conv.loadingMore) return; // prevent loading twice
 
-        if (!conv.messagesAndEvents) this.service.getMessagesAndEvents(conv, 32);
-        else if (conv.messagesAndEvents.length < 32) {
+        if (!conv.messagesAndEvents) this.service.getMessagesAndEvents(conv, 8);
+        else if (conv.messagesAndEvents.length < 8) {
             var latest = conv.messagesAndEvents[0];
 
             this.service.getMessagesAndEvents(
-                conv, 32,
+                conv, 8 - conv.messagesAndEvents.length,
                 latest ? (latest.message ? latest.message.sentTimestamp : latest.event.timestamp) - 1 : null
             );
         }

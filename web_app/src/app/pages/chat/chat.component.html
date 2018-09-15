@@ -1,4 +1,5 @@
-<div class="flex" [ngClass]="currentConv ? '' : 'only-conversations'">
+<div class="flex" [ngClass]="currentConv ? '' : 'only-conversations'"
+    *ngIf="show">
 
     <div class="conversations bw bw-on-bw-text">
 
@@ -15,13 +16,13 @@
 
         </div>
 
-        <ul>
+        <ul class="bw-on-bw10">
 
 
-            <li class="light-blue lighten-4 black-text"
+            <li class="green accent-2 black-text"
                 *ngIf="serviceWorker.notDenied && !serviceWorker.saved && serviceWorker.triedToSubscribe">
                 <div class="avatar">
-                    <i class="material-icons white light-blue-text text-lighten-4 circle">
+                    <i class="material-icons white green-text text-accent-2 circle">
                         notifications_off
                     </i>
                 </div>
@@ -34,19 +35,19 @@
                         (Meldingen per tjet uitschakelbaar)
                     </div>
 
-                    <a (click)="serviceWorker.subscribeToPush(true)">INSCHAKELEN</a>
+                    <a class="teal-text text-accent-4" (click)="serviceWorker.subscribeToPush(true)">INSCHAKELEN</a>
 
                 </div>
             </li>
 
-            <li class="waves-effect">
+            <li style="margin-top: 0; margin-bottom: -.25rem">
                 <div class="avatar">
-                    <div class="new-btn z-depth-1 circle bw">
+                    <div class="new-btn z-depth-1 circle bw waves-effect">
                         <i class="material-icons fav-text">add</i>
                     </div>
                 </div>
                 <div class="info valign-wrapper">
-                    <span class="title">
+                    <span class="title fav-text">
                         Niwe groep creëren
                     </span>
                 </div>
@@ -54,9 +55,12 @@
 
             <li *ngFor="let conv of service.conversations"
                 [routerLink]="'../' + conv.chatId"
-                [replaceUrl]="currentConv" class="waves-effect hover-bg"
+                [replaceUrl]="currentConv" class="waves-effect bw"
                 [style.display]="convTitle(conv).toLowerCase().indexOf(convSearchQuery.toLowerCase()) == -1 ? 'none' : ''"
-                [ngClass]="currentConv == conv ? 'bw-on-bw10' : ''">
+                [ngClass]="currentConv == conv ? 'active fav-bg white-text' : ''"
+                [style.boxShadow]="boxShadow(conv)">
+
+
 
                 <div class="avatar">
 
@@ -68,7 +72,7 @@
                         [conv]="conv" size="48px"></app-group-pic>
 
                 </div>
-                <div class="info" [ngClass]="conv.latestMessage ? '' : 'valign-wrapper'">
+                <div class="info no-wrap" [ngClass]="conv.latestMessage ? '' : 'valign-wrapper'">
 
                     <!-- group title with emoticons -->
                     <div class="title" *ngIf="conv.isGroup"
@@ -102,7 +106,7 @@
                         (conv.latestMessage.sentTimestamp |
                         timestamp:"short") : "Vroeger"}}
                     </div>
-                    <div class="unread fav-bg" *ngIf="conv.unread">
+                    <div class="unread" [style.background]="conv.otherUser ? conv.otherUser.rgbString : auth.session.user.rgbString" *ngIf="conv.unread && conv != currentConv">
                         {{conv.unread}}
                     </div>
                     <i class="material-icons muted" *ngIf="conv.muted"
