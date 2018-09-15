@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import * as io from 'socket.io-client';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { UtilsService } from './utils.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class ChatService {
 
     wallpaperUrl: string;
     conversations: Conversation[];
-    socket;
+    socket: SocketIOClient.Socket;
 
     users: { [userId: number]: User } = {};
 
@@ -22,10 +23,12 @@ export class ChatService {
     private requestingConversations = false;
     private dontPushAnything = false;
     private dontPushChatIds = [];
+    private isBlurred = false;
 
     constructor(
         private http: HttpClient,
-        private auth: AuthService
+        private auth: AuthService,
+        private utils: UtilsService
     ) {
         this.socket = (window as any).socket = io(SITE_URL || "http://localhost:8080");
         auth.onAuthenticatedListeners.push(() => {
@@ -49,17 +52,31 @@ export class ChatService {
             //logout was unexpected, notify user and reload webapp:
             alert("Je bent uitgelogd.");
             window.location.href = "/";
-        })
+        });
 
-        // when window is blurred receive all push messages:
-        window.addEventListener("blur", () => this.socket.emit("dont push", {
-            anything: false, chatIds: []
-        }));
+        this.socket.on(
+            "authenticated",
+            () => {
+                if (this.blurred && utils.mobile) return;
+                this.socket.emit("online");
+            } 
+        );
 
-        // when focused dont receive push messages of chats defined in dontPush(.., ..)
-        window.addEventListener("focus", () => this.socket.emit("dont push", {
-            anything: this.dontPushAnything, chatIds: this.dontPushChatIds
-        }));
+        this.socket.on("online", data => {
+            var user = this.users[data.userId];
+            if (!user) return;
+            user.online = true;
+            user.lastActivity = data.lastActivity;
+        });
+        this.socket.on("offline", data => {
+            var user = this.users[data.userId];
+            if (!user) return;
+            user.online = false;
+            user.lastActivity = data.lastActivity;
+        });
+ 
+        window.addEventListener("blur", () => this.blurred());
+        window.addEventListener("focus", () => this.focused());
     }
 
     socketAuth() {
@@ -67,12 +84,33 @@ export class ChatService {
             this.socket.emit("auth", { token: this.auth.session.token });
     }
 
+    blurred() {
+        this.isBlurred = true;
+        // when window is blurred receive all push messages:
+        this.socket.emit("dont push", {
+            anything: false, chatIds: []
+        });
+
+        // when tab is not visible on mobile consider user offline
+        if (this.utils.mobile) this.socket.emit("offline");
+    }
+
+    focused() {
+        this.isBlurred = false;
+
+        // when focused dont receive push messages of chats defined in dontPush(.., ..)
+        this.socket.emit("dont push", {
+            anything: this.dontPushAnything, chatIds: this.dontPushChatIds
+        });
+        this.socket.emit("online");
+    }
+
     lostMessagesAndEvents: MessageOrEvent[] = [];
 
     addMessageToConv(mess: Message) {
         var conv = this.getConv(mess.chatId);
 
-        this.synchronizeUser(mess);
+        this.synchronizeUser(mess, null);
         var add: MessageOrEvent = {
             message: mess
         };
@@ -124,7 +162,7 @@ export class ChatService {
         p.subscribe(m => {
 
             m.forEach(mOrE => {
-                if (mOrE.message) this.synchronizeUser(mOrE.message);
+                if (mOrE.message) this.synchronizeUser(mOrE.message, null);
             });
 
             if (conv.messagesAndEvents) m = conv.messagesAndEvents.concat(m);
@@ -184,9 +222,7 @@ export class ChatService {
             token: this.auth.session.token
         }).subscribe(c => {
             this.requestingConversations = false;
-            c.map(conv => {
-                conv.otherUser = conv.otherUser == null ? null : Object.assign(new User(), conv.otherUser);
-            });
+            c.forEach(conv => this.synchronizeUser(null, conv));
             c.sort((a, b) => {
                 if (!a.latestMessage) return 1;
                 if (!b.latestMessage) return -1;
@@ -201,24 +237,32 @@ export class ChatService {
         });
     }
 
-    private synchronizeUser(message: Message) {
+    private synchronizeUser(message: Message, conv: Conversation) {
 
-        if (message.sentBy == this.auth.session.user.id) {
+        if (conv && !conv.otherUser) return;
+
+        if (message && message.sentBy == this.auth.session.user.id) {
             message.sender = this.auth.session.user;
             return;
         }
 
-        var user = this.users[message.sentBy];
+        var userId = message ? message.sentBy : conv.otherUser.id;
+        var user = this.users[userId];
 
-        if (!user) user = this.users[message.sentBy] = new User();
+        if (!user) user = this.users[userId] = new User();
 
-        user.username = message.senderUsername;
-        user.profilePic = message.senderProfilePic;
-        user.r = message.senderFavColor.r;
-        user.g = message.senderFavColor.g;
-        user.b = message.senderFavColor.b;
+        if (message) {
 
-        message.sender = user;
+            user.username = message.senderUsername;
+            user.profilePic = message.senderProfilePic;
+            user.r = message.senderFavColor.r;
+            user.g = message.senderFavColor.g;
+            user.b = message.senderFavColor.b;
+
+            message.sender = user;
+        }
+
+        if (conv) conv.otherUser = Object.assign(user, conv.otherUser);
     }
 
 }

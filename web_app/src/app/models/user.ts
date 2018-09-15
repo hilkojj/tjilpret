@@ -17,6 +17,9 @@ export class User {
     rep: number;
     joinedOn: number;
 
+    lastActivity: number;
+    online: boolean;
+
     friends: number;
     messages: number;
     comments: number;

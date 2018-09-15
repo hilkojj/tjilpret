@@ -64,6 +64,28 @@ const event = row => {
     }
 }
 
+const getCoMemberIds = userId => new Promise(resolve => {
+
+    db.connection.query(`
+        SELECT DISTINCT comember.user_id FROM chat_members member
+
+        # comembers
+        JOIN chat_members comember ON comember.chat_id = member.chat_id AND comember.user_id != ?
+        
+        # comember user
+        JOIN users co_user ON co_user.user_id = comember.user_id
+        
+        WHERE member.user_id = ?
+    `, [userId, userId], (err, rows) => {
+        if (err) {
+            console.log(err);
+            return resolve([]);
+        }
+        resolve(rows.map(row => row.user_id));
+    })
+
+})
+
 const getMemberIds = chatId => new Promise(resolve => {
 
     db.connection.query(`SELECT user_id FROM chat_members WHERE chat_id = ? AND left_timestamp IS NULL`, [chatId], (err, rows, fields) => {
@@ -149,6 +171,7 @@ module.exports = {
     message,
     attachment,
     event,
+    getCoMemberIds,
     getMemberIds,
     getMemberSubscriptions,
     isMember,

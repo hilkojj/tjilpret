@@ -158,6 +158,11 @@
 
     </div>
 
-    <div class="chat-info bw bw-on-bw-text"></div>
+    <div class="chat-info bw bw-on-bw-text">
+
+        {{currentConv?.otherUser?.online}}
+        {{currentConv?.otherUser?.lastActivity | timestamp}}
+
+    </div>
 
 </div>

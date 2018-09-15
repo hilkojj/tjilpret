@@ -3,6 +3,8 @@ const chatUtils = require("./chat-utils");
 const emoticons = require("../emoticons");
 const push = require("./push");
 
+db.connection.query(`UPDATE users SET online = 0`);
+
 const connections = global.connections = {};
 
 class AuthConnection {
@@ -39,6 +41,9 @@ class AuthConnection {
             console.log(`Tjet verbinding met ${username} verbroken`);
         });
 
+        socket.on("online", () => this.toggleOnline(true));
+        socket.on("offline", () => this.toggleOnline(false));
+
         socket.removeAllListeners("auth");
         socket.on("auth", () => socket.emit("already authenticated"));
     }
@@ -57,6 +62,19 @@ class AuthConnection {
             var index = userConnections.indexOf(this);
             if (index > -1) connections[this.userId] = userConnections.splice(index, 1);
         }
+        this.toggleOnline(false);
+    }
+
+    toggleOnline(online) {
+        var timestamp = Date.now() / 1000 | 0;
+        db.connection.query(
+            `UPDATE users SET online = ?, last_activity = ? WHERE user_id = ?`,
+            [online, timestamp, this.userId], err => err && console.log(err)
+        );
+        forConnectionOfCoMembers(this.userId, conn => conn.socket.emit(online ? "online" : "offline", {
+            userId: this.userId,
+            lastActivity: timestamp
+        }));
     }
 
 }
@@ -141,6 +159,14 @@ const sendMessage = (chatId, userId, text) => {
             emoticons.registerEmoticonUses(message.text);
         }
     );
+}
+
+const forConnectionOfCoMembers = async (userId, callback) => {
+
+    (await chatUtils.getCoMemberIds(userId)).forEach(memberId => {
+        var memberConnections = connections[memberId];
+        if (memberConnections) memberConnections.forEach(callback);
+    });
 }
 
 const forEachConnectionOfMembers = async (chatId, callback) => {
