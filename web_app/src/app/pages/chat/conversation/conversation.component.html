@@ -14,7 +14,7 @@
 
     </div>
 
-    <div class="info valign-wrapper">
+    <div class="info valign-wrapper" (click)="modals.showModal('chatInfo')">
 
         <div>
             <!-- group title with emoticons -->
@@ -34,7 +34,8 @@
                 <span>
                     {{conv.otherUser.online ? 'onlain' :
                     'laatst onlain: ' +
-                    (conv.otherUser.lastActivity | timestamp)}}
+                    (conv.otherUser.lastActivity |
+                    timestamp)}}
                 </span>
             </div>
         </div>
@@ -43,7 +44,7 @@
 
     <div class="buttons valign-wrapper">
 
-        <button class="btn btn-flat btn-floating hide-on-large-only">
+        <button class="btn btn-flat btn-floating hide-on-large-only" (click)="modals.showModal('chatInfo')">
             <i class="material-icons white-text">info_outline</i>
         </button>
 
@@ -171,3 +172,12 @@
     </div>
 
 </div>
+
+
+<app-modal hash="tjet-info" name="chatInfo">
+
+    <app-toolbar [titleText]="conv.isGroup ? 'Groep info' : 'Tjet info'"></app-toolbar>
+
+    <app-chat-info [conv]="conv"></app-chat-info>
+
+</app-modal>

@@ -34,12 +34,21 @@ $toolbar-height: 78px;
 
     .info {
 
+        &, * {
+            pointer-events: none;
+        }
+
         flex: 1 1 auto;
         min-width: 0;
 
         padding: 0 1.5rem;
         @media only screen and (max-width: $break-med) {
             padding: 0 .75rem;
+
+            &, * {
+                pointer-events: all;
+            }
+            cursor: pointer;
         }
 
         div {

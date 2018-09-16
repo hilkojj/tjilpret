@@ -3,6 +3,7 @@ import { Conversation, Message } from '../../../models/chat';
 import { ChatService } from '../../../services/chat.service';
 import { AuthService } from '../../../services/auth.service';
 import { ServiceWorkerService } from '../../../services/service-worker.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
     selector: 'app-conversation',
@@ -29,6 +30,9 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
     @Input()
     set conv(conv: Conversation) {
+
+        if (conv != this._conv && location.hash != "") history.back();
+
         this._conv = conv;
 
         if (conv.loadingMore) return; // prevent loading twice
@@ -50,7 +54,8 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
     constructor(
         public service: ChatService,
         public auth: AuthService,
-        public swService: ServiceWorkerService
+        public swService: ServiceWorkerService,
+        public modals: ModalService
     ) { }
 
     focusListener = async () => {
