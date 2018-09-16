@@ -65,7 +65,7 @@ export class NotificationsService {
     ) {
         auth.onAuthenticatedListeners.push(() => {
             setTimeout(() => this.update(), 400); // to make badge animation animation better visible
-            this.updateInterval = setInterval(() => this.update(), 5000);
+            this.updateInterval = setInterval(() => this.update(), 15000);
         });
     }
 
