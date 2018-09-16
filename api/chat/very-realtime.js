@@ -35,6 +35,17 @@ class AuthConnection {
                 this.dontPushChatIds = data.chatIds;
         });
 
+        socket.on("set muted", data => {
+            var chatId = data.chatId;
+            var muted = data.muted ? true : false;
+            if (isNaN(chatId)) return;
+            db.connection.query(
+                `UPDATE chat_members SET muted = ? WHERE user_id = ? AND chat_id = ?`,
+                [muted, this.userId, chatId]
+            );
+            forConnectionOfUser(this.userId, conn => conn.socket.emit("muted", { chatId, muted }));
+        });
+
         socket.on("disconnect", () => {
 
             this.removeFromConnections();
@@ -160,6 +171,8 @@ const sendMessage = (chatId, userId, text) => {
         }
     );
 }
+
+const forConnectionOfUser = (userId, callback) => userId in connections && connections[userId].forEach(callback);
 
 const forConnectionOfCoMembers = async (userId, callback) => {
 

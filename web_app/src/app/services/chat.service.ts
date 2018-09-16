@@ -59,7 +59,7 @@ export class ChatService {
             () => {
                 if (this.isBlurred && utils.mobile) return;
                 this.socket.emit("online");
-            } 
+            }
         );
 
         this.socket.on("online", data => {
@@ -74,7 +74,8 @@ export class ChatService {
             user.online = false;
             user.lastActivity = data.lastActivity;
         });
- 
+        this.socket.on("muted", data => this.getConv(data.chatId).muted = data.muted);
+
         window.addEventListener("blur", () => this.blurred());
         window.addEventListener("focus", () => this.focused());
     }
@@ -138,6 +139,10 @@ export class ChatService {
         this.socket.emit("send message", {
             chatId, text
         });
+    }
+
+    setMuted(conv: Conversation, muted: boolean) {
+        this.socket.emit("set muted", { chatId: conv.chatId, muted });
     }
 
     dontPush(anything: boolean, chatIds: number[]) {
