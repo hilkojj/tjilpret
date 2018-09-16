@@ -18,7 +18,8 @@ self.addEventListener("push", event => {
             ) {
                 numberOfMessages += n.data.prevMessages || 1;
                 if (n.data.firstTimestamp) firstTimestamp = n.data.firstTimestamp;
-                if (mess.sentTimestamp - n.data.firstTimestamp < 4000) renotify = false;
+                if (mess.sentTimestamp - n.data.firstTimestamp < 4000 && n.data.message.text.length > 7)
+                    renotify = false;
             }
             data.prevMessages = numberOfMessages;
             if (!renotify) data.firstTimestamp = firstTimestamp;
@@ -37,6 +38,8 @@ self.addEventListener("push", event => {
 
                     badge: "/assets/img/notification_badge.png",
 
+                    vibrate: getVibrationPattern(mess.text),
+
                     tag: mess.chatId,
                     renotify
                 }
@@ -52,6 +55,20 @@ self.addEventListener("push", event => {
     event.waitUntil(promiseChain);
 });
 
+const getVibrationPattern = text => {
+    const words = text.slice(0, 25).trim().split(" ");
+
+    var arr = [];
+
+    var duration = 0;
+    for (var word of words) {
+        if (duration > 1600) break;
+        var d = Math.max(Math.min(word.length * 60, 800), 200);
+        arr.push(d);
+        arr.push(300);
+    }
+    return arr;
+}
 
 // open chat on click:
 self.addEventListener("notificationclick", event => {

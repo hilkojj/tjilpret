@@ -28,7 +28,7 @@ export class ServiceWorkerService {
             return;
         }
         var calledSubscribe = false;
-        navigator.serviceWorker.register('/assets/tjille-service-worker.js?v=2')
+        navigator.serviceWorker.register('/assets/tjille-service-worker.js?v=9')
             .then(reg => {
                 console.log("service worker registered");
                 this.registration = reg;
