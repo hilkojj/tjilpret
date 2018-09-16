@@ -1,0 +1,60 @@
+<div class="wrapper bw-on-bw10 bw-on-bw-text">
+
+    <div class="title-bar valign-wrapper">
+
+        <i class="material-icons">
+            info_outline
+        </i>
+
+        {{conv.isGroup ? 'Groep informati' : 'Tjet
+        informati'}}
+    </div>
+
+    <div class="center bw z-depth-1 pic-and-text">
+        <app-profile-pic *ngIf="conv.otherUser" [user]="conv.otherUser"
+            dim="large" size="160px"></app-profile-pic>
+
+        <app-group-pic *ngIf="conv.isGroup" [conv]="conv"
+            dim="large" size="160px"></app-group-pic>
+
+        <!-- group title with emoticons -->
+        <h6 *ngIf="conv.isGroup" [innerHTML]="conv.groupTitle | escape | emoticons"></h6>
+
+        <app-username *ngIf="!conv.isGroup" [user]="conv.otherUser"></app-username>
+
+        <p class="pre-wrap" [innerHTML]="
+            (conv.isGroup ? conv.groupDescription : conv.otherUser.bio)
+            | escape | emoticons | links
+        "></p>
+
+    </div>
+
+    <a *ngIf="conv.otherUser" class="bw z-depth-1 waves-effect fav-text action"
+        [profileLink]="conv.otherUser">
+        <i class="material-icons">
+            person
+        </i>
+        Profil bekijken
+    </a>
+
+    <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)">
+        <i class="material-icons">
+            {{conv.muted ? 'notifications_off' : 'notifications'}}
+        </i>
+        Meldingen
+        
+        <div class="switch">
+            <label>
+                <input type="checkbox" [checked]="!conv.muted">
+                <span class="lever"></span>
+            </label>
+        </div>
+    </div>
+
+    <div class="bw z-depth-1 waves-effect fav-text action">
+        <i class="material-icons">
+            attach_file
+        </i>
+        Media & bestanden
+    </div>
+</div>

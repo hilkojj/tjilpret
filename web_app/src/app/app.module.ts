@@ -62,6 +62,7 @@ import { NewImgPostComponent } from './pages/new-img-post/new-img-post.component
 import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component';
 import { GroupPicComponent } from './components/group-pic/group-pic.component';
 import { ConversationComponent } from './pages/chat/conversation/conversation.component';
+import { ChatInfoComponent } from './pages/chat/chat-info/chat-info.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { ConversationComponent } from './pages/chat/conversation/conversation.co
     NewImgPostComponent,
     NewVidPostComponent,
     GroupPicComponent,
-    ConversationComponent
+    ConversationComponent,
+    ChatInfoComponent
   ],
   imports: [
     BrowserModule,

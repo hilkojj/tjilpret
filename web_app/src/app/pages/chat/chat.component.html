@@ -160,10 +160,9 @@
 
     </div>
 
-    <div class="chat-info bw bw-on-bw-text">
+    <div class="chat-info bw">
 
-        {{currentConv?.otherUser?.online}}
-        {{currentConv?.otherUser?.lastActivity | timestamp}}
+        <app-chat-info *ngIf="currentConv" [conv]="currentConv"></app-chat-info>
 
     </div>
 
