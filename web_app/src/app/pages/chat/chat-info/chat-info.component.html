@@ -84,7 +84,7 @@
                         {{member.username}}
                     </a>
 
-                    <div class="more" *ngIf="chatAdmin">
+                    <div class="more" *ngIf="chatAdmin && member.id != auth.session.user.id">
                         <button class="btn btn-flat btn-floating waves-effect"
                             (click)="editMember = editMember == member ? null : member">
                             <i class="material-icons bw-on-bw-text">
@@ -143,7 +143,7 @@
                         </div>
                     </a>
 
-                    <div class="more" *ngIf="chatAdmin">
+                    <div class="more" *ngIf="chatAdmin && member.id != auth.session.user.id">
                         <button class="btn btn-flat btn-floating waves-effect"
                             (click)="editMember = editMember == member ? null : member">
                             <i class="material-icons bw-on-bw-text">

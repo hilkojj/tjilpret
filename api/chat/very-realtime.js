@@ -47,9 +47,11 @@ class AuthConnection {
         });
 
         socket.on("set admin", data => {
-
+            
             var chatId = parseInt(data.chatId) || -1;
             var memberId = parseInt(data.memberId) || -1;
+            if (memberId == this.userId) return socket.emit("exception", "cannot (de)op yourself");
+
             var admin = data.admin ? true : false;
             db.connection.query(
                 `UPDATE chat_members who
