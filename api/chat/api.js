@@ -84,6 +84,41 @@ const apiFunctions = api => {
         );
     });
 
+    api.post("/chatMembers", (req, res) => {
+
+        db.connection.query(`
+            SELECT 
+                member.user_id, username, profile_pic, r, g, b, online, last_activity, member.is_chat_admin
+            FROM chat_members requesting_member
+            JOIN tokens ON token = ? AND tokens.user_id = requesting_member.user_id
+            
+            JOIN chat_members member ON member.chat_id = requesting_member.chat_id
+            JOIN users user ON member.user_id = user.user_id
+            
+            WHERE requesting_member.chat_id = ?
+        `, [parseInt(req.body.token) || 0, parseInt(req.body.chatId) || 0], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    return utils.sendError(res, "error");
+                }
+                var chatAdmins = [];
+                var members = [];
+                for (var row of rows) {
+                    if (row.is_chat_admin) chatAdmins.push(row.user_id);
+                    members.push({
+                        id: row.user_id,
+                        username: row.username,
+                        r: row.r, g: row.g, b: row.b,
+                        profilePic: row.profile_pic,
+                        online: row.online, lastActivity: row.last_activity
+                    });
+                }
+                res.send({ members, chatAdmins });
+            }
+        );
+
+    });
+
 }
 
 module.exports = {

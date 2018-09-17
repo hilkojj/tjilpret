@@ -35,6 +35,8 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
 
         this._conv = conv;
 
+        if (conv.isGroup) this.service.getChatMembers(conv.chatId);
+
         if (conv.loadingMore) return; // prevent loading twice
 
         if (!conv.messagesAndEvents) this.service.getMessagesAndEvents(conv, 8);

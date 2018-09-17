@@ -191,6 +191,22 @@ export class ChatService {
         return p;
     }
 
+    getChatMembers(chatId: number) {
+        this.http.post(API_URL + "/chatMembers", {
+            token: this.auth.session.token, chatId
+        }).subscribe((res: any) => {
+
+            var conv = this.getConv(chatId);
+            conv.members = res.members.map(member => {
+                if (member.id in this.users) return Object.assign(this.users[member.id], member);
+                var user = Object.assign(new User(), member);
+                this.users[member.id] = user;
+                return user;
+            });
+            conv.chatAdmins = res.chatAdmins;
+        });
+    }
+
     attachmentIcon(att: Attachment): string {
         if (att.type == AttachmentType.Giphy || /.png|.jpg|.jpeg|.gif/.test(att.path)) return "image";
 

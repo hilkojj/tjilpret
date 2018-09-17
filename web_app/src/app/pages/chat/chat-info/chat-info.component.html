@@ -39,10 +39,11 @@
 
     <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)">
         <i class="material-icons">
-            {{conv.muted ? 'notifications_off' : 'notifications'}}
+            {{conv.muted ? 'notifications_off' :
+            'notifications'}}
         </i>
         Meldingen
-        
+
         <div class="switch">
             <label>
                 <input type="checkbox" [checked]="!conv.muted">
@@ -56,5 +57,74 @@
             attach_file
         </i>
         Media & bestanden
+    </div>
+
+    <div *ngIf="conv.members">
+
+        <div class="member-list-title">online</div>
+
+        <ul class="member-list online">
+            <li *ngFor="let member of online">
+                <div class="ppic">
+                    <a [routerLink]="'/tjiller/' + member.id">
+                        <app-profile-pic [user]="member"
+                            cursor="pointer" size="40px"
+                            dim="small"></app-profile-pic>
+                    </a>
+                </div>
+
+                <a class="username bw-on-bw-text"
+                    [routerLink]="'/tjiller/' + member.id">
+                    
+                    <img *ngIf="isChatAdmin(member.id)" class="crown" src="/assets/img/crown.svg" title="Groep beheerder">
+                    {{member.username}}
+                </a>
+
+                <div class="more" *ngIf="chatAdmin">
+                    <button class="btn btn-flat btn-floating waves-effect">
+                        <i class="material-icons bw-on-bw-text">
+                            more_vert
+                        </i>
+                    </button>
+                </div>
+
+            </li>
+        </ul>
+
+        <div class="member-list-title">offline</div>
+
+        <ul class="member-list offline">
+            <li *ngFor="let member of offline">
+
+                <div class="ppic">
+                    <a [routerLink]="'/tjiller/' + member.id">
+                        <app-profile-pic [user]="member"
+                            cursor="pointer" size="40px"
+                            dim="small"></app-profile-pic>
+                    </a>
+                </div>
+
+                <a class="username-and-last-seen bw-on-bw-text"
+                    [routerLink]="'/tjiller/' + member.id">
+                    <div>
+                        <img *ngIf="isChatAdmin(member.id)" class="crown" src="/assets/img/crown.svg" title="Groep beheerder">
+                        {{member.username}}
+                    </div>
+                    <div class="last-seen" *ngIf="member.lastActivity">
+                        {{member.lastActivity | timestamp}}
+                    </div>
+                </a>
+
+                <div class="more" *ngIf="chatAdmin">
+                    <button class="btn btn-flat btn-floating waves-effect">
+                        <i class="material-icons bw-on-bw-text">
+                            more_vert
+                        </i>
+                    </button>
+                </div>
+
+            </li>
+        </ul>
+
     </div>
 </div>

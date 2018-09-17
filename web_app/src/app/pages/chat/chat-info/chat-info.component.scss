@@ -1,5 +1,8 @@
+@import "../../../../styles.scss";
+
 .wrapper {
-    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .title-bar {
@@ -36,6 +39,8 @@
     line-height: 48px;
     padding: 0 0.75rem;
     margin: .75rem 0;
+    position: relative;
+    z-index: 0;
 
     i {
         line-height: 48px;
@@ -48,4 +53,77 @@
         position: absolute;
         pointer-events: none;
     }
+}
+
+.member-list-title {
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: .75rem .75rem 0;
+}
+
+.member-list {
+
+    li {
+        display: flex;
+        flex-flow: row;
+        padding: .5rem .75rem;
+
+        .ppic {
+            flex: 0 0 auto;
+            padding-right: .75rem;
+        }
+        .username {
+            line-height: 40px;
+            opacity: .8;
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .crown {
+            height: 1rem;
+            vertical-align: text-top;
+        }
+
+        .username-and-last-seen {
+            flex: 1 1 auto;
+            opacity: .8;
+            min-width: 0;
+
+            * {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .last-seen {
+                font-size: 12px;
+                opacity: .8;
+            }
+        }
+
+        &:hover .more {
+            width: 40px;
+        }
+
+        .more {
+            flex: 0 0 auto;
+
+            position: relative;
+            width: 0;
+            overflow: hidden;
+            transition: .2s;
+
+            @media only screen and (max-width: $break-med) {
+                width: 40px;
+            }
+
+            button {
+                position: absolute;
+                left: 0;
+            }
+        }
+    }
+
 }

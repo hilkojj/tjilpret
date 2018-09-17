@@ -19,7 +19,9 @@ export interface Conversation {
     otherUser: User,
 
     messagesAndEvents?: MessageOrEvent[]
-    loadingMore?: boolean
+    loadingMore?: boolean,
+    chatAdmins?: number[],
+    members?: User[]
 }
 
 export interface Message {

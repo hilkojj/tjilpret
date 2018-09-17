@@ -1,6 +1,6 @@
 
 .bw-border {
-    border-color: ?bw?;
+    border-color: ?bw? !important;
 }
 
 .bw-on-bw-border {

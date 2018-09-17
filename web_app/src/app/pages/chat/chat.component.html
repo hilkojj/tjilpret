@@ -71,7 +71,9 @@
                     <app-group-pic *ngIf="conv.isGroup" dim="small"
                         [conv]="conv" size="48px"></app-group-pic>
 
-                    <div class="online-dot green accent-3" *ngIf="conv.otherUser?.online" [ngClass]="currentConv == conv ? 'fav-border' : ''"></div>
+                    <div class="online-dot bw-border green accent-3"
+                        *ngIf="conv.otherUser?.online"
+                        [ngClass]="currentConv == conv ? 'fav-border' : ''"></div>
 
                 </div>
                 <div class="info no-wrap" [ngClass]="conv.latestMessage ? '' : 'valign-wrapper'">
@@ -167,3 +169,11 @@
     </div>
 
 </div>
+
+<app-modal hash="tjet-info" name="chatInfo" *ngIf="currentConv">
+
+    <app-toolbar [titleText]="currentConv.isGroup ? 'Groep info' : 'Tjet info'"></app-toolbar>
+
+    <app-chat-info [conv]="currentConv"></app-chat-info>
+
+</app-modal>
