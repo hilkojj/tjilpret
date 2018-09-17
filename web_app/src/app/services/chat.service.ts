@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Conversation, Attachment, AttachmentType, MessageOrEvent, Message } from '../models/chat';
+import { Conversation, Attachment, AttachmentType, MessageOrEvent, Message, Event } from '../models/chat';
 import { HttpClient } from '@angular/common/http';
 import { API_URL, SITE_URL } from '../constants';
 import { AuthService } from './auth.service';
@@ -44,8 +44,9 @@ export class ChatService {
         this.socket.on("reconnect", () => this.socketAuth());
         this.socket.on("message", (message: Message) => {
             message.justNew = true;
-            this.addMessageToConv(message);
+            this.addToConv(message, null);
         });
+        this.socket.on("event", e => this.addToConv(null, e));
         this.socket.on("logged out", () => {
             if (auth.loggingOut) return; // logout was expected.
 
@@ -108,12 +109,15 @@ export class ChatService {
 
     lostMessagesAndEvents: MessageOrEvent[] = [];
 
-    addMessageToConv(mess: Message) {
-        var conv = this.getConv(mess.chatId);
+    addToConv(mess: Message, event: Event) {
+        var conv = this.getConv(mess ? mess.chatId : event.chatId);
 
-        this.synchronizeUser(mess, null);
+        if (event) this.processEvent(event, conv);
+
+        if (mess) this.synchronizeUser(mess, null);
         var add: MessageOrEvent = {
-            message: mess
+            message: mess,
+            event: event
         };
         var timestamp = this.timeOfMessageOrEvent(add);
 
@@ -123,7 +127,18 @@ export class ChatService {
 
         else for (var i in conv.messagesAndEvents) {
 
-            if (this.timeOfMessageOrEvent(conv.messagesAndEvents[i]) > timestamp) {
+            var mOrE = conv.messagesAndEvents[i];
+
+            if (
+                (mOrE.message && mess && mess.id == mOrE.message.id)
+                ||
+                (mOrE.event && event && event.id == mOrE.event.id)
+            ) {
+                Object.assign(mOrE, add);
+                break;
+            }
+
+            if (this.timeOfMessageOrEvent(mOrE) > timestamp) {
 
                 var arr = conv.messagesAndEvents.slice(0, parseInt(i));
                 arr.push(add);
@@ -133,6 +148,19 @@ export class ChatService {
         }
 
         conv.messagesAndEvents.push(add);
+        if (mess) conv.latestMessage = mess;
+    }
+
+    processEvent(e: Event, conv: Conversation) {
+
+        switch (e.type) {
+            case "OPPED":
+                conv.chatAdmins.push(e.who);
+                break;
+            case "DEOPPED":
+                delete conv.chatAdmins[conv.chatAdmins.indexOf(e.who)];
+                break;
+        }
     }
 
     sendMessage(chatId, text) {
