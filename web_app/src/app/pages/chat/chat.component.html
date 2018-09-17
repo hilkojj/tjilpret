@@ -172,8 +172,12 @@
 
 <app-modal hash="tjet-info" name="chatInfo" *ngIf="currentConv">
 
-    <app-toolbar [titleText]="currentConv.isGroup ? 'Groep info' : 'Tjet info'"></app-toolbar>
+    <div class="members-modal">
 
-    <app-chat-info [conv]="currentConv"></app-chat-info>
+        <app-toolbar [titleText]="currentConv.isGroup ? 'Groep info' : 'Tjet info'"></app-toolbar>
+        
+        <app-chat-info [conv]="currentConv"></app-chat-info>
+
+    </div>
 
 </app-modal>

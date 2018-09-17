@@ -336,3 +336,15 @@
         }
     }
 }
+
+.members-modal {
+    @media only screen and (min-width: #{$break-small + 1}) {
+        height: 60vh;
+
+    }
+    app-chat-info {
+        height: calc(100% - 56px);
+        display: block;
+        overflow: auto;
+    }
+}

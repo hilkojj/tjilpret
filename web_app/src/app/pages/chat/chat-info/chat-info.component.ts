@@ -30,8 +30,19 @@ export class ChatInfoComponent implements OnInit {
         return this.conv.chatAdmins && this.conv.chatAdmins.includes(userId);
     }
 
+    private _conv: Conversation;
+
     @Input()
-    conv: Conversation;
+    set conv(conv: Conversation) {
+        this._conv = conv;
+        this.showAllMembers = false;
+    }
+
+    get conv(): Conversation {
+        return this._conv;
+    }
+
+    showAllMembers = false;
 
     constructor(
         public service: ChatService,
