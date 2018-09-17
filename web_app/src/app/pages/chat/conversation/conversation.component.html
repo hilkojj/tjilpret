@@ -44,7 +44,8 @@
 
     <div class="buttons valign-wrapper">
 
-        <button class="btn btn-flat btn-floating hide-on-large-only" (click)="modals.showModal('chatInfo')">
+        <button class="btn btn-flat btn-floating hide-on-large-only"
+            (click)="modals.showModal('chatInfo')">
             <i class="material-icons white-text">info_outline</i>
         </button>
 
@@ -66,7 +67,8 @@
 
 </div>
 
-<div class="messages" [style.backgroundImage]="service.wallpaperUrl ? 'url(' + service.wallpaperUrl + ')' : ''">
+<div class="messages" [ngClass]="service.wallpaperUrl ? '' : 'default-bg'"
+    [style.backgroundImage]="service.wallpaperUrl ? 'url(' + service.wallpaperUrl + ')' : ''">
 
     <div class="scroll" #scrollDiv>
 

@@ -114,8 +114,19 @@ $toolbar-height: 78px;
 }
 
 .messages {
-    background-size: cover;
-    background-position: center;
+
+    background-color: #909ead;
+    
+    &.default-bg {
+        background-image: url(/assets/img/tiled_chat_wallpaper.png);
+        background-size: 195px;
+    }
+
+    &:not(.default-bg) {
+        background-size: cover;
+        background-position: center;
+    }
+
     flex: 1 1 auto;
     min-height: 0;
 
