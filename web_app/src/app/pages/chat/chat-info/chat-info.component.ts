@@ -12,14 +12,30 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ChatInfoComponent implements OnInit {
 
+    private _online: User[];
+
     get online(): User[] {
         if (!this.conv.members) return [];
-        return this.conv.members.filter(m => m.online).sort((a, b) => b.lastActivity - a.lastActivity);
+
+        if (this.service.onlineOfflineUsersChanged || !this._online) this.setOnlineOfflineArrays();
+        this.service.onlineOfflineUsersChanged = false;
+        return this._online;
     }
+
+    private _offline: User[];
 
     get offline(): User[] {
         if (!this.conv.members) return [];
-        return this.conv.members.filter(m => !m.online).sort((a, b) => b.lastActivity - a.lastActivity);
+
+        if (this.service.onlineOfflineUsersChanged || !this._offline) this.setOnlineOfflineArrays();
+        this.service.onlineOfflineUsersChanged = false;
+        return this._offline;
+    }
+
+    private setOnlineOfflineArrays() {
+        this.conv.members.sort((a, b) => b.lastActivity - a.lastActivity);
+        this._online = this.conv.members.filter(m => m.online);
+        this._offline = this.conv.members.filter(m => !m.online);
     }
 
     get chatAdmin(): boolean {
@@ -38,6 +54,9 @@ export class ChatInfoComponent implements OnInit {
     set conv(conv: Conversation) {
         this._conv = conv;
         this.showAllMembers = false;
+        this.editMember = null;
+        this._online = null;
+        this._offline = null;
     }
 
     get conv(): Conversation {
@@ -57,6 +76,7 @@ export class ChatInfoComponent implements OnInit {
 
     removeMember(userId: number) {
         if (alert("Is dit een doordachte keuze?")) this.service.removeMember(userId, this.conv.chatId);
+        this.editMember = null;
     }
 
 }

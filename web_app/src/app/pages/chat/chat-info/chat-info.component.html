@@ -167,11 +167,11 @@
 <ng-template #editMemberTemplate>
 
     <div class="bw z-depth-1 waves-effect fav-text action"
-        (click)="service.setAdmin(editMember.id, conv.chatId, !isChatAdmin(editMember.id))">
+        (click)="service.setAdmin(editMember.id, conv.chatId, !isChatAdmin(editMember.id)); editMember = null">
         
         {{isChatAdmin(editMember.id) ? 'Behirderschap
         ontnemen' : 'Behirder maken'}}
-        
+
     </div>
 
     <div class="bw z-depth-1 waves-effect red-text action"

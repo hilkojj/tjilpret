@@ -17,6 +17,8 @@ export class ChatService {
     conversations: Conversation[];
     socket: SocketIOClient.Socket;
 
+    onlineOfflineUsersChanged = false;
+
     users: { [userId: number]: User } = {};
 
     private _unreadMessages = 0;
@@ -68,12 +70,14 @@ export class ChatService {
             if (!user) return;
             user.online = true;
             user.lastActivity = data.lastActivity;
+            this.onlineOfflineUsersChanged = true;
         });
         this.socket.on("offline", data => {
             var user = this.users[data.userId];
             if (!user) return;
             user.online = false;
             user.lastActivity = data.lastActivity;
+            this.onlineOfflineUsersChanged = true;
         });
         this.socket.on("muted", data => this.getConv(data.chatId).muted = data.muted);
 
@@ -164,9 +168,7 @@ export class ChatService {
     }
 
     sendMessage(chatId, text) {
-        this.socket.emit("send message", {
-            chatId, text
-        });
+        this.socket.emit("send message", { chatId, text });
     }
 
     setMuted(conv: Conversation, muted: boolean) {
@@ -210,8 +212,6 @@ export class ChatService {
 
                 return aTime - bTime;
             });
-
-            console.log(conv);
             conv.messagesAndEvents = m;
             conv.loadingMore = false;
         });
