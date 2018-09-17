@@ -30,6 +30,8 @@ export class ChatInfoComponent implements OnInit {
         return this.conv.chatAdmins && this.conv.chatAdmins.includes(userId);
     }
 
+    editMember: User;
+
     private _conv: Conversation;
 
     @Input()
@@ -51,6 +53,10 @@ export class ChatInfoComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+    }
+
+    removeMember(userId: number) {
+        if (alert("Is dit een doordachte keuze?")) this.service.removeMember(userId, this.conv.chatId);
     }
 
 }

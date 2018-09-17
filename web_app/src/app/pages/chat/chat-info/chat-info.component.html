@@ -64,33 +64,41 @@
         <div class="member-list-title">online</div>
 
         <ul class="member-list online">
-            <li *ngFor="let member of online">
-                <div class="ppic">
-                    <a [routerLink]="'/tjiller/' + member.id">
-                        <app-profile-pic [user]="member"
-                            cursor="pointer" size="40px"
-                            dim="small"></app-profile-pic>
+            <div *ngFor="let member of online">
+
+                <li>
+                    <div class="ppic">
+                        <a [routerLink]="'/tjiller/' + member.id">
+                            <app-profile-pic [user]="member"
+                                cursor="pointer" size="40px"
+                                dim="small"></app-profile-pic>
+                        </a>
+                    </div>
+
+                    <a class="username bw-on-bw-text"
+                        [routerLink]="'/tjiller/' + member.id">
+
+                        <img *ngIf="isChatAdmin(member.id)"
+                            class="crown" src="/assets/img/crown.svg"
+                            title="Groep beheerder">
+                        {{member.username}}
                     </a>
+
+                    <div class="more" *ngIf="chatAdmin">
+                        <button class="btn btn-flat btn-floating waves-effect"
+                            (click)="editMember = editMember == member ? null : member">
+                            <i class="material-icons bw-on-bw-text">
+                                more_vert
+                            </i>
+                        </button>
+                    </div>
+
+                </li>
+
+                <div *ngIf="editMember == member">
+                    <ng-container *ngTemplateOutlet="editMemberTemplate"></ng-container>
                 </div>
-
-                <a class="username bw-on-bw-text"
-                    [routerLink]="'/tjiller/' + member.id">
-
-                    <img *ngIf="isChatAdmin(member.id)"
-                        class="crown" src="/assets/img/crown.svg"
-                        title="Groep beheerder">
-                    {{member.username}}
-                </a>
-
-                <div class="more" *ngIf="chatAdmin">
-                    <button class="btn btn-flat btn-floating waves-effect">
-                        <i class="material-icons bw-on-bw-text">
-                            more_vert
-                        </i>
-                    </button>
-                </div>
-
-            </li>
+            </div>
         </ul>
 
         <div class="member-list-title">offline</div>
@@ -98,12 +106,16 @@
         <ul class="member-list offline">
             <div *ngFor="let member of offline; let i = index">
 
-                <li *ngIf="i == 10" class="waves-effect" (click)="showAllMembers = !showAllMembers">
+                <li *ngIf="i == 10" class="waves-effect"
+                    (click)="showAllMembers = !showAllMembers">
                     <div class="member-list-title">
                         <i class="material-icons">
-                            {{showAllMembers ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                            {{showAllMembers ?
+                            'keyboard_arrow_up' :
+                            'keyboard_arrow_down'}}
                         </i>
-                        {{showAllMembers ? 'minder weergeve' : 'iedereen weergeve'}}
+                        {{showAllMembers ? 'minder
+                        weergeve' : 'iedereen weergeve'}}
                     </div>
                 </li>
 
@@ -132,7 +144,8 @@
                     </a>
 
                     <div class="more" *ngIf="chatAdmin">
-                        <button class="btn btn-flat btn-floating waves-effect">
+                        <button class="btn btn-flat btn-floating waves-effect"
+                            (click)="editMember = editMember == member ? null : member">
                             <i class="material-icons bw-on-bw-text">
                                 more_vert
                             </i>
@@ -140,8 +153,34 @@
                     </div>
 
                 </li>
+
+                <div *ngIf="editMember == member">
+                    <ng-container *ngTemplateOutlet="editMemberTemplate"></ng-container>
+                </div>
+
             </div>
         </ul>
 
     </div>
 </div>
+
+<ng-template #editMemberTemplate>
+
+    <div class="bw z-depth-1 waves-effect fav-text action"
+        (click)="service.setAdmin(editMember.id, conv.chatId, !isChatAdmin(editMember.id))">
+        
+        {{isChatAdmin(editMember.id) ? 'Behirderschap
+        ontnemen' : 'Behirder maken'}}
+        
+    </div>
+
+    <div class="bw z-depth-1 waves-effect red-text action"
+        (click)="removeMember(editMember.id)">
+        Uit groep verwydren
+    </div>
+
+    <div class="bw z-depth-1 waves-effect action" (click)="editMember = null">
+        Annuleren
+    </div>
+
+</ng-template>

@@ -46,6 +46,23 @@ class AuthConnection {
             forConnectionOfUser(this.userId, conn => conn.socket.emit("muted", { chatId, muted }));
         });
 
+        socket.on("set admin", data => {
+
+            var chatId = parseInt(data.chatId) || -1;
+            var memberId = parseInt(data.memberId) || -1;
+            var admin = data.admin ? true : false;
+            db.connection.query(
+                `UPDATE chat_members who
+                JOIN chat_members byy ON byy.user_id = ? AND byy.chat_id = ?
+                SET who.is_chat_admin = ?
+                WHERE who.chat_id = ? AND who.user_id = ? AND byy.is_chat_admin`,
+                [this.userId, chatId, admin, chatId, memberId], (err, results) => {
+                    if ((!err || console.log(err)) && results.affectedRows == 1)
+                        createEvent(chatId, admin ? "OPPED" : "DEOPPED", this.userId, memberId);
+                }
+            );
+        });
+
         socket.on("disconnect", () => {
 
             this.removeFromConnections();

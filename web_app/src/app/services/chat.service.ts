@@ -226,6 +226,14 @@ export class ChatService {
         return this._unreadMessages;
     }
 
+    removeMember(userId, chatId) {
+        this.socket.emit("remove member", { userId, chatId });
+    }
+
+    setAdmin(memberId, chatId, admin: boolean) {
+        this.socket.emit("set admin", { memberId, chatId, admin });
+    }
+
     private convsLoadedSub = new BehaviorSubject<boolean>(true);
 
     get conversationsLoaded(): Observable<boolean> {
