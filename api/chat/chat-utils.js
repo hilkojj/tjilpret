@@ -71,6 +71,7 @@ const getCoMemberIds = userId => new Promise(resolve => {
 
         # comembers
         JOIN chat_members comember ON comember.chat_id = member.chat_id AND comember.user_id != ?
+        AND comember.left_timestamp IS NULL
         
         # comember user
         JOIN users co_user ON co_user.user_id = comember.user_id

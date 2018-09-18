@@ -92,10 +92,10 @@ const apiFunctions = api => {
             FROM chat_members requesting_member
             JOIN tokens ON token = ? AND tokens.user_id = requesting_member.user_id
             
-            JOIN chat_members member ON member.chat_id = requesting_member.chat_id
+            JOIN chat_members member ON member.chat_id = requesting_member.chat_id AND member.left_timestamp IS NULL
             JOIN users user ON member.user_id = user.user_id
             
-            WHERE requesting_member.chat_id = ?
+            WHERE requesting_member.chat_id = ? AND requesting_member.left_timestamp IS NULL
         `, [parseInt(req.body.token) || 0, parseInt(req.body.chatId) || 0], (err, rows) => {
                 if (err) {
                     console.log(err);
