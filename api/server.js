@@ -86,7 +86,7 @@ app.get("/tjiller/:id*", (req, res) => {
 				<meta name="og:description" content="`+ user.bio.replace(/"/g, '&quot;') + `"/>
 				<meta name="og:url" content="https://tjilpret.tk"/>\
 				<meta name="og:image" content="` + pf + `"/>
-				<meta name="og:title" content="`+ user.username + `"/>
+				<meta name="og:title" content="`+ user.username.replace(/"/g, '&quot;') + `"/>
 			`, res);
         }
     });
@@ -108,7 +108,7 @@ app.get("/uplood/:id*", (req, res) => {
 				<meta name="og:description" content="`+ post.description.replace(/"/g, '&quot;') + `"/>
 				<meta name="og:url" content="https://tjilpret.tk"/>\
 				<meta name="og:image" content="` + thumbnail + `"/>
-				<meta name="og:title" content="`+ post.title + `"/>
+				<meta name="og:title" content="`+ post.title.replace(/"/g, '&quot;') + `"/>
 			`, res);
         }
     });
