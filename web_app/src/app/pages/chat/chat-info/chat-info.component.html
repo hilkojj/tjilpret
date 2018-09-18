@@ -37,7 +37,8 @@
         Profil bekijken
     </a>
 
-    <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)" *ngIf="!conv.leftTimestamp">
+    <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)"
+        *ngIf="!conv.leftTimestamp">
         <i class="material-icons">
             {{conv.muted ? 'notifications_off' :
             'notifications'}}
@@ -162,13 +163,21 @@
         </ul>
 
     </div>
+
+    <div class="bw z-depth-1 waves-effect red-text action" *ngIf="conv.isGroup && !conv.leftTimestamp" (click)="leaveGroup()">
+        <i class="material-icons">
+            exit_to_app
+        </i>
+        Groep verlaten
+    </div>
+
 </div>
 
 <ng-template #editMemberTemplate>
 
     <div class="bw z-depth-1 waves-effect fav-text action"
         (click)="service.setAdmin(editMember.id, conv.chatId, !isChatAdmin(editMember.id)); editMember = null">
-        
+
         {{isChatAdmin(editMember.id) ? 'Behirderschap
         ontnemen' : 'Behirder maken'}}
 

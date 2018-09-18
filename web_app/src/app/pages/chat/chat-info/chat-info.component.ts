@@ -84,4 +84,13 @@ export class ChatInfoComponent implements OnInit {
         this.editMember = null;
     }
 
+    leaveGroup() {
+
+        if (this.conv.chatAdmins.length == 1 && this.conv.chatAdmins[0] == this.auth.session.user.id)
+            return alert("Je kan als enige tjet behirder de groep niet verlaten.\nMaak eerst iemand anders behirder");
+
+        if (confirm(`Wil je '${this.conv.groupTitle}' verlaten?`)) 
+            this.service.leaveGroup(this.conv.chatId);
+    }
+
 }

@@ -71,7 +71,7 @@ class AuthConnection {
             if (memberId == this.userId) return socket.emit("exception", "cannot remove yourself (leave group instead)");
 
             var timestamp = Date.now();
-            console.log(db.connection.query(
+            db.connection.query(
                 `UPDATE chat_members who
                 JOIN chat_members byy ON byy.user_id = ? AND byy.chat_id = ?
                 SET who.left_timestamp = ?
@@ -80,7 +80,41 @@ class AuthConnection {
                     if ((!err || console.log(err)) && results.affectedRows == 1)
                         createEvent(chatId, "USER_REMOVED", this.userId, memberId, timestamp - 1);
                 }
-            ));
+            );
+        });
+
+        socket.on("leave group", data => {
+            var chatId = parseInt(data.chatId) || -1;
+
+            var timestamp = Date.now();
+            db.connection.query(
+                `UPDATE chat_members leaver
+                
+                LEFT JOIN chat_members chat_admin ON (
+                    leaver.chat_id = chat_admin.chat_id
+                    AND
+                    chat_admin.left_timestamp IS NULL
+                    AND
+                    chat_admin.is_chat_admin
+                    AND
+                    chat_admin.user_id != leaver.user_id
+                )
+
+                JOIN chats groupp ON groupp.is_group AND groupp.chat_id = leaver.chat_id
+                
+                SET leaver.left_timestamp = ?
+                WHERE leaver.user_id = ? AND leaver.chat_id = ? 
+                
+                # leaver is currently a member
+                AND leaver.left_timestamp IS NULL
+
+                # leaver is not a chat admin OR is not the only chat admin:
+                AND (!leaver.is_chat_admin OR (leaver.is_chat_admin AND chat_admin.user_id IS NOT NULL))`,
+                [timestamp, this.userId, chatId], (err, results) => {
+                    if ((!err || console.log(err)) && results.affectedRows == 1)
+                        createEvent(chatId, "USER_LEFT", null, this.userId, timestamp - 1);
+                }
+            );
         });
 
         socket.on("disconnect", () => {
@@ -176,7 +210,8 @@ const createEvent = (chatId, type, by, who, timestamp) => {
 
             var cb = conn => conn.socket.emit("event", event);
             forEachConnectionOfMembers(chatId, cb);
-            if (type == "USER_REMOVED") forConnectionOfUser(who, cb);
+            // also send event to user who just left/was removed:
+            if (type == "USER_REMOVED" || type == "USER_LEFT") forConnectionOfUser(who, cb);
         }
     );
 }

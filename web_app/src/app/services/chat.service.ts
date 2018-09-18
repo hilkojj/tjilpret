@@ -165,6 +165,7 @@ export class ChatService {
                 if (conv.chatAdmins) conv.chatAdmins = conv.chatAdmins.filter(id => id != e.who);
                 break;
             case "USER_REMOVED":
+            case "USER_LEFT":
                 if (conv.members) conv.members = conv.members.filter(m => m.id != e.who);
                 this.onlineOfflineUsersChanged = Date.now();
                 if (e.who == this.auth.session.user.id) conv.leftTimestamp = e.timestamp;
@@ -265,6 +266,10 @@ export class ChatService {
 
     setAdmin(memberId, chatId, admin: boolean) {
         this.socket.emit("set admin", { memberId, chatId, admin });
+    }
+
+    leaveGroup(chatId) {
+        this.socket.emit("leave group", { chatId });
     }
 
     private convsLoadedSub = new BehaviorSubject<boolean>(true);
