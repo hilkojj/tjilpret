@@ -47,7 +47,7 @@ class AuthConnection {
         });
 
         socket.on("set admin", data => {
-            
+
             var chatId = parseInt(data.chatId) || -1;
             var memberId = parseInt(data.memberId) || -1;
             if (memberId == this.userId) return socket.emit("exception", "cannot (de)op yourself");
@@ -63,6 +63,24 @@ class AuthConnection {
                         createEvent(chatId, admin ? "OPPED" : "DEOPPED", this.userId, memberId);
                 }
             );
+        });
+
+        socket.on("remove member", data => {
+            var chatId = parseInt(data.chatId) || -1;
+            var memberId = parseInt(data.memberId) || -1;
+            if (memberId == this.userId) return socket.emit("exception", "cannot remove yourself (leave group instead)");
+
+            var timestamp = Date.now();
+            console.log(db.connection.query(
+                `UPDATE chat_members who
+                JOIN chat_members byy ON byy.user_id = ? AND byy.chat_id = ?
+                SET who.left_timestamp = ?
+                WHERE who.chat_id = ? AND who.user_id = ? AND byy.is_chat_admin AND who.left_timestamp IS NULL`,
+                [this.userId, chatId, timestamp, chatId, memberId], (err, results) => {
+                    if ((!err || console.log(err)) && results.affectedRows == 1)
+                        createEvent(chatId, "USER_REMOVED", this.userId, memberId, timestamp - 1);
+                }
+            ));
         });
 
         socket.on("disconnect", () => {
@@ -122,9 +140,9 @@ const addMember = (chatId, userId, addedByUserId) => {
         });
 }
 
-const createEvent = (chatId, type, by, who) => {
+const createEvent = (chatId, type, by, who, timestamp) => {
 
-    var timestamp = Date.now();
+    if (!timestamp) timestamp = Date.now();
 
     db.connection.query(`
         INSERT INTO chat_events SET ?;
@@ -156,10 +174,9 @@ const createEvent = (chatId, type, by, who) => {
                 whoUsername
             };
 
-            forEachConnectionOfMembers(
-                chatId,
-                conn => conn.socket.emit("event", event)
-            );
+            var cb = conn => conn.socket.emit("event", event);
+            forEachConnectionOfMembers(chatId, cb);
+            if (type == "USER_REMOVED") forConnectionOfUser(who, cb);
         }
     );
 }

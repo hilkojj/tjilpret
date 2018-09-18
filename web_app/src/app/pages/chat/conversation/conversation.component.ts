@@ -89,7 +89,7 @@ export class ConversationComponent implements OnInit, OnDestroy, AfterViewChecke
     }
 
     ngAfterViewChecked() {
-        this.textareaHeight(this.input.nativeElement);
+        if (this.input) this.textareaHeight(this.input.nativeElement);
         this.updateScroll(this.scrollDiv.nativeElement);
     }
 

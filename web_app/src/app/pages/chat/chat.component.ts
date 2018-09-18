@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         return this.currentConv == null;
     }
 
-
+    
     show = true;
 
     constructor(
@@ -42,7 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         this.route.params.subscribe(params => {
 
-            if (params.chatId == "geheim") this.show = true;
+            if (params.chatId == "geheim2") this.show = true;
 
             var chatId = params.chatId | 0;
             this.currentConv = null;

@@ -17,7 +17,7 @@ export class ChatService {
     conversations: Conversation[];
     socket: SocketIOClient.Socket;
 
-    onlineOfflineUsersChanged = false;
+    onlineOfflineUsersChanged = 0;
 
     users: { [userId: number]: User } = {};
 
@@ -32,7 +32,7 @@ export class ChatService {
         private auth: AuthService,
         private utils: UtilsService
     ) {
-        this.socket = (window as any).socket = io(SITE_URL || "http://localhost:8080");
+        this.socket = (window as any).socket = io(0 || "http://localhost:8080");
         auth.onAuthenticatedListeners.push(() => {
             this.socketAuth();
 
@@ -70,14 +70,14 @@ export class ChatService {
             if (!user) return;
             user.online = true;
             user.lastActivity = data.lastActivity;
-            this.onlineOfflineUsersChanged = true;
+            this.onlineOfflineUsersChanged = Date.now();
         });
         this.socket.on("offline", data => {
             var user = this.users[data.userId];
             if (!user) return;
             user.online = false;
             user.lastActivity = data.lastActivity;
-            this.onlineOfflineUsersChanged = true;
+            this.onlineOfflineUsersChanged = Date.now();
         });
         this.socket.on("muted", data => this.getConv(data.chatId).muted = data.muted);
 
@@ -159,10 +159,15 @@ export class ChatService {
 
         switch (e.type) {
             case "OPPED":
-                conv.chatAdmins.push(e.who);
+                if (conv.chatAdmins) conv.chatAdmins.push(e.who);
                 break;
             case "DEOPPED":
-                delete conv.chatAdmins[conv.chatAdmins.indexOf(e.who)];
+                if (conv.chatAdmins) conv.chatAdmins = conv.chatAdmins.filter(id => id != e.who);
+                break;
+            case "USER_REMOVED":
+                if (conv.members) conv.members = conv.members.filter(m => m.id != e.who);
+                this.onlineOfflineUsersChanged = Date.now();
+                if (e.who == this.auth.session.user.id) conv.leftTimestamp = e.timestamp;
                 break;
         }
     }
@@ -254,8 +259,8 @@ export class ChatService {
         return this._unreadMessages;
     }
 
-    removeMember(userId, chatId) {
-        this.socket.emit("remove member", { userId, chatId });
+    removeMember(memberId, chatId) {
+        this.socket.emit("remove member", { memberId, chatId });
     }
 
     setAdmin(memberId, chatId, admin: boolean) {

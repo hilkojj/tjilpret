@@ -12,13 +12,16 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ChatInfoComponent implements OnInit {
 
+    private updated = 0;
     private _online: User[];
 
     get online(): User[] {
         if (!this.conv.members) return [];
 
-        if (this.service.onlineOfflineUsersChanged || !this._online) this.setOnlineOfflineArrays();
-        this.service.onlineOfflineUsersChanged = false;
+        if (this.service.onlineOfflineUsersChanged > this.updated || !this._online) {
+            this.setOnlineOfflineArrays();
+            this.updated = Date.now();
+        }
         return this._online;
     }
 
@@ -27,8 +30,10 @@ export class ChatInfoComponent implements OnInit {
     get offline(): User[] {
         if (!this.conv.members) return [];
 
-        if (this.service.onlineOfflineUsersChanged || !this._offline) this.setOnlineOfflineArrays();
-        this.service.onlineOfflineUsersChanged = false;
+        if (this.service.onlineOfflineUsersChanged > this.updated || !this._online) {
+            this.setOnlineOfflineArrays();
+            this.updated = Date.now();
+        }
         return this._offline;
     }
 
@@ -75,7 +80,7 @@ export class ChatInfoComponent implements OnInit {
     }
 
     removeMember(userId: number) {
-        if (alert("Is dit een doordachte keuze?")) this.service.removeMember(userId, this.conv.chatId);
+        if (confirm("Is dit een doordachte keuze?")) this.service.removeMember(userId, this.conv.chatId);
         this.editMember = null;
     }
 

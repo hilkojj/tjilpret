@@ -37,7 +37,7 @@
         Profil bekijken
     </a>
 
-    <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)">
+    <div class="bw z-depth-1 fav-text action" (click)="service.setMuted(conv, !conv.muted)" *ngIf="!conv.leftTimestamp">
         <i class="material-icons">
             {{conv.muted ? 'notifications_off' :
             'notifications'}}
@@ -59,7 +59,7 @@
         Media & bestanden
     </div>
 
-    <div *ngIf="conv.members">
+    <div *ngIf="conv.members && !conv.leftTimestamp">
 
         <div class="member-list-title">online</div>
 

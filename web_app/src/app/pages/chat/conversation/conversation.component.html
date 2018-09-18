@@ -123,12 +123,19 @@
 
                 </div>
 
+                <!-- EVENT -->
+                <div class="event" *ngIf="me.event">
+                    {{me.event.byUsername}}
+                    {{me.event.type}}
+                    {{me.event.whoUsername}}
+                </div>
+
             </li>
         </ul>
 
     </div>
 
-    <div class="new-message">
+    <div class="new-message" *ngIf="!conv.leftTimestamp">
 
         <div class="input-bubble">
             <div class="button-container">
