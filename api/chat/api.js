@@ -17,7 +17,21 @@ const apiFunctions = api => {
 
             const conversations = [];
 
-            for (var row of rows) conversations.push(chatUtils.conversation(row));
+            rowsLoop:
+            for (var row of rows) {
+                var newConv = chatUtils.conversation(row);
+
+                for (var i in conversations) {
+                    var conv = conversations[i];
+                    if (conv.chatId != newConv.chatId) continue;
+
+                    if (newConv.leftTimestamp == null || newConv.leftTimestamp > conv.leftTimestamp)
+                        conversations[i] = newConv;
+
+                    continue rowsLoop;
+                }
+                conversations.push(newConv);
+            }
             res.send(conversations);
         });
     });

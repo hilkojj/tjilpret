@@ -132,7 +132,7 @@ class AuthConnection {
             console.log(db.connection.query(`
                 SELECT * FROM chat_members chat_admin
 
-                LEFT JOIN chat_members already_member ON already_member.user_id = ? AND already_member.chat_id = ?
+                LEFT JOIN chat_members already_member ON already_member.user_id = ? AND already_member.chat_id = ? AND already_member.left_timestamp IS NULL
 
                 JOIN friendships friendship ON (
                     friendship.inviter_id IN (?, ?)
