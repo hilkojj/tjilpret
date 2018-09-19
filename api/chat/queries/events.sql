@@ -27,3 +27,4 @@ JOIN chats chat ON chat.chat_id = event.chat_id
 
 WHERE token = ?
 ORDER BY event.timestamp DESC
+LIMIT ?
