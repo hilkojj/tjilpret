@@ -1,3 +1,26 @@
+@import "../../../../styles.scss";
+
 p {
     margin: .75rem;
+}
+
+app-toolbar {
+    button {
+        position: absolute;
+        right: .75rem;
+    }
+}
+
+.scroll {
+    @media only screen and (min-width: #{$break-small + 1}) {
+        height: 60vh;
+    }
+    height: calc(100% - 56px);
+    display: block;
+    overflow: auto;
+}
+
+.wrapper {
+    max-height: 100%;
+    overflow: auto;
 }

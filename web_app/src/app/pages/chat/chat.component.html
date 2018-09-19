@@ -182,14 +182,4 @@
 
 </app-modal>
 
-<app-modal hash="vriend-toevoege" name="addFriendToChat" *ngIf="currentConv && currentConv.isChatAdmin && !currentConv.leftTimestamp">
-
-    <div class="members-modal">
-
-        <app-toolbar titleText="Vriend toevoege aan tjet"></app-toolbar>
-
-        <app-add-friend-modal [conv]="currentConv"></app-add-friend-modal>
-
-    </div>
-
-</app-modal>
+<app-add-friend-modal *ngIf="currentConv && currentConv.isChatAdmin && !currentConv.leftTimestamp" [conv]="currentConv"></app-add-friend-modal>

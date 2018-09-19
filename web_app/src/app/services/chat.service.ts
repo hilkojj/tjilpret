@@ -155,6 +155,8 @@ export class ChatService {
         if (mess) conv.latestMessage = mess;
     }
 
+    refreshMembersTimeouts = {};
+
     processEvent(e: Event, conv: Conversation) {
 
         switch (e.type) {
@@ -169,6 +171,13 @@ export class ChatService {
                 if (conv.members) conv.members = conv.members.filter(m => m.id != e.who);
                 this.onlineOfflineUsersChanged = Date.now();
                 if (e.who == this.auth.session.user.id) conv.leftTimestamp = e.timestamp;
+                break;
+            case "USER_ADDED":
+                if (!this.refreshMembersTimeouts[e.chatId])
+                    this.refreshMembersTimeouts[e.chatId] = setTimeout(() => {
+                        delete this.refreshMembersTimeouts[e.chatId];
+                        this.getChatMembers(e.chatId);
+                    }, 1000);
                 break;
         }
     }
@@ -238,6 +247,7 @@ export class ChatService {
                 return user;
             });
             conv.chatAdmins = res.chatAdmins;
+            this.onlineOfflineUsersChanged = Date.now();
         });
     }
 
@@ -270,6 +280,10 @@ export class ChatService {
 
     leaveGroup(chatId) {
         this.socket.emit("leave group", { chatId });
+    }
+
+    addFriendToGroup(chatId, friendId) {
+        this.socket.emit("add friend to group", { chatId, friendId });
     }
 
     private convsLoadedSub = new BehaviorSubject<boolean>(true);

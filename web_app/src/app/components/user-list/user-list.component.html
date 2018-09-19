@@ -1,11 +1,35 @@
-<a class="user waves-effect" *ngFor="let user of users" [profileLink]="user">
-    
-    <app-profile-pic [user]="user" dim="small" size="40px" cursor="pointer"></app-profile-pic>
-    <app-username [user]="user"></app-username>
+<div *ngIf="!selectedUsers">
 
-</a>
+    <a class="user waves-effect" *ngFor="let user of users"
+        [profileLink]="user">
 
-<div class="center" *ngIf="canLoadMoreUsers" inViewport (ifInViewport)="inViewport = true" (ifNotInViewport)="inViewport = false">
+        <app-profile-pic [user]="user" dim="small" size="40px"
+            cursor="pointer"></app-profile-pic>
+        <app-username [user]="user"></app-username>
+
+    </a>
+</div>
+
+<div *ngIf="selectedUsers">
+
+    <div class="user waves-effect" *ngFor="let user of users" (click)="toggleSelected(user)">
+
+        <p class="checkbox">
+            <input type="checkbox" class="filled-in" id="filled-in-box"
+                [checked]="selectedUsers.includes(user)" />
+            <label for="filled-in-box"></label>
+        </p>
+
+        <app-profile-pic [user]="user" dim="small" size="40px"
+            cursor="pointer"></app-profile-pic>
+        <app-username [user]="user"></app-username>
+
+    </div>
+
+</div>
+
+<div class="center" *ngIf="canLoadMoreUsers" inViewport
+    (ifInViewport)="inViewport = true" (ifNotInViewport)="inViewport = false">
     <br>
     <br>
     <app-circular-preloader>

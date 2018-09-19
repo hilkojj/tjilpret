@@ -10,6 +10,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     @Input() users: User[];
     @Input() canLoadMoreUsers = true;
+    @Input() selectedUsers: User[];
 
     @Output() loadMoreUsers = new EventEmitter();
 
@@ -29,6 +30,11 @@ export class UserListComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         clearInterval(this.interval)
+    }
+
+    toggleSelected(user: User) {
+        if (this.selectedUsers.includes(user)) this.selectedUsers.splice(this.selectedUsers.indexOf(user), 1)
+        else this.selectedUsers.push(user);
     }
 
 }

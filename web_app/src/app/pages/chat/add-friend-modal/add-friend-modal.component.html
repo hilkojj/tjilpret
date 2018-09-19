@@ -1,4 +1,27 @@
-<p *ngIf="!canLoadMore && friends.length == 0">Al je vriends zijn al lid van dees groeep.</p>
+<app-modal hash="vriend-toevoege" name="addFriendToChat">
 
-<app-user-list [users]="friends" [canLoadMoreUsers]="canLoadMore"
-    (loadMoreUsers)="loadMore()"></app-user-list>
+    <div class="wrapper">
+
+        <app-toolbar titleText="Vriend toevoege aan tjet">
+
+            <button *ngIf="selectedFriends.length > 0" (click)="addAndClose()"
+                class="btn waves-effect btn-flat not-default not-fav-bg transparent white-text">
+                <i class="material-icons left">done</i>
+                {{selectedFriends.length}} toevoege
+            </button>
+
+        </app-toolbar>
+
+        <div class="scroll">
+            <p *ngIf="!canLoadMore && friends.length == 0">Al
+                je vriends zijn al lid van dees groeep.</p>
+
+            <app-user-list [users]="friends"
+                [canLoadMoreUsers]="canLoadMore"
+                (loadMoreUsers)="loadMore()"
+                [selectedUsers]="selectedFriends"></app-user-list>
+        </div>
+
+    </div>
+
+</app-modal>

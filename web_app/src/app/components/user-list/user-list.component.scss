@@ -10,4 +10,17 @@
         margin-top: 18px;
     }
 
+    .checkbox {
+        pointer-events: none;
+        float: left;
+        margin: 0;
+        height: 40px;
+        padding: 20px 1.5rem 20px .75rem;
+        width: 20px;
+
+        label {
+            padding: 0;
+        }
+    }
+
 }
