@@ -162,9 +162,11 @@ export class ChatService {
         switch (e.type) {
             case "OPPED":
                 if (conv.chatAdmins) conv.chatAdmins.push(e.who);
+                if (e.who == this.auth.session.user.id) conv.isChatAdmin = true;
                 break;
             case "DEOPPED":
                 if (conv.chatAdmins) conv.chatAdmins = conv.chatAdmins.filter(id => id != e.who);
+                if (e.who == this.auth.session.user.id) conv.isChatAdmin = false;
                 break;
             case "USER_REMOVED":
             case "USER_LEFT":
