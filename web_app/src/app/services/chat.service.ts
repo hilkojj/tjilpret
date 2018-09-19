@@ -173,6 +173,8 @@ export class ChatService {
                 if (e.who == this.auth.session.user.id) conv.leftTimestamp = e.timestamp;
                 break;
             case "USER_ADDED":
+                if (e.who == this.auth.session.user.id)
+                    this.getConversations();
                 if (!this.refreshMembersTimeouts[e.chatId])
                     this.refreshMembersTimeouts[e.chatId] = setTimeout(() => {
                         delete this.refreshMembersTimeouts[e.chatId];
@@ -309,7 +311,17 @@ export class ChatService {
                 if (!b.latestMessage) return -1;
                 return a.latestMessage.sentTimestamp > b.latestMessage.sentTimestamp ? -1 : 1;
             });
-            this.conversations = c.filter(conv => conv.isGroup || conv.otherUser);
+            c = c.filter(conv => conv.isGroup || conv.otherUser);
+
+            if (!this.conversations) this.conversations = c;
+            else {
+                for (var conv of c) {
+                    var existing = this.getConv(conv.chatId);
+                    if (!existing) this.conversations.push(conv);
+                    else for (var key in conv) existing[key] = conv[key];
+                }
+            }
+
             this._unreadMessages = 0;
             for (var conv of c) this._unreadMessages += conv.unread;
 
