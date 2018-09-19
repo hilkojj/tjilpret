@@ -123,6 +123,36 @@ class AuthConnection {
             console.log(`Tjet verbinding met ${username} verbroken`);
         });
 
+        socket.on("add friend to group", data => {
+
+            var chatId = parseInt(data.chatId) || -1;
+            var friendId = parseInt(data.friendId) || -1;
+            if (friendId == this.userId) return socket.emit("exception", "cannot add yourself to a group");
+
+            console.log(db.connection.query(`
+                SELECT * FROM chat_members chat_admin
+
+                LEFT JOIN chat_members already_member ON already_member.user_id = ? AND already_member.chat_id = ?
+
+                JOIN friendships friendship ON (
+                    friendship.inviter_id IN (?, ?)
+                    AND
+                    friendship.accepter_id IN (?, ?)
+                    AND
+                    friendship.inviter_id != friendship.accepter_id
+                )
+
+                WHERE chat_admin.user_id = ? AND chat_admin.is_chat_admin 
+                AND chat_admin.left_timestamp IS NULL AND chat_admin.chat_id = ?
+                AND already_member.user_id IS NULL`,
+                [friendId, chatId, this.userId, friendId, this.userId, friendId, this.userId, chatId],
+                (err, rows) => {
+                    if (err) console.log(err)
+                    else if (rows.length != 0) addMember(chatId, friendId, this.userId);
+                }
+            ));
+        });
+
         socket.on("online", () => this.toggleOnline(true));
         socket.on("offline", () => this.toggleOnline(false));
 
@@ -164,10 +194,8 @@ const addMember = (chatId, userId, addedByUserId) => {
 
     db.connection.query(`
         INSERT INTO chat_members (chat_id, user_id, joined_timestamp)
-        SELECT chat_id, ?, ? FROM chat_members
-        WHERE user_id = ? AND is_chat_admin AND chat_id = ?
-    `, [userId, Date.now(), addedByUserId, chatId], (err, results, fields) => {
-
+        VALUES (?, ?, ?)
+    `, [chatId, userId, Date.now()], (err, results) => {
             if (err) console.log(err);
 
             else if (results.affectedRows == 1) createEvent(chatId, "USER_ADDED", addedByUserId, userId);
