@@ -63,6 +63,7 @@ import { NewVidPostComponent } from './pages/new-vid-post/new-vid-post.component
 import { GroupPicComponent } from './components/group-pic/group-pic.component';
 import { ConversationComponent } from './pages/chat/conversation/conversation.component';
 import { ChatInfoComponent } from './pages/chat/chat-info/chat-info.component';
+import { AddFriendModalComponent } from './pages/chat/add-friend-modal/add-friend-modal.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { ChatInfoComponent } from './pages/chat/chat-info/chat-info.component';
     NewVidPostComponent,
     GroupPicComponent,
     ConversationComponent,
-    ChatInfoComponent
+    ChatInfoComponent,
+    AddFriendModalComponent
   ],
   imports: [
     BrowserModule,

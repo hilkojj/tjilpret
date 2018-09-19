@@ -1,0 +1,4 @@
+<p *ngIf="!canLoadMore && friends.length == 0">Al je vriends zijn al lid van dees groeep.</p>
+
+<app-user-list [users]="friends" [canLoadMoreUsers]="canLoadMore"
+    (loadMoreUsers)="loadMore()"></app-user-list>

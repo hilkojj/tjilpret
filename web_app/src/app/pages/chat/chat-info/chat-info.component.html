@@ -164,7 +164,18 @@
 
     </div>
 
-    <div class="bw z-depth-1 waves-effect red-text action" *ngIf="conv.isGroup && !conv.leftTimestamp" (click)="leaveGroup()">
+    <div class="bw z-depth-1 waves-effect fav-text action"
+        *ngIf="conv.isGroup && !conv.leftTimestamp && conv.isChatAdmin"
+        (click)="modals.showModal('addFriendToChat')">
+        
+        <i class="material-icons">
+            add
+        </i>
+        Vriend toevoegen
+    </div>
+
+    <div class="bw z-depth-1 waves-effect red-text action"
+        *ngIf="conv.isGroup && !conv.leftTimestamp" (click)="leaveGroup()">
         <i class="material-icons">
             exit_to_app
         </i>

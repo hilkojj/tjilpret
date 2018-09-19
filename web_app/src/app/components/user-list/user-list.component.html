@@ -5,7 +5,7 @@
 
 </a>
 
-<div class="center" *ngIf="canLoadMoreUsers" inViewport (ifInViewport)="canLoadMoreUsers && loadMoreUsers.emit()">
+<div class="center" *ngIf="canLoadMoreUsers" inViewport (ifInViewport)="inViewport = true" (ifNotInViewport)="inViewport = false">
     <br>
     <br>
     <app-circular-preloader>

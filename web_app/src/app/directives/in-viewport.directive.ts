@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Output, EventEmitter, HostListener, AfterViewChecked, Input, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Output, EventEmitter, Input, OnInit, OnDestroy } from '@angular/core';
 
 @Directive({
     selector: '[inViewport]'
@@ -35,7 +35,7 @@ export class InViewportDirective implements OnInit, OnDestroy {
         var windowHeight = (window.innerHeight || document.documentElement.clientHeight);
         var windowWidth = (window.innerWidth || document.documentElement.clientWidth);
 
-        this.inViewport =
+        this.inViewport = this.el.nativeElement.offsetParent != null &&
             (
                 (rect.top >= 0 && rect.top <= windowHeight)
                 ||
