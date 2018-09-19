@@ -51,7 +51,7 @@ const apiFunctions = api => {
             until,
             token,
             parseInt(req.body.limit) || 64
-        ], (err, rows, fields) => {
+        ], (err, rows) => {
 
             if (err) {
                 console.log(err);
@@ -65,10 +65,10 @@ const apiFunctions = api => {
 
             if (messagesAndEvents[0]) db.connection.query(eventsQuery, [
                 chatId,
-                messagesAndEvents[0].message.sentTimestamp,
+                messagesAndEvents[messagesAndEvents.length - 1].message.sentTimestamp,
                 until,
                 token
-            ], (err, rows, fields) => {
+            ], (err, rows) => {
 
                 if (err) console.log(err);
 
