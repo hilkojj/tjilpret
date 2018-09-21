@@ -53,16 +53,17 @@ class AuthConnection {
             if (memberId == this.userId) return socket.emit("exception", "cannot (de)op yourself");
 
             var admin = data.admin ? true : false;
-            db.connection.query(
+            console.log(db.connection.query(
                 `UPDATE chat_members who
                 JOIN chat_members byy ON byy.user_id = ? AND byy.chat_id = ?
                 SET who.is_chat_admin = ?
-                WHERE who.chat_id = ? AND who.user_id = ? AND byy.is_chat_admin`,
+                WHERE who.chat_id = ? AND who.user_id = ? AND byy.is_chat_admin
+                AND who.left_timestamp IS NULL`,
                 [this.userId, chatId, admin, chatId, memberId], (err, results) => {
                     if ((!err || console.log(err)) && results.affectedRows == 1)
                         createEvent(chatId, admin ? "OPPED" : "DEOPPED", this.userId, memberId);
                 }
-            );
+            ));
         });
 
         socket.on("remove member", data => {
@@ -74,7 +75,10 @@ class AuthConnection {
             db.connection.query(
                 `UPDATE chat_members who
                 JOIN chat_members byy ON byy.user_id = ? AND byy.chat_id = ?
-                SET who.left_timestamp = ?
+                JOIN chats groupp ON groupp.chat_id = byy.chat_id
+                SET who.left_timestamp = ?, who.left_title = groupp.group_title, 
+                who.left_description = groupp.group_description,
+                who.is_chat_admin = 0
                 WHERE who.chat_id = ? AND who.user_id = ? AND byy.is_chat_admin AND who.left_timestamp IS NULL`,
                 [this.userId, chatId, timestamp, chatId, memberId], (err, results) => {
                     if ((!err || console.log(err)) && results.affectedRows == 1)
@@ -102,7 +106,9 @@ class AuthConnection {
 
                 JOIN chats groupp ON groupp.is_group AND groupp.chat_id = leaver.chat_id
                 
-                SET leaver.left_timestamp = ?
+                SET leaver.left_timestamp = ?, leaver.left_title = groupp.group_title, 
+                leaver.left_description = groupp.group_description,
+                leaver.is_chat_admin = 0
                 WHERE leaver.user_id = ? AND leaver.chat_id = ? 
                 
                 # leaver is currently a member
@@ -116,6 +122,23 @@ class AuthConnection {
                 }
             );
         });
+
+        socket.on("create group", data => {
+            var title = String(data.title || `${username}'s groep`);
+            var desc = String(data.desc || `Dese groep is van ${username}`);
+
+            db.connection.query(`INSERT INTO chats SET ?`, {
+                started_by: this.userId,
+                started_timestamp: Date.now() / 1000 | 0,
+                is_group: true,
+                group_title: title,
+                group_description: desc
+            }, (err, results) => {
+                if (err) console.log(err);
+                else if (results.affectedRows == 1)
+                    veryRealtime.addMember(results.insertId, this.userId, null);
+            });
+        })
 
         socket.on("disconnect", () => {
 

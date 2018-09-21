@@ -137,6 +137,8 @@ CREATE TABLE IF NOT EXISTS `tjille_database`.`chat_members` (
   `is_chat_admin` TINYINT(4) NULL DEFAULT NULL,
   `muted` TINYINT(4) NULL DEFAULT NULL,
   `read_timestamp` INT NULL,
+  `left_title` VARCHAR(64) NULL,
+  `left_description` VARCHAR(512) NULL,
   PRIMARY KEY (`id`, `chat_id`, `user_id`),
   INDEX `fk_chat_members_chats1_idx` (`chat_id` ASC),
   INDEX `fk_chat_members_users1_idx` (`user_id` ASC),

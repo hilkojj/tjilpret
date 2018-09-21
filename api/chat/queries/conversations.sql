@@ -16,6 +16,7 @@ SELECT
 		)
     ) AS unread,
 	member.chat_id, member.joined_timestamp, member.left_timestamp, member.is_chat_admin, member.muted, member.read_timestamp,
+    member.left_title, member.left_description,
     chat.*, 
     mes.id, mes.sent_by, mes.sent_timestamp, mes.text, mes.attachment_id, mes.old_time,
     

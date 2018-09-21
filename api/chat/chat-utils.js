@@ -14,9 +14,14 @@ const conversation = row => {
         startedBy: row.started_by,
         startedTimestamp: row.started_timestamp,
         isGroup: row.is_group,
-        groupTitle: row.group_title,
-        groupPic: row.left_timestamp != null ? null : row.group_pic, // user is not allowed to see group_pic when user has left the group
-        groupDescription: row.group_description,
+        
+        // user is not allowed to see current title
+        groupTitle: row.left_timestamp ? row.left_title : row.group_title,
+        // user is not allowed to see group_pic when user has left the group
+        groupPic: row.left_timestamp ? null : row.group_pic,
+        // user is not allowed to see current description
+        groupDescription: row.left_timestamp ? row.left_description : row.group_description,
+        
         latestMessage: row.id == null ? null : message(row),
         otherUser: row.user_id == null ? null : utils.userInfo(row)
     }
