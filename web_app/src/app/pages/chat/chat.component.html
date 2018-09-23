@@ -40,7 +40,8 @@
                 </div>
             </li>
 
-            <li style="margin-top: 0; margin-bottom: -.25rem">
+            <li style="margin-top: 0; margin-bottom: -.25rem"
+                class="waves-effect" (click)="modals.showModal('createGroup')">
                 <div class="avatar">
                     <div class="new-btn z-depth-1 circle bw waves-effect">
                         <i class="material-icons fav-text">add</i>
@@ -182,4 +183,42 @@
 
 </app-modal>
 
-<app-add-friend-modal *ngIf="currentConv && currentConv.isChatAdmin && !currentConv.leftTimestamp" [conv]="currentConv"></app-add-friend-modal>
+<app-add-friend-modal *ngIf="currentConv && currentConv.isChatAdmin && !currentConv.leftTimestamp"
+    [conv]="currentConv"></app-add-friend-modal>
+
+<app-modal hash="niwen-group" name="createGroup">
+
+    <app-toolbar titleText="Nieuwen groep maken"></app-toolbar>
+
+    <div class="row new-group">
+        <div class="col s12">
+
+            <img src="/assets/img/group.svg" title="echt gezellig">
+
+            Leker tjillen en tjetten in je eigen goep waar
+            jij de regels bepaaldt.
+
+            <div class="input-field">
+                <input id="new-group-title" type="text"
+                    [(ngModel)]="newGroupTitle">
+                <label for="new-group-title">Groep naam</label>
+            </div>
+
+            <textarea class="materialize-textarea"
+                placeholder="groep descripti" data-length="512"
+                style="height: 42px;" [(ngModel)]="newGroupDesc"></textarea>
+
+            {{newGroupDesc.length}} / 512
+
+            <br><br><br>
+
+            <button class="btn waves-effect" (click)="service.createGroup(newGroupTitle, newGroupDesc); modals.hideModal()">
+                <i class="material-icons left">
+                    done
+                </i>
+                groep makeeeeeeee
+            </button>
+        </div>
+    </div>
+
+</app-modal>

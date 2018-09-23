@@ -7,6 +7,7 @@ import { ThemeService } from '../../services/theme.service';
 import { ServiceWorkerService } from '../../services/service-worker.service';
 import { UtilsService } from '../../services/utils.service';
 import { DomSanitizer, Title } from '@angular/platform-browser';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-chat',
@@ -17,6 +18,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     convSearchQuery = "";
     currentConv: Conversation;
+
+    newGroupTitle = "";
+    newGroupDesc = "";
 
     @HostBinding('class.only-conversations')
     get onlyConversations(): boolean {
@@ -30,6 +34,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         public auth: AuthService,
         public service: ChatService,
         public serviceWorker: ServiceWorkerService,
+        public modals: ModalService,
 
         private route: ActivatedRoute,
         private themes: ThemeService,

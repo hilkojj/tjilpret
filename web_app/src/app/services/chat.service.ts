@@ -32,7 +32,7 @@ export class ChatService {
         private auth: AuthService,
         private utils: UtilsService
     ) {
-        this.socket = (window as any).socket = io(0 || "http://localhost:8080");
+        this.socket = (window as any).socket = io(SITE_URL || "http://localhost:8080");
         auth.onAuthenticatedListeners.push(() => {
             this.socketAuth();
 
@@ -47,6 +47,7 @@ export class ChatService {
         this.socket.on("message", (message: Message) => {
             message.justNew = true;
             this.addToConv(message, null);
+            this.sortConversations();
         });
         this.socket.on("event", e => this.addToConv(null, e));
         this.socket.on("logged out", () => {
@@ -290,12 +291,26 @@ export class ChatService {
         this.socket.emit("add friend to group", { chatId, friendId });
     }
 
+    createGroup(title, description) {
+        this.socket.emit("create group", { title, description });
+    }
+
     private convsLoadedSub = new BehaviorSubject<boolean>(true);
 
     get conversationsLoaded(): Observable<boolean> {
         this.getConversations();
 
         return this.convsLoadedSub;
+    }
+
+    sortConversations() {
+        this.conversations.sort((a, b) => {
+            if (!a.latestMessage && !a.isGroup) return 1;
+            if (!b.latestMessage && !a.isGroup) return -1;
+            var aTime = a.latestMessage ? a.latestMessage.sentTimestamp : a.startedTimestamp * 1000;
+            var bTime = b.latestMessage ? b.latestMessage.sentTimestamp : b.startedTimestamp * 1000;
+            return aTime > bTime ? -1 : 1;
+        });
     }
 
     private getConversations() {
@@ -308,11 +323,6 @@ export class ChatService {
         }).subscribe(c => {
             this.requestingConversations = false;
             c.forEach(conv => this.synchronizeUser(null, conv));
-            c.sort((a, b) => {
-                if (!a.latestMessage) return 1;
-                if (!b.latestMessage) return -1;
-                return a.latestMessage.sentTimestamp > b.latestMessage.sentTimestamp ? -1 : 1;
-            });
             c = c.filter(conv => conv.isGroup || conv.otherUser);
 
             if (!this.conversations) this.conversations = c;
@@ -328,6 +338,7 @@ export class ChatService {
             for (var conv of c) this._unreadMessages += conv.unread;
 
             this.convsLoadedSub.next(true);
+            this.sortConversations()
             this.convsLoadedSub.complete();
         });
     }

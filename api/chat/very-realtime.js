@@ -125,7 +125,7 @@ class AuthConnection {
 
         socket.on("create group", data => {
             var title = String(data.title || `${username}'s groep`);
-            var desc = String(data.desc || `Dese groep is van ${username}`);
+            var desc = String(data.description || `Dese groep is van ${username}`);
 
             db.connection.query(`INSERT INTO chats SET ?`, {
                 started_by: this.userId,
@@ -136,7 +136,7 @@ class AuthConnection {
             }, (err, results) => {
                 if (err) console.log(err);
                 else if (results.affectedRows == 1)
-                    veryRealtime.addMember(results.insertId, this.userId, null);
+                    addMember(results.insertId, this.userId, null, true);
             });
         })
 
@@ -213,12 +213,12 @@ class AuthConnection {
     }
 
 }
-const addMember = (chatId, userId, addedByUserId) => {
+const addMember = (chatId, userId, addedByUserId, isChatAdmin) => {
 
     db.connection.query(`
-        INSERT INTO chat_members (chat_id, user_id, joined_timestamp)
-        VALUES (?, ?, ?)
-    `, [chatId, userId, Date.now()], (err, results) => {
+        INSERT INTO chat_members (chat_id, user_id, joined_timestamp, is_chat_admin)
+        VALUES (?, ?, ?, ?)
+    `, [chatId, userId, Date.now(), isChatAdmin ? true : false], (err, results) => {
             if (err) console.log(err);
 
             else if (results.affectedRows == 1) createEvent(chatId, "USER_ADDED", addedByUserId, userId);
